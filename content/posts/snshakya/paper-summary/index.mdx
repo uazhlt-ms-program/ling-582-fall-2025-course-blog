@@ -110,15 +110,17 @@ The paper proposes a novel paradigm called Chain of Draft (CoD), which encourage
 ##### Prompt
 
 ```markdown
-Here is the abstract of the paper “Chain of Draft: Thinking Faster by Writing Less”: “..." and the Introduction: "..." <br> “In 3–4 sentences, explain the main proposal of the paper ‘Chain of Draft: Thinking Faster by Writing Less.’ Use only the content provided.”
+Here is the abstract of the paper “Chain of Draft: Thinking Faster by Writing Less”: “..." and the Introduction: "..." “In 3–4 sentences, explain the main proposal of the paper ‘Chain of Draft: Thinking Faster by Writing Less.’ Use only the content provided.”
 ```
 
 #### What is the motivation for the work?
 
+The motivation behind the Chain of Draft (CoD) method is to address the issue of verbosity and increased latency in standard chain-of-thought prompting, where Large Language Models (LLMs) generate verbose and step-by-step reasoning outputs. This approach, inspired by human cognitive processes, aims to reduce the verbosity and focus on critical insights, aligning with human thinking habits. CoD seeks to strike a balance between accuracy and efficiency, reducing latency and computational costs while maintaining or improving accuracy compared to standard CoT prompting.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Here is the related works section: “..." “What is the motivation behind the Chain of Draft method? What problem with standard chain-of-thought prompting does it address?”
 ```
 
 #### What is the approach or innovation?
@@ -131,56 +133,72 @@ prompt here
 
 #### What are the results and how do they compare with competing approaches?
 
+The experimental results show that the proposed Chain of Draft (CoD) prompting strategy achieves significant improvements over competing approaches, particularly in terms of reducing verbosity and latency. 
+
+In the arithmetic reasoning task, CoD outperforms standard chain-of-thought (CoT) prompting, requiring only about 40 tokens per response, compared to CoT's 205 tokens, while maintaining an accuracy of 91% compared to CoT's 95.4%. This results in an 80% reduction in token count and a 76.2% reduction in latency.
+
+In the common sense reasoning task, CoD also outperforms CoT, reducing the average output tokens from 75.7 to 30.2, and cutting the average latency by 1.7 seconds. CoD's accuracy was 88.1%, compared to CoT's 90.2%.
+
+In the symbolic reasoning task, CoD achieved 100% accuracy, outperforming both CoT and standard prompting. CoD required only 16.8 tokens per response, compared to CoT's 52.4 tokens, while maintaining an accuracy of 100%.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Here is the section of the paper that talks about CoD prompting: "..." and the Experiments section: “..." “What are the experimental results and how do they compare with competing approaches like standard chain of thought?"
 ```
 
 #### Is the comparison fair?
 
+The comparisons in the Chain of Draft experiments appear to be fair, considering the use of the same models (GPT-4o and Claude 3.5 Sonnet) and evaluation metrics (token count and latency) for the standard and Chain-of-Thought (CoT) prompting strategies. The experiment also selects representative tasks and follows a consistent experimental setup, providing a clear comparison between the proposed CoD method and the existing CoT method. However, the absence of a baseline method that is not a prompting strategy and the lack of information on computational resources required to run each strategy limit the thoroughness of the evaluation.
+
 ##### Prompt
 
 ```markdown
-prompt here
+In a short and succint paragraph, evaluate whether the comparisons in the Chain of Draft experiments are fair. Consider controls, baselines, and evaluation settings.
 ```
 
 #### What are the takeaways according to the authors?
 
+The authors of the Chain of Draft paper propose a novel prompting strategy, Chain of Draft (CoD), that reduces verbosity and latency in Large Language Models (LLMs) while maintaining accuracy. The main takeaways are:
+
+- CoD achieves significant reductions in token count and latency, outperforming the existing Chain of Thought (CoT) prompting strategy.
+- CoD is particularly appealing in cost-sensitive scenarios, such as large-scale deployments of LLMs or applications with strict budget constraints.
+- CoD offers an alternative approach to traditional methods, where reasoning depth is maintained with minimal verbosity, without sacrificing correctness.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Summarize the authors’ main takeaways from the Chain of Draft paper in a few bullet points or sentences.
 ```
 
 #### What are the takeaways according to you?
 
+I don't have personal takeaways or insights, as I am a machine designed to provide factual summaries. However, based on the paper, the core insight is that the Chain of Draft (CoD) prompting strategy can significantly reduce verbosity and latency in Large Language Models (LLMs) while maintaining accuracy, offering a practical approach for real-world applications where efficiency is paramount.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Summarize your own takeaways from the paper in 3–4 sentences. Focus on what you see as the core insight.
 ```
 
 #### Would you use this?  If so, how/where would you use this?
 
-##### Prompt
-
-```markdown
-prompt here
-```
+I would realistically use Chain of Draft in applications where efficiency and cost-effectiveness are crucial, such as in large-scale deployments of LLMs or in domains with strict budget constraints. Chain of Draft's ability to reduce verbosity and latency would be particularly beneficial in scenarios where rapid response generation is necessary, such as in customer service chatbots or in real-time language translation systems. Additionally, its suitability for cost-sensitive applications would make it a valuable tool in industries where cost is a significant factor, such as finance or healthcare.
 
 ##### Prompt
 
 ```markdown
-prompt here
+In 3–4 sentences, explain where you would realistically use Chain of Draft and why.
 ```
 
 #### What problems remain and what are the next steps?
 
+The Chain of Draft paper highlights several remaining challenges and suggests next steps for improving the proposed approach. The authors acknowledge limitations of CoD, including its performance decline in zero-shot settings and its reliance on few-shot examples for training. To address these limitations, the authors propose fine-tuning CoD-formatted data with existing models. Additionally, the authors suggest exploring ways to combine CoD with other latency-reducing methods, such as adaptive parallel reasoning or multi-pass validation. Furthermore, they propose training reasoning models with compact reasoning data while maintaining interpretability and efficiency. These next steps aim to bridge the gap between research-driven improvements in reasoning and the practical demands of real-world systems.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Here is the section for Limitations of CoD: “..." and the Discussion section: “..." Summarize the remaining challenges and next steps suggested by the Chain of Draft paper in ashort paragraph.
 ```
 
 ### Experience using the LLM
