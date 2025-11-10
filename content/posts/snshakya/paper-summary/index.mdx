@@ -46,7 +46,7 @@ _Replace this text with a complete citation_
   </tr>
   <tr>
     <td><b>Code URL</b></td>
-    <td>The authors have not provided any official code, and the paper does not reference any associated GitHub repository.</td>
+    <td>https://github.com/sileix/chain-of-draft</td>
   </tr>
 </tbody>
 </table>
@@ -95,20 +95,22 @@ _Why did you select this paper?_
 
 #### Description (LLM)
 
-_In the LLM's words, what is this paper about?_
+The Chain of Draft paper proposes a novel prompting strategy, Chain of Draft (CoD), that reduces verbosity and latency in Large Language Models (LLMs) while maintaining accuracy. This approach is inspired by human cognitive processes and encourages LLMs to generate concise, informative, and efficient reasoning outputs by limiting the number of words used in each step. By condensing the reasoning process into minimal, abstract representations, CoD enables LLMs to speed up response generation without sacrificing correctness, making it a practical approach for real-world applications where efficiency is paramount.
 
 ##### Prompt
 
 ```markdown
-prompt here
+Can you describe what this paper is about in a short paragraph?
 ```
 
 #### What are the authors proposing?
 
+The paper proposes a novel paradigm called Chain of Draft (CoD), which encourages Large Language Models (LLMs) to generate minimalistic yet informative intermediate reasoning outputs while solving complex tasks. CoD aims to reduce verbosity and focus on critical insights, aligning with human cognitive processes. This approach allows LLMs to match or surpass Chain of Thought (CoT) in accuracy while using fewer tokens and reducing latency. By externalizing thoughts in a concise manner, LLMs can progress toward solutions more efficiently.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Here is the abstract of the paper “Chain of Draft: Thinking Faster by Writing Less”: “..." and the Introduction: "..." <br> “In 3–4 sentences, explain the main proposal of the paper ‘Chain of Draft: Thinking Faster by Writing Less.’ Use only the content provided.”
 ```
 
 #### What is the motivation for the work?
