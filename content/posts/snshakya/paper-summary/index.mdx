@@ -205,8 +205,16 @@ Here is the section for Limitations of CoD: “..." and the Discussion section: 
 
 ### Experience using the LLM
 
-_Describe your process for using the LLM.  How did the LLM perform?_
+I used Jan UI with the Llama-3.2-3B-Instruct-Q6_K model to generate the paper summary. My process for using the LLM involved setting up a custom assistant within Jan and adding to its default system instructions with a structured system prompt [You are assisting with summarizing a scientific research paper for a graduate-level NLP course. Provide concise, accurate, and quotation-free answers. Use only the information explicitly provided in the text. Do not invent numbers, results, or claims. When summarizing, be succinct but complete. If unsure, say so rather than guessing.] This helped tailor the model’s behavior so that its responses would be as factual as possible.
+
+To work with the paper effectively, I copied relevant sections from the paper's PDF (abstract, introduction, ...) and pasted these parts into the chat in smaller chunks and avoided providing the full paper at once. So, I paired each question with only the specific section of the paper needed to answer that question. For example, I used the abstract and introduction for questions about authors' proposal, the limitations and discussion sections for questions about the future directions and so on. I used this approach in an attempt to make the model stay as focused as possible and to hopefully minimize any possible hallucinations.
+
+Overall, the LLM performed well enough for a 3B-parameter open-weight model. It generally followed prompts consistently and also produced clear summaries as instructed. When inputs were too long or when multiple concepts had to be integrated across sections, it sometimes showed struggle. However, despite any limitations, by drafting suitable prompts, using small excerpts of the paper, and verifying every response, I was able to use the model effectively to complete this paper summary assignment.
  
 #### Errors and limitations of the LLM 
 
-_Where did it fall short or make mistakes?_
+While the model was generally good for producing summaries, I observed a couple limitations:
+
+- The model struggled with long inputs so I manually broke the paper into small excerpts.
+- Subtle hallucinations were observed sometimes.
+
