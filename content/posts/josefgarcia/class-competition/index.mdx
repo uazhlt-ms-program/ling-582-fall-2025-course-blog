@@ -1,5 +1,5 @@
 ---
-title: "Transformer-Based Approach for Text Classification"
+title: "Bag of n-grams & TFIDF scores of n-grams approach for Text Classification"
 slug: "/josefgarcia/class-competition"
 date: 2025-11-09
 author: josefgarcia
@@ -30,7 +30,7 @@ tags:
   </tr>
   <tr>
     <th><b>Kaggle username</b></th>
-    <td>???</td>
+    <td>youknowjoey</td>
   </tr>
   <tr>
     <th><b>Code Repository URL</b></th>
@@ -44,6 +44,10 @@ tags:
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
 
+For this class competition, the task is to clasify text snippet into two categories. The goal is to classify if the text snippets are similiar or not based on their content. The dataset conits of an ID column, text snippet, and a label indicating whether the snippet is similar (1) or not similar (0). The training set contains 1602 sample, while the test contains 900 samples. The evaluation metric for this task is accuracy, which measures the proportion of correctly classified snippets.
+
+For input design, we'll preprocess the text snippets by lowercasing, removing punctuation, and tokenizing the text. We'll use a bag of n-grams and TF-IDF scores of n-grams to represent the text snippets numerically. This approach will help capturing relevant features for text classification.
+
 ## Exploratory data analysis
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
@@ -51,6 +55,10 @@ _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/cl
 ## Approach
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
+
+For the class competition, I am approaching the problem by using a bag of n-grams and TF-IDF scores of n-grams. I'll extract the n-grams from the text snippets and compute TF-IDF scores to represent the importance of each n-gram in the context of the entire dataset. This approach will help capturing relevant features for text classification.
+
+Important engineered features I plan to include are TF-IDF, n-grams (unigrams, bigrams, trigrams), GloVe embedding similarity, and text length features. 
 
 ## Results
 
