@@ -66,6 +66,10 @@ The positionally aware ECG embeddings per heartbeat are then passed through a va
 To modify the weights of the full encoder and tokenization phase a feed forward head will be tasked with predicting the class of the heartbeat. Once optimal performance is achieved with the classification head, the weights of the encoder are frozen for additional testing. This is designed to mimic the pre-training process of a language model and identify general sequential patterns. Finally a logistic regression classifier produces output probabilities for each of the heartbeat classes. The performance of the model is a test of how linearly separable the pooled embeddings of each heartbeat are, showing the attentive power of the language encoder to non-language tasks. A visual representation of the architecture is shown below.
 
 
+![Alt text](./project_arch1.png)
+
+
+
 
 ### Timeline/Scoping
 
