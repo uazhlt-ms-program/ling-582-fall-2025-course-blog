@@ -31,10 +31,7 @@ tags:
 
 ## Project description
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility).  Use subsections to organize components of the description._
-
-Minimal Chain-of-Thought (COT) prompting has been studied primarily in high-resource languages such as English. These studies show that, despite using shorter reasoning steps and requiring less inference time, minimal COT achieves performance comparable to standard COT while improving efficiency. In this project, we aim to investigate the effectiveness of minimal COT in a low-resource language setting, focusing specifically on Nepali.
-Goals; Timeline
+This project investigates whether Minimal Chain-of-Thought (Minimal-CoT) prompts can achieve comparable reasoning performance to the standard (“Let’s think step by step”) CoT format in low-resource language settings (e.g., Nepali). Chain-of-Thought (CoT) prompting is a technique where models generate intermediate reasoning steps before producing a final answer, often improving performance on complex tasks such as arithmetic, commonsense reasoning, and logical inference. In this project, we examine three CoT styles: No-CoT, where the model is prompted to answer directly with no reasoning steps; Minimal-CoT, where the model is nudged with a short trigger such as “Let’s think briefly.”; and Standard-CoT, which uses the full reasoning cue “Let’s think step-by-step.” We evaluate these prompting strategies on tasks like math-reasoning (e.g., GSM8K) and commonsense reasoning (e.g., CommonsenseQA) to analyze how much reasoning signal is needed in low-resource languages. We also analyze differences in accuracy, token cost, efficiency, and inference time across the three styles and langugaes.
 
 ## Summary of individual contributions
 <table>
@@ -47,15 +44,11 @@ Goals; Timeline
 <tbody>
   <tr>
     <th><b>Shreya Nupur Shakya</b></th>
-    <td>???</td>
+    <td>Experiments; Error analyis; Write-up</td>
   </tr>
   <tr>
     <th><b>Oghenevovwe Ikumariegbe</b></th>
-    <td>???</td>
-  </tr>
-  <tr>
-    <th><b>???</b></th>
-    <td>???</td>
+    <td>Synthetic data generation and back translation; Experiments; Write-up</td>
   </tr>
 </tbody>
 </table>
@@ -90,6 +83,7 @@ Goals; Timeline
   </tbody>
 </table>
 
+## Goals
 
 ## Results
 
