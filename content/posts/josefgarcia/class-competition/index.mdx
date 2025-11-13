@@ -1,5 +1,5 @@
 ---
-title: "Transformer-Based Approach for Text Classification"
+title: "Bag of n-grams & TFIDF scores of n-grams approach for Text Classification"
 slug: "/josefgarcia/class-competition"
 date: 2025-11-09
 author: josefgarcia
@@ -22,15 +22,15 @@ tags:
 <tbody>
   <tr>
     <th><b>Leaderboard score</b></th>
-    <td>???</td>
+    <td>0.50968</td>
   </tr>
   <tr>
     <th><b>Leaderboard team name</b></th>
-    <td>???</td>
+    <td>Joey Garcia</td>
   </tr>
   <tr>
     <th><b>Kaggle username</b></th>
-    <td>???</td>
+    <td>youknowjoey</td>
   </tr>
   <tr>
     <th><b>Code Repository URL</b></th>
@@ -44,6 +44,9 @@ tags:
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
 
+For this class competition, the task is to classify text snippet into two categories. The goal is to classify if the text snippets are similiar or not based on their content. The dataset contains an ID column, text snippet, and a label indicating whether the snippet is similar (1) or not similar (0). The training set contains 1601 sample, while the test contains 900 samples. The evaluation metric for this task is accuracy, which measures the proportion of correctly classified snippets.
+
+
 ## Exploratory data analysis
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
@@ -51,6 +54,10 @@ _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/cl
 ## Approach
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
+
+For input design, the text snippets will be preprocessed through lowercasing, punctuation removal, and tokenization using NLTK. To represent the text numerically, I employed a bag of n-grams model combining with TF-IDF weighting to capture both word frequency and contextual importance. Additionally, I incorporated GloVe word embeddings to enhance the representation with semantic information, then combined these two representations for classification. TF-IDF and GloVe embeddings enable the model to identify meaningful patterns and differences during text classification.
+
+I will experiment with several classification models such as logisitc regression, ensemble methods like XGboost, and support vector machines (SVM). Hyperparameter tuning will be performed using grid search and cross-validation to optimize the model's performance. The final model will be selected based on its accuracy on the validation set. 
 
 ## Results
 
@@ -69,3 +76,4 @@ _If you'ved covered this in your code repository's README, you can simply link t
 ## Future Improvements
 
 _Describe how you might best improve your approach_
+
