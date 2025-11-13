@@ -22,11 +22,11 @@ tags:
 <tbody>
   <tr>
     <th><b>Leaderboard score</b></th>
-    <td>???</td>
+    <td>0.50968</td>
   </tr>
   <tr>
     <th><b>Leaderboard team name</b></th>
-    <td>???</td>
+    <td>Joey Garcia</td>
   </tr>
   <tr>
     <th><b>Kaggle username</b></th>
@@ -44,9 +44,8 @@ tags:
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
 
-For this class competition, the task is to clasify text snippet into two categories. The goal is to classify if the text snippets are similiar or not based on their content. The dataset conits of an ID column, text snippet, and a label indicating whether the snippet is similar (1) or not similar (0). The training set contains 1601 sample, while the test contains 900 samples. The evaluation metric for this task is accuracy, which measures the proportion of correctly classified snippets.
+For this class competition, the task is to classify text snippet into two categories. The goal is to classify if the text snippets are similiar or not based on their content. The dataset contains an ID column, text snippet, and a label indicating whether the snippet is similar (1) or not similar (0). The training set contains 1601 sample, while the test contains 900 samples. The evaluation metric for this task is accuracy, which measures the proportion of correctly classified snippets.
 
-For input design, the text snippets were preprocessed through lowercasing, punctuation removal, and tokenization using NLTK. To represent the text numerically, employed a bag of n-grams model combining with TF-IDF weighting to capture both word frequency and contextual importance. Additionally, I incorporated GloVe word embeddings to enhance the representation with semantic information, then transforming the dense matrix to sparse to mimic TF-IDF. TF-IDF and GloVe embeddings enable the model to identify meaningful patterns and differences during text classification.
 
 ## Exploratory data analysis
 
@@ -56,9 +55,9 @@ _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/cl
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
 
-For the class competition, I am approaching the problem by using a bag of n-grams and TF-IDF scores of n-grams. I'll extract the n-grams from the text snippets and compute TF-IDF scores to represent the importance of each n-gram in the context of the entire dataset. This approach will help capturing relevant features for text classification.
+For input design, the text snippets will be preprocessed through lowercasing, punctuation removal, and tokenization using NLTK. To represent the text numerically, I employed a bag of n-grams model combining with TF-IDF weighting to capture both word frequency and contextual importance. Additionally, I incorporated GloVe word embeddings to enhance the representation with semantic information, then combined these two representations for classification. TF-IDF and GloVe embeddings enable the model to identify meaningful patterns and differences during text classification.
 
-Important engineered features I plan to include are TF-IDF, n-grams (unigrams, bigrams, trigrams), GloVe embedding similarity, and text length features. 
+I will experiment with several classification models such as logisitc regression, ensemble methods like XGboost, and support vector machines (SVM). Hyperparameter tuning will be performed using grid search and cross-validation to optimize the model's performance. The final model will be selected based on its accuracy on the validation set. 
 
 ## Results
 
