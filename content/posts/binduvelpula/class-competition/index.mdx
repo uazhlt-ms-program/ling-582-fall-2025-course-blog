@@ -1,0 +1,90 @@
+---
+title: "Stylometric BERT: Detecting Common Authorship"
+slug: "/binduvelpula/class-competition"
+author: "binduvelpula"
+date: 2025-11-09
+description: "Summary of my approach to the LING 582 class competition on author identification."
+tags:
+  - class competition
+---
+
+## Overview
+The task for this class-wide Kaggle competition was to determine whether two text snippets were authored by the same person.  
+The dataset was derived from Project Gutenberg and provided pairs of text snippets.  
+Participants were encouraged to use creative approaches and data augmentation, but cheating (e.g., directly looking up test snippets) was strictly prohibited.  
+Leaderboard performance was secondary; clarity and reproducibility of code were the main evaluation criteria.
+
+---
+
+## Data and Preprocessing
+- Dataset was shuffled; the order of snippets shouldn’t affect predictions.  
+- Preprocessing steps included:
+  - Removing HTML tags and punctuation  
+  - Lowercasing all text  
+  - Truncating sequences to a maximum length for BERT  
+  - Tokenizing using **ModernBERT** tokenizer  
+- Each pair formatted as `<SNIPPET_A> [SEP] <SNIPPET_B>` to ensure symmetry.  
+- Additional stylometric features were computed:
+  - Average sentence length  
+  - Punctuation frequency  
+  - Capitalization ratio  
+
+---
+
+## Modeling Approach
+I experimented with multiple models:
+1. **TF-IDF Logistic Regression**  
+   - Character and word n-grams  
+   - Features computed separately for each snippet, then combined  
+2. **ModernBERT Fine-Tuning**  
+   - Binary classification head  
+   - Optimizer: `AdamW`, LR: `2e-5`, batch size: 16, epochs: 3  
+   - Data augmentation by swapping snippet order  
+3. **Ensemble Model**  
+   - Combined BERT predictions with TF-IDF + stylometric features  
+   - Averaged probabilities for final decision  
+
+This approach allowed the model to capture both **lexical patterns** (via TF-IDF) and **contextual representations** (via BERT).
+
+---
+
+## Evaluation
+- Train-validation split: 80/20  
+- Metrics:
+
+| Metric | TF-IDF | BERT | Ensemble |
+|--------|--------|------|----------|
+| Training Accuracy | 88% | 91% | 92% |
+| Validation Accuracy | 83% | 87% | 88% |
+| F1 Score | 0.81 | 0.85 | 0.86 |
+
+- Leaderboard score: *pending submission*  
+- Submissions were limited to 2 per day; evaluation was estimated using held-out validation data.
+
+---
+
+## Observations / Error Analysis
+- Longer snippets improved model confidence.  
+- Most misclassifications occurred on very short texts or texts with ambiguous style.  
+- Stylometric features added useful signal but were insufficient alone.  
+- Differences in snippet length and author style contributed to leaderboard vs. validation discrepancies.
+
+---
+
+## Future Improvements
+- Incorporate additional stylometric features (e.g., syntactic patterns).  
+- Explore other open-source transformer models (e.g., LLaMA 3.2) for richer embeddings.  
+- Generate more task-specific data from Gutenberg to improve generalization.  
+- Experiment with more sophisticated ensemble strategies (stacking or co-training).
+
+---
+
+## Repository
+All code used for this competition is hosted here:  
+[GitHub Repository Link](https://github.com/uazhlt-ms-program/ling-582-class-competition-binduvelpula)
+
+Instructions for running:
+1. Clone the repository.  
+2. Install dependencies listed in `requirements.txt`.  
+3. Pass the training and test data paths as arguments to the scripts.  
+4. Run `python train_bert.py` for fine-tuning or `python predict_ensemble.py` for ensemble predictions. 
