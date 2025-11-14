@@ -1,36 +1,56 @@
 ---
-title: "Class competition"
-slug: "/assignments/class-competition"
+title: "Mid-Semester Approaches that Were Probably Never Going to Work All that Well"
+slug: "/joshdunlapc/class-competition"
+author: "joshdunlapc"
+date: 2025-11-14
 ---
 
-- [task description](/assignments/class-competition/description)
-- [dataset description](/assignments/class-competition/dataset)
-- [evaluation description](/assignments/class-competition/evaluation)
-- [rubrics](/assignments/class-competition/rubric)
+### Class Competition Info
 
-1. Under the **Assignments** section of the course's D2L page, click the link in the `class-competition-code` assignment's description.
+<table>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th>Value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Current Best Leaderboard Score</td>
+      <td>0.47527</td>
+    </tr>
+    <tr>
+      <td>Leaderboard Name</td>
+      <td>Josh Dunlap</td>
+    </tr>
+    <tr>
+      <td>Kaggle Username</td>
+      <td>joshdunlapc</td>
+    </tr>
+    <tr>
+      <td>Code Repository URL</td>
+      <td>
+        <a href="https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-jd3162">
+          Repository Link
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
-2. See the README in your repository for an invitation link to the competition.
-  - The competition page provides an overview of the competition 
+### Description
 
-3. Use the provided `class-competition-code` assignment repository to manage your code for the class-wide competition (see the **Assignments** section of the course D2L page for the link)
+For my mid-semester course competition submissions, I noted that there had a been a suggestion that we could start from our course competition code from statistical NLP, and I combined that with the fact that I was just then in the process of completing an assignment in a data mining course that was about implementing some basic machine learning methods.
 
-4. Prepare a summary a blog-style summary of your approach and results ([see the README in this repo for details](https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-blog#2-class-wide-competition-kaggle))
+I combined the vectorizer from my statistical NLP competition with the implementation of logistic regression (and later KNN, decision tree, and random forest) from my data mining course. I split the training set to give myself a development set and used the implementation of a confusion matrix I had just learned in data mining as well. 
 
-## Requirements
+The results seemed to indicate that logistic regression was being fooled by the asymmetrical nature of the training data and classifying almost everything as negative. I (briefly) looked into methods for alleviating this problem (class_weight="balanced"), but this didn’t seem to work. I may look into oversampling the underrepresented class. 
 
-Minimally, your summary should include ...
+The approach that got the highest score was the decision tree classifier. Notably, it didn’t have the highest average f1 score with kfold cross validation, but it was the method that was the most likely to predict the positive class. 
 
-- a description of your approach
-- a summary of your results
-- a link to the `class-competition-code` repository
-- clear instructions for reproducing your results
-- a proposal for future improvements
+I’m not certain what my approach will be for the latter half of the course, but I think my time would probably be best used by implementing an entirely new approach rather than trying to improve some of these more vanilla methods. I think as I continue to work through the course modules I will try to implement each method for the class competition and see how it goes. 
 
-## Awards
 
-[See this page for details](/assignments/class-competition/awards).
 
-## Notes
 
-- You are free use any approach you like
+
