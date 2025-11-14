@@ -1,0 +1,71 @@
+---
+title: "PatchTST: Using Transformers for Time Series Forecasting"
+slug: "/edparks/paper-summary"
+date: 2025-11-13
+author: Ethan Parks
+description: "A new transformer based approach to time series forecasting."
+tags:
+  - paper summary
+---
+
+
+## Citation
+
+The paper underwent a rigorous double-blind peer review process and was accepted to the 2023 ICLR conference. An APA 7-th edition citation is as follows.
+
+Nie, Y., Nguyen, N. H., Sinthong, P., & Kalagnanam, J. (2023). A Time Series is Worth 64 Words: Long-term Forecasting with Transformers. arXiv. https://arxiv.org/abs/2211.14730
+
+
+<table>
+  <caption>
+    Citation summary
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <td><b>Paper</b></td>
+    <td>A Time Series is Worth 64 Words: Long-term Forecasting with Transformers</td>
+  </tr>
+  <tr>
+    <td><b>Authors</b></td>
+    <td>Nie, Y., Nguyen, N. H., Sinthong, P., & Kalagnanam, J.</td>
+  </tr>
+  <tr>
+    <td><b>Year published</b></td>
+    <td>2023</td>
+  </tr>
+  <tr>
+    <td><b>Venue</b></td>
+    <td>ICLR 2023</td>
+  </tr>
+  <tr>
+    <td><b>Paper URL</b></td>
+    <td>https://arxiv.org/abs/2211.14730</td>
+  </tr>
+  <tr>
+    <td><b>Code URL</b></td>
+    <td>https://github.com/yuqinie98/PatchTST</td>
+  </tr>
+</tbody>
+</table>
+
+## Description
+
+The paper “A Time Series is Worth 64 Words” highlights a state of the art approach titled PatchTST for time series forecasting through transformer model architectures. PatchTST includes a multi-variate approach to sequential data modeling called patching, coupled with the transformer’s ability of self-representation. The patching method provides enhancements over current SotA approaches through a richer local representation in the embeddings, significant computational efficiencies over other time-series transformer methods, and the ability to attend to a longer history. Experiments were run on supervised and self-supervised learning tasks to achieve results that outperform the current best approaches. Self-supervised learning also highlighted the ability of the model to transfer patterns obtained from one dataset to another.
+
+
+## Motivation
+
+I selected this paper because of its application of statistical natural language processing to non-language contexts. Algorithms developed for improving language comprehension and representation such as self-attention mechanisms, encoder-decoder blocks, and vector representations of data are incredibly flexible and have appeared to represent a more general and powerful system of operations towards human-like cognition. 
+
+Time series is a natural progression from text data in that it also represents a sequence of events with surrounding context that typically holds some relation to a single sequence event in that context. One challenge that piqued my interest in this particular paper was that the data PatchTST is trained on is not likely to have such inherent structural relationships as text would. As a result, the language model encoder of PatchTST is tasked with representing very abstract latent states of local and global time-series contexts.
+
+In addition to the unique use of the architecture, the authors highlighted the benefits and limitations of similar language model training processes for the time-series tasks; an area I was deeply curious to see the applied results. For example, self-supervised masked language modeling techniques that are used in encoder training processes such as BERT were part of the paper. 
+
+
+
