@@ -1,5 +1,5 @@
 ---
-title: "EXAMPLE: My Paper Summary"
+title: "On 'Towards Resolving Word Ambiguity with Word Embeddings'"
 slug: "/1184776211/paper-summary"
 date: 2025-11-13
 author: 1184776211
@@ -42,11 +42,11 @@ _Replace this text with a complete citation_
   </tr>
   <tr>
     <td><b>Paper URL</b></td>
-    <td>???</td>
+    <td>https://arxiv.org/abs/2307.13417</td>
   </tr>
   <tr>
     <td><b>Code URL</b></td>
-    <td>https://arxiv.org/abs/2307.13417</td>
+    <td>https://github.com/thurnbauermatthi/WordDisambiguation (unavailable)</td>
   </tr>
 </tbody>
 </table>
@@ -55,10 +55,34 @@ _Replace this text with a complete citation_
 
 _In your own words, what is this paper about?_
 
+The authors propose a method of identifying ambiguous words through
+an unsupervised machine learning process.
+Their method uses CBOW embeddings (need to confirm)
+and something called DBSCAN
+(Density-Based Spatial Clustering for Applications with Noise)
+to filter out common contexts (noise) between what are otherwise clusters
+in the distributions of like words; these multiple clusters thus represent the
+multiple meanings of ambiguous words, identified by the process itself
+(by constrast, they point out that other approaches to ambiguity have relied
+on supervised/manual identification of candidate words).
+They highlight its usefulness for identifying ambiguous words' meanings when
+taken in isolation (need to review what the claim here is).
+
+
 ## Motivation
 
 _Why did you select this paper?_
 < !-- NOTE: don't use an LLM to generate this! 🙃 -->
+
+The topic of unsupervised word-disambiguation appeals to me for the reason that
+it pertains to a potential project that I've been tinkering with:
+exploring ways that an automated solver for the New York Times Games daily
+Connections puzzle.
+The reason that this seems relevant is because Connections characteristically
+exploits the ambiguity of words, especially as taken in isolation, in order to
+create a challenge for players.
+
+
 
 ## LLM
 
