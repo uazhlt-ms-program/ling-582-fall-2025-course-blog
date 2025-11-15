@@ -1,0 +1,39 @@
+---
+title: "TruthfulRAG — Draft Summary"
+slug: "/abhiramn/paper-summary"
+author: "abhiramn"
+date: 2025-11-15
+---
+
+# First Draft Summary: TruthfulRAG
+
+Below is my initial draft for the paper summary assignment.
+
+## What are the authors proposing?
+They propose TruthfulRAG, a RAG system that uses knowledge graphs and entropy-based conflict detection to resolve disagreements between internal model knowledge and retrieved facts.
+
+## Motivation
+RAG systems often fail when the model’s internal knowledge conflicts with updated or more accurate retrieved information. Prior methods don’t capture factual structure well enough to resolve these conflicts.
+
+## Approach
+TruthfulRAG builds a knowledge graph from retrieved text, retrieves relevant reasoning paths, and uses entropy changes to determine which paths fix model misconceptions.
+
+## Results
+TruthfulRAG outperforms standard RAG, KRE, COIECD, and FaithfulRAG across several datasets, especially on multi-hop and time-sensitive tasks.
+
+## Is the comparison fair?
+Yes. They evaluate multiple models, use a shared retrieval setup, and include ablations.
+
+## Authors’ takeaways
+Structured reasoning paths reduce uncertainty and improve factual correctness in RAG.
+
+## My takeaways
+The method is simple, practical, and fits neatly into existing RAG systems.
+
+## Would I use this?
+Yes — especially for medical, financial, legal, or fast-changing domains.
+
+## Remaining problems
+Triple extraction errors, scaling KG creation, entropy threshold tuning, and handling conflicts between multiple external sources.
+
+(This is the first draft. I will expand this in the complete version.)
