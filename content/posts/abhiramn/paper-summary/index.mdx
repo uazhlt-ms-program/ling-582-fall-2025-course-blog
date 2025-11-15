@@ -7,33 +7,22 @@ date: 2025-11-15
 
 # First Draft Summary: TruthfulRAG
 
-Below is my initial draft for the paper summary assignment.
+---
+title: "Paper Summary Proposal – TruthfulRAG"
+slug: "/your-id/paper-summary"
+author: "your-id"
+date: 2025-10-31
+---
 
-## What are the authors proposing?
-They propose TruthfulRAG, a RAG system that uses knowledge graphs and entropy-based conflict detection to resolve disagreements between internal model knowledge and retrieved facts.
+## Paper Summary Proposal
 
-## Motivation
-RAG systems often fail when the model’s internal knowledge conflicts with updated or more accurate retrieved information. Prior methods don’t capture factual structure well enough to resolve these conflicts.
+**Citation**  
+Liu, S., Shang, Y., & Zhang, X. “TruthfulRAG: Resolving Factual-level Conflicts in Retrieval-Augmented Generation with Knowledge Graphs.” AAAI 2026.  
+PDF: :contentReference[oaicite:0]{index=0}
 
-## Approach
-TruthfulRAG builds a knowledge graph from retrieved text, retrieves relevant reasoning paths, and uses entropy changes to determine which paths fix model misconceptions.
+**Brief Description**  
+This paper introduces TruthfulRAG, a Retrieval-Augmented Generation framework that uses knowledge graphs to identify and resolve factual conflicts between an LLM’s internal knowledge and retrieved external documents. Instead of operating at token or semantic level like previous approaches, TruthfulRAG extracts factual triples, constructs reasoning paths, and uses entropy-based filtering to ensure the generated answers remain consistent with reliable external evidence.
 
-## Results
-TruthfulRAG outperforms standard RAG, KRE, COIECD, and FaithfulRAG across several datasets, especially on multi-hop and time-sensitive tasks.
+**Motivation**  
+I selected this paper because it addresses a critical failure mode in modern RAG systems: contradictions between retrieved facts and outdated model memory. The authors propose a structured and fine-grained approach using knowledge graphs and uncertainty analysis, which aligns with my interests in LLM reliability, RAG pipelines, and graph-based reasoning. Additionally, this is a recent and less widely summarized paper, making it suitable for the assignment.
 
-## Is the comparison fair?
-Yes. They evaluate multiple models, use a shared retrieval setup, and include ablations.
-
-## Authors’ takeaways
-Structured reasoning paths reduce uncertainty and improve factual correctness in RAG.
-
-## My takeaways
-The method is simple, practical, and fits neatly into existing RAG systems.
-
-## Would I use this?
-Yes — especially for medical, financial, legal, or fast-changing domains.
-
-## Remaining problems
-Triple extraction errors, scaling KG creation, entropy threshold tuning, and handling conflicts between multiple external sources.
-
-(This is the first draft. I will expand this in the complete version.)
