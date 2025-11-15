@@ -1,0 +1,44 @@
+---
+title: "Draft: Author Matching Competition"
+slug: "/abhiramn/class-competition"
+author: "abhiramn"
+date: 2025-11-15
+---
+
+## Task summary (draft)
+
+This competition is about author verification.  
+Each example consists of two spans of English text joined with the token `[SNIPPET]`.  
+The goal is to predict:
+
+- 0 if the two spans are written by different authors  
+- 1 if the two spans are written by the same author  
+
+The organizer evaluates systems with macro F1 so both classes matter equally.
+
+## Current approach and plan
+
+Right now I use a simple baseline:
+
+- split the input on `[SNIPPET]` into span one and span two  
+- build character n gram TF IDF features for each span  
+- take the absolute difference between the two vectors  
+- train a Linear SVM (LinearSVC) classifier on these features  
+
+Planned improvements for later:
+
+- tune the C parameter for LinearSVC more carefully  
+- experiment with additional style features and possibly embeddings  
+
+## Leaderboard submission
+
+I have made at least one submission to the Kaggle leaderboard.
+
+- Submission name: isjustabhi_char_svm_tunedC_v3
+- Score: Public score: 0.56304
+
+## Code repository
+
+The code for my competition experiments lives here:
+
+https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-isjustabhi
