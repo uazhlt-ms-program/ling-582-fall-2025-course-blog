@@ -42,7 +42,14 @@ tags:
 </tbody>
 </table>
 
-I have tried using BERT, but the runtime was higher and my system was not handling at this moment, so I have choosen DistilBERT as its smaller and faster than BERT while maintaining the strong performance. To handle the severe class imbalance, like 78% different author and 22% of same author, i have computed balanced class weights and applied the weighted cross-entropy loss during training. I have tried to train with multiple number of epochs, some had higher F1scores when I used only 2 epochs and some had higher F1scores when I used 5 epochs with different seed numbers. I did trial and error with epochs, seed numbers and also the percentages of the split of data. 
+I have tried using BERT, but the runtime was higher and my system was not handling at this moment, so I have choosen DistilBERT as its smaller and faster than BERT while maintaining the strong performance. 
+
+To handle the severe class imbalance, like 78% different author and 22% of same author, I have computed balanced class weights and applied the weighted cross-entropy loss during training. 
+
+I have tried to train with multiple number of epochs, some had higher F1scores when I used only 2 epochs and some had higher F1scores when I used 5 epochs with different seed numbers. 
+
+I did trial and error with epochs, seed numbers and also the percentages of the split of data. 
+
 The model was trained with AdamW optimizer. The latest approach and the submission I did got highest F1score of 0.5842, but a lower kaggle score 0.52684 and the previous submission which I noted down here in the script has 0.5713 F1 score but a higher Kaggle score of 0.53836 where I have used 5 epochs.
 
 
