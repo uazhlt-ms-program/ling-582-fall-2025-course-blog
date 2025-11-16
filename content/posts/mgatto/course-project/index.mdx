@@ -30,21 +30,21 @@ Course Project Info
 
 ## Project description
 
-Arabic is a Semitic language within the Afro-Asiatic family. The distinguishing feature of Semitic languages are their templated morphology <sup>(Ryder, Veersteeg?)</sup>. In a templated morphological system, parts of speech are constructed by applying known and repeatable templates to a short sequence of 2,3 or 4 consonantal roots. The vast majority of these root sequences consist of three consontants called "tri-literals". A much smaller number are either two or four consonants in length. We'll represent these tri-literal roots in general as C-C-C.
+Arabic is a Semitic language within the Afro-Asiatic family. The distinguishing feature of Semitic languages are their templated morphology <sup>(Ryding 05)</sup>. In a templated morphological system, parts of speech are constructed by applying known and reproducable templates to a short sequence of 2,3 or 4 consonantal roots. The vast majority of these root sequences consist of three consontants called "tri-literals". A much smaller number are either two or four consonants in length. We'll represent these tri-literal roots in general as C-C-C.
 
-These roots convey an abstract meaning made concrete by applying one of a finite number of templates. Structurally, the templates consist of some combination of internal vowel patterns supplemented by a very limited set of prefixes, suffixes and infixes consisting of the phonemes *[m]* (prefix only), *[n]* (infix and suffix) or *[t]* (prefix, infix and suffix). For example, agent nouns usually take the pattern of *C-aa-C-e-C*. Thus, for the oft-cited root K-T-B which conveys the idea of writing, a K-aa-T-e-B is a person who write, i.e. a writer: "[kaateb]" (make this IPA)
+These roots convey an abstract meaning made concrete by applying one of a finite number of templates. Structurally, the templates consist of some combination of internal vowel patterns supplemented by a very limited set of prefixes, suffixes and infixes consisting of the phonemes *[m]* (prefix only), *[n]* (infix and suffix) or *[t]* (prefix, infix and suffix) and *[ist]* (prefix). For example, agent nouns usually take the pattern of *C-aa-C-e-C*. Thus, for the oft-cited root K-T-B which conveys the idea of writing, a K-aa-T-e-B is a person who writes, i.e. a writer: "kaateb".
 
-Arabic grammarians have traditionally organized specific mixtures of affixes into 10 (12?) forms to encode specific semantics. Each form contains set templates for declining verbs, forming agent nouns, pluralizing nouns, and forming perfect and imperfect particples. We'll consider only Form I words in this experiment, since they are the simplest. Form I consists of no infixes, as Form IX does, and are canonically represented by the 3<sup>rd</sup> person masculine singular perfect verb with the template *C-a-C-a-C-a*. For example, K-a-T-a-B-a (kataba: he wrote).
+Arabic grammarians have traditionally organized specific mixtures of affixes into 10 widely used forms to encode specific semantics. Each form contains set templates for declining verbs, forming agent nouns, pluralizing nouns, and forming perfect and imperfect particples. We'll consider only Form I words in this experiment, since they are the simplest. Form I consists of no infixes and are canonically represented by the 3<sup>rd</sup> person masculine singular perfect verb with the template *C-a-C-a-C-a*. For example, K-a-T-a-B-a (kataba: he wrote).
 
 Computationally finding the roots is a type of Feature Extraction and is an important problem in Arabic NLP. Finding the roots of a word with high accuracy significantly affects foundational tasks in NLP such as POS tagging and various classification tasks. In turn, these foundational tasks can cause user-level applications such as spell-checking and language generation to fail laughably or succeed brilliantly (but often unnoticed since when things "just work", they tend to be less noticable).
 
-For example, a very common derivational Form I prefix is *ma-* signalling the start of a participle. There are however, many roots which also begin with the same phoneme, *ma-*. Thus, simply regex-ing it away is likely to produce numerous mistakes and disappointingly low F1 score.
+For example, a very common derivational Form I prefix is *ma-* signalling the start of a participle. There are however, many roots which also begin with the same phoneme, *ma-*. Thus, simply regex-ing it away is likely to produce numerous mistakes and a disappointingly low F1 score.
 
 ### Approach
-I will Use a **character**-level RNN, in the form of an LTSM implemented in Python with PyTorch. I frame this as a multi-class classification problem (AlSerhan, Ayesh 2006). As such, the RNN will output a vector classifying the char sequences as only one of:
+I will use a **character**-level RNN, in the form of an LTSM implemented in Python with PyTorch. I frame this as a multi-class classification problem (AlSerhan, Ayesh 2006). As such, the RNN will output a vector classifying the char sequences as only one of:
 1. prefix,
 2. suffix.
-3. infix(?),
+3. <s>infix</s> (recall that Form I has no infixes),
 4. root.
 
 <!-- TODO or, it could be a binary classification:
@@ -55,28 +55,27 @@ I think binary would be much easier!
 
 This output vector will then be fed into an MLP to select the probability of the letter being a root or not with a selecting function: $softmax(MLP([RNN(x_{1:n}, i)]))$.
 
-### Goals:
-1. Given a list of 100 Arabic test words of Form I derived from known, tri-literal consonantal roots, the Root Extractor successfully identifies at least 90 of them, providing an F1 score of ?.
+### Goal:
+Given a list of 100 Arabic test words of Form I derived from known, tri-literal consonantal roots, the Root Extractor successfully identifies at least 90 of them.
 
 ### Outline:
 1. Examine prior art and detail flaws with non-NN approaches.
-2. Use training data from the Qatar Arabic Language Bank (QALB).
-3. Experiment with QALB dataset in Jupyter Notebook.
-4. Experiment with **CAMeL Tools** for Arabic pre-processing.
-5. Determine per Yuval, the "core linguistic features $f_{1}...f_{k}$ that are relevant for predicting the output classes"
-6. Code RNN with PyTorch.
-7. Train model (possibly on HPC if training > 100,000?).
-8. Evaluate model.
-9. Weep and tune.
-10. Re-evaluate model and be happy.
-11. Package Python code into a Docker container (use uv and pyproject.toml, not pip and requirements.txt?).
+2. Experiment with al-Mus'haf dataset in a Jupyter Notebook.
+3. Experiment with **CAMeL Tools** for Arabic pre-processing.
+4. Determine per Yuval, the "core linguistic features $f_{1}...f_{k}$ that are relevant for predicting the output classes"
+5. Code RNN with PyTorch.
+6. Train model (possibly on HPC if training > 100,000?).
+7. Evaluate model.
+8. Weep and tune.
+9. Re-evaluate model and be happy.
+10. Package Python code into a Docker container (use uv and pyproject.toml, not pip and requirements.txt?).
 
 ### Schedule
 By these dates, accomplish:
-11/16/2025 - Selected training set.
-11/23/2025 - Have working RNN.
-11/30/2025 - Tuned RNN and decoded output vector with MLP and Softmax to present words' root consonants.
-12/05/2025 - Polished codebase and packaged into Docker container.
+- 11/16/2025 - Selected training set.
+- 11/23/2025 - Have working RNN.
+- 11/30/2025 - Tuned RNN and decoded output vector with MLP and Softmax to present words' root consonants.
+- 12/05/2025 - Polished codebase and packaged into Docker container.
 
 <!--
 Superior (3 pts):
@@ -127,3 +126,8 @@ _If you'ved covered this in your code repository's README, you can simply link t
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/ #proposal-for-future-improvements)_
 -->
+
+### Citations
+<ol>
+<li>Ryding, K. (2005). A Reference Grammar of Modern Standard Arabic. Cambridge University Press.</li>
+</ol>
