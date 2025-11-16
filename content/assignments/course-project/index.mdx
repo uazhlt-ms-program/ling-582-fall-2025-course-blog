@@ -1,13 +1,54 @@
 ---
-title: "Course project"
-slug: "/assignments/course-project"
+title: "Lexical Semantic Change of Utopia: Static and Contextual"
+slug: "/joshdunlapc/course-project"
+author: "joshdunlapc"
+date: 2025-11-16
+tags:
+
+  - course project
 ---
 
-1. Use the provided `course-project-code` assignment repository to manage your code for the course project (see the **Assignments** section of the course D2L page for the link)
+<table>
+<tbody>
+  <tr>
+    <th>Code Repository URL</th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-lexical-semantic-change-researchers</td>
+  </tr>
+
+  <tr>
+    <th>Demo URL (optional)</th>
+    <td></td>
+  </tr>
+
+  <tr>
+    <th>Team name</th>
+    <td>Lexical Semantic Change Researchers</td>
+  </tr>
+</tbody>
+</table>
+
+
 
 2. Prepare a blog-style summary of your approach and results ([see the README in this repo for details on how to modify this site](https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-blog#3-course-project-your-pick)).
 
 - [rubrics](/assignments/course-project/rubric)
+
+## Broader Context
+
+My higher level research goals are in the sub-field of Natural Language Processing and Computational Linguistics called “Lexical Semantic Change,” “Semantic Change Detection,” or “Diachronic Linguistics.”  The idea is studying how language use changes over time. This happens both as a natural consequence of the fact that languages are always evolving, but also for social/cultural/technological reasons (which I'm more interested in). 
+
+I'm working on the early stages of a research project right now where I'm trying to demonstrate that in the early 20th century the cultural perception of the idea of "utopia" was that it was something very futuristic, but my suspicion is that this has changed over time and now "utopia" is a pastoral, agrarian—even backward-looking—concept.
+
+I'm pursuing this from a number of different angles: literary analysis of utopian fiction from different times, social theory about the shifting cultural perception of utopianism, but also NLP! One thing I know I'll need is a way to analyze “utopia” and related concepts at distinct points in time. In order to ask, for example: “what are the differences between a word embedding for the word ‘utopia’ as it was used in the 1960s, as opposed to how it was used in the 2010s?”
+
+I had been focused on [this survey paper](https://arxiv.org/abs/1806.03537) from 2019 that explored how people had been using static word embedding models to explore language change over time. I had been having a hard time figuring out where to follow this thread, but it turns out (predictably) that a lot of the research moved on to using LLMs to explore language change over time. I found [another survey paper](https://dl.acm.org/doi/pdf/10.1145/3672393) from 2024 that seems to sum up a lot of the advances in the field in the intervening 5 years.
+
+A question I’m left with is: if perhaps *the* major benefit to using an LLM is to understand all the different ways that one word can hold multiple meanings (colexification: homonymy, polysemy) and to be able to parse these meanings out mathematically, *is this benefit relevant to my current project?* By and large there’s just the one meaning to utopia, at least compared to some of the examples used in that survey (e.g. “rock” like a stone vs “rock” like rock n roll). 
+
+## Task
+
+Compare the findings and suitability of employing static embeddings (as described in [these](https://arxiv.org/pdf/1605.09096) [two](https://aclanthology.org/D16-1229/) papers) for exploring diachronic change of “utopia” in contrast with dynamic embeddings (as described in [this paper](https://arxiv.org/pdf/2202.03612)).
+
 
 ## Requirements
 
@@ -21,6 +62,3 @@ Minimally, your summary should include ...
 - instructions for reproducing your results
 - a proposal for future improvements
 
-## Notes
-
-- You may team up with ≥ 2 other students in the class, but each team member must submit a blog-style summary outlining their contributions
