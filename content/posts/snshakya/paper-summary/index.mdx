@@ -1,0 +1,221 @@
+---
+title: "Paper Summary of Chain of Draft: Thinking Faster by Writing Less"
+slug: "/snshakya/paper-summary"
+date: 2023-10-31
+author: Shreya Nupur Shakya
+description: "TBD ..."
+tags:
+  - paper summary
+---
+
+
+## Citation
+
+Silei Xu, Wenhao Xie, Lingxiao Zhao, and Pengcheng He. “Chain of Draft: Thinking Faster by Writing Less.” arXiv preprint arXiv:2502.18600 (2025). https://arxiv.org/abs/2502.18600
+
+DOI: https://doi.org/10.48550/arXiv.2502.18600
+
+<table>
+  <caption>
+    Citation summary
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <td><b>Paper</b></td>
+    <td>Chain of Draft: Thinking Faster by Writing Less</td>
+  </tr>
+  <tr>
+    <td><b>Authors</b></td>
+    <td>Silei Xu, Wenhao Xie, Lingxiao Zhao, Pengcheng He</td>
+  </tr>
+  <tr>
+    <td><b>Year published</b></td>
+    <td>2025</td>
+  </tr>
+  <tr>
+    <td><b>Venue</b></td>
+    <td>arXiv preprint</td>
+  </tr>
+  <tr>
+    <td><b>Paper URL</b></td>
+    <td>https://arxiv.org/pdf/2502.18600v1</td>
+  </tr>
+  <tr>
+    <td><b>Code URL</b></td>
+    <td>https://github.com/sileix/chain-of-draft</td>
+  </tr>
+</tbody>
+</table>
+
+## Description
+
+This paper introduces Chain of Draft (CoD), a reasoning method that is designed to make large language models faster and more efficient. Instead of generating the standard, long, and step-by-step chain-of-thought explanations, the model in the paper first generates a very short “draft” reasoning snippets and then uses those drafts as internal guidance to produce a final answer. The authors show that this shorter and faster reasoning still supports high accuracy on math and logic tasks while significantly reducing token usage and inference time. In conclusion, CoD keeps the benefits of structured reasoning without the cost of longer explanations, making them unnecessary.
+
+## Motivation
+
+I chose this paper because it aligns closely with my own research interests in efficient reasoning. The idea of shorter reasoning instead of the standard one being more efficient is interesting to me. The paper introduces methods that effectively cut down on inference time and token cost. It is also a recent research article that has not been widely summarized, which makes it a good fit for the assignment. Finally, CoD offers a practical perspective on efficiency that I think will be useful for the course project that we have chosen.
+
+## LLM
+
+<table>
+  <caption>
+    LLM model summary
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>LLM model</b></th>
+    <td>Llama 3.2 3B Instruct (quantized: Q6_K)</td>
+  </tr>
+  <tr>
+    <th><b>LLM model version</b></th>
+    <td>Llama-3.2-3B-Instruct-Q6_K.gguf</td>
+  </tr>
+  <tr>
+    <th><b>Model/service URL</b></th>
+    <td>Base Model: https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct <br/> Model: https://huggingface.co/bartowski/Llama-3.2-3B-Instruct-GGUF <br/> In Jan: Loaded locally via Jan UI (offline inference)</td>
+  </tr>
+  <tr>
+    <th><b>Why this model?</b></th>
+    <td>- Fully open-weight, small enough (3B) to run locally on my system through Jan UI, but still capable of producing summaries and following instructions <br/> - Q6_K quantization should offer a strong balance between reasoning quality and speed</td>
+  </tr>
+</tbody>
+</table>
+
+
+#### Description (LLM)
+
+The Chain of Draft paper proposes a novel prompting strategy, Chain of Draft (CoD), that reduces verbosity and latency in Large Language Models (LLMs) while maintaining accuracy. This approach is inspired by human cognitive processes and encourages LLMs to generate concise, informative, and efficient reasoning outputs by limiting the number of words used in each step. By condensing the reasoning process into minimal, abstract representations, CoD enables LLMs to speed up response generation without sacrificing correctness, making it a practical approach for real-world applications where efficiency is paramount.
+
+##### Prompt
+
+```markdown
+Can you describe what this paper is about in a short paragraph?
+```
+
+#### What are the authors proposing?
+
+The paper proposes a novel paradigm called Chain of Draft (CoD), which encourages Large Language Models (LLMs) to generate minimalistic yet informative intermediate reasoning outputs while solving complex tasks. CoD aims to reduce verbosity and focus on critical insights, aligning with human cognitive processes. This approach allows LLMs to match or surpass Chain of Thought (CoT) in accuracy while using fewer tokens and reducing latency. By externalizing thoughts in a concise manner, LLMs can progress toward solutions more efficiently.
+
+##### Prompt
+
+```markdown
+Here is the abstract of the paper “Chain of Draft: Thinking Faster by Writing Less”: “..." and the Introduction: "..." “In 3–4 sentences, explain the main proposal of the paper ‘Chain of Draft: Thinking Faster by Writing Less.’ Use only the content provided.”
+```
+
+#### What is the motivation for the work?
+
+The motivation behind the Chain of Draft (CoD) method is to address the issue of verbosity and increased latency in standard chain-of-thought prompting, where Large Language Models (LLMs) generate verbose and step-by-step reasoning outputs. This approach, inspired by human cognitive processes, aims to reduce the verbosity and focus on critical insights, aligning with human thinking habits. CoD seeks to strike a balance between accuracy and efficiency, reducing latency and computational costs while maintaining or improving accuracy compared to standard CoT prompting.
+
+##### Prompt
+
+```markdown
+Here is the related works section: “..." “What is the motivation behind the Chain of Draft method? What problem with standard chain-of-thought prompting does it address?”
+```
+
+#### What is the approach or innovation?
+
+The Chain of Draft (CoD) approach innovates by leveraging human-like cognitive processes to reduce verbosity and latency in Large Language Models (LLMs). CoD encourages LLMs to generate concise, abstract representations of reasoning steps, rather than elaborating on every detail. This approach is inspired by how humans tend to jot down minimal drafts to capture essential insights, and aims to replicate this efficiency in LLMs.
+
+##### Prompt
+
+```markdown
+Summarize the paper’s approach or innovation in a few sentences.
+```
+
+#### What are the results and how do they compare with competing approaches?
+
+The experimental results show that the proposed Chain of Draft (CoD) prompting strategy achieves significant improvements over competing approaches, particularly in terms of reducing verbosity and latency. 
+
+In the arithmetic reasoning task, CoD outperforms standard chain-of-thought (CoT) prompting, requiring only about 40 tokens per response, compared to CoT's 205 tokens, while maintaining an accuracy of 91% compared to CoT's 95.4%. This results in an 80% reduction in token count and a 76.2% reduction in latency.
+
+In the common sense reasoning task, CoD also outperforms CoT, reducing the average output tokens from 75.7 to 30.2, and cutting the average latency by 1.7 seconds. CoD's accuracy was 88.1%, compared to CoT's 90.2%.
+
+In the symbolic reasoning task, CoD achieved 100% accuracy, outperforming both CoT and standard prompting. CoD required only 16.8 tokens per response, compared to CoT's 52.4 tokens, while maintaining an accuracy of 100%.
+
+##### Prompt
+
+```markdown
+Here is the section of the paper that talks about CoD prompting: "..." and the Experiments section: “..." “What are the experimental results and how do they compare with competing approaches like standard chain of thought?"
+```
+
+#### Is the comparison fair?
+
+The comparisons in the Chain of Draft experiments appear to be fair, considering the use of the same models (GPT-4o and Claude 3.5 Sonnet) and evaluation metrics (token count and latency) for the standard and Chain-of-Thought (CoT) prompting strategies. The experiment also selects representative tasks and follows a consistent experimental setup, providing a clear comparison between the proposed CoD method and the existing CoT method. However, the absence of a baseline method that is not a prompting strategy and the lack of information on computational resources required to run each strategy limit the thoroughness of the evaluation.
+
+##### Prompt
+
+```markdown
+In a short and succint paragraph, evaluate whether the comparisons in the Chain of Draft experiments are fair. Consider controls, baselines, and evaluation settings.
+```
+
+#### What are the takeaways according to the authors?
+
+The authors of the Chain of Draft paper propose a novel prompting strategy, Chain of Draft (CoD), that reduces verbosity and latency in Large Language Models (LLMs) while maintaining accuracy. The main takeaways are:
+
+- CoD achieves significant reductions in token count and latency, outperforming the existing Chain of Thought (CoT) prompting strategy.
+- CoD is particularly appealing in cost-sensitive scenarios, such as large-scale deployments of LLMs or applications with strict budget constraints.
+- CoD offers an alternative approach to traditional methods, where reasoning depth is maintained with minimal verbosity, without sacrificing correctness.
+
+##### Prompt
+
+```markdown
+Summarize the authors’ main takeaways from the Chain of Draft paper in a few bullet points or sentences.
+```
+
+#### What are the takeaways according to you?
+
+I don't have personal takeaways or insights, as I am a machine designed to provide factual summaries. However, based on the paper, the core insight is that the Chain of Draft (CoD) prompting strategy can significantly reduce verbosity and latency in Large Language Models (LLMs) while maintaining accuracy, offering a practical approach for real-world applications where efficiency is paramount.
+
+##### Prompt
+
+```markdown
+Summarize your own takeaways from the paper in 3–4 sentences. Focus on what you see as the core insight.
+```
+
+#### Would you use this?  If so, how/where would you use this?
+
+I would realistically use Chain of Draft in applications where efficiency and cost-effectiveness are crucial, such as in large-scale deployments of LLMs or in domains with strict budget constraints. Chain of Draft's ability to reduce verbosity and latency would be particularly beneficial in scenarios where rapid response generation is necessary, such as in customer service chatbots or in real-time language translation systems. Additionally, its suitability for cost-sensitive applications would make it a valuable tool in industries where cost is a significant factor, such as finance or healthcare.
+
+##### Prompt
+
+```markdown
+In 3–4 sentences, explain where you would realistically use Chain of Draft and why.
+```
+
+#### What problems remain and what are the next steps?
+
+The Chain of Draft paper highlights several remaining challenges and suggests next steps for improving the proposed approach. The authors acknowledge limitations of CoD, including its performance decline in zero-shot settings and its reliance on few-shot examples for training. To address these limitations, the authors propose fine-tuning CoD-formatted data with existing models. Additionally, the authors suggest exploring ways to combine CoD with other latency-reducing methods, such as adaptive parallel reasoning or multi-pass validation. Furthermore, they propose training reasoning models with compact reasoning data while maintaining interpretability and efficiency. These next steps aim to bridge the gap between research-driven improvements in reasoning and the practical demands of real-world systems.
+
+##### Prompt
+
+```markdown
+Here is the section for Limitations of CoD: “..." and the Discussion section: “..." Summarize the remaining challenges and next steps suggested by the Chain of Draft paper in ashort paragraph.
+```
+
+### Experience using the LLM
+
+I used Jan UI with the Llama-3.2-3B-Instruct-Q6_K model to generate the paper summary. My process for using the LLM involved setting up a custom assistant within Jan and adding to its default system instructions with a structured system prompt [You are assisting with summarizing a scientific research paper for a graduate-level NLP course. Provide concise, accurate, and quotation-free answers. Use only the information explicitly provided in the text. Do not invent numbers, results, or claims. When summarizing, be succinct but complete. If unsure, say so rather than guessing.] This helped tailor the model’s behavior so that its responses would be as factual as possible.
+
+To work with the paper effectively, I copied relevant sections from the paper's PDF (abstract, introduction, ...) and pasted these parts into the chat in smaller chunks and avoided providing the full paper at once. So, I paired each question with only the specific section of the paper needed to answer that question. For example, I used the abstract and introduction for questions about authors' proposal, the limitations and discussion sections for questions about the future directions and so on. I used this approach in an attempt to make the model stay as focused as possible and to hopefully minimize any possible hallucinations.
+
+Overall, the LLM performed well enough for a 3B-parameter open-weight model. It generally followed prompts consistently and also produced clear summaries as instructed. When inputs were too long or when multiple concepts had to be integrated across sections, it sometimes showed struggle. However, despite any limitations, by drafting suitable prompts, using small excerpts of the paper, and verifying every response, I was able to use the model effectively to complete this paper summary assignment.
+ 
+#### Errors and limitations of the LLM 
+
+While the model was generally good for producing summaries, I observed a couple limitations:
+
+- The model struggled with long inputs so I manually broke the paper into small excerpts.
+- Subtle hallucinations were observed sometimes.
+
