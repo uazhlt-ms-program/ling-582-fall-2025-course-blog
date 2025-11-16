@@ -1,17 +1,16 @@
 ---
 title: "EXAMPLE: My Paper Summary"
-slug: "/hahnpowell/paper-summary"
-date: 2023-10-31
-author: Gus Hahn-Powell
-description: "My incredible paper summary ..."
-tags:
+slug: "/Qianyun/paper-summary"
+date: 2023-11-16
+author: DQY
+description: This paper introduces mBLIP, a lightweight multilingual extension of BLIP-2. Instead of retraining a full vision-language model, the authors reuse the original BLIP-2 image encoder and align it to a multilingual language model using small amounts of translated captioning and VQA data.
   - paper summary
 ---
 
 
 ## Citation
 
-_Replace this text with a complete citation_
+Gregor Geigle, Abhay Jain, Radu Timofte, and Goran Glavaš. 2024. mBLIP: Efficient Bootstrapping of Multilingual Vision-LLMs. In Proceedings of the 3rd Workshop on Advances in Language and Vision Research (ALVR), pages 7–25, Bangkok, Thailand. Association for Computational Linguistics.
 
 <table>
   <caption>
@@ -26,27 +25,27 @@ _Replace this text with a complete citation_
 <tbody>
   <tr>
     <td><b>Paper</b></td>
-    <td>???</td>
+    <td>mBLIP: Efficient Bootstrapping of Multilingual Vision-LLMs</td>
   </tr>
   <tr>
     <td><b>Authors</b></td>
-    <td>???</td>
+    <td>Gregor Geigle, Abhay Jain, Radu Timofte, Goran Glavaš</td>
   </tr>
   <tr>
     <td><b>Year published</b></td>
-    <td>???</td>
+    <td>2024</td>
   </tr>
   <tr>
     <td><b>Venue</b></td>
-    <td>???</td>
+    <td>ALVR | WS</td>
   </tr>
   <tr>
     <td><b>Paper URL</b></td>
-    <td>???</td>
+    <td>https://aclanthology.org/2024.alvr-1.2/</td>
   </tr>
   <tr>
     <td><b>Code URL</b></td>
-    <td>???</td>
+    <td>N/A</td>
   </tr>
 </tbody>
 </table>
@@ -54,11 +53,15 @@ _Replace this text with a complete citation_
 ## Description
 
 _In your own words, what is this paper about?_
+This paper presents mBLIP, an efficient multilingual adaptation of BLIP-2. Rather than training a new vision-language model from scratch, the authors retain BLIP-2’s pretrained image encoder and realign it to a multilingual LLM using LoRA/QLoRA and a small set of machine-translated image–text data.
+The method drastically reduces training cost while enabling image captioning, VQA, and image–text matching across 95 languages.
 
 ## Motivation
 
 _Why did you select this paper?_
-< !-- NOTE: don't use an LLM to generate this! 🙃 -->
+I chose this paper because its overall approach is directly related to the goals of my own project.
+I am fine-tuning a BLIP-style model for chart-to-text caption generation, and this paper explores a very similar idea: adapting BLIP-2 to a new domain in an efficient and lightweight way.
+This paper provides both conceptual inspiration and practical techniques that can help shape my chart-captioning system! :)
 
 ## LLM
 
@@ -75,11 +78,11 @@ _Why did you select this paper?_
 <tbody>
   <tr>
     <th><b>LLM model</b></th>
-    <td>???</td>
+    <td>JAN UI</td>
   </tr>
   <tr>
     <th><b>LLM model version</b></th>
-    <td>???</td>
+    <td>Jan-v1-4B-Q4_K_M</td>
   </tr>
   <tr>
     <th><b>Model/service URL</b></th>
