@@ -1,0 +1,213 @@
+---
+title: "Article on OCR for Indigenous Languages"
+slug: "/sydneybess/paper-summary"
+date: 2025-11-05
+author: sydneyb
+description: "OCR for Indigenous languages"
+tags:
+  - paper summary
+---
+
+
+## Citation
+
+_Shadya Sanchez Carrera, Roberto Zariquiey, and Arturo Oncevay. 2024. Unlocking Knowledge with OCR-Driven Document Digitization for Peruvian Indigenous Languages. In Proceedings of the 4th Workshop on Natural Language Processing for Indigenous Languages of the Americas (AmericasNLP 2024), pages 103–111, Mexico City, Mexico. Association for Computational Linguistics._
+
+
+<table>
+  <caption>
+    Citation summary
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <td><b>Paper</b></td>
+    <td>"Unlocking Knowledge with OCR-Driven Document Digitization for Peruvian Indigenous Languages"</td>
+  </tr>
+  <tr>
+    <td><b>Authors</b></td>
+    <td>Shadya Sanchez Carrera, Roberto Zariquiey, Arturo Oncevay</td>
+  </tr>
+  <tr>
+    <td><b>Year published</b></td>
+    <td>2024</td>
+  </tr>
+  <tr>
+    <td><b>Venue</b></td>
+    <td>AmericasNLP 2024</td>
+  </tr>
+  <tr>
+    <td><b>Paper URL</b></td>
+    <td>https://aclanthology.org/2024.americasnlp-1.11/</td>
+  </tr>
+  <tr>
+    <td><b>Code URL</b></td>
+    <td>???</td>
+  </tr>
+</tbody>
+</table>
+
+## Description
+
+_In your own words, what is this paper about?_
+
+This paper is about the use of Optical Character Recognition(OCR) on indigenous languages of the Americas. OCR is the process of extracting text (essentially digitizing it) from an image, or in this case scanned typed pdfs. Most language resources for Indigenous low-resource languages come from handwritten fieldnotes or older books that taught the language which have no digital copies. But it takes a long time to go through and type in everything from the books, many people don't have sources or time.
+
+
+This is why the article talks about using OCR and training the model on the limited annotated or even synthetic data. They selected PDFS from four indigenous languages of South America: Asháninka, Shipibo-Konibo, Yanesha and Yine. Their data was 454 scanned pages from 89 books with 3,900 tokens along with tables and graphs, both typed and handwritten. Next they annotated the data (adding the typed words.) Next they pre-processed the pdfs by using software to eliminate noise like scanned marks, stains, page numbers. 
+
+
+Then comes the OCR process, the article specifically discusses two popular OCR models, Google Vision and Tesseract.  They ran these models using the Latin script and used Character Error Recognition (CER) and Word Error Rate (WER) as metrics to judge the success of the model.
+
+
+The different models had strengths and weaknesses, such as Google Vision didn't do a good job at keeping the correct order and format of multicolumned text, while Tesseract did a good job. On the other hand, Tesseract had more character insertions (for example mistaking one unique character as two common characters) compared to Google Vision. Other issues included word boundery issues (adding spaces where there shouldn't be, or treating single spaces as new paragraphs), which predominately effected Google Vision.
+
+
+Now with the basic OCR done, they wen't back with manually corrected data and fed it into sequence2sequence models to reduce errors. These included Denorm, Ensemble, and Single Source.
+
+
+The results were overall better, with signifcantly enchanced accuracy on diaretics, along with that few characters were deleted or inserted.
+
+
+## Motivation
+
+_Why did you select this paper?_
+
+I'm currently working with the Coeur d'Alene tribe doing OCR on things like workbooks or dictionaries that aren't digitized (scanned PDFs.) My team and I are using Tesseract and I was looking for an article about Tesseract and OCR on indigenous languages.
+This provides very helpful information of the process I am trying to replicate.
+
+< !-- NOTE: don't use an LLM to generate this! 🙃 -->
+
+## LLM
+
+<table>
+  <caption>
+    LLM model summary
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>LLM model</b></th>
+    <td>???</td>
+  </tr>
+  <tr>
+    <th><b>LLM model version</b></th>
+    <td>???</td>
+  </tr>
+  <tr>
+    <th><b>Model/service URL</b></th>
+    <td>???</td>
+  </tr>
+  <tr>
+    <th><b>Why this model?</b></th>
+    <td>???</td>
+  </tr>
+</tbody>
+</table>
+
+
+#### Description (LLM)
+
+_In the LLM's words, what is this paper about?_
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### What are the authors proposing?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### What is the motivation for the work?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### What is the approach or innovation?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### What are the results and how do they compare with competing approaches?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### Is the comparison fair?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### What are the takeaways according to the authors?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### What are the takeaways according to you?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### Would you use this?  If so, how/where would you use this?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### What problems remain and what are the next steps?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+### Experience using the LLM
+
+_Describe your process for using the LLM.  How did the LLM perform?_
+ 
+#### Errors and limitations of the LLM 
+
+_Where did it fall short or make mistakes?_

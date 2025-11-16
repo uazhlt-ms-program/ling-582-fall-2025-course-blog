@@ -1,0 +1,90 @@
+---
+title: "Sequnce Modeling for class Competition"
+slug: "/sydneybess/class-competition"
+date: 2025-11-05
+author: Sydney B
+description: "My Entry using Sequence modeling"
+tags:
+  - class competition
+---
+
+
+<table>
+  <caption>
+    Class Competition Info
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>Leaderboard score</b></th>
+    <td>70.134</td>
+  </tr>
+  <tr>
+    <th><b>Leaderboard team name</b></th>
+    <td>n/a</td>
+  </tr>
+  <tr>
+    <th><b>Kaggle username</b></th>
+    <td>sydneybess</td>
+  </tr>
+  <tr>
+    <th><b>Code Repository URL</b></th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-bess-days</td>
+  </tr>
+</tbody>
+</table>
+
+
+## Task summary
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
+
+The goal of this task is to see if two texts are by the same or different authors.  First task was to examine the datasets and read them into a dataframe.
+
+The first thing I tried was to find cosine similarity, but that performed awfully. I was going to try word embeddings but after looking at the data, it wasn't necesarily the _words_ that made them same authors, but other features.
+
+So, to be brief and not give away my competitive edge 😏 I ended up following some guides from HuggingFace to run a Sequence Classifier model and using Transformer tokenizers to encode the text. 
+
+I chose Sequence Classifier because because a sequence2sequence based model is more effective then logistic regression and uses attention mechanisms to better find the important features to tell the differences.
+
+In terms of tokenizers, I chose my specific tokenizer I did because it is considered leading in tokenizers and was suggested for text classification.
+
+My next move will be to add more augmented data to better train the model and mess around with parameters and maybe different pre-trained models.
+
+
+
+
+
+
+
+
+## Exploratory data analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+
+## Approach
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
+
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+
+## Future Improvements
+
+_Describe how you might best improve your approach_
