@@ -1,9 +1,9 @@
 ---
-title: "Feature Engineering and Stylometry"
+title: "Feature Engineering"
 slug: "/sydneybess/class-competition"
 date: 2025-11-05
 author: Sydney B
-description: "To be decided"
+description: "My Entry"
 tags:
   - class competition
 ---
@@ -22,19 +22,19 @@ tags:
 <tbody>
   <tr>
     <th><b>Leaderboard score</b></th>
-    <td>???</td>
+    <td>70.134</td>
   </tr>
   <tr>
     <th><b>Leaderboard team name</b></th>
-    <td>???</td>
+    <td>n/a</td>
   </tr>
   <tr>
     <th><b>Kaggle username</b></th>
-    <td>???</td>
+    <td>sydneybess</td>
   </tr>
   <tr>
     <th><b>Code Repository URL</b></th>
-    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-???</td>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-bess-days</td>
   </tr>
 </tbody>
 </table>
@@ -43,6 +43,21 @@ tags:
 ## Task summary
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
+
+The goal of this task is to see if two texts are by the same or different authors.  First task was to examine the datasets and read them into a dataframe.
+
+The first thing I tried was to find cosine similarity, but that performed awfully. I was going to try word embeddings but after looking at the data, it wasn't necesarily the _words_ that made them same authors, but other features.
+
+So, to be brief and not give away my competitive edge 😏 I ended up following some guides from HuggingFace to run a Sequence Classifier model and using Transformer tokenizers to encode the text.
+
+My next move will be to add more augmented data to better train the model and mess around with parameters and maybe different pre-trained models.
+
+
+
+
+
+
+
 
 ## Exploratory data analysis
 
