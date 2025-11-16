@@ -1,0 +1,80 @@
+---
+title: "My approach to the class competition"
+slug: "/krishavardhni/class-competition"
+date: 2025-11-10
+author: Krisha Vardhni
+description: "My approach first splits each text into two spans and extracts features, along with TF-IDF word and character n-gram similarities 
+(cosine and Euclidean), which are used to train Logistic Regression and XGBoost models."
+tags:
+  - class competition
+---
+
+
+<table>
+  <caption>
+    Class Competition Info
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>Leaderboard score</b></th>
+    <td>0.57775</td>
+  </tr>
+  <tr>
+    <th><b>Leaderboard team name</b></th>
+    <td>Krisha Mahesh</td>
+  </tr>
+  <tr>
+    <th><b>Kaggle username</b></th>
+    <td>krishamahesh</td>
+  </tr>
+  <tr>
+    <th><b>Code Repository URL</b></th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-KrishaVM</td>
+  </tr>
+</tbody>
+</table>
+
+
+## Task summary
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
+
+## Exploratory data analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+
+## Approach
+
+Draft approach:
+My approach to the problem was I split the text into 2 spans using the [SNIPPET] delimiter
+and then I extracted few features which would help with similarity matching like punctuation usage, stopword ratios, vocabulary overlap. I then computed the TF-IDF word and 
+characters n-gram representations using this I computed the cosine similarity and euclidean distance
+for both a and b span texts. These TF-IDF values are given as inputs to my machine learning models. I experimented with Logistic Regression and XGBoost models.
+For the final submission I plan on enhancing this classification by using deep learning models like LSTM and transformer based architectures. If needed also use hyperparameter tuning."
+
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
+
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+
+## Future Improvements
+
+_Describe how you might best improve your approach_
