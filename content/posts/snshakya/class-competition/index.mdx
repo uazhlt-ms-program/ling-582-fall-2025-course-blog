@@ -1,9 +1,9 @@
 ---
 title: "EXAMPLE: My clever approach to the class-wide shared task"
 slug: "/snshakya/class-competition"
-date: 2025-10-31
+date: 2025-11-15
 author: Shreya Nupur Shakya
-description: "TBD"
+description: "Using Feature Engineering + SVM to Detect Same Authors"
 tags:
   - class competition
 ---
@@ -22,11 +22,11 @@ tags:
 <tbody>
   <tr>
     <th><b>Leaderboard score</b></th>
-    <td>???</td>
+    <td>2</td>
   </tr>
   <tr>
     <th><b>Leaderboard team name</b></th>
-    <td>???</td>
+    <td>Shreya Nupur Shakya</td>
   </tr>
   <tr>
     <th><b>Kaggle username</b></th>
@@ -50,7 +50,7 @@ _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/cl
 
 ## Approach
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
+I started with a simple logistic regression model using only character TF-IDF cosine similarity. To improve performance, I added word TF-IDF similarity, Jaccard token overlap, and a set of writing features (token length, type–token ratio, punctuation ratio, etc.), encoded as pairwise absolute differences and ratios. This achieved ~0.59. I then replaced logistic regression with a Linear SVM . This feature-engineered SVM approach achieved a  higher macro-F1 (~0.63) on Kaggle.
 
 ## Results
 
