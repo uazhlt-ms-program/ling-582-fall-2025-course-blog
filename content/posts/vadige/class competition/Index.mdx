@@ -1,0 +1,54 @@
+# Class Competition — Initial Draft Summary  
+**Student:** Hari Chandana Vadige  
+**Team:** Data Minds  
+---
+
+## Task Summary
+The goal of the LING 582 class competition is to determine whether two text spans, separated by the token `[SNIPPET]`, were written by the **same author (label = 1)** or by **different authors (label = 0)**.  
+This is a **binary classification** task based on authorship identification and stylometric analysis.
+
+The dataset includes:
+- **train.csv** — labeled training set  
+- **test.csv** — unlabeled test set  
+- **sample_submission.csv** — required submission format  
+
+Each row contains three fields:  
+- **ID** – unique identifier  
+- **TEXT** – the combined text spans  
+- **LABEL** – (0 or 1, train only)
+
+---
+
+## Approach (Initial Baseline)
+For the initial phase, I created a simple baseline model using a **Kaggle Notebook**.  
+This allowed reproducible training and easy file generation.
+
+### Steps performed:
+1. **Uploaded the dataset** (train.csv and test.csv) to Kaggle.  
+2. Loaded the data using pandas.  
+3. Used **TF–IDF vectorization** to convert text into numerical features:  
+   - **word n-grams:** 1–2  
+   - **character n-grams:** 3–5  
+4. Trained a **Logistic Regression classifier** with `class_weight="balanced"`.  
+5. Evaluated the model using a train/validation split to check macro-F1.  
+6. Re-trained on full training data and generated predictions for the test set.  
+7. Exported predictions as `submission.csv` from Kaggle.
+
+This formed our first working submission for the leaderboard.
+
+---
+
+## Leaderboard Submission
+- **Submission name:** `DataMinds`  
+- File created through Kaggle and uploaded successfully  
+- Evaluated using **Macro-F1** on the hidden test labels  
+
+---
+
+## Code Repository
+All code for our group is stored in the required GitHub Classroom repository:  
+**https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-Chandana3940**
+
+This repository uses the assignment template provided by the course.
+
+---
