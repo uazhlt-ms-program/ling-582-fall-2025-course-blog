@@ -1,0 +1,76 @@
+---
+title: "Did they write it or did they not?"
+slug: "/mgatto/class-competition"
+date: 2025-11-07
+author: Michael Gatto
+description: "My approach towards attributing authorship of a collection of document to a single author."
+tags:
+- class competition
+---
+
+For the initial leaderboard submission, I used both unigram and bigram models using Logistic Regression. I used SpaCy for tokenizing, opting not to rely on Scikit-Learn's built-in tokenizing. I stripped punctuation and stop words at first. However, for Authorship Attribution, perhaps the patterns of punctuation are a useful feature, as well as frequency of stop word usage.
+
+They performed rather poorly, coming in under the weighted baseline.
+
+I believe that word-order and sentence structure are in fact important for author attribution as the above experiment implies. Thus, I hypothesize that a RNN with a long-memory will perform better. Because I believe long memories are important here, CNNs are not appropriate for this specific type of classification tasks.
+
+<table>
+<caption>
+Class Competition Info
+</caption>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th><b>Leaderboard score</b></th>
+<td>0.48873</td>
+</tr>
+<tr>
+<th><b>Leaderboard team name</b></th>
+<td>MichaelOmarGatto</td>
+</tr>
+<tr>
+<th><b>Kaggle username</b></th>
+<td>MichaelOmarGatto</td>
+</tr>
+<tr>
+<th><b>Code Repository URL</b></th>
+<td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-mgatto</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+## Task summary
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/ #task-summary)_
+
+## Exploratory data analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/ #exploratory-data-analysis)_
+
+## Approach
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/ #approach)_
+
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/ #results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/ #error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/        #reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+## Future Improvements
+
+_Describe how you might best improve your approach_
+-->
