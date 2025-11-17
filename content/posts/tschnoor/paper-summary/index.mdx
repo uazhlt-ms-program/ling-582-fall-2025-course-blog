@@ -1,7 +1,7 @@
 ---
 title: "A neural speech decoding framework leveraging deep learning and speech synthesis"
 slug: "/tschnoor/paper-summary"
-date: 2023-11-10
+date: 2025-11-16
 author: Tyler Schnoor 
 description: "My incredible paper summary ..."
 tags:
@@ -11,7 +11,7 @@ tags:
 
 ## Citation
 
-_Replace this text with a complete citation_
+Chen, X., Wang, R., Khalilian-Gourtani, A. et al. A neural speech decoding framework leveraging deep learning and speech synthesis. Nat Mach Intell 6, 467–480 (2024). https://doi.org/10.1038/s42256-024-00824-8
 
 <table>
   <caption>
@@ -26,39 +26,46 @@ _Replace this text with a complete citation_
 <tbody>
   <tr>
     <td><b>Paper</b></td>
-    <td>???</td>
+    <td>A neural speech decoding framework leveraging deep learning and speech synthesis</td>
   </tr>
   <tr>
     <td><b>Authors</b></td>
-    <td>???</td>
+    <td>Xupeng Chen, Ran Wang, Amirhossein Khalilian-Gourtani, Leyao Yu, Patricia Dugan, Daniel Friedman, Werner Doyle, Orrin Devinsky, Yao Wang & Adeen Flinker</td>
   </tr>
   <tr>
     <td><b>Year published</b></td>
-    <td>???</td>
+    <td>2024</td>
   </tr>
   <tr>
     <td><b>Venue</b></td>
-    <td>???</td>
+    <td>Nature Machine Intelligence</td>
   </tr>
   <tr>
     <td><b>Paper URL</b></td>
-    <td>???</td>
+    <td>https://doi.org/10.1038/s42256-024-00824-8</td>
   </tr>
   <tr>
     <td><b>Code URL</b></td>
-    <td>???</td>
+    <td>https://github.com/flinkerlab/neural_speech_decoding</td>
   </tr>
 </tbody>
 </table>
 
 ## Description
 
-_In your own words, what is this paper about?_
+The aim of this paper is to restore real time speech communication in patients with a neural prosthesis that decodes electrocorticography (ECoG) signals. Specifically, the methods proposed are suitable for patients who have a disorder that affects speech motor control but leaves the language centers of the brain intact. The methodology proposed by Chen et al. uses electrical signals collected from patients undergoing brain surgery. Patients are asked to repeat words while cortical activity is recorded. The authors test multiple architectures for decoding these signals into parameters for a speech synthesizer, finding the ResNet architecture to perform best. They process the high gamma component of the ECoG signals into windows, but only include current and previous context to inform the network's predictions. This is done to emulate a practical, real time application where it is impossible to use future information to make a prediction. The ECoG decoder network outputs parameters for a speech synthesizer, which is designed to function similarly to a vocoder (i.e., source and filter components are separated and then recombined to produce a pressure waveform). The methodology used in this study is advantageous and novel in the following ways:
+1. It uses causal operations which can be applied to create real time speech restoration neural prostheses
+2. It applies the ResNet architecture (which is commonly used for image processing) to ECoG signals for the purpose of decoding to speech parameters
+3. It has the model predict speech synthesis parameters that preserve talker identity and other extralinguistic characteristics
+4. It was able to successfully decode speech parameters from both left and right hemisphere information
 
 ## Motivation
 
-_Why did you select this paper?_
-< !-- NOTE: don't use an LLM to generate this! 🙃 -->
+The first reason I selected this paper is because it is relevant to my research program. In my opinion, it represents a gold standard in the area, providing a method for real-time speech restoration that performs well and is relatively interpretable compared to other neural methods.
+
+I also chose this paper because it is relevant to my course project proposal. The data that I plan to use in my project was collected by the cited authors for use in this study. They also describe the effectiveness of several architectures, the best-performing of which I plan to use in my project. Thus, I chose to summarize this paper in order to gain more exposure to the authors' work.
+
+Finally, this paper is relevant to the field of statistical natural language processing. It was published recently, uses network architectures that were developed relatively recently, and proposes a novel approach to a complex and interesting task.
 
 ## LLM
 
