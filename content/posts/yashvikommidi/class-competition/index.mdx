@@ -3,10 +3,7 @@ title: "My approach to the class-wide shared task using DistilBERT"
 slug: "/yashvikommidi/class-competition"
 date: 2025-11-16
 author: Yashvi Kommidi
-description: "Here I have split the dataset into 85/15 as training and validation sets while maintaining the class balance, and then converting into numerical tokens that the DistilBERT can process. 
-To handle the class imbalance, I have done computing the class weights, to make the model pay more attention to the minority class during training, Here I have used the DistilBERT, a lightweight transformer. 
-The model I have built fine tunes a pre-trained DistilBERT model for 5 epochs using AdamW optimizer with learning rate scheduling, which automatically tracks and saves the best- performing model based on the macro F1-score. 
-At the end, after training, it loads the best saved model with highest F1score and uses it to generate predictions on test data."
+description: "My approach is solving the class-wide shared task using DistilBERT and getting the best model saved "
 tags:
   - class competition
 ---
@@ -41,6 +38,15 @@ tags:
   </tr>
 </tbody>
 </table>
+
+## Descritpion 
+
+Here I have split the dataset into 85/15 as training and validation sets while maintaining the class balance, and then converting into numerical tokens that the DistilBERT can process. 
+To handle the class imbalance, I have done computing the class weights, to make the model pay more attention to the minority class during training, Here I have used the DistilBERT, a lightweight transformer. 
+The model I have built fine tunes a pre-trained DistilBERT model for 5 epochs using AdamW optimizer with learning rate scheduling, which automatically tracks and saves the best- performing model based on the macro F1-score. 
+At the end, after training, it loads the best saved model with highest F1score and uses it to generate predictions on test data.
+
+##Approach
 
 I have tried using BERT, but the runtime was higher and my system was not handling at this moment, so I have choosen DistilBERT as its smaller and faster than BERT while maintaining the strong performance. 
 
