@@ -1,9 +1,9 @@
 ---
 title: "EXAMPLE: My Paper Summary"
-slug: "/hahnpowell/paper-summary"
-date: 2023-10-31
-author: Gus Hahn-Powell
-description: "My incredible paper summary ..."
+slug: "/bharathcherukuru/paper-summary"
+date: 2023-11-15
+author: Bharath Cherukuru
+description: "This paper is about 'Stance Reasoner: Zero-Shot Stance Detection on Social Media with Explicit Reasoning'"
 tags:
   - paper summary
 ---
@@ -11,8 +11,26 @@ tags:
 
 ## Citation
 
-_Replace this text with a complete citation_
-
+@inproceedings{taranukhin-etal-2024-stance,
+    title = "Stance Reasoner: Zero-Shot Stance Detection on Social Media with Explicit Reasoning",
+    author = "Taranukhin, Maksym  and
+      Shwartz, Vered  and
+      Milios, Evangelos",
+    editor = "Calzolari, Nicoletta  and
+      Kan, Min-Yen  and
+      Hoste, Veronique  and
+      Lenci, Alessandro  and
+      Sakti, Sakriani  and
+      Xue, Nianwen",
+    booktitle = "Proceedings of the 2024 Joint International Conference on Computational Linguistics, Language Resources and Evaluation (LREC-COLING 2024)",
+    month = may,
+    year = "2024",
+    address = "Torino, Italia",
+    publisher = "ELRA and ICCL",
+    url = "https://aclanthology.org/2024.lrec-main.1326/",
+    pages = "15257--15272",
+    abstract = "Social media platforms are rich sources of opinionated content. Stance detection allows the automatic extraction of users' opinions on various topics from such content. We focus on zero-shot stance detection, where the model{'}s success relies on (a) having knowledge about the target topic; and (b) learning general reasoning strategies that can be employed for new topics. We present Stance Reasoner, an approach to zero-shot stance detection on social media that leverages explicit reasoning over background knowledge to guide the model{'}s inference about the document{'}s stance on a target. Specifically, our method uses a pre-trained language model as a source of world knowledge, with the chain-of-thought in-context learning approach to generate intermediate reasoning steps. Stance Reasoner outperforms the current state-of-the-art models on 3 Twitter datasets, including fully supervised models. It can better generalize across targets, while at the same time providing explicit and interpretable explanations for its predictions."
+}
 <table>
   <caption>
     Citation summary
@@ -26,39 +44,40 @@ _Replace this text with a complete citation_
 <tbody>
   <tr>
     <td><b>Paper</b></td>
-    <td>???</td>
+    <td>Stance Reasoner: Zero-Shot Stance Detection on Social Media with Explicit Reasoning</td>
   </tr>
   <tr>
     <td><b>Authors</b></td>
-    <td>???</td>
+    <td>Maksym Taranukhin,Vered Shwartz,Evangelos Milios</td>
   </tr>
   <tr>
     <td><b>Year published</b></td>
-    <td>???</td>
+    <td>2024</td>
   </tr>
   <tr>
     <td><b>Venue</b></td>
-    <td>???</td>
+    <td>LREC-COLING 2024</td>
   </tr>
   <tr>
     <td><b>Paper URL</b></td>
-    <td>???</td>
+    <td>https://aclanthology.org/2024.lrec-main.1326/</td>
   </tr>
   <tr>
     <td><b>Code URL</b></td>
-    <td>???</td>
+    <td>https://github.com/acl-org/acl-anthology.git</td>
   </tr>
 </tbody>
 </table>
 
 ## Description
 
-_In your own words, what is this paper about?_
+This paper describes a technique known as Stance Reasoner, which seeks to understand people's views in social media communications, specifically whether they are neutral, in favor of, or against an issue.   The approach is zero-shot, which implies it can handle novel topics without any training examples, as opposed to relying on large labeled datasets.   The fundamental idea is to explain why a post takes a specific perspective utilizing a reasoning process within a language model.   The authors test this strategy on a number of Twitter datasets and show how explicit reasoning enhances and clarifies the model's predictions.
 
 ## Motivation
 
-_Why did you select this paper?_
-< !-- NOTE: don't use an LLM to generate this! 🙃 -->
+This work presents a technique called Stance Reasoner, which aims to comprehend people's ideas in social media messages, particularly whether they are neutral, in favour of, or against an issue. 
+The method operates in a zeroshot manner, which means it can handle novel subjects without any training examples, as opposed to depending on massive labelled datasets. 
+The main concept is to explain why a post takes a certain position by using a reasoning process within a language model.  Using a variety of Twitter datasets, the authors evaluate this approach and demonstrate how explicit reasoning improves and clarifies the model's predictions.
 
 ## LLM
 
