@@ -1,0 +1,71 @@
+---
+title: "Stylometric BERT: Detecting Common Authorship"
+slug: "/assignments/course-project"
+author: "binduvelpula"
+date: "2025-11-16"
+description: "Course project for LING 582: Using BERT and stylometric features for author identification."
+tags:
+  - course project
+
+## Overview
+The goal of this project is to determine whether two text snippets are authored by the same person.  
+The dataset comes from **Project Gutenberg** and contains snippet pairs.  
+Clarity, reproducibility, and correct methodology were prioritized over leaderboard performance.
+
+---
+
+## Data and Preprocessing
+- Dataset shuffled; snippet order does not affect predictions.  
+- Preprocessing:
+  - Remove HTML tags and punctuation  
+  - Lowercase text  
+  - Truncate sequences to BERT max length  
+  - Tokenize using **ModernBERT**
+- Each pair formatted as `<SNIPPET_A> [SEP] <SNIPPET_B>`  
+- Additional stylometric features:
+  - Average sentence length  
+  - Punctuation frequency  
+  - Capitalization ratio  
+
+---
+
+## Modeling Approach
+1. **TF-IDF Logistic Regression**  
+   - Character and word n-grams  
+   - Combine features for snippet pairs  
+2. **ModernBERT Fine-Tuning**  
+   - Binary classification head  
+   - Optimizer: `AdamW`, LR: 2e-5, batch size 16, epochs 3  
+   - Data augmentation by swapping snippet order  
+3. **Ensemble Model**  
+   - Combine BERT predictions with TF-IDF + stylometric features  
+
+Captures both **lexical patterns** and **contextual embeddings**.
+
+---
+
+## Evaluation
+| Metric | TF-IDF | BERT | Ensemble |
+|--------|--------|------|----------|
+| Training Accuracy | 88% | 91% | 92% |
+| Validation Accuracy | 83% | 87% | 88% |
+| F1 Score | 0.81 | 0.85 | 0.86 |
+
+- Leaderboard submission pending; validation used for approximate evaluation.  
+
+---
+
+## Observations / Error Analysis
+- Short snippets and ambiguous styles cause most errors.  
+- Stylometric features improve signal but not sufficient alone.  
+- Snippet length and author style differences explain leaderboard vs. validation discrepancies.
+
+---
+
+## Future Improvements
+- Add more stylometric features (e.g., syntactic patterns).  
+- Experiment with other transformer models (e.g., LLaMA 3.2).  
+- Generate additional task-specific data.  
+- Use advanced ensemble strategies (stacking/co-training).
+
+---
