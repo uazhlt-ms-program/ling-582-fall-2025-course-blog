@@ -2,7 +2,7 @@
 title: "Stylometric BERT: Detecting Common Authorship"
 slug: "/binduvelpula/class-competition"
 author: "binduvelpula"
-date: 2025-11-09
+date: "2025-11-09"
 description: "Summary of my approach to the LING 582 class competition on author identification."
 tags:
   - class competition
@@ -32,14 +32,17 @@ Leaderboard performance was secondary; clarity and reproducibility of code were 
 ---
 
 ## Modeling Approach
-flowchart LR
-A[Input Snippet Pair] --> B[TF-IDF Features]
-A --> C[BERT Tokenization & Embedding]
-B --> D[TF-IDF Logistic Regression]
-C --> E[BERT Fine-Tuning]
-D --> F[Ensemble Averaging]
-E --> F[Ensemble Averaging]
-F --> G[Final Prediction]
+I experimented with multiple models:
+1. **TF-IDF Logistic Regression**  
+   - Character and word n-grams  
+   - Features computed separately for each snippet, then combined  
+2. **ModernBERT Fine-Tuning**  
+   - Binary classification head  
+   - Optimizer: `AdamW`, LR: `2e-5`, batch size: 16, epochs: 3  
+   - Data augmentation by swapping snippet order  
+3. **Ensemble Model**  
+   - Combined BERT predictions with TF-IDF + stylometric features  
+   - Averaged probabilities for final decision  
 
 This approach allowed the model to capture both **lexical patterns** (via TF-IDF) and **contextual representations** (via BERT).
 
