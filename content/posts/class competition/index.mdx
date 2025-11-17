@@ -1,71 +1,61 @@
 ---
-title: "Stylometric BERT: Detecting Common Authorship"
-slug: "/assignments/course-project"
-author: "PranithaChilvari"
-date: "2025-11-16"
-description: "Course project for LING 582: Using BERT and stylometric features for author identification."
-tags:
-  - course project
----
-## Overview
-The goal of this project is to determine whether two text snippets are authored by the same person.  
-The dataset comes from **Project Gutenberg** and contains snippet pairs.  
-Clarity, reproducibility, and correct methodology were prioritized over leaderboard performance.
-
+title: "Class Competition – Initial Draft Report (Data Minds)"
+slug: "/pranithachilvari/class-competition"
+date: 2025-11-15
+author: "Pranitha Chilvari"
+description: "Baseline model report for the authorship classification task, summarizing our initial TF–IDF approach, Kaggle workflow, and first leaderboard submission."
+draft: false
 ---
 
-## Data and Preprocessing
-- Dataset shuffled; snippet order does not affect predictions.  
-- Preprocessing:
-  - Remove HTML tags and punctuation  
-  - Lowercase text  
-  - Truncate sequences to BERT max length  
-  - Tokenize using **ModernBERT**
-- Each pair formatted as `<SNIPPET_A> [SEP] <SNIPPET_B>`  
-- Additional stylometric features:
-  - Average sentence length  
-  - Punctuation frequency  
-  - Capitalization ratio  
+# Class Competition — Initial Draft Report  
+*Student:* Pranitha Chilvari 
+*Team:* Data Minds  
 
 ---
 
-## Modeling Approach
-1. **TF-IDF Logistic Regression**  
-   - Character and word n-grams  
-   - Combine features for snippet pairs  
-2. **ModernBERT Fine-Tuning**  
-   - Binary classification head  
-   - Optimizer: `AdamW`, LR: 2e-5, batch size 16, epochs 3  
-   - Data augmentation by swapping snippet order  
-3. **Ensemble Model**  
-   - Combine BERT predictions with TF-IDF + stylometric features  
+## Task Overview
+The shared task for this competition involves examining two text sections joined by the token [SNIPPET] and predicting whether they were written by the *same author (1)* or by *different authors (0)*.  
+This problem is treated as a *binary classification* challenge focused on authorship attribution.
 
-Captures both **lexical patterns** and **contextual embeddings**.
+The dataset includes three files:
+- train.csv — labeled examples  
+- test.csv — unlabeled evaluation set  
+- sample_submission.csv — output template to follow  
+
+Each entry contains an *ID, the combined **TEXT, and a **LABEL* in the training data.
 
 ---
 
-## Evaluation
-| Metric | TF-IDF | BERT | Ensemble |
-|--------|--------|------|----------|
-| Training Accuracy | 88% | 91% | 92% |
-| Validation Accuracy | 83% | 87% | 88% |
-| F1 Score | 0.81 | 0.85 | 0.86 |
+## Team Baseline Approach
+Our team worked together to build an initial baseline system.  
+The model training and prediction process was carried out in a *shared Kaggle notebook*, which allowed easy upload of data and reproducible execution.
 
-- Leaderboard submission pending; validation used for approximate evaluation.  
+### Key steps in our baseline:
+1. Uploaded all CSV files to Kaggle.  
+2. Loaded the data using pandas.  
+3. Developed features using *TF–IDF*, applying:  
+   - word n-grams (1–2)  
+   - character n-grams (3–5)  
+4. Trained a *Logistic Regression* classifier with balanced class weights.  
+5. Performed a small validation split to estimate performance.  
+6. Retrained the model using the complete training data.  
+7. Generated predictions for the test data and saved them as submission.csv.
+
+This file was then used for our first submission to the leaderboard.
 
 ---
 
-## Observations / Error Analysis
-- Short snippets and ambiguous styles cause most errors.  
-- Stylometric features improve signal but not sufficient alone.  
-- Snippet length and author style differences explain leaderboard vs. validation discrepancies.
+## Leaderboard Submission
+- *Submission name:* DataMinds_Baseline_v1  
+- Submitted successfully through the competition portal  
+- Evaluation metric: *Macro-F1*  
 
 ---
 
-## Future Improvements
-- Add more stylometric features (e.g., syntactic patterns).  
-- Experiment with other transformer models (e.g., LLaMA 3.2).  
-- Generate additional task-specific data.  
-- Use advanced ensemble strategies (stacking/co-training).
+## Code Repository
+All project code is stored in our shared team repository, created through GitHub Classroom:  
+**https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-Chandana3940**
+
+This is the official repository required by the course.
 
 ---
