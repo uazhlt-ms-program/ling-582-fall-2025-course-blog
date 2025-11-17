@@ -1,189 +1,91 @@
 ---
-title: "Lexical Semantic Change"
-slug: "/joshdunlapc/paper-summary"
-date: 2025-11-11
-author: Josh Dunlap
-description: "..."
-tags:
-  - paper summary
+title: "Paper Summary"
+slug: "/assignments/paper-summary"
 ---
 
+![Types of Scientific Papers](https://imgs.xkcd.com/comics/types_of_scientific_paper.png)
+^ See https://xkcd.com/2456/
 
-## Citation
+In this assignment, you will select a research paper related to NLP and/or DL and provide an easy-to-digest summary ([see the README in this repo for details on how to modify this site](https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-blog#1-paper-summary)).
 
-<table>
-  <caption>
-    Citation summary
-  </caption>
-  <thead>
-  <tr>
-    <th></th>
-    <th></th>
-  </tr>
-  </thead>
-<tbody>
-  <tr>
-    <td><b>Paper</b></td>
-    <td>Lexical Semantic Change through Large Language Models: a
-Survey</td>
-  </tr>
-  <tr>
-    <td><b>Authors</b></td>
-    <td>Francesco Periti and Stefano Montanelli</td>
-  </tr>
-  <tr>
-    <td><b>Year published</b></td>
-    <td>2024</td>
-  </tr>
-  <tr>
-    <td><b>Venue</b></td>
-    <td>ACM Computing Surveys</td>
-  </tr>
-  <tr>
-    <td><b>Paper URL</b></td>
-    <td>https://dl.acm.org/doi/10.1145/3672393</td>
-  </tr>
-  <tr>
-    <td><b>Code URL</b></td>
-    <td>N/A</td>
-  </tr>
-</tbody>
-</table>
-
-## Description
-
-_This paper is a survey of existing research on using Large Language Models for studying Lexical Semantic Change (LSC). Lexical Semantic Change is the shift in meaning of a given word over time, and the paper outlines various approaches that have been developed to use LLMs to measure this change. Additionally, the paper groups existing approaches for using LLMs on LSC problems based on what type of linguistic change is being detected, as well as by form-based, sense-based, and ensemble-based approaches._
-
-## Motivation
-
-_I selected this paper because I am using NLP techniques to study measurable cultural shifts in language over time and I am interested in trying to determine if one of the methods described in this survey will be suitable for my research._
+As part of this assignment, you will select an open source/open weight LLM to assist with this task. One LLM model suggestion is [SmolLM3 3B](https://huggingface.co/HuggingFaceTB/SmolLM3-3B) and the [Open WebUI](https://openwebui.com), [Jan UI](https://jan.ai/docs/tools/retrieval), (or [huggingchat](https://huggingface.co/chat/); see also [this post about tools for HuggingChat](https://huggingface.co/blog/community-tools)), or a multimodal VLM such as [SmolVLM2-2.2B-Instruct](https://huggingface.co/HuggingFaceTB/SmolVLM2-2.2B-Instruct).
 
 
-## LLM
+<figure>
+  <img src="https://public.parsertongue.com/courses/snlp-2/images/jan-example-nlp-paper-summary.png" alt="Jan UI" width="100%"/>
+  <figcaption>Jan UI using a custom system prompt and <a href="https://huggingface.co/meta-llama/Llama-3.2-3B-Instruct">Llama 3.2 3B Instruct Q8</a>.  Try to experiment with different system prompts to help achieve the appropriate level of detail (elicit supporting quotes, etc.).</figcaption>
+</figure>
 
-<table>
-  <caption>
-    LLM model summary
-  </caption>
-  <thead>
-  <tr>
-    <th></th>
-    <th></th>
-  </tr>
-  </thead>
-<tbody>
-  <tr>
-    <th><b>LLM model</b></th>
-    <td>???</td>
-  </tr>
-  <tr>
-    <th><b>LLM model version</b></th>
-    <td>???</td>
-  </tr>
-  <tr>
-    <th><b>Model/service URL</b></th>
-    <td>???</td>
-  </tr>
-  <tr>
-    <th><b>Why this model?</b></th>
-    <td>???</td>
-  </tr>
-</tbody>
-</table>
+In addition to answering the provided questions and including the prompts you used for each, you will also be expected to describe your experience using your selected LLM and **identify limitations or errors that it produced**.
+
+- [rubrics](/assignments/paper-summary/rubric)
+
+# Questions
+
+Here are some questions your summary should answer:
+
+- what are the authors proposing?
+- what is the motivation for the work?
+- what is the approach or innovation?
+- what are the results and how do they compare with competing approaches?
+  - is the comparison fair?
+- what are the takeaways according to the authors?
+- what are the takeaways according to you?
+- Would you use this?  If so, how/where would you use this?
+- what problems remain and what are the next steps?
 
 
-#### Description (LLM)
+# Where to look for papers
 
-_In the LLM's words, what is this paper about?_
+Here are few resources to peruse when looking for a paper
+- https://aclanthology.org
+- That site formerly known as Twitter
+- [Semantic Scholar](https://www.semanticscholar.org)
+  - search for a topic, sort by Date/Most Influential/etc
+- [ArXiv cs.CL](https://arxiv.org/list/cs.CL/recent)
+  - alternative interface: https://arxiv-sanity-lite.com/
+- [/r/machinelearning](https://www.reddit.com/r/machinelearning/)
 
-##### Prompt
+# Tips
 
-```markdown
-prompt here
-```
+When you first start reading research papers, it can be quite an intimidating process full of strange symbols and acronyms.  You may not have a deep familiarity of prior work on the topic, so some sections of the paper may not be immediately accessible.
 
-#### What are the authors proposing?
+Andrew Ng has some great tips on how to read a research paper (see 6:30-13:52):
 
-##### Prompt
+`youtube:  https://www.youtube.com/v/733m6qBH-jI&start=390s&end=830s`
 
-```markdown
-prompt here
-```
+### TL;DWatch
 
-#### What is the motivation for the work?
+Don't just read the paper from beginning to end.  Instead, he recommends "reading" the paper in multiple passes:
 
-##### Prompt
+- **Pass 1**: title + abstract + figures and captions
+- **Pass 2**: Careful read of abstract, intro, and conclusions
+   - review figures and captions
+   - skim the rest (feel free to skip the Related Work section at this stage)
+- **Pass 3**: Read the paper, but skip the math (at least for now)
+- **Pass 4**: Read the whole thing, but skip parts that don't make sense (at least for now)
 
-```markdown
-prompt here
-```
 
-#### What is the approach or innovation?
+## Additional tips
 
-##### Prompt
+- If you have a tablet, scribble your notes on the paper as you go (star key areas, circle points of confusion, and add notes to the margins)
+  - If you don't have a tablet, consider printing out the paper, so that you can take notes in context as you read
 
-```markdown
-prompt here
-```
 
-#### What are the results and how do they compare with competing approaches?
+# Examples of summaries
 
-##### Prompt
+**Attention is all you need** \cite{Vaswani2017AttentionIA}
 
-```markdown
-prompt here
-```
+`youtube: https://www.youtube.com/watch?v=iDulhoQ2pro`
 
-#### Is the comparison fair?
+@@bibliography@@
+@article{Vaswani2017AttentionIA,
+  title={Attention is All you Need},
+  author={Ashish Vaswani and Noam M. Shazeer and Niki Parmar and Jakob Uszkoreit and Llion Jones and Aidan N. Gomez and Lukasz Kaiser and Illia Polosukhin},
+  journal={ArXiv},
+  year={2017},
+  volume={abs/1706.03762}
+}
+@@bibliography@@
 
-##### Prompt
 
-```markdown
-prompt here
-```
-
-#### What are the takeaways according to the authors?
-
-##### Prompt
-
-```markdown
-prompt here
-```
-
-#### What are the takeaways according to you?
-
-##### Prompt
-
-```markdown
-prompt here
-```
-
-#### Would you use this?  If so, how/where would you use this?
-
-##### Prompt
-
-```markdown
-prompt here
-```
-
-##### Prompt
-
-```markdown
-prompt here
-```
-
-#### What problems remain and what are the next steps?
-
-##### Prompt
-
-```markdown
-prompt here
-```
-
-### Experience using the LLM
-
-_Describe your process for using the LLM.  How did the LLM perform?_
- 
-#### Errors and limitations of the LLM 
-
-_Where did it fall short or make mistakes?_
