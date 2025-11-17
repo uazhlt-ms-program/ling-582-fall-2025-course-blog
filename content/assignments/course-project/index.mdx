@@ -28,9 +28,6 @@ tags:
 </table>
 
 
-
-2. Prepare a blog-style summary of your approach and results ([see the README in this repo for details on how to modify this site](https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-blog#3-course-project-your-pick)).
-
 - [rubrics](/assignments/course-project/rubric)
 
 ## Broader Context
@@ -49,16 +46,19 @@ A question I’m left with is: if perhaps *the* major benefit to using an LLM is
 
 Compare the findings and suitability of employing static embeddings (as described in [these](https://arxiv.org/pdf/1605.09096) [two](https://aclanthology.org/D16-1229/) papers) for exploring diachronic change of “utopia” in contrast with dynamic embeddings (as described in [this paper](https://arxiv.org/pdf/2202.03612)).
 
+In many ways, then, the task here becomes a qualitative comparison of what each methodological approach—static embeddings on one hand, and dynamic or contextual embeddings on the other—actually affords for this specific research question about utopia. Because the word itself does not exhibit strong polysemy or colexification, the usual advertised advantage of LLM-based methods (that they can disentangle multiple distinct senses of a word) may not be the central factor. Instead, the comparison becomes more about their relative strengths in capturing subtle shifts in collocational patterns, connotations, and cultural framing. Static embeddings can provide a clear, interpretable picture of neighborhood changes across decades; dynamic embeddings might give more detailed insight into rhetorical or thematic patterns surrounding the word across individual contexts. The point of this proposal is not to decide in advance which is “better,” but to comparatively evaluate what each approach can or cannot reveal about a concept like utopia whose cultural meaning may shift even if its dictionary sense remains stable.
+Datasets. The ideal dataset for this project would be the Corpus of Historical American English (COHA), since it is explicitly designed for diachronic linguistic analysis, is balanced across genres, and has reliable decade-level metadata. In the event that I might not be able to access COHA, I intend to use the ProQuest Historical Newspapers Collections to which I have access through the U of A library—specifically The New York Times (1851–1936). This set is not as balanced as COHA, and it doesn't cover the decades I’m most interested in, but it have the advantage of rich cultural commentary in the format I hope to eventually work with (historical newspaper data). Finally, if neither of those proves feasible, I have a smaller, topic-specific, timestamped corpus downloaded locally that I can use as a fallback. It would limit the scope of the conclusions I can draw, but it would still allow me to test the two embedding approaches in a controlled way.
 
-## Requirements
+## Timeline.
+Week of 11/17/2025: Confirm dataset access (COHA, ProQuest, or fallback) and prepare texts; set up basic preprocessing and time-slicing.
 
-Minimally, your summary should include ...
 
-- names or aliases of any collaborators
-- a description of your project
-- a summary of your results
-- a summary of related work
-- a link to your code
-- instructions for reproducing your results
-- a proposal for future improvements
+Week of 11/24/2025: Run initial static embedding experiments across chosen time periods; generate preliminary neighbor lists and observe coarse semantic shifts.
+
+
+Week of 12/1/2025: Run dynamic/LLM-based embedding or contextual clustering experiments; compare findings qualitatively with the static results.
+
+
+Week of 12/7/2025 (deadline week): Synthesize results, write up comparison of methods, and finalize the argument about the feasibility of each approach for studying diachronic meaning change of “utopia.”
+
 
