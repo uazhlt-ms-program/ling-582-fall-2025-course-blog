@@ -1,0 +1,49 @@
+# Class Competition — Initial Draft Summary  
+*Student:* Pranitha Chilvari  
+*Team:* Data Minds  
+
+---
+
+## Task Overview
+The class competition focuses on deciding whether two text segments, combined using the marker [SNIPPET], are written by the *same author (1)* or by *different authors (0)*.  
+This is a binary authorship-identification problem, and each example includes:
+- *ID*  
+- *TEXT* (two spans merged together)  
+- *LABEL* (only in the training set)
+
+The dataset is provided in CSV format and includes train.csv, test.csv, and a sample_submission.csv template.
+
+---
+
+## Team Approach (Baseline)
+Our team built an initial baseline system together, and the model training was carried out in a shared Kaggle notebook environment.
+
+### Main steps taken:
+1. Uploaded the dataset files to Kaggle.  
+2. Loaded the data using pandas.  
+3. Preprocessed the text using a *TF–IDF vectorizer*, with both:
+   - word-level n-grams (1–2)  
+   - character-level n-grams (3–5)  
+4. Trained a *Logistic Regression* model with balanced class weights.  
+5. Verified performance through a small validation split.  
+6. Retrained on the full dataset and generated predictions for the test set.  
+7. Exported the predictions as submission.csv and submitted them to the leaderboard.
+
+This version serves as our team’s first valid submission.
+
+---
+
+## Leaderboard Submission
+- *Submission name:* DataMinds_Baseline_v1  
+- File created through our shared Kaggle workflow  
+- Evaluation metric: *Macro-F1*  
+
+---
+
+## Code Repository
+All project code is maintained in our team’s shared GitHub Classroom repository:  
+**https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-Chandana3940**
+
+This repository uses the required course template and contains the baseline implementation.
+
+---
