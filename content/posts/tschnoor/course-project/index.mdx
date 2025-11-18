@@ -1,0 +1,171 @@
+---
+title: "A machine learning approach to decoding ECoG signals for vowel classification"
+slug: "/tschnoor/course-project"
+date: 2025-11-16
+author: Tyler Schnoor
+description: "The aim of this project is to make an artificial neural network that takes electrocorticography signals as input and outputs a categorical vowel."
+tags:
+  - course project
+---
+
+<table>
+  <caption>
+    Course Project Info
+  </caption>
+<tbody>
+  <tr>
+    <th>Code Repository URL</th>
+  <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-ecog-speech-decoding</td>
+  </tr>
+  <tr>
+    <th>Demo URL (optional)</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Team name</th>
+    <td>ECoG Speech Decoding</td>
+  </tr>
+</tbody>
+</table>
+
+
+## Project description
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility).  Use subsections to organize components of the description._
+
+### Goals
+<i>Subsequent goals can only be achieved if the model achieves satisfactory performance after the first goal is finished. However, I believe that accomplishment of the first goal satisfies the demands of this course project.</i>
+1. The primary goal of this project is to train a simple neural network ECoG decoder that classifies signals into vowel categories.<br></br>
+   - A subgoal is to test model performance when trained on different data windows. Specifically, I plan to test a window that contains all information for a single vowel and a shorter, 25 ms window size.
+2. The secondary goal of this project is to conduct a contribution analysis of the electrodes from which cortical signals are obtained.
+3. The final goal is to examine whether the results of the contribution analysis can be explained by a theory of speech production that describes phonetic segments as resonance deflection patterns.
+
+The proposed procedure will be described in detail in the next section.
+
+### Project Overview
+#### Background
+As stated in the goals above, this project aims to make a neural network electrocorticography (ECoG) signal decoder that classifies vowels. ECoG signals are obtained by implanting hundreds of small electrodes deep within the brain to record electrical activity. This methodology has the potential to be useful in a variety of practical applications, particularly as a brain-computer interface. One area of interest is in restoring speech communication by decoding ECoG signals and using the decoded features to reconstruct an acoustic signal. Artificial neural networks are the current standard for ECoG decoding.
+
+The gold standard of speech restoration is real-time decoding and reconstruction so that the one can use their speech neuroprosthesis to communicate in a naturalistic way. The design of models and algorithms that can do this is made more difficult by the fact that little is known abou the representation of speech primitives in the brain. How does the brain use motor programs to encode discrete linguistic information into a continuous acoustic signal?
+
+It has been established that ECoG signals can provide practical benefits when used as inputs to brain-computer interfaces. However, I also believe that these signals may be useful for scientific investigation into spoken communication. More specifically, I believe they may provide information about how phonetic segments are represented in the brain.
+
+MAY ADD SHORT PARAGRAPH ABOUT PHONETIC SEGMENT REPRESENTATIONS (PHON. FEATURES, MOTOR PROGRAMS, RDP) JUSTIFYING METHOD OF ANALYSIS
+
+#### Procedure
+
+
+#### Scope
+This project is intended to be a small preliminary investigation that could lead to a more comprehensive study. Thus, I intend to set firm limits so that the scope of the study does not balloon beyond what would be appropriate for this course project. 
+
+The first limit I am setting is a limit on the training/testing data. I will only be using ECoG signals collected during the production of vowels in this study. This limit presents the network with an easier classification task and reduces the amount of time I need to spend segmenting, annotating, and extracting data from the continuous signals. I will begin by extracting data from only two vowels (/i/ and /u/) but if time allows, I may add additional categories (e.g., /a/). Although the annotation of additional vowels would certainly take more time, it is currently unknown whether the addition of more vowels will help or hinder the training process. Adding more categories may make the inference task more difficult, but would also provide more data from which the network can learn to generalize.
+
+I will also limit the architecture used in this project. The findings of [Chen et al. (2024)](https://doi.org/10.1038/s42256-024-00824-8) suggest that the ResNet architecture [(He et al., 2015)](https://openaccess.thecvf.com/content_cvpr_2016/html/He_Deep_Residual_Learning_CVPR_2016_paper.html) is effective for decoding ECoG signals. Although the methodology used in this study is different from that used by Chen et al., (real time speech restoration vs. classification), I hypothesize that the advantages offered by the architecture make it a good fit for this project. That being said, I may make smaller adjustments to the architecture used in the aforementioned paper (e.g., to the number of layers).
+
+The final restriction that I will place on this study is a restriction on the amount of analysis done on the network and inference results. I plan to only test a few different electrode groupings in the contribution analysis. I will also only do a brief qualitative examination of whether the contribution of electrodes can be explained by resonance targets.
+
+An important part of preventing the scope of this project from ballooning is my intention to build a "vertical slice" of the modeling process first, then adding complexity as time allows. The vertical slice will consist of a small training set of only two vowels, a minimal implementation of the ResNet architecture used by AUTHORS et al., and a surface-level analysis of classification accuracy. The goal is for this vertical slice to satisfy the requirements of the course rubric as the first priority.
+
+### (Rough) Timeline
+
+<table>
+  <thead>
+    <th>Week</th>
+    <th>Week End Date (Friday)</th>
+    <th>Tasks</th>
+    <th>Status</th>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>Nov. 14</td>
+      <td>
+        - [x] Get code repository set up <br></br>
+        - [x] Write project proposal in this markdown document <br></br>
+        - [x] Submit pull request with course project proposal by <b>Nov 17</b>
+      </td>
+      <td>Finished</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>Nov. 21</td>
+      <td>
+        - [ ] Finish data annotation <br></br>
+        - [ ] Extract full segments and save to files <br></br>
+        - [ ] Extract windowed segments and save to files <br></br>
+        - [ ] Establish vertical slice of ResNet modeling architecture <br></br>
+        - [ ] Train network using full vowel segments <br></br>
+        - [ ] Train network using windowed vowel segments <br></br>
+        - [ ] Work on blog post
+      </td>
+      <td>In-Progress</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>Nov. 28</td>
+      <td>
+        <i>Leaving this week somewhat open to adapt to whatever goes wrong in previous weeks.</i><br></br>
+        - [ ] Tweak architecture<br></br>
+        - [ ] Tweak input data (augmentation?)<br></br>
+        - [ ] Work on blog post
+      </td>
+      <td>Not Started</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>Dec. 1</td>
+      <td>
+        - [ ] Contribution analysis of electrode signals <br></br>
+        - [ ] Investigate whether electrode contributions can be accounted for by resonance deflections (only possible if network performs well) <br></br>
+        - [ ] Work on blog post
+      </td>
+      <td>Not Started</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>Dec. 8</td>
+      <td>
+        - [ ] Write up results<br></br>
+        - [ ] Write up limitations<br></br>
+        - [ ] Write up future directions<br></br>
+        - [ ] Submit pull request with complete course project by <b>Dec 7</b>
+      </td>
+      <td>Not Started</td>
+    </tr>
+  </tbody>
+</table>
+
+## Summary of individual contributions
+<table>
+  <thead>
+    <tr>
+      <th>Team member</th>
+      <th>Role/contributions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th><b>Tyler Schnoor</b></th>
+      <td>Everything</td>
+    </tr>
+  </tbody>
+</table>
+
+
+## Results
+
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+## Future improvements
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_

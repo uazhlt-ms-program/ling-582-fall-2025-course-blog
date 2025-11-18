@@ -1,0 +1,87 @@
+---
+title: "Stylometry Feature and BERT Ensemble Approach"
+slug: "/dcannella/class-competition"
+date: 2025-11-15
+author: Dani Cannella
+description: "My approach can be summarized as using an ensemble of spaCy, scikit-learn, and BERT"
+tags:
+  - class competition
+---
+
+
+<table>
+  <caption>
+    Class Competition Info
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>Leaderboard score</b></th>
+    <td>0.44804</td>
+  </tr>
+  <tr>
+    <th><b>Leaderboard name</b></th>
+    <td>Danielle Cannella</td>
+  </tr>
+  <tr>
+    <th><b>Kaggle username</b></th>
+    <td>daniellecannella</td>
+  </tr>
+  <tr>
+    <th><b>Code Repository URL</b></th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-Danikc8</td>
+  </tr>
+</tbody>
+</table>
+
+
+## Task summary
+
+The objective of this competition is to determine if two spans of text are written by the same author or not. Author identification is not provided and spans are delimited by [SNIPPET].
+
+## Exploratory data analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+
+## Approach
+
+I am using an ensemble approach with spaCy for stylometry feature extraction, scikit-learn for vectorizing the features and comparing the cosine similarity of the spans based on these features, and BERT. For my first submission, I am just starting with spaCy and scikit-learn before implementing BERT.  
+
+The test is preprocessed by splitting on [SNIPPET] so that each span can be evaluated separately.
+
+The features I am selecting for are:  
+* average word length
+* lexical richness
+* average sentence length
+* sentence length variability
+* POS distribution
+* punctuation ratio
+* capitalization ratio
+* digit frequency
+
+These are linguistic features that can often identify an author's writing style. They are far from comprehensive, however, and styles can overlap too much for this to be the best method of identifying authorship, which is reflected in my below-baseline accuracy score.
+
+Next, I will work on implementing BERT. 
+
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+
+## Future Improvements
+
+_Describe how you might best improve your approach_

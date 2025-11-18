@@ -1,0 +1,60 @@
+---
+title: "Class Competition – Initial Draft Summary (Data Minds)"
+slug: "/vadige/class-competition"
+date: 2025-11-16
+author: "Hari Chandana Vadige"
+description: "Initial baseline summary for the authorship-matching competition, including our team's Kaggle-based workflow, TF–IDF baseline model, and first leaderboard submission."
+---
+
+# Class Competition — Initial Draft Summary  
+**Student:** Hari Chandana Vadige  
+**Team:** Data Minds  
+
+---
+
+## Task Summary
+The purpose of this competition is to determine whether two text spans—joined using the special token `[SNIPPET]`—were written by the **same author (label = 1)** or by **different authors (label = 0)**.  
+This is a **binary classification** task related to authorship attribution and stylometry.
+
+The provided dataset includes:
+- **train.csv** — contains ID, TEXT, and LABEL  
+- **test.csv** — contains ID and TEXT  
+- **sample_submission.csv** — example output format  
+
+The `TEXT` field contains two spans merged into one string, where each training example includes the correct binary label.
+
+---
+
+## Approach (Baseline Model)
+For the initial draft stage, our team created a baseline system to generate a valid leaderboard submission.  
+I completed the implementation using a **Kaggle Notebook**, which allowed easy dataset upload, training, and reproducible inference.
+
+### Steps performed:
+1. Uploaded `train.csv` and `test.csv` to Kaggle.  
+2. Loaded the dataset using pandas.  
+3. Used **TF–IDF vectorization** with:
+   - word n-grams: (1, 2)  
+   - character n-grams: (3, 5)  
+4. Trained a **Logistic Regression** model with `class_weight="balanced"`.  
+5. Used a train/validation split to estimate macro-F1 performance.  
+6. Retrained on the full dataset and generated predictions for the test set.  
+7. Created `submission.csv` directly in Kaggle and downloaded it for leaderboard upload.
+
+This baseline served as our team's first valid submission.
+
+---
+
+## Leaderboard Submission
+- **Submission name:** `DataMinds`  
+- File generated through our Kaggle notebook workflow  
+- Evaluated using the **Macro-F1** metric on the hidden test labels  
+
+---
+
+## Code Repository
+All code for this project is maintained in our shared GitHub Classroom repository:  
+**https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-Chandana3940**
+
+This repository uses the standard course template and contains our baseline methods.
+
+---
