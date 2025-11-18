@@ -1,17 +1,57 @@
-# Course Project Proposal: Comparing Decoder-Only Transformers to a Supervised Baseline for English–Spanish Machine Translation
+---
+title: "Comparing Decoder-Only Transformers to a Supervised Baseline for English–Spanish Machine Translation"
+slug: "/pamelaangulo164/course-project"
+date: 2025-11-16
+author: pamelaangulo164
+description: "Performance of open-source decoder-only transformer language models compared to a supervised neural MT baseline."
+tags:
+  - course project
+---
+<table>
+  <caption>
+    For this project, I will investigate how well an open-source decoder-only transformer language model performs at an EN-SPA MT task compared to a supervised neural MT baseline.
+  </caption>
+<tbody>
+  <tr>
+    <th>Code Repository URL</th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-pamela-angulo</td>
+  </tr>
+  <tr>
+    <th>Demo URL (optional)</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Pamela Angulo Martinez</th>
+    <td></td>
+  </tr>
+</tbody>
+</table>
 
-## Overview
-
-For my course project, I will investigate how well open-source decoder-only transformer language models perform at English–Spanish machine translation compared to a supervised neural MT baseline.
-
-Concretely, I will:
+## Project description
+Comparing Decoder-Only Transformers to a Supervised Baseline for English–Spanish Machine Translation:
 
 - Treat open-source decoder-only LMs as few-shot or instruction-based translators.
 - Compare their performance to a standard supervised MT system fine-tuned on parallel data.
 - Analyze systematic error patterns across several linguistic phenomena.
 ---
 
-## Goals of the Final Project
+## Summary of individual contributions
+
+<table>
+  <thead>
+  <tr>
+    <th>Pamela Angulo Martinez</th>
+    <th>Role/contributions</th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>???</b></th>
+    <td>???</td>
+  </tr>
+</tbody>
+</table>
+
 
 ### Goal 1: Build a small, controlled MT benchmark
 
@@ -62,8 +102,6 @@ Concretely, I will:
   - Limitations and proposals for future improvements
   - Link to the code repository and reproduction instructions
 
----
-
 ## Aspect of Statistical NLP
 
 - Evaluation of probabilistic sequence models (MT models and decoder-only LMs) using standard MT metrics (BLEU, chrF, etc.).
@@ -71,13 +109,6 @@ Concretely, I will:
   - Supervised neural MT trained on parallel data
   - Decoder-only LMs used as translators via prompting
 - Quantitative evaluation and error analysis to characterize how model architecture and training objectives affect translation quality for specific linguistic phenomena.
-
----
-
-## Code Repository 
-  `https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-pamela-angulo`
-
----
 
 ## Scope and Feasibility
 
@@ -91,11 +122,9 @@ The project is scoped to be appropriate for the course:
   - The supervised baseline can be a pre-trained model
   - Decoder-only models are used via prompting, avoiding full fine-tuning
 
----
-
 ## Rough Timeline
 
-### Week 1: Nov 17–23, 2025
+## Week 1: Nov 17–23, 2025
 
 - Finalize project scope and select:
   - Parallel data source(s) for the test set
@@ -105,7 +134,7 @@ The project is scoped to be appropriate for the course:
   - Sample a small test set from a parallel corpus
   - Store it in a simple format such as CSV.
 
-### Week 2: Nov 24–30, 2025
+## Week 2: Nov 24–30, 2025
 
 - Finish constructing the evaluation dataset:
   - Clean and finalize the main test set
@@ -115,7 +144,7 @@ The project is scoped to be appropriate for the course:
   - Generate translations and compute BLEU/chrF
 - Draft an initial results table for the baseline system.
 
-### Week 3: Dec 1–7, 2025
+## Week 3: Dec 1–7, 2025
 
 - Implement prompting and evaluation for decoder-only transformers:
   - Design zero-shot and/or few-shot prompts
@@ -125,7 +154,7 @@ The project is scoped to be appropriate for the course:
   - Tag or categorize errors on a subset of the test set for each system
   - Note where decoder-only models differ qualitatively from the supervised baseline
 
-### Week 4: Dec 8–14, 2025
+## Week 4: Dec 8–14, 2025
 
 - Complete and refine error analysis:
   - Summarize error types and examples
@@ -136,3 +165,20 @@ The project is scoped to be appropriate for the course:
   - Clearly describe limitations and future work
   - Add reproducibility instructions and code repository link
 - Submit the pull request to the course blog repository.
+
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+## Future improvements
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_
