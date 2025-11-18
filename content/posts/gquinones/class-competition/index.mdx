@@ -1,0 +1,79 @@
+---
+title: "[gquinones] approach to the class competition"
+slug: "/gquinones/class-competition"
+date: 2025-11-15
+author: Gabriela Quiñones González
+description: An approach to answering the class competition using a standard text classification model.
+tags:
+  - class competition
+---
+
+
+<table>
+  <caption>
+    Class Competition Info
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>Leaderboard score</b></th>
+    <td>0.40282</td>
+  </tr>
+  <tr>
+    <th><b>Leaderboard team name</b></th>
+    <td>N/A</td>
+  </tr>
+  <tr>
+    <th><b>Kaggle username</b></th>
+    <td>gquinones019</td>
+  </tr>
+  <tr>
+    <th><b>Code Repository URL</b></th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-gquinones019.git</td>
+  </tr>
+</tbody>
+</table>
+
+
+## Task summary
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
+
+## Exploratory data analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+
+## Approach
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
+
+To identify which texts were written by the same author and which were not, I decided to create a TD-IDF vector. Here, I focused on both unigrams and biagrams (`ngram_range=(1,2)`). I also made sure that the code focuses on the most common terms in the text, so any words that appear less than 20% of the document were eliminated (`min_df=.2`). All of these features were put into place with the TEXT column of the *train.csv* file, which has been given the variable *dataset*.
+
+Since the TD-IDF vector divides the terms of the TEXT column into numerical features, I created a data frame to visualize what was happening. Also, in that code, I made sure that the matrix was storing all of the values that it found within the 20% filter. 
+
+Then, I made sure with all of the values and data that have been created, I split the training data into both training and testing data. I made sure that 80% of the data was for training and the remaining 20% was for testing. Due to the TD-IDF, I decided to train a Logistical Regression classifier to identify which text were written by the same author. From there, I tested this on the test set I created from the train.csv file. 
+
+From there, I used the created codes to predict labels of the TEXT column of the test data frame using the trained model.
+
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+
+## Future Improvements
+
+_Describe how you might best improve your approach_

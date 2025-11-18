@@ -1,0 +1,92 @@
+---
+title: "My approach to the class-wide shared task using DistilBERT"
+slug: "/yashvikommidi/class-competition"
+date: 2025-11-16
+author: Yashvi Kommidi
+description: "My approach is solving the class-wide shared task using DistilBERT and getting the best model saved "
+tags:
+  - class competition
+---
+
+
+<table>
+  <caption>
+    Class Competition Info
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>Leaderboard score</b></th>
+    <td>0.53836</td>
+  </tr>
+  <tr>
+    <th><b>Leaderboard team name</b></th>
+    <td>YashviKommidii</td>
+  </tr>
+  <tr>
+    <th><b>Kaggle username</b></th>
+    <td>YashviKommidii</td>
+  </tr>
+  <tr>
+    <th><b>Code Repository URL</b></th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-yashvikommidii</td>
+  </tr>
+</tbody>
+</table>
+
+## Descritpion 
+
+Here I have split the dataset into 85/15 as training and validation sets while maintaining the class balance, and then converting into numerical tokens that the DistilBERT can process. 
+To handle the class imbalance, I have done computing the class weights, to make the model pay more attention to the minority class during training, Here I have used the DistilBERT, a lightweight transformer. 
+The model I have built fine tunes a pre-trained DistilBERT model for 5 epochs using AdamW optimizer with learning rate scheduling, which automatically tracks and saves the best- performing model based on the macro F1-score. 
+At the end, after training, it loads the best saved model with highest F1score and uses it to generate predictions on test data.
+
+##Approach
+
+I have tried using BERT, but the runtime was higher and my system was not handling at this moment, so I have choosen DistilBERT as its smaller and faster than BERT while maintaining the strong performance. 
+
+To handle the severe class imbalance, like 78% different author and 22% of same author, I have computed balanced class weights and applied the weighted cross-entropy loss during training. 
+
+I have tried to train with multiple number of epochs, some had higher F1scores when I used only 2 epochs and some had higher F1scores when I used 5 epochs with different seed numbers. 
+
+I did trial and error with epochs, seed numbers and also the percentages of the split of data. 
+
+The model was trained with AdamW optimizer. The latest approach and the submission I did got highest F1score of 0.5842, but a lower kaggle score 0.52684 and the previous submission which I noted down here in the script has 0.5713 F1 score but a higher Kaggle score of 0.53836 where I have used 5 epochs.
+
+
+
+
+## Task summary
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
+
+## Exploratory data analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+
+## Approach
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
+
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+
+## Future Improvements
+
+_Describe how you might best improve your approach_
