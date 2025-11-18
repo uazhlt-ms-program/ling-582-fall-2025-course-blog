@@ -1,9 +1,9 @@
 ---
-title: Paper Summary
-slug: /binduvelpula/paper-summary
+title: "Stylometric–Transformer Hybrid Model for Authorship Verification"
+slug: "/binduvelpula/paper-summary"
 date: 2025-11-17
-author: Bindu Velpula
-description: A summary and critique of the selected research paper.
+author: "Ushabindu Velpula"
+description: "My paper summary on combining stylometric features and transformer embeddings for authorship verification."
 tags:
   - paper summary
 ---
@@ -12,9 +12,20 @@ tags:
 
 ## Citation
 
-Doe, J., & Smith, A. (2023). *Efficient Data Processing in Large-Scale Systems*. Journal of Data Engineering, 12(4), 233–245.
-
-
+TY - CONF
+AU - Najafi, Maryam
+AU - Tavan, Ehsan
+PY - 2022
+DA - 2022/09
+TI - Text‑to‑Text Transformer in Authorship Verification Via Stylistic and Semantical Analysis
+JO - CLEF Working Notes (CEUR Workshop Proceedings)
+SP - 2607
+EP - 2616
+VL - 3180
+AB - This paper proposes a hybrid authorship verification method that combines a T5 text-to-text transformer with stylometric features (POS tags, emojis, punctuation, author & topic-specific features) to model both semantic and stylistic information. Experiments on the PAN@CLEF dataset yield strong verification accuracy.
+UR - https://ceur-ws.org/Vol-3180/paper-215.pdf
+DO - 10.21437/CLEF.2022‑ws.215
+ID - NajafiT2022
 
 <table>
   <caption>
@@ -29,39 +40,38 @@ Doe, J., & Smith, A. (2023). *Efficient Data Processing in Large-Scale Systems*.
 <tbody>
   <tr>
     <td><b>Paper</b></td>
-    <td>???</td>
+    <td>Text‑to‑Text Transformer in Authorship Verification Via Stylistic and Semantical Analysis</td>
   </tr>
   <tr>
     <td><b>Authors</b></td>
-    <td>???</td>
+    <td>Maryam Najafi, Ehsan Tavan</td>
   </tr>
   <tr>
     <td><b>Year published</b></td>
-    <td>???</td>
+    <td>2022</td>
   </tr>
   <tr>
     <td><b>Venue</b></td>
-    <td>???</td>
+    <td>CLEF Working Notes (CEUR‑WS)</td>
   </tr>
   <tr>
     <td><b>Paper URL</b></td>
-    <td>???</td>
+    <td>https://ceur-ws.org/Vol-3180/paper-215.pdf</td>
   </tr>
   <tr>
     <td><b>Code URL</b></td>
-    <td>???</td>
+    <td>https://github.com/MarSanTeam/Authorship_Verification</td>
   </tr>
 </tbody>
 </table>
 
 ## Description
 
-_In your own words, what is this paper about?_
+This paper introduces a hybrid authorship-verification method by combining a text-to-text transformer (T5-large) with stylometric features. The transformer is used to capture semantic context by extracting its last hidden state, and the stylometric features include part-of-speech tags, punctuation usage, emojis, and topic/author-specific statistics. The authors train a model on pairs of texts to decide whether the same author wrote them.
 
 ## Motivation
 
-_Why did you select this paper?_
-< !-- NOTE: don't use an LLM to generate this! 🙃 -->
+I selected this paper because it aligns directly with my hybrid stylometry + transformer project. The authors use a T5 transformer plus stylistic features, which is very similar to my plan of combining sentence embeddings with traditional stylometric features.
 
 ## LLM
 
