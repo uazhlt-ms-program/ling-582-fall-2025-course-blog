@@ -1,0 +1,60 @@
+---
+title: "Class Competition – Initial Draft Report (Data Minds)"
+slug: "/pranithachilvari/class-competition"
+date: 2025-11-15
+author: "Pranitha Chilvari"
+description: "Baseline model report for the authorship classification task, summarizing our initial TF–IDF approach, Kaggle workflow, and first leaderboard submission."
+---
+
+# Class Competition — Initial Draft Report  
+*Student:* Pranitha Chilvari 
+*Team:* Data Minds  
+
+---
+
+## Task Overview
+The shared task for this competition involves examining two text sections joined by the token [SNIPPET] and predicting whether they were written by the *same author (1)* or by *different authors (0)*.  
+This problem is treated as a *binary classification* challenge focused on authorship attribution.
+
+The dataset includes three files:
+- train.csv — labeled examples  
+- test.csv — unlabeled evaluation set  
+- sample_submission.csv — output template to follow  
+
+Each entry contains an *ID, the combined **TEXT, and a **LABEL* in the training data.
+
+---
+
+## Team Baseline Approach
+Our team worked together to build an initial baseline system.  
+The model training and prediction process was carried out in a *shared Kaggle notebook*, which allowed easy upload of data and reproducible execution.
+
+### Key steps in our baseline:
+1. Uploaded all CSV files to Kaggle.  
+2. Loaded the data using pandas.  
+3. Developed features using *TF–IDF*, applying:  
+   - word n-grams (1–2)  
+   - character n-grams (3–5)  
+4. Trained a *Logistic Regression* classifier with balanced class weights.  
+5. Performed a small validation split to estimate performance.  
+6. Retrained the model using the complete training data.  
+7. Generated predictions for the test data and saved them as submission.csv.
+
+This file was then used for our first submission to the leaderboard.
+
+---
+
+## Leaderboard Submission
+- *Submission name:* DataMinds_Baseline_v1  
+- Submitted successfully through the competition portal  
+- Evaluation metric: *Macro-F1*  
+
+---
+
+## Code Repository
+All project code is stored in our shared team repository, created through GitHub Classroom:  
+**https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-Chandana3940**
+
+This is the official repository required by the course.
+
+---

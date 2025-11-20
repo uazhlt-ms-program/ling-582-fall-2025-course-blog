@@ -1,0 +1,133 @@
+---
+title: "Extracting tri-literal root consonants from declined Arabic words"
+slug: "/mgatto/course-project"
+date: 2025-11-12
+author: Michael Gatto
+description: "I describe my approach to extract root consontants from Arabic words using a character-level RNN"
+tags:
+- course project
+---
+
+<table>
+<caption>
+Course Project Info
+</caption>
+<tbody>
+<tr>
+<th>Code Repository URL</th>
+<td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-arabic-tri-literal-root-extraction</td>
+</tr>
+<tr>
+<th>Demo URL (optional)</th>
+<td>N/A</td>
+</tr>
+<tr>
+<th>Team name</th>
+<td>Michael Gatto</td>
+</tr>
+</tbody>
+</table>
+
+## Project description
+
+Arabic is a Semitic language within the Afro-Asiatic family. The distinguishing feature of Semitic languages are their templated morphology <sup>(Ryding 05)</sup>. In a templated morphological system, parts of speech are constructed by applying known and reproducable templates to a short sequence of 2,3 or 4 consonantal roots. The vast majority of these root sequences consist of three consontants called "tri-literals". A much smaller number are either two or four consonants in length. We'll represent these tri-literal roots in general as C-C-C.
+
+These roots convey an abstract meaning made concrete by applying one of a finite number of templates. Structurally, the templates consist of some combination of internal vowel patterns supplemented by a very limited set of prefixes, suffixes and infixes consisting of the phonemes *[m]* (prefix only), *[n]* (infix and suffix) or *[t]* (prefix, infix and suffix) and *[ist]* (prefix). For example, agent nouns usually take the pattern of *C-aa-C-e-C*. Thus, for the oft-cited root K-T-B which conveys the idea of writing, a K-aa-T-e-B is a person who writes, i.e. a writer: "kaateb".
+
+Arabic grammarians have traditionally organized specific mixtures of affixes into 10 widely used forms to encode specific semantics. Each form contains set templates for declining verbs, forming agent nouns, pluralizing nouns, and forming perfect and imperfect particples. We'll consider only Form I words in this experiment, since they are the simplest. Form I consists of no infixes and are canonically represented by the 3<sup>rd</sup> person masculine singular perfect verb with the template *C-a-C-a-C-a*. For example, K-a-T-a-B-a (kataba: he wrote).
+
+Computationally finding the roots is a type of Feature Extraction and is an important problem in Arabic NLP. Finding the roots of a word with high accuracy significantly affects foundational tasks in NLP such as POS tagging and various classification tasks. In turn, these foundational tasks can cause user-level applications such as spell-checking and language generation to fail laughably or succeed brilliantly (but often unnoticed since when things "just work", they tend to be less noticable).
+
+For example, a very common derivational Form I prefix is *ma-* signalling the start of a participle. There are however, many roots which also begin with the same phoneme, *ma-*. Thus, simply regex-ing it away is likely to produce numerous mistakes and a disappointingly low F1 score.
+
+### Approach
+I will use a **character**-level RNN, in the form of an LTSM implemented in Python with PyTorch. I frame this as a multi-class classification problem (AlSerhan, Ayesh 2006). As such, the RNN will output a vector classifying the char sequences as only one of:
+1. prefix,
+2. suffix.
+3. <s>infix</s> (recall that Form I has no infixes),
+4. root.
+
+<!-- TODO or, it could be a binary classification:
+"In case dout = 1, the network’s output is a scalar. Such networks can be used for regression (or scoring) by considering the value of the output, or for binary classification by consulting the sign of the output." - Yuval
+
+I think binary would be much easier!
+-->
+
+This output vector will then be fed into an MLP to select the probability of the letter being a root or not with a selecting function: $softmax(MLP([RNN(x_{1:n}, i)]))$.
+
+### Goal:
+Given a list of 100 Arabic test words of Form I derived from known, tri-literal consonantal roots, the Root Extractor successfully identifies at least 90 of them.
+
+### Outline:
+1. Examine prior art and detail flaws with non-NN approaches.
+2. Experiment with al-Mus'haf dataset in a Jupyter Notebook.
+3. Experiment with **CAMeL Tools** for Arabic pre-processing.
+4. Determine per Yuval, the "core linguistic features $f_{1}...f_{k}$ that are relevant for predicting the output classes"
+5. Code RNN with PyTorch.
+6. Train model (possibly on HPC if training > 100,000?).
+7. Evaluate model.
+8. Weep and tune.
+9. Re-evaluate model and be happy.
+10. Package Python code into a Docker container (use uv and pyproject.toml, not pip and requirements.txt?).
+
+### Schedule
+By these dates, accomplish:
+- 11/16/2025 - Selected training set.
+- 11/23/2025 - Have working RNN.
+- 11/30/2025 - Tuned RNN and decoded output vector with MLP and Softmax to present words' root consonants.
+- 12/05/2025 - Polished codebase and packaged into Docker container.
+
+<!--
+Superior (3 pts):
+* project is appropriately scoped to the course (i.e., not overly ambitious)
+* rough timeline (with dates)
+
+Pass (2 pts)
+All of the following:
+
+* pull request submitted to course blog repository by the deadline
+* clear outline of the goals of your final project
+* project proposal investigates some aspect of statistical NLP
+* post includes a link to a course project code repository
+* the code repository uses the required assignment template (i.e., the repository is owned by the appropriate GitHub organization)
+-->
+
+## Summary of individual contributions
+<table>
+<thead>
+<tr>
+<th>Team member</th>
+<th>Role/contributions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<th><b>Michael Gatto</b></th>
+<td>Coder, Tester, Writer</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/ #results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/ #error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/           #reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+## Future improvements
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/ #proposal-for-future-improvements)_
+-->
+
+### Citations
+<ol>
+<li>Ryding, K. (2005). A Reference Grammar of Modern Standard Arabic. Cambridge University Press.</li>
+</ol>

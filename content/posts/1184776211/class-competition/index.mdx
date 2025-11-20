@@ -1,0 +1,165 @@
+---
+title: "Kaggle Kompetition: An exercise in aimlessness"
+slug: "/1184776211/class-competition"
+date: 2025-11-12
+author: 1184776211
+description: "My approach can be summarized as a mindless dump into an unmotivated neural network that does not work."
+tags:
+  - class competition
+---
+
+<table>
+  <caption>
+    Class Competition Info
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>Leaderboard score</b></th>
+    <td>0.52969</td>
+  </tr>
+  <tr>
+    <th><b>Leaderboard team name</b></th>
+    <td>Ryan L Nelson</td>
+  </tr>
+  <tr>
+    <th><b>Kaggle username</b></th>
+    <td>ryanlnelson</td>
+  </tr>
+  <tr>
+    <th><b>Code Repository URL</b></th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-nelson-ryan</td>
+  </tr>
+</tbody>
+</table>
+
+
+## Task summary
+
+- discussion of related tasks
+- challenges of task (with examples)
+- discussion of Some Obscure Thrown-in Acronym
+
+or just: description of task
+
+Describe goal of task: determine whether two short text samples were written by
+the same author.  
+This goal, as stated, requires some interpretation;
+I have taken it to mean that, given a pair of texts upon which to make such a
+descision about authorship, the author or authors thereof may be heretofore
+unseen.
+Thus, the decision about authorship must be determined based solely on those
+texts, in a vaccum—aside, of course, from the training of other,
+similarly-isolated pairs.
+
+This interpretation is supported by the training set's absence of author
+identity information. This surely makes for a simpler approach; otherwise,
+the temptation would be to categorize authorship across the whole dataset
+rather than just by pairs.
+
+With the specific nature of the task determined, then,
+is is possible to approach the question of how to approach the task.
+
+
+## Exploratory data analysis
+
+- additional analysis (ex. measures of diversity)
+- observations supported with example data points
+- dataset size (per class) 
+
+Dataset size:
+```python
+from pandas import DataFrame
+>>> df = read_csv("train.csv")
+>>> df.groupby("LABEL").count()
+         ID  TEXT
+LABEL            
+0      1245  1245
+1       356   356
+```
+Observation: Positive classification (that is, where each text is same-author)
+accounts for roughly 28% of the dataset.
+
+A quick glance at some of the examples suggest that they are predominantly
+sourced from fiction.
+Such a glance also brings to mind a few possible
+distinguishing features to be used for the classification:
+
+ - frequency of punctuation, by type
+ - frequency of proper names
+ - average/median sentence length
+ - inflectional morphemes?
+
+
+
+## Approach
+
+- approach highlights some novelty/creativity (purely subjective)
+- description of approach and motivation for use
+
+Neural network because I'm comfortable enough with the implementation.
+
+The first pass was based on TF-IDF vectors.
+It is worth noting that TF-IDF, in representing word frequency, is more suitable
+for determining the topic of a document than in representing stylistic factors
+that are relevant to authorship. Thus, a high degree of success was not expected.
+
+Including the entire TF-IDF vector for each document
+(either by serializing them in the network input or by combining them into a
+product vector, which may conceivably amplify commonalities)
+extended computation-time substantially, but did little to improve performance
+versus using, as input, similarity metrics between the vectors
+(euclidian distance and cosine similarity).
+The model (with arbitrary tweaking of nodes and activation functions)
+consistently classified all test pairs as negative.
+
+THe reduction in processing time by using just those two metrics, however,
+allowed for a much greater number of training epochs, which resulted in
+a reduction of loss that had previously appeared to have been minimized
+(I imagine that a higher learning rate could have acheived this, as well),
+which finally resulted in at least some of the test set getting positive
+classification—some perhaps even correctly.
+
+
+The takeaway at this stage is that the neural network functions, even if with
+remarkably poor performance, and that more-appropriate features are needed.
+
+
+## Results
+
+- measure of robustness of approach (e.g. stratified k-fold cross validation) and/or statistical analysis
+- quantitative results on leaderboard noting delta with baseline
+
+## Error analysis
+
+- detailed error analysis on held-out data (characterization of error) with examples
+- some error analysis on held-out data
+
+## Reproducibility
+
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+- containerized build with clear step-by-step instructions for reproducing leaderboard numbers
+- clear step-by-step instructions for installing dependencies and reproducing leaderboard numbers
+
+
+## Future Improvements
+
+_Describe how you might best improve your approach_
+
+
+## Leaderboard result
+
+- leaderboard submission exceeds the baseline
+- post specifies the name of submission on leaderboard
+- post includes score of leaderboard submission
+
+## Link to code repo
+- post includes a link to the code repo
+- the code repo is not empty
+- the repo uses the required assignment template (i.e. it is owned by the appropriate github org)

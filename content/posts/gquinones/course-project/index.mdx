@@ -1,0 +1,129 @@
+---
+title: "[gquinones] course project (draft)"
+slug: "/gquinones/course-project"
+date: 2025-11-16
+author: Gabriela Quiñones González and Jake Mains
+description: "Here I am uploading the approach Jake Mains and I created for course project."
+tags:
+  - course project
+---
+
+<table>
+  <caption>
+    Course Project Info
+  </caption>
+<tbody>
+  <tr>
+    <th>Code Repository URL</th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-jake-gabriela.git</td>
+  </tr>
+  <tr>
+    <th>Demo URL (optional)</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Team name</th>
+    <td>Jake and Gabriela</td>
+  </tr>
+</tbody>
+</table>
+
+
+## Project description
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility).  Use subsections to organize components of the description._
+
+Project Approach - Jake Mains and Gabriela Quiñones
+  - Outline of Goals
+    - Identify an indigenous language family of the Americas with sufficient documentation for project
+    -Train a system/model that can identify the language of a given text. This will require a sample text of each language. Ideally multiple pages of text, but at least a few hundred words.
+    - After training, the model will identify the language of a given text. The text will need to be a minimum length, potentially 10 words/2-3 sentences.
+    - Aim for a minimum of 3 languages to differentiate. Ideally have 5+ languages to expand usability of the model
+    - If possible, outline an approach for training more languages in the future
+- Training approach 
+    - Train model by identifying key statistics of sample text for each language.
+        - Average word length
+        - Unique characters
+        - Unique vocabulary
+        - General word order (would first require POS tagging)
+    - Create an algorithm that combines these factors and outputs a guess with a percentage
+        - i.e. “Language A, 85% likely”, “Language C, 34% likely”
+        - Include a message if the percentage is too low, under 50%?
+            - i.e. “Unable to make a reliable estimate. Try again with a longer text.”
+    - Potential language families:
+        - Iroquoian (NE U.S.)
+            - (https://library.si.edu/digital-library/book/hymnalinsenecala00bata)
+        - Cherokee
+            - (https://language.cherokee.org/learning-materials/)
+    - Timeline
+        - Week 0 (11/16: Approach Due)
+            - Identify language family
+            - Identify potential computing approaches
+            - Submit project approach
+        - Week 0.5 (11/19)
+            - Gather sample texts, clean them, add to database for testing
+            - Create initial code for testing and training
+            - Identify more feasible approaches based on initial coding
+        - Week 1 (11/23)
+            - Refine testing and identify major issues to be addressed
+            - Seek feedback for additional testing approaches if necessary
+            - Build up database with additional texts if necessary
+            - Code rough output messages based on results
+        - Week 1.5 (11/26)
+            - Work out bugs in model to improve accuracy
+            - Establish minimum text length that would be feasible for identification
+        - Week 2 (11/30)
+            - Continue coding
+            - Identify additional languages to train if model is working well at this point
+            - Less work completed in this timeframe due to Thanksgiving Break
+        - Week 2.5 (12/3)
+            - Begin training of additional languages, if possible
+            - Work on write up of project summary, individual contributions, etc.
+            - Begin analyzing results, limitations, future improvements, etc.
+        - Week 3 (12/7) PROJECT DUE!
+            - Make final touches on model
+            - Organize code and resources, create READEME.md file and put in-line comments, for easy understanding on grader side
+            - Finish write-up and discussion
+
+
+## Summary of individual contributions
+<table>
+  <thead>
+  <tr>
+    <th>Team member</th>
+    <th>Role/contributions</th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>???</b></th>
+    <td>???</td>
+  </tr>
+  <tr>
+    <th><b>???</b></th>
+    <td>???</td>
+  </tr>
+  <tr>
+    <th><b>???</b></th>
+    <td>???</td>
+  </tr>
+</tbody>
+</table>
+
+
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+## Future improvements
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_

@@ -1,0 +1,85 @@
+---
+title: Class Competition
+slug: "/qianyun/class-competition"
+date: 2025-11-15
+author: DQY
+description: "My initial baseline model obtains a Macro F1 score of 0.43, which is close to random prediction. This is not unexpected because the baseline relies on only one single feature—the cosine similarity between TF-IDF vectors of the two snippets."
+tags:
+  - class competition
+---
+
+
+<table>
+  <caption>
+    Class Competition Info
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>Leaderboard score</b></th>
+    <td>0.434</td>
+  </tr>
+  <tr>
+    <th><b>Leaderboard team name</b></th>
+    <td>Qianyun Deng</td>
+  </tr>
+  <tr>
+    <th><b>Kaggle username</b></th>
+    <td>Qianyun Deng</td>
+  </tr>
+  <tr>
+    <th><b>Code Repository URL</b></th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-DQYisHangry</td>
+  </tr>
+</tbody>
+</table>
+
+## Further Improvement Plans
+After building the baseline system, I found that relying only on TF-IDF cosine similarity is too limiting for an authorship-identification task.
+The current model mainly captures topic similarity rather than writing style, which explains the low Macro F1 score.
+To improve the model in a practical and incremental way, I will focus on three concrete enhancement steps:
+
+1. TF-IDF Difference Vectors
+Instead of compressing each text pair into one cosine value, I will create a feature vector based on the absolute difference between the two TF-IDF vectors.
+This keeps much more lexical information.
+
+2. Add Simple Linguistic & Stylistic Features
+To better capture an author’s writing “fingerprint,” I will extract lightweight stylistic features such as sentence length, character length, punctuation counts, average word length, and type–token ratio.
+
+3. Explore Sentence-Transformer Embeddings
+I will try using sentence-transformer models to encode each text snippet. The element-wise difference between the two embeddings tends to capture both semantic and stylistic properties.
+
+## Task summary
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
+
+## Exploratory data analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+
+## Approach
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
+
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+
+## Future Improvements
+
+_Describe how you might best improve your approach_
