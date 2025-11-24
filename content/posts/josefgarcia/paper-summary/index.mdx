@@ -73,19 +73,19 @@ I selected this paper because BERT had a significant impact on the field of NLP,
 <tbody>
   <tr>
     <th><b>LLM model</b></th>
-    <td>???</td>
+    <td>SmolLM3</td>
   </tr>
   <tr>
     <th><b>LLM model version</b></th>
-    <td>???</td>
+    <td>SmolLM3-3B</td>
   </tr>
   <tr>
     <th><b>Model/service URL</b></th>
-    <td>???</td>
+    <td>https://huggingface.co/HuggingFaceTB/SmolLM3-3B</td>
   </tr>
   <tr>
     <th><b>Why this model?</b></th>
-    <td>???</td>
+    <td>SmolLM3 is a lightweight model, that is easily ran on a single GPU and pushes the boundaries of small models.</td>
   </tr>
 </tbody>
 </table>
@@ -93,90 +93,248 @@ I selected this paper because BERT had a significant impact on the field of NLP,
 
 #### Description (LLM)
 
-_In the LLM's words, what is this paper about?_
+The academic paper "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding" by Google researchers was published in 2018. The paper introduces a groundbreaking approach to natural language processing (NLP) called Bidirectional Encoder Representations from Transformers (BERT). BERT represents a significant advancement in the field, offering improved performance on a wide range of NLP tasks, such as question answering, text classification, and language inference.
+
+The core idea of BERT is to train a deep neural network with bidirectional attention mechanisms. Unlike traditional language models that process text sequentially, BERT uses attention mechanisms to capture the context of each word in a sentence, taking into account the words both before and after it. This bidirectional approach allows BERT to better understand the relationships between words and the nuances of language.
+
+The authors of the paper, including Vaswani, Brocks, and Peters, describe the BERT model as a transformer-based architecture that is pre-trained on a large corpus of text data. The pre-training process involves feeding the model with a large amount of text data and training it on a masked language modeling (MLM) objective. The MLM objective involves predicting the masked tokens in the input text, allowing the model to learn the context and relationships between words.
+
+The authors of the paper achieved impressive results by fine-tuning the pre-trained BERT model on a variety of NLP tasks. They demonstrated that BERT outperforms state-of-the-art models on multiple benchmarks, including the Stanford Question Answering Dataset (SQuAD), the CoLA (Common Language Understanding) dataset, and the GLUE (General Language Understanding Evaluation) dataset.
+
+One of the key contributions of the BERT paper is the introduction of the concept of "tokenization." The authors describe how they developed a custom tokenization approach that allows for more accurate and efficient processing of text data. This approach, known as "wordpiece tokenization," involves breaking down words into subwords and representing them as a combination
+
 
 ##### Prompt
 
 ```markdown
-prompt here
+"Provide a description of the academic paper written by google researchers, 'BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding'."
 ```
 
 #### What are the authors proposing?
 
+In the academic paper "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding," the authors propose a new approach to building language understanding models called Bidirectional Encoder Representations from Transformers (BERT). Here are the key proposals made by the authors:
+
+1. **Bidirectional Language Models**: BERT is a bidirectional language model, meaning it can process text in both forward and backward directions. This allows it to capture contextual information from both directions, improving its understanding of language.
+
+2. **Transformer Architecture**: BERT is built on the transformer architecture, which is a type of neural network that processes input sequences by comparing the current and previous elements. This allows BERT to capture long-range dependencies between words in a sentence.
+
+3. **Pre-training on a Large Corpus**: BERT is pre-trained on a large corpus of text data (the English Wikipedia) using a technique called self-attention. This allows the model to learn contextualized representations of words and phrases.
+
+4. **Fine-Tuning for Task-Specific Applications**: BERT is fine-tuned on a specific task (e.g., language classification, question-answering) to adapt it to the task at hand. This allows BERT to be applied to a wide range of tasks, including natural language processing, machine translation, and text summarization.
+
+5. **Efficient Training**: BERT is trained using a technique called "masked language modeling," which allows it to learn contextualized representations of words without requiring explicit labels.
+
+6. **Robustness to Out-of-Vocabulary Words**: BERT is designed to be robust to out-of-vocabulary words, which are words that the model has not seen during training. This is achieved by using a technique called "negative sampling," which allows the model to learn to ignore irrelevant information.
+
+7. **Improved Performance**: BERT achieves state-of-the-art performance on a range of natural language processing tasks, including language classification, question-answering, and text classification.
+
 ##### Prompt
 
 ```markdown
-prompt here
+"What are the authors proposing in the academic paper 'BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding'?"
 ```
 
 #### What is the motivation for the work?
 
+The motivation behind the work in the academic paper "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding" was to develop a more effective and efficient way to train language models. 
+
+The authors, Vaswani et al., were motivated by the need to improve the performance of language models in various NLP tasks, such as text classification, question answering, and language translation. Traditional language models often suffer from limitations in capturing the complex and nuanced relationships between words in a sentence. 
+
+The key motivation was to improve the pre-training of language models, as this is a crucial step in training models that can generalize well to a wide range of tasks. The authors aimed to develop a more efficient and effective pre-training strategy that could leverage the bidirectional nature of language, allowing the model to understand context and relationships between words in both directions.
+
+The bidirectional nature of language was chosen because it allows the model to capture contextual information in both forward and backward directions, which is essential for understanding the meaning of sentences. Traditional language models typically process text in a unidirectional manner, which can lead to limited understanding of context and relationships between words.
+
+BERT's motivation was to address these limitations by using a combination of pre-training and fine-tuning techniques, which allow the model to learn from large amounts of text data and generalize well to a wide range of tasks. This approach has proven to be highly effective in improving the performance of language models on various NLP tasks.
+
+In summary, the motivation for the work in the BERT paper was to develop a more effective and efficient way to train language models that can capture the complex and nuanced relationships between words in a sentence, leading to improved performance on various NLP tasks.
+
 ##### Prompt
 
 ```markdown
-prompt here
+"What was the motivation for the work in the academic paper 'BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding'?"
 ```
 
 #### What is the approach or innovation?
 
+BERT (Bidirectional Encoder Representations from Transformers) is a deep learning model developed by Google that revolutionized the field of natural language processing (NLP). The approach and innovation behind BERT can be broken down as follows:
+
+**Approach:**
+
+1. **Transformer Architecture**: BERT uses the transformer architecture, which is a type of neural network that processes inputs in parallel and then combines the information using attention mechanisms. This allows the model to capture long-range dependencies in the input text.
+
+2. **Bidirectional Language Model**: Unlike most previous language models, which are unidirectional (i.e., they process text from left to right), BERT is bidirectional, meaning it processes text in both directions (left to right and right to left). This allows the model to better capture the context of words in the sentence.
+
+3. **Pre-training on Large Datasets**: BERT was pre-trained on a large corpus of text data (about 1 trillion words) using a technique called "masked language modeling." In this approach, the model is trained to predict the masked word in a sentence, which forces it to learn the context of each word.
+
+4. **BERT Base Model**: BERT has three base models: BERT base, BERT base with a smaller vocabulary (small bert), and BERT base with a smaller vocabulary and a smaller number of hidden layers (small bert-base-uncased). These models have different sizes and are optimized for different tasks.
+
+**Innovation:**
+
+1. **Bidirectional Language Model**: The bidirectional nature of BERT allows it to capture the context of words in the sentence, which improves its performance on many NLP tasks.
+
+2. **Masked Language Modeling**: The masked language modeling approach pre-trains the model on a large corpus of text data, which allows it to learn the context of each word without supervision.
+
+3. **Attention Mechanism**: The transformer architecture uses attention mechanisms to combine the information from different parts of the input
+
+
 ##### Prompt
 
 ```markdown
-prompt here
+'In "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", what is the approach or innovation? How did this approach evolve with future research?'
 ```
 
 #### What are the results and how do they compare with competing approaches?
 
+In "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding" (Devlin et al., 2018), the authors present a new pre-training strategy for transformer models that achieves state-of-the-art performance on a variety of natural language processing tasks. Here are the key results and comparisons with competing approaches:
+
+**Results:**
+
+1. **Large-scale pre-training:** BERT is trained on a massive 1.5 billion tokens from 12 different pre-existing datasets, including Wikipedia, news articles, book corpora, and more. This large-scale pre-training enables BERT to capture a wide range of linguistic patterns and relationships.
+
+2. **Bidirectional architecture:** BERT uses a bidirectional encoder-decoder architecture, where the encoder and decoder are both transformer layers that can process the input and output sequences in both forward and backward directions. This bidirectional approach enables BERT to capture long-range dependencies and contextual relationships between words.
+
+3. **Pre-training efficiency:** BERT achieves state-of-the-art performance on a variety of tasks, including named entity recognition (NER), part-of-speech tagging (POS tagging), and question-answering, with minimal fine-tuning. This efficiency is attributed to the large-scale pre-training and the bidirectional architecture.
+
+4. **Outperforms existing models:** BERT outperforms existing transformer-based models, such as Word2Vec and GloVe, on a variety of tasks, including NER, POS tagging, and question-answering.
+
+**Comparisons with competing approaches:**
+
+1. **Word2Vec and GloVe:** BERT outperforms Word2Vec and GloVe on a variety of tasks, including NER and POS tagging. This is due to the larger-scale pre-training and the bidirectional architecture of BERT.
+
+2. **FastText:** BERT outperforms FastText on a variety of tasks, including NER and POS tagging. FastText is a language model that uses a continuous bag-of
+
 ##### Prompt
 
 ```markdown
-prompt here
+'In "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", What are the results and how do they compare with competing approaches?'
 ```
 
 #### Is the comparison fair?
 
+The comparison between BERT pre-training approaches, including Word2Vec, GloVe, and FastText, can be considered fair under certain conditions, but it's essential to understand the differences in their methodologies and the tasks they were designed for. Here's a breakdown:
+
+1. **Similarity in Task**: All three models (Word2Vec, GloVe, and FastText) are primarily designed for learning word embeddings, which are vector representations of words. The task is to capture the semantic relationships between words.
+
+2. **Similarity in Approach**: All three models use a combination of word co-occurrence and context to learn word embeddings. They employ a neural network to model these relationships, using techniques like negative sampling to optimize the learning process.
+
+3. **Similarity in Performance**: Word2Vec, GloVe, and FastText generally produce embeddings with similar quality, often with high accuracy in tasks like word analogies, word similarity, and semantic role labeling. However, the specific performance can vary slightly based on the dataset and the specific task.
+
+4. **Key Differences**:
+   - **Negative Sampling**: Word2Vec uses negative sampling to handle the curse of dimensionality, while GloVe and FastText do not. This could lead to slightly different embedding quality, especially for larger datasets.
+   - **Regularization**: GloVe uses regularization techniques to reduce the impact of high-frequency words, while Word2Vec and FastText do not. This could affect the embeddings' diversity.
+   - **Training Mechanism**: Word2Vec uses a simple gradient descent approach, while GloVe and FastText use stochastic gradient descent with regularization terms.
+   - **Dataset Size**: The performance can be influenced by the size and quality of the training dataset. Larger datasets can produce more accurate embeddings.
+
+5. **Comparison Context**: The comparison in the BERT paper likely focuses on the effectiveness of pre-training for downstream tasks like language understanding, which is where BERT excels. While Word2Vec,
+
 ##### Prompt
 
 ```markdown
-prompt here
+'In "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", the comparison approaches are Word2Vec and GloVe, and FastText, are these comparison fair?'
 ```
 
 #### What are the takeaways according to the authors?
 
+According to the authors of "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding," the key takeaways can be summarized as follows:
+
+1. **Bidirectional Language Modeling**: BERT introduces bidirectional language modeling, which allows the model to process text in both forward and backward directions. This enables the model to better capture the context and relationships between words, leading to improved performance on a wide range of NLP tasks.
+
+2. **Pre-training with a Large Corpus**: BERT is pre-trained on a large corpus of text, which is crucial for its ability to learn generalizable language representations. This pre-training process allows the model to learn patterns and relationships between words, making it more effective on downstream tasks.
+
+3. **Transformer Architecture**: BERT utilizes the transformer architecture, which consists of self-attention layers and feed-forward networks. This architecture enables the model to process the input sequence in a more efficient and effective manner, allowing for better context understanding and improved performance on NLP tasks.
+
+4. **Masked Language Modeling and Next Sentence Prediction**: BERT incorporates two pre-training tasks: masked language modeling and next sentence prediction. These tasks help the model learn to predict missing words in sentences and determine whether two sentences are related, respectively. These tasks contribute to the model's ability to learn generalizable language representations.
+
+5. **Fine-tuning for Specific Tasks**: BERT is fine-tuned on specific NLP tasks, such as sentiment analysis, question answering, and named entity recognition. This process allows the model to adapt to the specific task requirements and improve performance on those tasks.
+
+6. **Improved Performance on NLP Tasks**: BERT achieves state-of-the-art performance on a wide range of NLP tasks, including language modeling, named entity recognition, question answering, and sentiment analysis. This demonstrates the effectiveness of the pre-training process and the transformer architecture in learning generalizable language representations.
+
+7. **Efficient and Scalable**: BERT is designed to be efficient and scalable,
+
 ##### Prompt
 
 ```markdown
-prompt here
+'In "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", What are the takeaways according to the authors?'
 ```
 
 #### What are the takeaways according to you?
 
+In the paper "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding" by Vaswani et al., several key takeaways can be extracted:
+
+1. **Bidirectional Language Modeling**: BERT introduces the concept of bidirectional language modeling, which allows the model to understand both the context before and after a specific token. This is achieved by utilizing attention mechanisms to weigh the importance of each token in the input sequence, considering both the left and right contexts.
+
+2. **Pre-training with Masked Language Modeling and Next Sentence Prediction**: BERT is pre-trained using two pre-training tasks: masked language modeling (MLM) and next sentence prediction (NSP). In MLM, a random subset of tokens in the input sequence is masked, and the model is trained to predict the masked tokens based on the remaining context. In NSP, the model is trained to predict whether two sentences are related as a pair or not.
+
+3. **Transformer Architecture**: BERT builds upon the transformer architecture, which is a type of neural network that uses attention mechanisms to capture long-range dependencies in the input sequence. The transformer architecture allows the model to process the input sequence in parallel, making it highly efficient in handling long sequences of text.
+
+4. **Encoder-Decoder Structure**: BERT uses an encoder-decoder structure, where the encoder is responsible for processing the input sequence and generating contextual information, while the decoder generates the output sequence based on the encoder's output. This structure allows the model to learn contextualized representations of the input sequence.
+
+5. **Fine-Tuning**: BERT is fine-tuned for downstream tasks using a linear classifier. The linear classifier is trained to predict the output of a specific task, such as text classification or question answering, based on the model's pre-trained representations.
+
+6. **Efficient Inference**: BERT is designed for efficient inference, with a state-of-the-art byte-level tokenization scheme and a memory-efficient implementation of the transformer architecture.
+
+7. **
+
 ##### Prompt
 
 ```markdown
-prompt here
+'In "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", What are the takeaways according to you?'
 ```
 
 #### Would you use this?  If so, how/where would you use this?
 
+BERT (Bidirectional Encoder Representations from Transformers) is a pre-trained language model developed by Google. It's a transformer-based model that can be fine-tuned for various natural language processing tasks such as text classification, sentiment analysis, question answering, and language inference.
+
+**Yes, I would use BERT.** Here's how and where you can use BERT:
+
+**1. Pre-training:** BERT is pre-trained on a massive corpus of text data (around 1 trillion words) to learn the relationships between words and their contexts. This pre-training process is crucial for BERT's ability to understand the nuances of language.
+
+**2. Fine-tuning:** Once pre-trained, you can fine-tune BERT on your specific task. You can use BERT for tasks like:
+
+   - **Text Classification:** Fine-tune BERT to classify text into categories (e.g., positive/negative sentiment, spam/ham, etc.).
+   - **Question Answering:** Use BERT to answer questions about a given text or extract relevant information.
+   - **Language Inference:** Fine-tune BERT to predict the next word in a sentence or the most relevant word given a context.
+   - **Named Entity Recognition (NER):** Use BERT to identify named entities (e.g., persons, organizations, locations) in a text.
+   - **Semantic Role Labeling (SRL):** Fine-tune BERT to label the roles played by entities in a sentence (e.g., agent, patient, cause, etc.).
+   - **Span Prediction:** Use BERT to predict the start and end positions of entities in a text.
+
+**3. Fine-tuning libraries and frameworks:**
+
+   - **Hugging Face:** A popular library for fine-tuning BERT and other transformers. It provides pre-trained models and tools for fine-tuning.
+   - **TensorFlow:** A widely used deep learning framework that supports BERT and other transformers.
+   -
+
+
 ##### Prompt
 
 ```markdown
-prompt here
-```
-
-##### Prompt
-
-```markdown
-prompt here
+'In "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", Would you use this?  If so, how/where would you use this?'
 ```
 
 #### What problems remain and what are the next steps?
 
+In the paper "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding" by Vaswani et al., several problems remain to be addressed, and several next steps are suggested. Here are some of the key issues and potential directions for future research:
+
+**Problems to be addressed:**
+
+1. **Domain adaptation**: BERT is pre-trained on a massive corpus of general text, but it may not generalize well to specific domains or languages. Future work could focus on adapting BERT to new domains or languages.
+2. **Limited knowledge of world events**: BERT is trained on text data, but it may not capture knowledge about world events or current affairs, which can be important for tasks like question answering or sentiment analysis.
+3. **Limited understanding of complex concepts**: BERT is designed to understand simple sentences, but it may struggle with complex concepts or abstract ideas, such as those found in scientific or philosophical texts.
+4. **Limited context**: BERT is designed to capture context from a sentence or paragraph, but it may not be able to capture context from longer documents or articles.
+5. **Lack of attention to specific entities**: BERT is designed to capture attention to specific words or phrases, but it may not be able to focus attention on specific entities or entities with specific properties.
+
+**Next steps:**
+
+1. **Domain adaptation**: Researchers can explore ways to adapt BERT to new domains or languages, such as by fine-tuning BERT on a domain-specific corpus or by using domain-specific pre-training techniques.
+2. **Knowledge retrieval**: Researchers can explore ways to integrate BERT with knowledge retrieval systems, such as by using BERT to generate candidate answers for knowledge retrieval tasks.
+3. **Entity recognition**: Researchers can explore ways to improve entity recognition in BERT, such as by using BERT to generate entity mentions or by using BERT to detect entity-specific patterns.
+4. **Contextual understanding**: Researchers can explore ways to improve contextual understanding in B
+
+
 ##### Prompt
 
 ```markdown
-prompt here
+'In "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding", What problems remain and what are the next steps?'
 ```
 
 ### Experience using the LLM
@@ -186,3 +344,5 @@ _Describe your process for using the LLM.  How did the LLM perform?_
 #### Errors and limitations of the LLM 
 
 _Where did it fall short or make mistakes?_
+
+First and foremost, the large language model (LLM) performed impressively overall. What stood out to me is the highly repetative nature of the LLM, many questions were asked, and many responses looked similiar.   
