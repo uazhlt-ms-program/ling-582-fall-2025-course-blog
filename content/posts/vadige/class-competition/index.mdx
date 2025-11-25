@@ -19,9 +19,9 @@ For this class competition, the task is to predict whether two text spans, separ
 This is a stylometry and authorship-matching problem framed as binary classification.
 
 The dataset includes three files:  
-- `train.csv` (labeled data)  
-- `test.csv` (unlabeled data)  
-- `sample_submission.csv` (format template)
+- `train.csv`
+- `test.csv`  
+- `sample_submission.csv`
 
 Each row contains an ID, a merged text field, and a binary label in the training set.
 
@@ -50,25 +50,8 @@ _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/cl
 
 ## Results
 
-- **Leaderboard submission name:** `DataMinds_Baseline_v1`  
+- **Leaderboard submission name:** `DataMinds`  
 - Score: Macro-F1 (reported on leaderboard)  
 - The system meets all initial draft requirements.
 
 ---
-
-## Code Repository
-
-Our team repository (GitHub Classroom):  
-**https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-Chandana3940**
-
-Contains the baseline scripts and reproducibility instructions.
-
----
-
-## Reproducibility Instructions
-
-### Local:
-```bash
-pip install -r requirements.txt
-python train.py
-python predict.py --test_path data/test.csv --out_path submission.csv
