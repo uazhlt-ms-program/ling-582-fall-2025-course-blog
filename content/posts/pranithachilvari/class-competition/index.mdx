@@ -1,60 +1,55 @@
 ---
-title: "Class Competition – Initial Draft Report (Data Minds)"
+title: "Class Competition – Initial Draft Summary (Data Minds)"
 slug: "/pranithachilvari/class-competition"
-date: 2025-11-15
+date: 2025-11-24
 author: "Pranitha Chilvari"
-description: "Baseline model report for the authorship classification task, summarizing our initial TF–IDF approach, Kaggle workflow, and first leaderboard submission."
+description: "Initial baseline solution using TF–IDF and Logistic Regression, developed through a Kaggle workflow for the authorship-matching task."
+tags:
+  - class competition
+  - authorship attribution
+  - stylometry
+  - tfidf
+  - logistic regression
+draft: false
 ---
 
-# Class Competition — Initial Draft Report  
-*Student:* Pranitha Chilvari 
-*Team:* Data Minds  
+## Summary
+
+This competition focuses on identifying whether two text spans—combined using the `[SNIPPET]` delimiter—were written by the **same author (1)** or **different authors (0)**.  
+The task is modeled as a binary authorship-attribution problem.
+
+The dataset consists of:  
+- `train.csv` with labels,  
+- `test.csv` without labels, and  
+- `sample_submission.csv` for output formatting.
+
+Each example provides an ID and a merged text field containing two spans.
 
 ---
 
-## Task Overview
-The shared task for this competition involves examining two text sections joined by the token [SNIPPET] and predicting whether they were written by the *same author (1)* or by *different authors (0)*.  
-This problem is treated as a *binary classification* challenge focused on authorship attribution.
+## Approach
 
-The dataset includes three files:
-- train.csv — labeled examples  
-- test.csv — unlabeled evaluation set  
-- sample_submission.csv — output template to follow  
+For the draft phase, our team (Data Minds) built a straightforward baseline system using a **Kaggle Notebook**.
 
-Each entry contains an *ID, the combined **TEXT, and a **LABEL* in the training data.
-
----
-
-## Team Baseline Approach
-Our team worked together to build an initial baseline system.  
-The model training and prediction process was carried out in a *shared Kaggle notebook*, which allowed easy upload of data and reproducible execution.
-
-### Key steps in our baseline:
-1. Uploaded all CSV files to Kaggle.  
-2. Loaded the data using pandas.  
-3. Developed features using *TF–IDF*, applying:  
+### Process:
+1. Uploaded `train.csv` and `test.csv` to Kaggle.  
+2. Loaded the files using pandas.  
+3. Represented text using **TF–IDF** features:  
    - word n-grams (1–2)  
    - character n-grams (3–5)  
-4. Trained a *Logistic Regression* classifier with balanced class weights.  
-5. Performed a small validation split to estimate performance.  
-6. Retrained the model using the complete training data.  
-7. Generated predictions for the test data and saved them as submission.csv.
+4. Trained a **Logistic Regression** model with class balancing.  
+5. Performed a small validation split to estimate Macro-F1.  
+6. Retrained the model on all available training data.  
+7. Generated predictions for the test set and saved them as `submission.csv`, which was then submitted to the leaderboard.
 
-This file was then used for our first submission to the leaderboard.
+This workflow produced our team’s initial valid submission.
 
----
-
-## Leaderboard Submission
-- *Submission name:* DataMinds_Baseline_v1  
-- Submitted successfully through the competition portal  
-- Evaluation metric: *Macro-F1*  
+_See the full rubric: https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach_
 
 ---
 
-## Code Repository
-All project code is stored in our shared team repository, created through GitHub Classroom:  
-**https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-Chandana3940**
+## Results
 
-This is the official repository required by the course.
-
----
+- **Leaderboard submission:** `DataMinds`  
+- Evaluation metric: Macro-F1  
+- All requirements for the initial draft have been completed.
