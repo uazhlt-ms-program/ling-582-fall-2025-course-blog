@@ -1,0 +1,74 @@
+---
+title: "Class Competition – Initial Draft Summary (Data Minds)"
+slug: "/vadige/class-competition"
+date: 2025-11-24
+author: "Hari Chandana Vadige"
+description: "Baseline TF–IDF and Logistic Regression approach using a Kaggle workflow for the authorship-matching shared task."
+tags:
+  - class competition
+  - authorship attribution
+  - stylometry
+  - tfidf
+  - logistic regression
+draft: false
+---
+
+## Summary
+
+For this class competition, the task is to predict whether two text spans, separated by the token `[SNIPPET]`, come from the **same author (1)** or from **different authors (0)**.  
+This is a stylometry and authorship-matching problem framed as binary classification.
+
+The dataset includes three files:  
+- `train.csv` (labeled data)  
+- `test.csv` (unlabeled data)  
+- `sample_submission.csv` (format template)
+
+Each row contains an ID, a merged text field, and a binary label in the training set.
+
+---
+
+## Approach
+
+For the initial draft submission, our team (Data Minds) developed a simple baseline using a **Kaggle Notebook**.
+
+### Steps:
+1. Uploaded the dataset files (`train.csv`, `test.csv`) to Kaggle.  
+2. Loaded the data with pandas.  
+3. Converted the text to numerical features using **TF–IDF** with:  
+   - word n-grams (1,2)  
+   - character n-grams (3,5)  
+4. Trained a **Logistic Regression** classifier with balanced class weights.  
+5. Used a small train/validation split to estimate Macro-F1.  
+6. Retrained on the full training data and generated predictions for the test set.  
+7. Exported `submission.csv` from Kaggle and uploaded it to the leaderboard.
+
+This formed our valid baseline submission.
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
+
+---
+
+## Results
+
+- **Leaderboard submission name:** `DataMinds_Baseline_v1`  
+- Score: Macro-F1 (reported on leaderboard)  
+- The system meets all initial draft requirements.
+
+---
+
+## Code Repository
+
+Our team repository (GitHub Classroom):  
+**https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-Chandana3940**
+
+Contains the baseline scripts and reproducibility instructions.
+
+---
+
+## Reproducibility Instructions
+
+### Local:
+```bash
+pip install -r requirements.txt
+python train.py
+python predict.py --test_path data/test.csv --out_path submission.csv
