@@ -1,0 +1,87 @@
+---
+title: Chart-to-Text Caption Generation - BLIP Fine-Tunning
+slug: "/qianyun/course-project"
+date: 2025-11-15
+author: DQY
+description: "For my course project, I plan to fine-tune a multimodal LLM (such as BLIP or BLIP-2) to generate natural-language captions for financial stock-chart images. This project lies at the intersection of statistical NLP, vision-language modeling, and financial language understanding."
+tags:
+  - course project
+---
+
+<table>
+  <caption>Course Project Info</caption>
+  <tbody>
+    <tr>
+      <th>Code Repository URL</th>
+      <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-ctrl-f1</td>
+    </tr>
+    <tr>
+      <th>Demo URL (optional)</th>
+      <td></td>
+    </tr>
+    <tr>
+      <th>Team name</th>
+      <td>Ctrl+F1</td>
+    </tr>
+  </tbody>
+</table>
+
+## Project description
+
+This project will evaluate how well vision-language models capture statistical patterns in time-series data through natural-language output.
+
+My dataset begins with a publicly available historical stock-price dataset from Kaggle (“Stock Market Stars: Historical Data of Top 10 Companies”).
+The original dataset contains numerical columns (Date, Open, High, Low, Close, Volume).
+
+To convert this into a multimodal dataset, I generated line-chart images using sliding windows (10–20 days) for each company.
+Each chart is paired with a heuristic caption describing the trend (e.g., “strong upward trend,” “high volatility”).
+
+This transforms a purely tabular dataset into a custom multimodal corpus suitable for chart-captioning fine-tuning.
+
+The goals for my course project are:
+
+1. Fine-tune multimodal models (BLIP / BLIP-2) to generate captions describing chart movements.
+2. Evaluate the model’s caption quality.
+3. Analyze what types of trends the model recognizes well vs. poorly.
+
+## Summary of individual contributions
+
+<table>
+  <thead>
+    <tr>
+      <th>Team member</th>
+      <th>Role/contributions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th><b>Qianyun</b></th>
+      <td>???</td>
+    </tr>
+    <tr>
+      <th><b>???</b></th>
+      <td>???</td>
+    </tr>
+    <tr>
+      <th><b>???</b></th>
+      <td>???</td>
+    </tr>
+  </tbody>
+</table>
+
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility)_
+_If you've covered this in your code repository's README, you can simply link to that document with a note._
+
+## Future improvements
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_

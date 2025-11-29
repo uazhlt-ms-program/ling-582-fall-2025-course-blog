@@ -1,0 +1,184 @@
+---
+title: "Comparing Decoder-Only Transformers to a Supervised Baseline for English–Spanish Machine Translation"
+slug: "/pamelaangulo164/course-project"
+date: 2025-11-16
+author: pamelaangulo164
+description: "Performance of open-source decoder-only transformer language models compared to a supervised neural MT baseline."
+tags:
+  - course project
+---
+<table>
+  <caption>
+    For this project, I will investigate how well an open-source decoder-only transformer language model performs at an EN-SPA MT task compared to a supervised neural MT baseline.
+  </caption>
+<tbody>
+  <tr>
+    <th>Code Repository URL</th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-pamela-angulo</td>
+  </tr>
+  <tr>
+    <th>Demo URL (optional)</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Pamela Angulo Martinez</th>
+    <td></td>
+  </tr>
+</tbody>
+</table>
+
+## Project description
+Comparing Decoder-Only Transformers to a Supervised Baseline for English–Spanish Machine Translation:
+
+- Treat open-source decoder-only LMs as few-shot or instruction-based translators.
+- Compare their performance to a standard supervised MT system fine-tuned on parallel data.
+- Analyze systematic error patterns across several linguistic phenomena.
+---
+
+## Summary of individual contributions
+
+<table>
+  <thead>
+  <tr>
+    <th>Pamela Angulo Martinez</th>
+    <th>Role/contributions</th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>???</b></th>
+    <td>???</td>
+  </tr>
+</tbody>
+</table>
+
+
+### Goal 1: Build a small, controlled MT benchmark
+
+- Create a test set of English–Spanish sentence pairs by:
+  - Sampling from a public parallel corpus (e.g., news/OPUS-style domain) and/or
+  - Curating a small challenge set targeting phenomena like:
+    - Subject–verb agreement
+    - Complex verb tenses and aspect
+    - Pronouns (especially ambiguous or dropped subjects)
+    - Named entities and numbers
+- Ensure the final test set is manageable in size so that manual inspection and error analysis are feasible.
+
+### Goal 2: Establish a supervised MT baseline
+
+- Use a standard encoder–decoder MT model (e.g.a Marian or similar pre-trained English–Spanish model) as a supervised baseline.
+- Evaluate it on the test set using:
+  - Automatic metrics such as BLEU and chrF
+  - Possibly COMET or another learned metric if time allows
+
+### Goal 3: Evaluate decoder-only transformers as MT systems
+
+- Select at least two open-source decoder-only transformer models that can be prompted for translation.
+- Design a simple prompting strategy for EN-ES and SPA-EN.
+- Evaluate these models on the same test set with the same metrics:
+  - Compare their scores to the supervised baseline
+  - Analyze sensitivity to prompt design
+
+### Goal 4: Error analysis and linguistic characterization
+
+- Perform a detailed error analysis for each system on a subset of the test set:
+  - Categorize errors by type (lexical, grammatical, agreement, word order, named entity, punctuation, etc.).
+  - Compare where decoder-only LMs differ most from the supervised MT baseline.
+- Relate these differences to:
+  - Model training paradigms (pretrained LM vs supervised MT)
+  - Data and inductive biases
+- Summarize strengths and weaknesses of each approach for English–Spanish MT.
+
+### Goal 5: Deliverables
+
+- A public course project code repository with:
+  - Scripts for preparing the test set
+  - Evaluation scripts for supervised and decoder-only models
+  - Analysis scripts/notebooks for metrics and error breakdowns
+- A blog-style final post including:
+  - Project description and motivation
+  - Description of the dataset and methods
+  - Quantitative results and qualitative error analysis
+  - Limitations and proposals for future improvements
+  - Link to the code repository and reproduction instructions
+
+## Aspect of Statistical NLP
+
+- Evaluation of probabilistic sequence models (MT models and decoder-only LMs) using standard MT metrics (BLEU, chrF, etc.).
+- Comparison of two statistical paradigms:
+  - Supervised neural MT trained on parallel data
+  - Decoder-only LMs used as translators via prompting
+- Quantitative evaluation and error analysis to characterize how model architecture and training objectives affect translation quality for specific linguistic phenomena.
+
+## Scope and Feasibility
+
+The project is scoped to be appropriate for the course:
+
+- Focus on a single language pair (EN-SPA) and a moderately sized test set.
+- Limit the number of models:
+  - One supervised MT baseline
+  - Two to three decoder-only LMs
+- Emphasis on evaluation and analysis rather than large-scale training:
+  - The supervised baseline can be a pre-trained model
+  - Decoder-only models are used via prompting, avoiding full fine-tuning
+
+## Rough Timeline
+
+## Week 1: Nov 17–23, 2025
+
+- Finalize project scope and select:
+  - Parallel data source(s) for the test set
+  - Target linguistic phenomena for the challenge subset
+- Set up the course-project-code repository with initial structure.
+- Implement scripts to:
+  - Sample a small test set from a parallel corpus
+  - Store it in a simple format such as CSV.
+
+## Week 2: Nov 24–30, 2025
+
+- Finish constructing the evaluation dataset:
+  - Clean and finalize the main test set
+  - Optionally add a small challenge set with targeted examples
+- Implement evaluation for the supervised MT baseline:
+  - Load or call a pre-trained English–Spanish MT model
+  - Generate translations and compute BLEU/chrF
+- Draft an initial results table for the baseline system.
+
+## Week 3: Dec 1–7, 2025
+
+- Implement prompting and evaluation for decoder-only transformers:
+  - Design zero-shot and/or few-shot prompts
+  - Generate translations for the same test set
+  - Compute BLEU/chrF and compare to the baseline
+- Begin systematic error analysis:
+  - Tag or categorize errors on a subset of the test set for each system
+  - Note where decoder-only models differ qualitatively from the supervised baseline
+
+## Week 4: Dec 8–14, 2025
+
+- Complete and refine error analysis:
+  - Summarize error types and examples
+  - Relate observations to training paradigms and model architecture
+- Finalize plots, tables, and narrative discussion of results.
+- Write and polish the final blog post:
+  - Include project description, methods, results, and analysis
+  - Clearly describe limitations and future work
+  - Add reproducibility instructions and code repository link
+- Submit the pull request to the course blog repository.
+
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+## Future improvements
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_

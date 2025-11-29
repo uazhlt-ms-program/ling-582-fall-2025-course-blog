@@ -1,0 +1,84 @@
+---
+title: "AI've Got An Idea: An LSTM Based Approach to Comparing Strings"
+slug: "/aaronradlicki/class-competition"
+date: 2025-11-08
+author: Aaron Radlicki
+description: "For my initial approach, I based my code on my logistic regression classifier..."
+tags:
+  - class competition
+---
+
+
+<table>
+  <caption>
+    Class Competition Info
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>Leaderboard score</b></th>
+    <td>0.40331</td>
+  </tr>
+  <tr>
+    <th><b>Leaderboard team name</b></th>
+    <td>N/A (solo submission)</td>
+  </tr>
+  <tr>
+    <th><b>Kaggle username</b></th>
+    <td>Aaron Radlicki</td>
+  </tr>
+  <tr>
+    <th><b>Code Repository URL</b></th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-IAmPolarExpress</td>
+  </tr>
+</tbody>
+</table>
+
+## Initial Mid-Semester Summary and Plan
+
+For my initial approach, I based my code on my logistic regression classifier from the previous course, LING 539.  However, as one would suspect, that performed extremely poorly.  It was originally designed for a task of comparing different types of reviews with distinct features, but in this case it was comparing multiple types of strings with differing potential authorship, trying to deduce the likelihood that they shared the same original writer.  For the purposes of this task, such a model is non-viable, and as suspected, it performed extremely poorly.  It output a result that predicted all (or nearly all) of the results were from different authors, which is not only a terribly inaccurate result but even caused it to output a result well below the random average.
+
+This is why I am aiming to utilize a much more *applicable* approach to the problem at hand.  Since the sentences utilize pieces of information that might stretch across the entire sentence, using an LSTM seems like the obvious choice.  For someone who is entirely new to using PyTorch and RNNs in general, this seems intimidating, but after having read through some of PyTorch's documentation (and even checking out some similar projects like [this one](https://github.com/mforstenhaeusler/Siamese-LSTM-for-Semantic-Similarity-PyTorch) by mforstenhaeusler on GitHub), it feels doable!
+
+The plan for the back half of the semester is as follows:
+* Implement an LSTM-based approach to compare the strings (and, failing my ability to do that, at least an RNN-based one)
+* Tweak the parameters throughout the remainder of the semester to improve its F1 score
+* Find a way to containerize and run this process on the HPC for higher efficiency and testing
+
+
+\-\-\- The remaining section below will be utilized for my final report at the end of the semester: \-\-\-
+
+## Task summary
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
+
+## Exploratory data analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+
+## Approach
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
+
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+
+## Future Improvements
+
+_Describe how you might best improve your approach_
