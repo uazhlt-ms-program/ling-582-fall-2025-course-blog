@@ -1,0 +1,74 @@
+---
+title: "Comparing Decoder-Only Transformer Language Models for Sentiment Classification"
+slug: "/880417603/course-project"
+date: 2025-11-16
+author: 880417603
+description: "My submission for LING 582 course project"
+tags:
+  - course project
+---
+
+<table>
+  <caption>
+    Course Project Info
+  </caption>
+<tbody>
+  <tr>
+    <th>Code Repository URL</th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-880417603</td>
+  </tr>
+  <tr>
+    <th>Demo URL (optional)</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Team name</th>
+    <td></td>
+  </tr>
+</tbody>
+</table>
+
+
+## Project description
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility).  Use subsections to organize components of the description._
+
+
+## Final Project Goals
+
+_1) Investigate the effectiveness of decoder-only transformer language models (e.g., GPT-style models) on a supervised NLP task without task-specific fine-tuning.
+_2) Evaluate and compare model performance on sentiment classification using a shared evaluation dataset and a fixed prompting strategy._
+_3) Analyze statistical differences in performance across models using established NLP evaluation metrics (e.g., accuracy, precision, recall, F1, and significance testing)_
+_4) Identify systematic error patterns (e.g., confusions between neutral vs. positive, negation errors, sarcasm) that reveal strengths and weaknesses of different model scales and training sources._
+_5) Assess the relationship between model size/capacity and classification accuracy, and discuss whether larger or instruction-tuned models provide meaningful improvements._
+_6)Reflect on implications for real-world NLP applications, including classification reliability, prompt sensitivity, and limitations of zero-shot sentiment classification._
+
+## Project Proposal: Statistical NLP Investigation
+
+_This project will investigate an aspect of statistical natural language processing (NLP) by examining how decoder-only transformer language models perform on sentiment classification, a fundamental task in text analysis and opinion mining. Modern decoder-only LLMs (such as GPT-2, GPT-Neo, Mistral, and Llama-3 models) exhibit strong zero-shot capabilities despite not being explicitly trained as sentiment classifiers. This makes sentiment analysis a suitable testbed for evaluating statistical properties of LLMs as classifiers._
+
+_Using a shared evaluation dataset of short text reviews labeled as positive, neutral, or negative, this project will compare multiple open-source decoder-only models under identical experimental conditions, including:_
+
+_1) A single prompt template for all models_
+_2) Greedy decoding for reproducibility_
+_3) Uniform evaluation metrics across models_
+
+_The project will apply statistical evaluation methods such as accuracy, precision, recall, and F1 score to determine whether observed differences in classification performance are statistically significant. Qualitative error analysis will further explore model behavior on linguistic phenomena including negation, intensifiers, sarcasm, and domain-specific sentiment cues._
+
+
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+## Future improvements
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_
