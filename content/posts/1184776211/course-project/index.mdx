@@ -1,0 +1,175 @@
+---
+title: "Looking for Connections in All the Wrong Places"
+slug: "/1184776211/course-project"
+date: 2025-11-13
+author: 1184776211
+description: "An exploration of semantic word representations in the interest of grouping words in accordance with the New York Times Games Connections puzzle."
+tags:
+  - course project
+---
+
+<table>
+  <caption>
+    Course Project Info
+  </caption>
+<tbody>
+  <tr>
+    <th>Code Repository URL</th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-1184776211</td>
+  </tr>
+  <tr>
+    <th>Demo URL (optional)</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Team name</th>
+    <td>1184776211</td>
+  </tr>
+</tbody>
+</table>
+
+
+## Project description
+
+NYT Games Connections is a daily puzzle that presents the user with 16
+items—generally individual words or short phrases—on 16 "cards" that the user is
+challenged to group into four categories of four cards according to unspecified
+(until after solving) commonalities within each category.
+Most commonly, said commonalities are semantic, often specifically words that
+appear within some given context.
+
+Conceptually, word embeddings, as representations of word meanings based on
+words' contexts, seem particularly well-suited toward automated solving of
+such a puzzle.
+Even so, the cards are often deliberately chosen for their ambiguity, which
+presents players with additional challenges in the form of red herrings and
+misdirection.
+Such ambiguity seems also to present a similar confound for embeddings that
+combine all of a word's contexts into a single representation; if all such
+meanings are blended into a single vector, it is no small challenge to
+know in what dimensions the multiple meanings are represented.
+
+The project aims to explore ways in which this might be resolved.
+There are two avenues of such exploration that may fit into the scope of the
+project.
+
+1. A narrow, supervised approach using pre-trained embeddings and annotated
+categories
+
+It is worth noting up front that this would likely be time-consuming for a
+human, with dubious promise of results.
+It is, however, an idea.
+
+The idea, such as it is, is to generalize the solution categories into some
+basic types, e.g. words from a common practical context,
+words with rough synonymy, words that appear in the context of some other
+specific word (e.g. magic *marker*, magic *carpet*).
+
+Thus, given some known groupings of words into these categories, perhaps a
+model may be trained to perform a classifiction of whether a pair or group
+of candidate words are in that category.
+
+Historical puzzle data, including solutions, is made available by NYT Games;
+however, the generalization of such categories would need to be done manually.
+This is no trivial effort when faced with the roughly 900 existing puzzles at
+the time of writing.
+
+2. An unsupervised approach borrowing from
+[Thurnbauer et al. 2023](https://arxiv.org/abs/2307.13417)
+
+Thurnbauer et al. present a method for capturing ambiguity in word embeddings
+by separating clusters of meaning of a given word form, via the exclusion
+of "noise," i.e. the common contexts that would otherwise conflate the meanings.
+
+A benefit here is that the approach would be entirely unsupervised.
+The subsequent challenge, assuming reproducing their method, would be to use
+resultant multiple embeddings in the puzzle solver itself.
+This subsequent endeavor may likely be beyond the confines of this project.
+
+I have made a request to the authors for the code cited in the article, as
+the github repo has become unavailable since publishing.
+
+
+## Summary of individual contributions
+<table>
+  <thead>
+  <tr>
+    <th>Team member</th>
+    <th>Role/contributions</th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>1184776211</b></th>
+    <td>Sole contributor</td>
+  </tr>
+</tbody>
+</table>
+
+### Tentative timeline
+
+Should the authors of the aforementioned article respond, 
+
+<table>
+<tbody>
+  <tr>
+    <td>2025-11-23</td>
+    <td>Repllicate ambiguity-sensitive training</td>
+  </tr>
+  <tr>
+    <td>2025-11-30</td>
+    <td>Evaluate for puzzle task</td>
+  </tr>
+  <tr>
+    <td>2025-12-07</td>
+    <td>Completion</td>
+  </tr>
+</tbody>
+</table>
+
+Otherwise,
+
+<table>
+<tbody>
+  <tr>
+    <td>2025-11-23</td>
+    <td>Annotate portion of training data (existing puzzle solutions)</td>
+  </tr>
+  <tr>
+    <td>2025-11-30</td>
+    <td>Further annotation, evaluate efficacy</td>
+  </tr>
+  <tr>
+    <td>2025-12-07</td>
+    <td>Completion</td>
+  </tr>
+</tbody>
+</table>
+
+
+
+
+## Results
+
+\#TODO
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
+
+## Error analysis
+
+\#TODO
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
+
+## Reproducibility
+
+\#TODO
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+## Future improvements
+
+\#TODO
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_

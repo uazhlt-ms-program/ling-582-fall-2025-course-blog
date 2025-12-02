@@ -1,0 +1,209 @@
+---
+title: "Prompt Tuning for Natural Language to SQL with Embedding Fine-Tuning and RAG"
+slug: "/krishavardhni/paper-summary"
+date: 2025-11-14
+author: Krisha Vardhni
+description: "My paper summary ..."
+tags:
+  - paper summary
+---
+
+
+## Citation
+
+Jisoo Jang, Tien-Cuong Bui, Yunjun Choi, and Wen-Syan Li. Prompt Tuning for Natural Language to SQL
+with Embedding Fine-Tuning and RAG. https://arxiv.org/pdf/2511.08245. Presented at the Workshop on Robust ML in Open Environments (PAKDD 2024)
+
+
+<table>
+  <caption>
+    Citation summary
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <td><b>Paper</b></td>
+    <td>Prompt Tuning for Natural Language to SQL with Embedding Fine-Tuning and RAG</td>
+  </tr>
+  <tr>
+    <td><b>Authors</b></td>
+    <td>Jisoo Jang, Tien-Cuong Bui, Yunjun Choi, and Wen-Syan Li</td>
+  </tr>
+  <tr>
+    <td><b>Year published</b></td>
+    <td>2025</td>
+  </tr>
+  <tr>
+    <td><b>Venue</b></td>
+    <td>???</td>
+  </tr>
+  <tr>
+    <td><b>Paper URL</b></td>
+    <td>https://arxiv.org/pdf/2511.08245</td>
+  </tr>
+  <tr>
+    <td><b>Code URL</b></td>
+    <td>N/A</td>
+  </tr>
+</tbody>
+</table>
+
+## Description
+
+This paper presents a new approach for imporoving how large language models translate natural language questions into SQL queries.
+Instead of relying only on the model's initial output, the authors suggest a three step error correction pipeline (ECPT) which was formulated by taking inspiration from the medical diagnosis process.
+This pipeline first diagonoses the error types in the query, then identifes their causes and provides fixing instructions/steps by retrieving the similar past mistakes and then finally applies these corrections to SQL queries.
+They have further introduced some improvisations by using embedding fine tuning and RAG. To improve the retrivel process they have also used a fine tuned pre-trained Sentence Transformer with a customized error correction dataset.
+In this paper they have used the Spider training datatset and have explored the performance of their model with different permuations, for example while using RAG, embedding fine tuning and with few shot approach and the main metric they focused on was observing the accuracy.
+Through these experiments a 12% accuracy improvement was noted compared to the existing baseline models. 
+
+## Motivation
+
+I chose this paper because I’m also taking an SQL class this semester, and learning how queries actually work made me curious about how LLMs interpret and generate them. 
+Seeing SQL from the human logic side made me want to understand how an LLM approaches the same task, especially since NL-to-SQL is a very practical problem right now. 
+People already use natural language every day to retrieve information like, checking calendars, asking about weather, or interacting with AI assistants and so improving the accuracy 
+of this translation step could make these systems much smoother and more efficient in daily life. The paper felt like a great cross link between what I’m learning in my courses 
+and how these ideas get applied in modern AI systems.
+
+What also drew me to this paper was the authors’ error-correction pipeline, which is inspired by medical diagnosis. It breaks the problem into diagnosing the error, 
+prescribing a fix, and then treating it by generating an improved SQL query. I found that approach both intuitive and comprehensive, and it made me interested in seeing how well 
+an LLM could summarize or reason about such a structured method.
+
+Finally, because this assignment involves comparing the LLM’s understanding of the paper with my own, I thought this was a good test case. 
+The framework in the paper seems very straightforward for a human to follow, so if the LLM struggles with it or misses key details, it might reveal something about 
+the model’s fundamental limitations  that could also show up in bigger or more complex tasks. That made the paper not only interesting to read but also useful 
+for the kind of analysis we’re supposed to do in this assignment.
+
+## LLM
+
+<table>
+  <caption>
+    LLM model summary
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>LLM model</b></th>
+    <td>???</td>
+  </tr>
+  <tr>
+    <th><b>LLM model version</b></th>
+    <td>???</td>
+  </tr>
+  <tr>
+    <th><b>Model/service URL</b></th>
+    <td>???</td>
+  </tr>
+  <tr>
+    <th><b>Why this model?</b></th>
+    <td>???</td>
+  </tr>
+</tbody>
+</table>
+
+
+#### Description (LLM)
+
+_In the LLM's words, what is this paper about?_
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### What are the authors proposing?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### What is the motivation for the work?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### What is the approach or innovation?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### What are the results and how do they compare with competing approaches?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### Is the comparison fair?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### What are the takeaways according to the authors?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### What are the takeaways according to you?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### Would you use this?  If so, how/where would you use this?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### What problems remain and what are the next steps?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+### Experience using the LLM
+
+_Describe your process for using the LLM.  How did the LLM perform?_
+ 
+#### Errors and limitations of the LLM 
+
+_Where did it fall short or make mistakes?_

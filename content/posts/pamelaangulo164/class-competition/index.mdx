@@ -1,0 +1,88 @@
+---
+title: "Detecting Shared Authorship with Classical Stylometry"
+slug: "/pamelaangulo164/class-competition"
+date: 2025-11-16
+author: "pamelaangulo164"
+description: "My approach to the shared task on identifying whether two snippets of text were written by the same author."
+tags:
+  - class competition
+  - authorship identification
+  - stylometry
+---
+
+<table>
+  <caption>
+    Class Competition Info
+  </caption>
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th><b>Leaderboard score (macro F1)</b></th>
+      <td>0.46238</td>
+    </tr>
+    <tr>
+      <th><b>Leaderboard team name</b></th>
+      <td>Pamela Angulo Martinez (individual)</td>
+    </tr>
+    <tr>
+      <th><b>Kaggle username</b></th>
+      <td>pamelaangulomartinez</td>
+    </tr>
+    <tr>
+      <th><b>Code Repository URL</b></th>
+      <td>
+        <a href="https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-pamelaangulo164">
+          https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-pamelaangulo164
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Task summary
+
+This shared task is a binary classification problem in author profiling / digital stylometry.
+
+Each data point consists of two text spans in English, concatenated with the special delimiter `[SNIPPET]`. The goal is to predict whether both spans were written by the same author (`LABEL = 1`) or by different authors (`LABEL = 0`).
+
+I treat the shared task as a binary text classification problem over the full concatenated TEXT field (two spans joined by `[SNIPPET]`). Each example is represented using character 3–5-gram TF–IDF features, and I train a linear Support Vector Machine (LinearSVC) classifier on these features.
+Character n-grams are intended to capture orthographic and stylistic patterns that are more stable across topics and help deal with the relatively high OOV rate in the test set.
+
+My full pipeline is implemented in the repository:
+
+- **Repo name:** ling-582-fall-2025-class-competition-code-pamelaangulo164  
+- **URL:** https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-pamelaangulo164
+
+
+## Exploratory data analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+
+## Approach
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
+
+## Results
+
+Using a stratified 80/20 train–validation split on train.csv, this baseline model reaches a macro F1 score of 0.4717 on the validation set, with overall accuracy of 0.7695. The classifier performs very well on the majority class (label 0, “not same author”) but has low recall and F1 for the minority class (label 1, “same author”), reflecting the underlying label imbalance in the data.
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+
+## Reproducibility
+
+```bash
+   git clone https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-pamelaangulo164.git
+   cd ling-582-fall-2025-class-competition-code-pamelaangulo164
+   ```
+
+
+## **Future improvements**
+
+My model already performs well on the majority class, but struggles to identify same author pairs. During the rest of this course, I would like focus on handling class imbalance more explicitly, creating a richer representation for author style, and perhaps, experimenting with more powerful models and ensembling.

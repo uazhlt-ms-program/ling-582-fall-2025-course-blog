@@ -1,5 +1,5 @@
 ---
-title: "Summary of BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding"
+title: "Techniques for Universal Neural Machine Translation: Insights for Low-Resource Language Translation"
 slug: "/josefgarcia/paper-summary"
 date: 2025-11-09
 author: josefgarcia
@@ -24,43 +24,35 @@ tags:
   </thead>
 <tbody>
   <tr>
-    <td><b>BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding</b></td>
-    <td>???</td>
+    <td><b>Paper</b></td>
+    <td>Universal Neural Machine Translation for Extremely Low Resource Languages</td>
   </tr>
   <tr>
     <td><b>Authors</b></td>
-    <td>Jacob Devlin, Ming-Wei Chang, Kenton Lee, Kristina Toutanova</td>
+    <td>Jiatao Gu, Hany Hassan, Jacob Devlin, Victor O.K. Li</td>
   </tr>
   <tr>
     <td><b>Year published</b></td>
-    <td>2019</td>
+    <td>2018</td>
   </tr>
   <tr>
     <td><b>Venue</b></td>
-    <td>Proceedings of the 2019 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies (NAACL-HLT)</td>
+    <td>Proceedings of the 2018 Conference of the North American Chapter of the Association for Computational Linguistics: Human Language Technologies, Volume 1 (Long Papers), pages 344–354, New Orleans, Louisiana. Association for Computational Linguistics.</td>
   </tr>
   <tr>
     <td><b>Paper URL</b></td>
-    <td><a href="https://arxiv.org/abs/1810.04805" target="_blank">https://arxiv.org/abs/1810.04805</a></td>
-  </tr>
-  <tr>
-    <td><b>Code URL</b></td>
-    <td><a href="https://github.com/google-research/bert" target="_blank">https://github.com/google-research/bert</a></td>
+    <td><a href="https://aclanthology.org/N18-1032/" target="_blank">https://aclanthology.org/N18-1032/</a></td>
   </tr>
 </tbody>
 </table>
 
 ## Description
 
-_In your own words, what is this paper about?_
-
-Bidirectional Encoder Representations from Transformers (BERT) is a novel approach to pre-training language representations using deep bidirectional transformers from unlabeled text. BERTs approach differed from Open AI GPT's (Radford et al., 2018) unidirectional training, BERT was trained to consider both left and right context. There was novelty in the pre-training tasks using two unsupervised tasks; BERT used Masked Language Modeling (MLM) and Next Sentence Prediction (NSP). MLM randomly masks a word, then predicts the masked word based on the context. NSP predicts when sentences follow eachother when considering sentence pairs. For fine-tuning BERT, we add additional outpu layers to the pre-trained model and adjust the parameters using labeled data from downstream tasks. BERT revealed that deep bidirectional architectures are more powerful than its unidirecitonal counterparts, this method achieved significant improvements on NLP tasks such as language inference and question answering.
+The paper presents a "universal" neural machine translation (NMT) for extremely low resource languages. The main approach is maximizing transfer learning and representation sharing across multiple languages. The author introduce Universal Lexical Representations (ULR) and Mixture of language Experts (MoLE). ULR is a shared multilingual embedding space across all source languages, the low resources benefit from these shared embeddings. MoLE, intuitvely, each model has it's own shared expert encoder of each of the source languages. These two methods combined encourage lexical and sentence level sharing mkaing it possible to effectively train machine translation for a target language with almost no parellel data.
 
 ## Motivation
 
-_Why did you select this paper?_
-
-I selected this paper because BERT had a significant impact on the field of NLP, introducing a transformer architecture that enabled contextual understanding in language models. The bidrectional approach of BERT allowed meaning of words to be captured based on the surrounding context. I'm extremely fascinated by the fact that we can train many languages simultaneously and achieve above average performance on lower resource languages. I believe that all technologies should be accessible to everyone, not just english speakers, and BERT was a major step in that direction (pun intended). This is a cornerstone in modern NLP, that most certainly influence many subsequent models and research in the field of multilingual natural language processing. 
+I selected this paper because I'm interested in how modeern "universal" neural machine translation (NMT) can be adapted to low resource languages. I was specifically interested in the practical application to my course project and seeing if the paper could provide value to my approach. I'm extremely fascinated by the fact that we can train many languages simultaneously and achieve above average performance on lower resource languages with little to no parallel data. I believe that all technologies should be accessible to everyone, not just english speakers. 
 
 ## LLM
 
@@ -77,19 +69,19 @@ I selected this paper because BERT had a significant impact on the field of NLP,
 <tbody>
   <tr>
     <th><b>LLM model</b></th>
-    <td>???</td>
+    <td>SmolLM3</td>
   </tr>
   <tr>
     <th><b>LLM model version</b></th>
-    <td>???</td>
+    <td>SmolLM3-3B</td>
   </tr>
   <tr>
     <th><b>Model/service URL</b></th>
-    <td>???</td>
+    <td>https://huggingface.co/HuggingFaceTB/SmolLM3-3B</td>
   </tr>
   <tr>
     <th><b>Why this model?</b></th>
-    <td>???</td>
+    <td>SmolLM3 is a lightweight model, that is easily ran on a single GPU and pushes the boundaries of small models.</td>
   </tr>
 </tbody>
 </table>
@@ -97,96 +89,219 @@ I selected this paper because BERT had a significant impact on the field of NLP,
 
 #### Description (LLM)
 
-_In the LLM's words, what is this paper about?_
+The paper titled "Universal Neural Machine Translation for Extremely Low Resource Languages" was written by Google Researcher Jacob Devlin. This paper explores a novel approach to neural machine translation (NMT) for languages that have limited resources, such as very small or non-existent datasets. The goal of the research is to develop a more efficient and effective method for training NMT models in such resource-constrained environments.
+
+The paper presents a method called "Universal Neural Machine Translation" (UNMT), which aims to generalize across different languages and languages with limited resources. The authors argue that traditional NMT approaches, which rely on large and diverse datasets, are not feasible for languages with extremely limited resources. In such cases, the existing models may not learn the language patterns effectively, leading to poor translation quality.
+
+The core idea of UNMT is to train a single, universal model that can be fine-tuned for specific languages with limited resources. This approach leverages the concept of "universal" to enable the model to learn general patterns that are common across languages, rather than being language-specific. By doing so, the model can be trained on a smaller dataset, which is more representative of the language's grammar and vocabulary.
+
+To achieve this, the authors propose a novel architecture that combines several components, including a sequence-to-sequence model, a language model, and a language-specific adaptation mechanism. The sequence-to-sequence model serves as the backbone of the UNMT architecture, while the language model is used to capture the general patterns of the language. The language-specific adaptation mechanism is responsible for fine-tuning the model for the specific language, taking into account its unique characteristics.
+
+The authors demonstrate the effectiveness of their UNMT approach through extensive experiments on several languages with limited resources, including languages with small or non-existent datasets. The results show that UNMT achieves state-of-the-art performance on a range of translation tasks, including sentence-level and phrase-level translation, and demonstrates a significant improvement in translation quality compared to traditional NMT approaches
+
 
 ##### Prompt
 
 ```markdown
-prompt here
+'Provide a description of the academic paper written by google researcher Jacob Devlin, "Universal Neural Machine Translation for Extremely Low Resource Languages".'
 ```
 
 #### What are the authors proposing?
 
+In Jacob Devlin's academic paper "Universal Neural Machine Translation for Extremely Low Resource Languages," the authors propose a novel approach to neural machine translation (NMT) that aims to improve translation quality for languages with extremely limited resources. The key idea is to create a universal language model that can learn representations for any language, regardless of its size or resource availability. Here's a summary of the proposed approach:
+
+1. **Universal Language Model**: The paper introduces a universal language model (ULM) that can learn representations for any language, including those with extremely low resources. The ULM is trained on a large corpus of multilingual data, which allows it to capture the commonalities and differences across languages.
+
+2. **Contextualized Embeddings**: The ULM uses contextualized embeddings, which are learned representations that capture the meaning of words in context. This approach enables the model to learn representations that are language-agnostic and can be applied to any language.
+
+3. **Universal Neural Machine Translation (UNMT)**: The authors propose a universal neural machine translation (UNMT) architecture that uses the ULM to generate translations. The UNMT architecture consists of a two-layer neural network that takes as input the source sentence and the ULM representations for the target language.
+
+4. **Multilingual Preprocessing**: To improve the performance of the UNMT, the authors propose a multilingual preprocessing step. This step involves tokenizing the input sentence into tokens and generating ULM representations for each token in the
+
 ##### Prompt
 
 ```markdown
-prompt here
+'What are the authors proposing in the academic paper by google researcher Jacob Devlin "Universal Neural Machine Translation for Extremely Low Resource Languages"?'
 ```
 
 #### What is the motivation for the work?
 
+The motivation for Jacob Devlin's academic paper "Universal Neural Machine Translation for Extremely Low Resource Languages" lies in addressing the challenges faced by machine translation (MT) systems when working with extremely low-resource languages, also known as "zero-resource" languages. These languages typically have very few training examples, which severely limits the ability of neural machine translation (NMT) models to learn the complex patterns and relationships within the language.
+
+In NMT, the primary goal is to learn a mapping from the input language (source) to the output language (target) such that the translation is faithful and accurate. However, when dealing with languages with extremely low resource, the available training examples are often too scarce to effectively train a robust NMT model. This limitation arises due to the following reasons:
+
+1. **Lack of training examples**: The scarcity of training examples means that the model does not have sufficient data to learn the nuances of the language and its grammar.
+2. **Insufficient coverage of vocabulary**: Low-resource languages often have smaller vocabularies, which can further limit the model's ability to capture the complexity of the language.
+3. **Limited exposure to syntactic and semantic patterns**: With fewer training examples, the model may not be able to learn the typical syntactic and semantic patterns found in the language.
+
+To overcome these challenges, Devlin's work focuses on developing a novel approach to NMT that can effectively handle languages with extremely low resources. The key motivations for this research are:
+
+1.
+
 ##### Prompt
 
 ```markdown
-prompt here
+'What was the motivation for the work in the academic paper by google researcher Jacob Devlin "Universal Neural Machine Translation for Extremely Low Resource Languages"?'
 ```
 
 #### What is the approach or innovation?
 
+Jacob Devlin's "Universal Neural Machine Translation for Extremely Low Resource Languages" (2016) introduced a significant approach to machine translation, particularly for languages with very limited resources. The main innovation lies in the concept of "Universal Language Model" (ULM), which is a neural network trained to predict any word in any language from any context. This is in contrast to traditional machine translation approaches, where models are typically fine-tuned for a specific language pair.
+
+**Key Features of the Approach:**
+
+1. **Universal Language Model (ULM):** ULM is a single neural network that can predict any word in any language from any context. This allows for the translation of languages with very limited resources, such as those with few training examples.
+2. **Joint Training:** ULM is trained jointly for all languages, which means that the model learns patterns and relationships across languages, rather than being fine-tuned for individual language pairs.
+3. **Multi-task Learning:** ULM is trained on multiple tasks, including translation, question answering, and language modeling, which helps it to learn more robust representations of language.
+
+**Evolution with Future Research:**
+
+1. **Multi-Task Learning:** The concept of multi-task learning has become increasingly popular in natural language processing (NLP) research, and ULM's approach has inspired subsequent work on multi-task learning for NLP tasks.
+2. **Efficient Language Modeling:** ULM's use of a universal language model for language modeling has led
+
+
 ##### Prompt
 
 ```markdown
-prompt here
+'In "Universal Neural Machine Translation for Extremely Low Resource Languages" by google researcher Jacob Devlin, what is the approach or innovation? How did this approach evolve with future research?'
 ```
 
 #### What are the results and how do they compare with competing approaches?
 
+In "Universal Neural Machine Translation for Extremely Low Resource Languages" by Google Researcher Jacob Devlin and his team, the research focuses on developing a machine translation system that can handle extremely low-resource languages (ELRs) effectively. These languages often have limited training data and computational resources, making them challenging for traditional machine translation approaches.
+
+**Results:**
+
+1. **Improved Performance:** The researchers achieved state-of-the-art performance on ELR translation tasks, such as translating from Bengali (an ELR) to English. Their model, called Universal Neural Machine Translation (UNMT), outperformed previous state-of-the-art models by a significant margin on several ELR translation benchmarks.
+2. **Robustness:** UNMT demonstrated robustness to various forms of language variation, including dialects and orthographic variations, which are common in ELRs.
+3. **Efficiency:** The model was designed to be efficient in terms of computational resources, making it suitable for low-resource environments.
+
+**Comparison with Competing Approaches:**
+
+1. **Traditional Machine Translation Approaches:** UNMT outperformed traditional machine translation approaches, such as phrase-based models and deep learning-based models, on ELR translation tasks.
+2. **Language Models:** UNMT's architecture was designed to be more efficient and effective than traditional language models, which often require large amounts of training data and computational resources.
+3. **Cross-Lingual Translation:** UNMT was designed to support cross-lingual translation, which is a
+
+
 ##### Prompt
 
 ```markdown
-prompt here
+'In "Universal Neural Machine Translation for Extremely Low Resource Languages" by google researcher Jacob Devlin, What are the results and how do they compare with competing approaches?'
 ```
 
 #### Is the comparison fair?
 
+The comparison of Word2Vec, GloVe, and FastText in the paper "Universal Neural Machine Translation for Extremely Low Resource Languages" by Jacob Devlin is fair in the sense that it presents a comprehensive evaluation of three popular pre-training methods for word embeddings. However, the fairness of the comparison depends on how these models were fine-tuned and evaluated on the specific task and dataset used in the study.
+
+Here are some considerations:
+
+1. **Similarity in Pre-training Goals**: All three models (Word2Vec, GloVe, and FastText) are pre-trained on the same task, which is to predict the probability of a context word given a target word. This similarity in pre-training goals allows for a fair comparison of their word embeddings.
+
+2. **Evaluation Metrics**: The authors evaluate the performance of the pre-trained word embeddings using various metrics, including BLEU (a measure of translation quality), perplexity, and word alignment accuracy. These metrics are relevant for the task of neural machine translation (NMT) and provide a fair comparison of the models' performance.
+
+3. **Dataset and Fine-Tuning**: The paper uses a dataset of 1,000 extremely low-resource languages, which is a challenging dataset for pre-training word embeddings. The authors fine-tune the pre-trained word embeddings using a specific NMT training setup, which allows for a fair comparison of the models' performance under the same conditions.
+
+However, there are some potential issues with the comparison:
+
+1. **Different Pre
+
 ##### Prompt
 
 ```markdown
-prompt here
+'In "Universal Neural Machine Translation for Extremely Low Resource Languages" by google researcher Jacob Devlin, the comparison approaches are Word2Vec and GloVe, and FastText, are these comparison fair?'
 ```
 
 #### What are the takeaways according to the authors?
 
+According to the authors of "Universal Neural Machine Translation for Extremely Low Resource Languages," the key takeaways and insights can be summarized as follows:
+
+1. **Universal Language Model (ULM):** The authors introduce a Universal Language Model (ULM) that can be fine-tuned for any language with a limited number of training examples. This model is designed to be flexible and adaptable, allowing it to learn patterns and representations that generalize across languages.
+
+2. **Low-Resource Training:** The authors demonstrate that their ULM can be trained on extremely low-resource datasets, such as a few thousand parallel sentence pairs or a single parallel sentence. This is a significant improvement over traditional NMT approaches, which often require millions of parallel examples to achieve good performance.
+
+3. **Translation Quality:** The ULM-based NMT system achieves state-of-the-art translation quality on several low-resource datasets, including languages with fewer than 100 parallel sentence pairs. This is a major breakthrough, as it shows that NMT can be effective even when the training data is extremely limited.
+
+4. **Adaptability:** The ULM-based NMT system can be fine-tuned for any language, allowing it to adapt to new languages and domains with minimal additional training data. This makes it a valuable tool for multilingual and low-resource NLP applications.
+
+5. **Efficiency:** The ULM-based NMT system is highly efficient, requiring only a few million parameters to achieve high translation quality. This makes it computationally feasible
+
 ##### Prompt
 
 ```markdown
-prompt here
+'In "Universal Neural Machine Translation for Extremely Low Resource Languages" by google researcher Jacob Devlin, What are the takeaways according to the authors?'
 ```
 
 #### What are the takeaways according to you?
 
+"Universal Neural Machine Translation for Extremely Low Resource Languages" by Jacob Devlin is a significant paper in the field of machine translation, particularly focusing on developing a model that can efficiently handle languages with extremely low resources. Here are the key takeaways from the paper:
+
+1. **Universal Machine Translation (UMT):** The paper introduces the concept of Universal Machine Translation (UMT), a model that can translate between any pair of languages without being trained for each specific language pair. This is a significant improvement over traditional machine translation models, which are typically trained for specific language pairs.
+
+2. **Efficient Training:** UMT achieves efficient training by using a few thousand parallel sentences from a common language (e.g., English) to bootstrap the translation process. This approach allows the model to learn the translation patterns from the common language and apply them to other languages with minimal training data.
+
+3. **Translation Accuracy:** The authors demonstrate that UMT achieves state-of-the-art translation accuracy on a wide range of languages, even those with very limited resources. This is achieved through the efficient use of parallel data and the ability to generalize across different language pairs.
+
+4. **Handling Low Resource Languages:** The paper highlights the effectiveness of UMT in handling languages with extremely low resources, such as those with only a few thousand parallel sentences. This is a critical challenge in machine translation, as many languages lack sufficient parallel data for training traditional models.
+
+5. **Multi-Task Learning:** UMT leverages multi-task learning to
+
 ##### Prompt
 
 ```markdown
-prompt here
+'In "Universal Neural Machine Translation for Extremely Low Resource Languages" by google researcher Jacob Devlin, What are the takeaways according to you?'
 ```
 
 #### Would you use this?  If so, how/where would you use this?
 
+In "Universal Neural Machine Translation for Extremely Low Resource Languages" by Jacob Devlin, the researchers propose a novel approach to machine translation that addresses the challenges posed by extremely low-resource languages (ELRs). The key idea behind this approach is to develop a universal neural machine translation (NMT) model that can learn from a variety of language pairs, including those involving ELRs.
+
+**How to Use This:**
+
+To use this approach, you would follow these general steps:
+
+1. **Collect Language Pairs:** Gather a set of language pairs that include ELRs and their corresponding translation targets. These language pairs can be obtained from various sources, such as:
+   - Crowdsourced data (e.g., Amazon Mechanical Turk, TranslatorsCafe)
+   - Existing machine translation datasets (e.g., WMT, IWSLT)
+   - Social media and online forums (e.g., Reddit, Stack Exchange)
+2. **Preprocess Data:** Preprocess the language pairs to create a suitable format for training the NMT model. This may involve:
+   - Tokenizing and padding the input and output sequences
+   - Encoding the language pairs as a bipartite graph (i.e., one side for the source language and the other side for the target language)
+3. **Train the NMT Model:** Train the universal NMT model on the collected language pairs using a suitable optimization algorithm (e.g., Adam, RMSProp). The model should be designed to learn from the diverse language
+
+
 ##### Prompt
 
 ```markdown
-prompt here
-```
-
-##### Prompt
-
-```markdown
-prompt here
+'In "Universal Neural Machine Translation for Extremely Low Resource Languages" by google researcher Jacob Devlin, Would you use this?  If so, how/where would you use this?'
 ```
 
 #### What problems remain and what are the next steps?
 
+Jacob Devlin's work on Universal Neural Machine Translation (UNMT) for extremely low-resource languages is a significant advancement in the field of machine translation. However, as with any research, there are still several problems and areas for improvement. Here are some of the key challenges and next steps:
+
+**Problems to be addressed:**
+
+1. **Data scarcity:** Extremely low-resource languages often have limited data, making it challenging to train reliable models. Devlin's approach uses a data-efficient method, but more data is still needed to improve performance.
+2. **Model architecture:** Current models, such as UNMT, rely on transformer architectures, which can be computationally expensive. Developing more efficient models that can handle low-resource languages without sacrificing performance is essential.
+3. **Translation quality:** While UNMT achieves high BLEU scores, there is still room for improvement in terms of fluency, accuracy, and human-like translation.
+4. **Language-specific features:** Languages have unique characteristics, such as grammatical structures, idioms, and vocabulary. Incorporating language-specific features into the model can improve performance, but this requires significant research.
+5. **Ambiguity and disambiguation:** Languages often have ambiguous words or phrases, which can lead to incorrect translations. Developing methods to disambiguate such cases is crucial.
+6. **Contextual understanding:** Understanding the context of a sentence or paragraph is essential for accurate translation. Current models struggle with contextual understanding, especially in low-resource languages.
+
+
 ##### Prompt
 
 ```markdown
-prompt here
+'In "Universal Neural Machine Translation for Extremely Low Resource Languages" by google researcher Jacob Devlin, What problems remain and what are the next steps?'
 ```
 
 ### Experience using the LLM
 
 _Describe your process for using the LLM.  How did the LLM perform?_
- 
+
+I created a python jupyter notebook to run the LLM in Google Colab. I used Google Colab because of the free GPU resources (I can use 'cuda'). After initalizing the model, I simply copied and paste the new prompts for new results. I set the max tokens to 300 to get sufficient content to analyze. In the huggingface, installation and setup is explained well, the documentation made it easy to run the LLMS. Each prompt only took 15 seconds per run with this setup.
+
 #### Errors and limitations of the LLM 
 
 _Where did it fall short or make mistakes?_
+The LLM speaks well to the high level overview (or abstract) of the paper. However, the LLM misses the key takeaways of the paper, the LLM never mentions Universal Lexical Representations (ULR) and Mixture of language Experts (MoLE). The LLM mentions Bengali (an ELR) to English, when asked about results, the actual results was tested on no parallel data of the Romanian language. The LLM generalizes the paper well, but doesn't specify the actual methods intropduced in the paper. Word2Ved and FastText are both used in the paper, the model inaccurately explains how these models are fair in comparison.

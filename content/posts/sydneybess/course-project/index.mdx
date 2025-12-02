@@ -1,0 +1,106 @@
+---
+title: "OCR for Indigenous Languages"
+slug: "/sydneybess/course-project"
+date: 2025-11-5
+author: Sydney B
+description: OCR Indigenous Language draft
+tags:
+  - course project
+---
+
+<table>
+  <caption>
+    Course Project Info
+  </caption>
+<tbody>
+  <tr>
+    <th>Code Repository URL</th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-indigenous-language-ocr</td>
+  </tr>
+  <tr>
+    <th>Demo URL (optional)</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Team name</th>
+    <td></td>
+  </tr>
+</tbody>
+</table>
+
+
+## Project description
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility).  Use subsections to organize components of the description._
+
+Draft summary:
+
+For this project I am trying to do Optical Character Recognition on typed resources (old and typewritten, scanned documents) in Coeur d'Alene (CdA). The documents are written in a sort of phonetic transcription with lots of accents.
+But the goal is we want to be able to extract the text, make it searchable, and able to be put into a database. First we have to extract it which I'm using transformers and synthetic data.
+--- 
+**Goal 1 (Nov 17)**: Create the synthetic data  ✅ [You can see some which I generated](https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-indigenous-language-ocr/tree/main/gen-samples)
+
+  Tools I'll be using:
+  * Markovify (create made up words)
+  * Pillow (generate the images)
+  * Augraphy (for photo augmentation)
+--- 
+**Goal 2 (Nov 24)**: Create the model and train on synthetic data to perform OCR on new sources 👩‍💻  [You can see what I have so far](https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-indigenous-language-ocr/blob/main/current_scripts/current_model.ipynb)
+
+Tools I'll be using:
+* TrOCR
+* Transformers
+---
+**Goal 3 (Nov 28)**: Improve the model and start working on layout parsing to seperate the English from the CdA and run the respective OCR models. 
+Because TrOCR doesn't do full pdf's, I'll also have to use a tool to split into parts along with splitting by language 
+
+Tools I'll be using:
+  * Maybe use PyTesseract to create line boundary boxes and filter even and odds to English or CdA and then save them as individual pictures and run through base and modified models
+---
+**Goal 4 (Dec 5)**: Have performed testing using the layout parsing and gotten good results
+
+---
+**Goal 5 (Dec 7)**: Completed blog post and finalized code
+
+
+## Summary of individual contributions
+<table>
+  <thead>
+  <tr>
+    <th>Team member</th>
+    <th>Role/contributions</th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>???</b></th>
+    <td>???</td>
+  </tr>
+  <tr>
+    <th><b>???</b></th>
+    <td>???</td>
+  </tr>
+  <tr>
+    <th><b>???</b></th>
+    <td>???</td>
+  </tr>
+</tbody>
+</table>
+
+
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+## Future improvements
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_
