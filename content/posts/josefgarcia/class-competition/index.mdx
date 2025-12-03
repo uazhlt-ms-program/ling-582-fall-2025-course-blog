@@ -1,7 +1,7 @@
 ---
 title: "Bag of n-grams & TFIDF scores of n-grams approach for Text Classification"
 slug: "/josefgarcia/class-competition"
-date: 2025-11-09
+date: 2025-12-02
 author: josefgarcia
 description: "My approach can be summarized as ..."
 tags:
@@ -22,7 +22,7 @@ tags:
 <tbody>
   <tr>
     <th><b>Leaderboard score</b></th>
-    <td>0.50968</td>
+    <td>0.52563</td>
   </tr>
   <tr>
     <th><b>Leaderboard team name</b></th>
@@ -49,31 +49,36 @@ For this class competition, the task is to classify text snippet into two catego
 
 ## Exploratory data analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+Initial analysis revealed a notable class imbalance, with the majority class (label 0) significantly outnumbering the minority class (label 1). Specifically, the training data contains 1,245 samples labeled as 0, compared to 356 samples labeled as 1. To address this imbalance, the model was trained using class weighting in logistic regression, and evaluation focused on metrics sensitive to the minority class, such as F1-score and recall.
+
+Additional visualizations can be found in the [nlp_pipeline.ipynb](https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-YouKnowJoey/blob/main/nlp_pipeline.ipynb) notebook.
 
 ## Approach
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
-
-For input design, the text snippets will be preprocessed through lowercasing, punctuation removal, and tokenization using NLTK. To represent the text numerically, I employed a bag of n-grams model combining with TF-IDF weighting to capture both word frequency and contextual importance. Additionally, I incorporated GloVe word embeddings to enhance the representation with semantic information, then combined these two representations for classification. TF-IDF and GloVe embeddings enable the model to identify meaningful patterns and differences during text classification.
-
-I will experiment with several classification models such as logisitc regression, ensemble methods like XGboost, and support vector machines (SVM). Hyperparameter tuning will be performed using grid search and cross-validation to optimize the model's performance. The final model will be selected based on its accuracy on the validation set. 
+For input design, the text snippets are first preprocessed through lowercasing, punctuation removal, and tokenization using NLTK. To convert the text into numerical features, I use a bag-of-n-grams representation combined with TF-IDF weighting. This approach captures both term frequency and the contextual relevance of n-gram patterns, enabling the classifier to better distinguish meaningful signals across classes.
 
 ## Results
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
+These scores represent the classification report from the development set. 250 majority class label 0, and 71 minority class label 1.
+
+- Validation Accuracy: 0.589
+- F1-Score: 0.70
+- Recall: 0.48 (minority class identification)
+
+The model shows moderate accuracy of about 59%, but the minority class recall (0.48) is substantially higher than without balancing, it's capturing half of the rare class instances. This represents the models ability to capture the minority class. 
 
 ## Error analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+Many instances of the minority class (label 1) were misclassified as the majority class (label 0). The false negatives (FN) reduce recall, this highlights the fact that certain patterns in the minority class are too subtle for the current features.
+
+Some majority class instances were incorrectly predicted as the minority class. The precision for label 1 is only 0.26, showing a portion of predicted minority labels are actually from the majority class. This is possibly due to the overlapping vocabulary or phrases that appear in both classes, hence, the nessecity for a more complex model or additional feature engineering.
 
 ## Reproducibility
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
-_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
-
+Follow the instructions in the [README.md](https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-YouKnowJoey)
 
 ## Future Improvements
 
 _Describe how you might best improve your approach_
 
+First and foremost, to improve this approach, I would explore additional features that provide richer contextual information. Incorporating word embeddings, such as GloVe or FastText, would enable the model to capture semantic relationships beyond exact n-grams. To fully model the complexity of this dataset, a combination of embeddings with sequence based models, such as RNNs, LSTMs, or transformers.
