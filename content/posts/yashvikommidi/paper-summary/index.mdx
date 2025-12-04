@@ -224,10 +224,38 @@ Based on the paper given, what is the approach or innovation proposed by the aut
 
 #### What are the results and how do they compare with competing approaches?
 
+The authors describe the results of their ALEX framework in the paper as follows:  
+
+Task 1: COVID Diagnosis  
+
+The ALEX framework achieves the highest F1 scores among all methods. The baseline methods (e.g., BERT-L) outperform simpler baselines but are outperformed by ALEX-L.
+
+
+Task 2: Sentiment Analysis  
+
+ALEX-L outperforms other approaches, including BERTweet-L and CT-BERT (v2), in the F1 score for the minority class.
+
+
+Task 4: Social Anxiety Analysis  
+
+ALEX-L achieves the highest F1 scores and accuracy across all methods, demonstrating superiority in public health-related tasks.
+
+
+
+Comparison with Competing Approaches
+
+ALEX-L vs. Baselines: ALEX-L consistently outperforms baseline models like BERT, RoBERTa, and XLNet in all three tasks.  
+ALEX-L vs. CT-BERT (v2): ALEX-L outperforms CT-BERT (v2) in all tasks, especially in Task 4 where it achieves the highest F1 score.  
+Competition Context: The results are based on the SMM4H 2023 competition, where ALEX-L ranks first in two tasks and top in the third. While the full test set was not used, the competition results validate the framework's effectiveness in real-world public health applications.
+
+The authors' framework integrates balanced data training with LLM-based correction, addressing data imbalance and model limitations. These results highlight ALEX-L's ability to improve public health analysis accuracy and transparency, particularly in tasks requiring minority class prediction and domain-specific reasoning.
+
 ##### Prompt
 
 ```markdown
-prompt here
+In the paper "Balanced and Explainable Social Media Analysis for Public Health with Large Language Models," what are the results? Describe them clearly. 
+Also, how do these results compare with the competing approaches? 
+Use only the information mentioned in the paper, and do not guess any numbers that are not clearly stated.
 ```
 
 #### Is the comparison fair?
