@@ -193,26 +193,28 @@ Focus only on the motivation like the problems and needs they want to address. A
 
 The authors propose an innovative framework called ALEX to address key challenges in public health social media analysis:  
 
-#### Balanced Data Training:  
+Balanced Data Training:  
 
-Data Augmentation: Utilizes TextAttack to artificially increase the minority class samples in social media datasets.  
-Weighted Loss Fine-Tuning: Fine-tunes BERT models with a weighted loss function to prioritize underrepresented classes, enhancing minority class representation.
+  Data Augmentation: Utilizes TextAttack to artificially increase the minority class samples in social media datasets.  
+
+  Weighted Loss Fine-Tuning: Fine-tunes BERT models with a weighted loss function to prioritize underrepresented classes, enhancing minority class representation.
 
 
 LLM-Based Correction:  
 
-Prompting for Explanation: Constructs LLM prompts (e.g., combining original text, predicted BERT labels, and labelling rules) to guide LLMs in evaluating BERT predictions.  
-Transparency and Accuracy: LLMs identify incorrect BERT predictions by analyzing evidence in the text, providing step-by-step explanations for corrections.
+  Prompting for Explanation: Constructs LLM prompts (e.g., combining original text, predicted BERT labels, and labelling rules) to guide LLMs in evaluating BERT predictions.  
+
+  Transparency and Accuracy: LLMs identify incorrect BERT predictions by analyzing evidence in the text, providing step-by-step explanations for corrections.
 
 
 Validation and Competition Context:  
 
-Ablation Studies: Demonstrates the effectiveness of balanced training and LLM correction over other methods.  
-Competition Results: Achieves top performance in public health-related tasks (e.g., SMM4H 2023), validating the framework's practical utility.
+  Ablation Studies: Demonstrates the effectiveness of balanced training and LLM correction over other methods.  
 
+  Competition Results: Achieves top performance in public health-related tasks (e.g., SMM4H 2023), validating the framework's practical utility.
 
-
-Innovation: ALEX combines balanced data training to address imbalances and LLM-based correction to enhance accuracy and transparency, leveraging the strengths of both approaches to improve public health analysis.
+Innovation: 
+  ALEX combines balanced data training to address imbalances and LLM-based correction to enhance accuracy and transparency, leveraging the strengths of both approaches to improve public health analysis.
 
 ##### Prompt
 
