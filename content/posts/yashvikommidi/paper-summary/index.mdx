@@ -137,10 +137,34 @@ Use simple language so everyone could understand easily. Please make sure you co
 
 #### What are the authors proposing?
 
+The authors propose a framework called ALEX to improve the analysis of social media data for public health applications, specifically in text classification tasks. Their solution directly addresses two critical challenges: data imbalance in social media datasets and the limitations of existing models like BERT and LLMs. Here is their proposal:
+
+Balanced Data Training:
+
+Data Augmentation: They apply techniques like TextAttack to artificially increase the number of minority class samples in the dataset. This is achieved by generating adversarial examples and oversampling to balance the dataset.
+Weighted Loss Fine-Tuning: After augmentation, they fine-tune BERT models using a weighted loss function that assigns higher importance to the minority class during training. This ensures the model focuses on underrepresented data, improving its ability to learn from rare events.
+
+
+Explainable and Corrective LLMs:
+
+LLM Prompting: They use large language models (LLMs) like GPT-3.5 to correct predictions made by BERT. The LLM is prompted with the original text and the predicted label from BERT, along with specific instructions (e.g., labelling rules, examples) and representative examples for each task.
+Label Correction Mechanism: The LLM evaluates the correctness of the predicted label by analyzing the text for evidence supporting or contradicting the label. If the LLM finds contradictions or insufficient evidence, it identifies the error and provides a step-by-step explanation of why the label is incorrect. This step reduces false positives and improves the accuracy of public health predictions.
+
+
+Ablation Studies and Validation:
+
+The authors conduct ablation studies to validate the effectiveness of their approach. By comparing different strategies, they demonstrate that combining balanced training with LLM correction leads to superior performance in public health tasks.
+Experiments at the SMM4H 2023 competition, a public health-focused dataset challenge, confirm that ALEX outperforms other methods (e.g., BERT, XLNet) in tasks like COVID diagnosis and mental health analysis. The framework's ability to correct BERT predictions with LLMs ensures both high accuracy and transparency, which is critical for decision-making in public health contexts.
+
+
+
+In summary, the authors propose a two-part solution to improve public health social media analysis: (1) balance the dataset through augmentation and weighted loss to address imbalances, and (2) use LLMs to correct BERT predictions with explainable reasoning. This dual approach enhances both the reliability and transparency of public health analysis, making it more effective for real-world applications.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Describe clearly, from the paper, what the authors are actually proposing in this work 
+and don't mention any external information apart from this paper.
 ```
 
 #### What is the motivation for the work?
