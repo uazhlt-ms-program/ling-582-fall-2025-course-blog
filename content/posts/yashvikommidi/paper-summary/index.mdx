@@ -245,7 +245,9 @@ ALEX-L achieves the highest F1 scores and accuracy across all methods, demonstra
 Comparison with Competing Approaches
 
 ALEX-L vs. Baselines: ALEX-L consistently outperforms baseline models like BERT, RoBERTa, and XLNet in all three tasks.  
+
 ALEX-L vs. CT-BERT (v2): ALEX-L outperforms CT-BERT (v2) in all tasks, especially in Task 4 where it achieves the highest F1 score.  
+
 Competition Context: The results are based on the SMM4H 2023 competition, where ALEX-L ranks first in two tasks and top in the third. While the full test set was not used, the competition results validate the framework's effectiveness in real-world public health applications.
 
 The authors' framework integrates balanced data training with LLM-based correction, addressing data imbalance and model limitations. These results highlight ALEX-L's ability to improve public health analysis accuracy and transparency, particularly in tasks requiring minority class prediction and domain-specific reasoning.
@@ -260,10 +262,12 @@ Use only the information mentioned in the paper, and do not guess any numbers th
 
 #### Is the comparison fair?
 
+The comparison in the paper appears fair based on the evidence provided. ALEX-L consistently outperforms listed baselines (BERT, RoBERTa, XLNet, BERTweet, CT-BERT (v2)) in all three tasks, achieving higher F1 scores and accuracy. The competition results (SMM4H 2023) further validate this, though the full test set was not used. The authors' explicit claims and ablation studies support the fairness of the comparison, as ALEX-L's components (balanced training, LLM correction) are critical to its effectiveness.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Based on the paper "Balanced and Explainable Social Media Analysis for Public Health with Large Language Models," do you think the comparison with other methods is fair? Answer briefly, using only the evidence and details mentioned in the paper.
 ```
 
 #### What are the takeaways according to the authors?
