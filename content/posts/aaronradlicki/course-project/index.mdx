@@ -48,7 +48,7 @@ Dates:
 
 
 
-\-\-\- The section below will be used for my final project write-up at the end of the semester. \-\-\-
+\-\-\- Final Writeup Below \-\-\-
 
 
 
@@ -56,6 +56,53 @@ Dates:
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility).  Use subsections to organize components of the description._
 
+The purpose of this project was to evaluate the effectiveness of a GRU on an extremely limited training set.  As a result, I coded my program to be able to have a variable amount of training data configured by the user via a variable defined at the top of the file.  After doing so, users will be able to run the program and see what results are output to the terminal in the form of accuracy (measured between 0.0 and 1.0).  Unlike in my proposal, I determined that accuracy was the more important metric for analysis, as I will explain below.
+
+For this analysis, I decided to utilize the Sentiment140 dataset, as it both was an easily available and well-document dataset which I knew could work well for a configurable project like this.  I knew that I could also easily convert the data to a simple binary output, which would allow for a simple-to-train and analyze program, which could be ran on relatively simple machines (even CPU-bound ones with enough patience, as was my case while working on the project initially).  This relatively speedy and configurable codeset also allows for users (and myself) to do further experimentation going forward in order to be able to dive further into the course.
+
+As for the code itself, it using keras to construct a GRU-based system, sandwiched between an embedding layer and a dense layer, in order to achieve the necessary outputs.  All necessary components of the program itself are contained within the ```SentimentAnalysisMaster.py``` file, with all required components being listed in ```requirements.txt```.
+
+What I think makes the project unique is also connected to its inspiration: I want to work with underresourced language groups in Indonesia.  As a result, I wanted to see the limitations that would be faced with working with extremely limited datasets.  Thus, this code that you have access to now has a completely configurable and precise variable, ```training_datapoints```, which you can use to determine the *exact* number of datapoints that get fed into the GRU.  Whether you want to give it 1,000,000 or you only want to give it 10, that is possible!  Furthermore, given the fact that the result changes based on the amount of datapoints you give to it, it will output its accuracy assessment to the terminal for you to view at the very end, so that you can see how much the limitation affected the program!
+
+I think it's pretty neat. \:\)
+
+## How to Run
+
+For this program, I originally intended to have an easily accessible Docker container available to run.  However, given the fact that I have struggled to a greater degree than most with working with these types of machines, the current version of the program needs to have its dependencies installed manually and be ran from the terminal.
+
+As of 12/4/2025, all components utilized were their latest versions.  Installing the latest version of each component (like ```numpy```, ```scikit-learn```, etc.) should not cause issues, but if you do run into problems, make sure to install the versions listed in ```requirements.txt```.
+
+In order to make sure that you are able to install each component, I will provide an example of installation utilizing ```pip```.  Please note that this set of directions presumes a valid installation of Python and a Linux-based operating system.
+
+1. If you do not have ```pip``` installed, open your Terminal and type the following commands:
+```
+sudo apt update
+sudo apt install python3-pip
+```
+
+2. Once pip is installed, you can begin installing each component from ```requirements.txt```.  For example, here is the command that you can use to install the first item listed, which is listed as ```pandas==2.3.3```.  In this case, you can ignore the version number at the end and enter the following command into your terminal:
+```
+pip install pandas
+```
+
+3. Repeat this process for each item listed in ```requirements.txt```.
+
+4. Once all dependencies are installed, you will next have to download the Sentiment140 dataset and place it in the same folder as the ```SentimentAnalysisMaster.py``` script.  You can download it from [here](https://www.kaggle.com/datasets/kazanova/sentiment140).  Ensure that once you have downloaded it that it has the exact correct name of ```training.1600000.processed.noemoticon.csv```.
+
+5. It is now time to run the script!  Navigate to the directory that the script and the Sentiment140 dataset are in using ```cd path/to/directory``` and then run the script by typing the correct version of Python installed on your system.  For example, that command may look like ```python3 SentimentAnalysisMaster.py```.  Note that depending on your system, the process may take quite some time.  (The smaller the ```training_datapoints``` variable in the configuration section, the faster it will run.)
+
+## Challenges Faced
+
+From a personal standpoint, this was all new to me.  I have never attempted anything close to this level of computer science.  Even understanding the right amount of epochs and GRU layers to get right was a challenge (and clearly still has a lot of room to go, given the lack of differentiation that you can see in the results document).  I faced immense difficulties with configuring and even getting my code to run.  While I am sure that there are many students whose challenges faced were much more dramatic (i.e. getting the right chain of algorithms and processors chained together in the optimal way), for me I am going to cherish my legendary accomplishments, such as:
+- Figuring out how to convert dataframes between one format to another properly
+- How to transfer the labels column properly through all the necessary steps of the process (without accidentally deleting it...)
+- Successfully achieving dropout integration *within* GRU layers and not as a separate layer
+
+Throughout every step of the process, I was faced with a new challenge that required me to learn something new.  While at many times it felt like a *deluge*, I not only learned new things, but I also feel that I *learned how to learn more effectively*.  For a long time, I have been pretty averse to utilizing "AI" like ChatGPT for bug hunting, but thanks to this course, I have seen it is immensely helpful for parsing tracebacks that would overwhelm me repeatedly.  I am thankful to finally understand how great of a tool it can be in my tool belt!
+
+I also feel like I have developed a lot in my ability to research a topic online when I am *very* unfamiliar with it.  For whatever reason, I have really struggled to grasp this course material - and when I searched for answers to problems I faced they were usually explained with terminology that was above my head, links to extensive documentation that I could not understand, or something else indecipherable to me at this stage.  Yet I learned how to effectively sift through internet results and find beginner tutorials, leapfrog from those tutorials to lessons on my issues, and oftentimes even ended up finding some really helpful YouTube tutorials.
+
+As a result, the challenges that I faced on this project helped me to grow as a student.  I did not merely face project-specific challenges like getting aspects of my code to run (or run in a relatively timely manner), but faced challenges that caused me to achieve some solid personal development!
 
 ## Summary of individual contributions
 <table>
@@ -67,16 +114,16 @@ _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/co
   </thead>
 <tbody>
   <tr>
-    <th><b>???</b></th>
-    <td>???</td>
+    <th><b>Aaron Radlicki</b></th>
+    <td>Program Writer/Project Summary Author</td>
   </tr>
   <tr>
-    <th><b>???</b></th>
-    <td>???</td>
+    <th><b>The Internet</b></th>
+    <td>Helpful Resource/Stunt Double #4</td>
   </tr>
   <tr>
-    <th><b>???</b></th>
-    <td>???</td>
+    <th><b>ChatGPT 5.1</b></th>
+    <td>Traceback Untangler (see ai_citation.md)</td>
   </tr>
 </tbody>
 </table>
@@ -86,9 +133,21 @@ _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/co
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
 
+While I was really excited to explore the differences between training with wildly differing amounts of training data, the actual accuracy did not vary nearly as much as I thought that it would.  More data did help - and you could see notable jumps in accuracy from 1,000 to 10,000 to 100,000 for example, but those were less than a hundredth of a percent.  Since I wanted to see if any meaningful information could be deduced with those truly low numbers, the reality that the outputs were all essentially barely above the 50% baseline was frustrating.
+
+That being said, I think that there is plenty of room for everything to improve if I fine tune my model.  I have read up on many exciting innovations (see my research essay summary for notes on that) that can help underresourced groups.  While those are not golden bullet solutions, it is exciting to know that work *is* being done in that field.
+
+As for more traditional methods of training models, it is not easy for such a thing to be achieved on extremely low amounts of data.  While this *was* expected, it is still much more of a drastic and disappointing reality than I hoped it would be.
+
 ## Error analysis
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
+
+The model made incorrect predictions in many, many areas.  I was hoping that I could I would be able to point out specific notable recurring errors like in my previous courses, but in this case, it is barely beating the baseline.  I *do*, however, have some hypotheses.
+
+First, I think that I must do some more tokenization of the data.  When I printed out examples of tweets, many of them contained web links and such which I imagine could have confused the system.  On a website like Twitter, where people are constantly sharing links, that could be a major factor.  I could see Twitter handles (like @ExampleTwitterHandle) being a factor too, among other things.
+
+Second, since the model is barely above the baseline, it needs to be fit much more tightly.  Going forward, I would like to design a version of this program that can run much more intensive calculations (with a much more user friendly and configurable level of customization).  See Future Improvements for more on that.
 
 ## Reproducibility
 
@@ -98,3 +157,7 @@ _If you'ved covered this in your code repository's README, you can simply link t
 ## Future improvements
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_
+
+For future improvements to the project, I would also like to make the other variables within the program accessible to the user from the configuration section at the top.  Why should they not be able to choose the amount of GRUs they want, the amount of training epochs, etc.?  I think that would allow for a very solid amount of flexibility, while also allowing me (and others) to further explore the challenges that limited datasets cause.
+
+I would also like to have the program not only output its data to the terminal, but also save it automatically.  All of the training data in ```Results_Summary.md``` was manually typed by me, but it would be amazing if that could be manually saved by the program!
