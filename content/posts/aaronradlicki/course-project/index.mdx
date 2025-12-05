@@ -133,9 +133,11 @@ As a result, the challenges that I faced on this project helped me to grow as a 
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
 
-While I was really excited to explore the differences between training with wildly differing amounts of training data, the actual accuracy did not vary nearly as much as I thought that it would.  More data did help - and you could see notable jumps in accuracy from 1,000 to 10,000 to 100,000 for example, but those were less than a hundredth of a percent.  Since I wanted to see if any meaningful information could be deduced with those truly low numbers, the reality that the outputs were all essentially barely above the 50% baseline was frustrating.
+While I was really excited to explore the differences between training with wildly differing amounts of training data, the actual accuracy did not vary nearly as much as I thought that it would among the tests ran with lower amounts of data.  More data did help - and you could see notable jumps in accuracy from 1,000 to 10,000 to 100,000 for example, but those were less than a hundredth of a percent.  Since I wanted to see if any meaningful information could be deduced with those truly low numbers, the reality that the low-input outputs were all essentially barely above the 50% baseline was frustrating.
 
-That being said, I think that there is plenty of room for everything to improve if I fine tune my model.  I have read up on many exciting innovations (see my research essay summary for notes on that) that can help underresourced groups.  While those are not golden bullet solutions, it is exciting to know that work *is* being done in that field.
+I decided to compare all of these low training inputs to a "control" of sorts, allowing 1,000,000 training inputs out of the 1.6 million, a much closer to normal ratio.  This is the only place where we finally saw reasonable performance with around 82%.  The jump from 100,000 to 1,000,000, unlike all prior jumps, had massive leaps in accuracy.  While still not perfect, this revealed that the current implementation of my GRU model was dependent on massive amounts of data to make its predictions and revealed the limitations of using these standard models in underresourced data environments.
+
+That being said, I think that there is plenty of room for everything to improve if I fine tune my model.  I have read up on many exciting innovations (see my research essay summary for notes on that) which can help underresourced groups.  While those are not golden bullet solutions, it is exciting to know that work *is* being done in that field.
 
 As for more traditional methods of training models, it is not easy for such a thing to be achieved on extremely low amounts of data.  While this *was* expected, it is still much more of a drastic and disappointing reality than I hoped it would be.
 
@@ -145,13 +147,15 @@ As for more traditional methods of training models, it is not easy for such a th
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
 
-The model made incorrect predictions in many, many areas.  I was hoping that I would be able to point out specific notable recurring errors like in my previous courses, but in this case, it is barely beating the baseline.  I *do*, however, have some hypotheses.
+The model made incorrect predictions in many, many areas.  I was hoping that I would be able to point out specific notable recurring errors like in my previous courses, but in this case, it is barely beating the baseline for all the lower data runs.  I *do*, however, have some hypotheses.
 
 First, I think that I must do some more editing prior to tokenization of the data.  When I printed out examples of tweets, many of them contained web links and such which I imagine could have confused the system.  On a website like Twitter, where people are constantly sharing links, that could be a major factor.  I could see Twitter handles (like @ExampleTwitterHandle) being a factor too, among other things.
 
 Second, since the model is barely above the baseline, it needs to be fit more tightly.  Going forward, I would like to design a version of this program that can run much more intensive calculations (with a much more user friendly and configurable level of customization).  See Future Improvements for more on that.
 
 Finally, when I was pulling samples, I noticed that my decision to include Tweets that were classified as "a little positive" (3) or "a little negative" (1) on the original scale of 0-4 could definitely sour the training pool.  These were sometimes confusing to the program, although it also struggled with some that seemed like they should be relatively obvious too.  (Shoutouts to the Tweet praising Battle Creek, Michigan for being awesome!  I think that is a positive Tweet no matter what a random iteration of this program might say!)
+
+Of course, looking through the "control" results where it was given 1,000,000 Tweets to train off of, it still was not perfect there either.  Oddly enough, I think similar improvements to the ones that I suggested could help, although brute forcing things with larger amounts of training data caused the control run to do *drastically* better.
 
 ## Reproducibility
 
