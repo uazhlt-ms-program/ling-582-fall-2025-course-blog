@@ -325,16 +325,20 @@ The first time around I just asked it almost verbatim the questions in the assig
 Okay onto this time when I mentioned the name and authors of the article.
 
 It's responses were thorough and well structured (gotta say, I love organizing things with emojis) and it provided good summaries (in terms of what it generated, not the actual text) in tables and bullet points. 
-I had to be pretty specific with questions after what I learned the first time. For example, 
-While I stuck to basic questions, I realized I had to lead it on or it really hallucinated. Like for the approaches question, I specifically told it the number of approaches they used and in general what the approaches were and I wanted it to name them. That was like the only question it did good at.
+I had to be pretty specific with questions after what I learned the first time. For example, I specifically asked it to name the two specific OCR software used instead of just 'what approaches' because the first time it rambled on about other stuff - here it gave me two things, the first Tesseract which was correct, but then Adobe's OCR which was wrong, the other method it discussed was Google Vision OCR. When I challenged it later on, it said the article never mentioned Google Vision OCR which is false.
 JanAI also showed it's thinking which was interesting. I also asked it to provide concrete numbers for the results and quotes for questions that were like "author's conclusion" etc, all of which it hallucinated.
 
 #### Errors and limitations of the LLM 
 
-_It made....quite a few mistakes. Some more detrimental than others. For example, it kept saying the article was a study in Quechua language, but no where in the article does it mention Quechua, it mentions four other languages which do not include the two the AI mentioned._
+It made....quite a few mistakes. Some more detrimental than others. For example, it kept saying the article was a study in Quechua language, but no where in the article does it mention Quechua, it mentions four other languages which do not include whatAI mentioned. Other things it hallucinated includes all the quotes and numbers it gives, along with as formentioned, the consistent mentioning of Adobe's OCR and refusing to achnowledge Google Vision OCR is mentioned (ie in Is this Comparison Fair). Also in the category, the article specifically mentions others' OCR works, but the article does not necessarily pick up on that - but it does share the author's goal of using this pipeline as a process, not a superior process. Luckily it got the fact that it used Tesseract version 5 correct.
 
-_Secondly, it tended to focus mainly on the cultural aspect of the article - which was only briefly mentioned in the introduction - instead of the marjority of the article which was about the technicalities of OCR. It also made up a lot of quotes of the article saying stuff about culture and partnering with the tribes in the OCR process which is, of course, critical and a good conclusion to draw about the intentions (which I was impressed it drew the conclusion), but it wasn't the focus of the article. The time it did give technical OCR specifics was when I prompted it specifically to look at the two OCR models the article used._
+I thought maybe Adobe had some Quecha OCR which is why it pivoted to that, but upon research it doesn't seem so. My thought is Quecha is a well-known Peruvian Indigenous language so maybe when it didn't recognize the four it mentioned, it defaulted to that, which is one limitation.
 
-_All the quotes it drew to back that up it's statements (even putting them in quotation marks) were made up - it even at one point said that the last line of the article sums it up, then it shared a quote which was NOT the last line or even in the article._
 
-_In conclusion, it made a lot of mistakes, I feel like it only referred to the introduction instead of reading the whole article, unless I was very specific about what for it to look for, then it picked up on some other stuff - even if wrong. As mentioned, it focused on the human/cultural aspect, which makes me think in retrospect I should have put my role not a general person but say something like 'I am a programmer, tell me about the programming in the article' vs just 'tell me about the article.'_
+At the end of each response it would inform me it only used sources from the article and did not extrapolate any other information, which is obviously false.
+
+
+However, besides those technical hallucinations, it did generally understand the point of the article, both the motivation and process used (ie taking into account the pre and post processing of the data which the article mentions in detail, even if it failed to retrieve correct technicalities.) The numbers it gave do somewhat corrospond with the trends, like how things were better once post-processed, though it was humans that did the post-processing but correction models, and did not achieve 100% efficiency. 
+
+In conclusion it understand the point of the article but messed up on almost every technicality, some technicalities of which were critical to the proper analysis of the article. 
+__
