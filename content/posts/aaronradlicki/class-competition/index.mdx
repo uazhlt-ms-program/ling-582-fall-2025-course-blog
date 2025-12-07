@@ -57,7 +57,7 @@ The plan for the back half of the semester is as follows:
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
 
-For this project, I needed to design a model which would predict the likelihood that two excerpts of text were written by the same author based on a binary label.  This would then need to be output to a CSV file that could be uploaded to our Kaggle database.  The training and test datasets were contained in separate CSV files with them both containing IDs and texts (with each snippet being separated by "[SNIPPET]") and all other components being separated by commas in the CSV files themselves.  Additionally, the ```train.csv``` file also contained a file with the labels, which is what we would utilize for training.
+For this project, I needed to design a model which would predict the likelihood that two excerpts of text were written by the same author based on a binary label.  This would then need to be output to a CSV file that could be uploaded to our Kaggle database.  The training and test datasets were contained in separate CSV files with them both containing IDs and texts (with each snippet being separated by "[SNIPPET]") and all other components being separated by commas in the CSV files themselves.  Additionally, the ```train.csv``` file also contained a column with the labels, which is what we would utilize for training.
 
 The project seemed simple in practice, but as you can probably tell by the fact that I devoted an entire header and several paragraphs to "challenges faced", this project pushed me to my limits.  I am pleased that I made it through the other side with something that I am proud of!  Yet first, let me explain how I got there...
 
@@ -69,11 +69,11 @@ I started out with a variant of a Logistic Regression Classifier as a base mid-w
 
 Yet I had grand plans, amazing plans... I wanted to design an LSTM in PyTorch and have it run everything in one consolidated file.  However, not only was I not able to figure out how to approach the task in a computationally reasonable way, I was not even able to get the code to run properly at all.  I then started to pivot my PyTorch code to something that would be easier to work with in theory, a GRU-based model.  I believed that this would be simpler and more easy to run without necessitating the HPC for every single run.
 
-However, trying to converted my broken LSTM into a GRU which was partially converted from semi-unoptimized Logistic Regression code ended up causing me to dig myself further and further into complexities that I could not unearth myself from.
+However, trying to convert my broken LSTM into a GRU which was partially converted from semi-unoptimized Logistic Regression code ended up causing me to dig myself further and further into complexities that I could not unearth myself from.
 
 That being said, after I decided to work on the other two projects and come back to this one, I was able to port much of my from-the-ground-up GRU code using keras to this project.  This was the 3rd (and successful) model.  Much of the challenges that I faced in designing that model (converting dataframes between formats for speed optimization and RAM space) were not quite as necessary for a small dataset like this, but I still decided to incorporate the lessons that I learned there.
 
-In the end, I was pleasantly surprised that the absolute hardest class project I have done throughout all of my time at the University of Arizona end up being one of my cleanest.  Aside from needing to remove some commented out code, it is a project that I am *proud* of!  I still cannot put into words how much of a crucible this felt like, but it resulted in something genuinely amazing!  As I mentioned in my course project, I learned not only how to tackle the project itself, but I also feel like I *learned how to learn* better.  That is something that I will take with me throughout my life going forward.
+In the end, I was pleasantly surprised that the absolute hardest class project I have done throughout all of my time at the University of Arizona ended up being one of my cleanest.  Aside from needing to remove some commented out code, it is a project that I am *proud* of!  I still cannot put into words how much of a crucible this felt like, but it resulted in something genuinely amazing!  As I mentioned in my course project, I learned not only how to tackle the project itself, but I also feel like I *learned how to learn* better.  That is something that I will take with me throughout my life.
 
 (I'm also really excited to continue fine-tuning my model going forward!)
 
@@ -149,12 +149,14 @@ _If you'ved covered this in your code repository's README, you can simply link t
 In order to reproduce these results, you will want to download the version of my program (as of 12/6/2025) which includes all necessary training and test data.  You can then follow the guide above for how to run it and then reference the Kaggle competition website here:
 [https://www.kaggle.com/competitions/ling-582-fa-2025-course-competition/](https://www.kaggle.com/competitions/ling-582-fa-2025-course-competition/)
 
-The program is entirely self contained and running it will train the model, run it, and export the results all in one go!]
+The program is entirely self contained and running it will train the model, run it, and export the results all in one go!
 
 ## Future Improvements
 
 _Describe how you might best improve your approach_
 
-My next priority is fixing any sort of data leakage issue, if one does exist.  After that, I plan to work on fine tuning the model, which I believe should be a very fun process!  Now that I have finally overcome the challenge of learning how to properly work with these kinds of models properly, tweaking them is the next exciting journey for me.  I did minimal tweaking in my other course project and got decent results, but for this one there is much room for fine tuning based on adjusting the amount of epochs, GRUs, etc.
+My next priority is fixing any sort of data leakage issue, if one does indeed exist (which seems likely).
+
+After that, I plan to work on fine tuning the model, which I believe should be a very fun process!  Now that I have finally overcome the challenge of learning how to properly work with these kinds of models properly, tweaking them is the next exciting journey for me.  I did minimal tweaking in my other course project and got decent results, but for this one there is much room for fine tuning based on adjusting the amount of epochs, GRUs, etc.
 
 I look forward to doing that and, perhaps once the test results are publicly available, also making the program able to output an "accuracy" result to the terminal just like my other course project did!
