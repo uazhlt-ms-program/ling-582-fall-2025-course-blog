@@ -83,7 +83,7 @@ This paper provides both conceptual inspiration and practical techniques that ca
   </tr>
   <tr>
     <th><b>LLM model version</b></th>
-    <td>Jan-v1-4B-Q4_K_M</td>
+    <td>JAN UI’s ERNIE-4_5-21B-A3B-Thinking-IQ4_XS</td>
   </tr>
   <tr>
     <th><b>Model/service URL</b></th>
@@ -91,7 +91,7 @@ This paper provides both conceptual inspiration and practical techniques that ca
   </tr>
   <tr>
     <th><b>Why this model?</b></th>
-    <td>???</td>
+    <td>I selected the ERNIE-4_5-21B-A3B-Thinking-IQ4_XS model largely for practical rather than theoretical reasons. To begin with, JAN UI provides one of the most convenient and user-friendly interfaces for running large language models locally, and it supports straightforward model downloading and integration without complex configuration. This made it an accessible starting point for experimentation. In addition, among the models available through JAN UI, ERNIE-4_5-21B-A3B-Thinking-IQ4_XS appears to offer relatively strong reasoning performance while maintaining manageable hardware requirements, making it a reasonable choice for document-analysis tasks.</td>
   </tr>
 </tbody>
 </table>
@@ -104,91 +104,191 @@ _In the LLM's words, what is this paper about?_
 ##### Prompt
 
 ```markdown
-prompt here
+Can you read this paper and tell me what is this paper about?
 ```
+The paper introduces **mBLIP**, a novel approach to **multilingual vision-language models (Vision-LLMs)** that leverages **multilingual large language models (LLMs)** for efficient multilingual representation learning. Here's a breakdown of the key contributions:
+Core Problem Addressed
+Existing Vision-LLMs (e.g., aligning image encoders with LLMs) heavily rely on English-only data and pretraining, making multilingual expansion costly and inefficient.
+Multilingual Vision-LLMs often require expensive end-to-end pretraining using limited multilingual image-text data supplemented with text-only corpora.
+
 
 #### What are the authors proposing?
 
 ##### Prompt
 
 ```markdown
-prompt here
+What are the authors proposing?
 ```
+Proposed Solution: mBLIP
+Key Insight:
+Image encoding is inherently language-agnostic. Once an image encoder is aligned with one LLM, it can be re-aligned with another multilingual LLM using minimal data.
+Methodology:
+Re-alignment Strategy: Take a pretrained image encoder fine-tuned for English and re-align it with a multilingual LLM (e.g., one trained on diverse languages) using machine-translated examples from 95 languages.
+Efficiency: Avoid expensive full pretraining by using ~2.5 million images and 124 million parameters, runnable on consumer-grade hardware.
+Bootstrap from Scratch: Combine recent advances in multimodal learning to build the model without relying on pretrained multilingual text encoders.
+Performance:
+Outperforms state-of-the-art English-only Vision-LLMs (e.g., Llava 1.5) on benchmarks like IGLUE and XM3600.
+
 
 #### What is the motivation for the work?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Read through this paper again, what is the motivation for the work?
 ```
+The authors' motivation for this work is rooted in three key limitations of existing Vision-Language Models (Vision-LLMs) and their desire to create a more efficient, multilingual alternative:
+1. English-Centric Limitation
+Problem: Current Vision-LLMs (e.g., LiLAVA 1.5) rely exclusively on English data and pretraining, ignoring multilingual coverage. Multilingual pretraining requires expensive end-to-end training using limited multilingual image-text data supplemented with text-only corpora.
+Motivation: The authors argue that image encoding is inherently language-agnostic. Once an image encoder is aligned with one LLM, it can be re-aligned with any multilingual LLM (not just English-centric ones) using minimal data.
+2. Computational Inefficiency
+Problem: Scaling Vision-LLMs from scratch requires massive computational resources and large-scale multilingual datasets, making it inaccessible to researchers without high-end hardware.
+Motivation: By leveraging parameter-efficient training (e.g., quantization) and massively multilingual machine translation, they reduce barriers to entry. Their approach trains on ~2.5 million images and 124 million parameters using consumer-grade hardware.
+3. Gap in Cross-Lingual Performance
+Problem: Existing multilingual Vision-LLMs (e.g., PaLI-X) underperform English-only models like LiLAVA 1.5 in non-English contexts.
+Motivation: They aim to demonstrate that re-aligning an English-aligned encoder with a multilingual LLM (instead of training from scratch) yields competitive or better performance across tasks (captioning, reasoning, QA) and languages.
+Core Motivation Summary
+The authors seek to democratize multilingual Vision-LLMs by:
+Reducing dependency on expensive pretraining via re-alignment.
+Leveraging multilingual LLMs to achieve cross-lingual capabilities.
+Enabling efficient training on accessible hardware (e.g., consumer GPUs).
+Closing the performance gap between English and multilingual Vision-LLMs.
+Their goal is to create a scalable, cost-effective, and multilingually inclusive framework for vision-and-language tasks.
+
 
 #### What is the approach or innovation?
 
 ##### Prompt
 
 ```markdown
-prompt here
+What is their innovation?
 ```
+The authors’ **innovation** lies in re-aligning a pretrained image encoder with a **multilingual LLM** using efficient, low-resource methods, while maintaining high performance. Here’s a breakdown of the key innovations:
+1. Modular Architecture with Parameter-Efficient Fine-Tuning (LoRA)
+Instead of retraining the entire model, the authors update only the multilingual LLM using LoRA (Low-Rank Adaptation). This avoids the computational cost of full fine-tuning.
+The Q-Former (originally aligned with an English LLM) remains frozen, as its role is purely to encode visual features. Only the LLM’s parameters are adjusted via LoRA.
+2. Multilingual Data Generation via Machine Translation
+They start with high-quality English training data (e.g., image captions, instructions) and translate it into 95 languages using massively multilingual machine translation.
+This avoids the need for expensive end-to-end multilingual pretraining, which requires large multilingual datasets.
+3. Task-Agnostic Training Mix
+Instead of training on a single task (e.g., captioning), they use a mix of vision-language tasks (e.g., visual reasoning, QA, captioning). This improves generalization and zero-shot performance.
+4. Efficient Hardware Compatibility
+By leveraging LoRA and quantization (e.g., 8-bit/16-bit models), the approach runs on consumer-grade hardware (GPUs), making it accessible to researchers without high-end compute resources.
+Summary of Innovation:
+mBLIP innovates by repurposing a pretrained English Vision-LLM (Q-Former) and fine-tuning only the multilingual LLM via LoRA, using translated data. This modular approach reduces computational barriers, expands multilingual coverage without expensive pretraining, and maintains state-of-the-art performance. The key trade-off is using ~2.5M images (vs. billions in scale) and translated text (vs. native multilingual data), which enables efficiency while matching/exceeding larger models.
+
 
 #### What are the results and how do they compare with competing approaches?
 
 ##### Prompt
 
 ```markdown
-prompt here
+What are the results and how do they compare with competing approaches
 ```
+1. Image Captioning Competitors & Fairness
+Competing Approaches:
+LMCap (training-free baseline): mBLIP outperforms this, but LMCap lacks multilingual capabilities.
+PaLI-X: mBLIP trails PaLI-X in zero-shot inference, but PaLI-X benefits from vastly more multilingual pretraining data (1T tokens vs. mBLIP’s alignment-focused training). PaLI models also use MSCOCO fine-tuning with full translations, giving them an advantage in high-resource languages.
+2. VQA/Image Understanding Competitors & Fairness
+Competing Approaches:
+CCLM (large): Outperforms mBLIP zero-shot on xGQA but uses constrained generation (limited answer choices), making it easier to achieve high accuracy. This skews results compared to mBLIP’s open-ended evaluation.
+BLOOMZ: Weak transfer for low-resource languages, while mBLIP (with mT0) excels here. The BLOOMZ variant’s poor performance suggests mBLIP’s LLM base (mT0) is superior for multilingual transfer.
+PaLI Models: Fine-tuned on MSCOCO with full translations outperform mBLIP, but mBLIP’s alignment focus compensates for smaller data.
+3. Core Fairness Takeaways
+Strengths Fair: mBLIP’s multilingual captioning and VQA improvements are valid compared to competitors like CCLM (after fine-tuning) and PaLI (in limited domains).
+Limitations Acknowledged: The paper admits mBLIP’s weaknesses in low-resource languages (e.g., BLOOMZ) and English-only models’ poor crosslingual transfer. This self-criticism ensures fairness.
+Data & LLM Bias: mBLIP’s comparisons favor its own design (LLM base, alignment focus) but fairly acknowledge PaLI’s advantages in pretraining data. The use of proportional language distribution in mC4 vs. mT5’s pretraining data is transparently discussed.
+
 
 #### Is the comparison fair?
 
 ##### Prompt
 
 ```markdown
-prompt here
+How fair is the comparison?
 ```
+1. Image Captioning Competitors & Fairness
+Fairness Assessment:
+Unfair Advantage for PaLI: PaLI’s extensive multilingual pretraining and fine-tuning data make it a stronger benchmark than mBLIP’s focus on alignment. The comparison is valid but highlights mBLIP’s limitations in resource-rich languages without targeted tuning.
+Language-Specific Issues: mBLIP underperforms English-only models for non-English languages, while English models fail entirely for low-resource languages. This asymmetry makes direct comparison unfair to English-centric models.
+2. VQA/Image Understanding Competitors & Fairness
+Fairness Assessment:
+CCLM’s Constrained Evaluation: The use of limited answer choices makes CCLM an unrealistic benchmark. mBLIP’s open generation is a fairer reflection of real-world captioning.
+Translation Critical: Training on translated VQAv2 prevents "language hallucination" (generating English for non-English instructions). Competitors without translation (e.g., some LLMs) would underperform, but the paper acknowledges this gap, ensuring fair comparison.
+3. Core Fairness Takeaways
+Conclusion
+The comparisons are generally fair but include some bias toward mBLIP’s design. Key strengths (e.g., multilingual alignment, translation) are validated, while limitations (e.g., low-resource gaps) are acknowledged. The use of constrained benchmarks (CCLM) is transparent, and the paper’s emphasis on translation highlights critical fairness issues. Overall, mBLIP’s results are robust against key competitors but highlight areas where further improvement (e.g., low-resource tuning) is needed.
+
 
 #### What are the takeaways according to the authors?
 
 ##### Prompt
 
 ```markdown
-prompt here
+What are the takeaways according to the authors?
 ```
+According to the authors, the key **takeaways** from their paper *are*: ### **1. Strengths of mBLIP** - **Multilingual Captioning**: mBLIP (especially with mT0 ) excels in low-resource languages (e.g., Indonesian/Hindi) and outperforms English-only models. - **Crosslingual Transfer**: Strong results on xFlickrCo and MaRVL, matching/exceeding larger models like CCLM after fine-tuning. - **Alignment Focus**: LoRA adapters and warm-start training improve instruction alignment and reduce hallucinations. ### **2. Critical Limitations** - **Low-Resource Language Gaps**: mBLIP BLOOMZ underperforms for low-resource languages, while English models dominate non-English tasks. - **Zero-Shot Weaknesses**: Poor neutral class prediction in XVNLI (zero-shot) requires fine-tuning. - **Data Dependency**: Translation of VQAv2 answers is **non-negotiable** to prevent "language hallucination" (generating English for non-English instructions). ### **3. Design Insights** - **LLM Base Matters Most**: mT0 (trained on 3× more text/languages) outperforms BLOOMZ for multilingual tasks. - **Proportional Data Distribution**: Alignment with mC4’s language distribution (not mT5’s pretraining) optimizes performance for low/high-resource languages. - **Task-Specific Tuning**: Fine-tuning improves results (e.g., VQA/MaRVL), but alignment techniques (LoRA/warm-start) are foundational. ### **4. Fair Comparison** - **Competitors Admitted**: The paper acknowledges mBLIP’s limitations vs. PaLI/CCLM (due to data/LLM gaps) but frames them as design choices. - **Constrained Benchmarks**: CCLM’s restricted evaluation (limited answers) is acknowledged as an easier but less realistic benchmark. ### **5. Core Conclusion** > **"mBLIP’s strengths lie in its alignment focus and multilingual LLM base, but low-resource gaps persist—addressed via data/tuning strategies."** ### **Summary** The authors emphasize that mBLIP’s multilingual capabilities are superior *if* trained with the right LLM (mT0) and alignment techniques. However, limitations in low-resource languages and zero-shot neutral class prediction highlight areas for future work. Translation and careful LLM selection remain critical for fair comparisons with competitors.
+
 
 #### What are the takeaways according to you?
 
 ##### Prompt
 
 ```markdown
-prompt here
+So, what are the takeaways according to you?
 ```
+Takeaways
+Multilingual Strengths: mBLIP excels in high-resource languages (e.g., Spanish, German) but lags in low-resource scenarios compared to PaLI models.
+Design Innovations:
+Realignment Training: Improved cross-lingual alignment via task-specific fine-tuning (80k steps).
+Quantization: 4-bit quantization for efficiency without major performance cost.
+Architecture Choice: mT0 variant (vs. BLOOMZ) better suits most languages due to pretraining data differences.
+Performance Tradeoffs:
+Outperforms LMCap/PaLI-X in zero-shot captioning but trails task-fine-tuned PaLI models.
+Strong English results, weak in low-resource languages.
+
 
 #### Would you use this?  If so, how/where would you use this?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Will you use this knowledge?
 ```
-
-##### Prompt
-
-```markdown
-prompt here
-```
+Yes for:
+Zero-shot multilingual captioning/VQA where PaLI advantages aren’t needed.
+Customizable alignment tuning via realignment training.
+No for:
+Low-resource languages lacking PaLI coverage.
+Tasks requiring extreme low-resource adaptability.
 
 #### What problems remain and what are the next steps?
 
 ##### Prompt
 
 ```markdown
-prompt here
+What problems remain and what are the next steps?
 ```
+Critical Gap: Poor low-resource performance (e.g., Indonesian/Hindi).
+Next Steps: Scale multilingual pretraining data or leverage translation data.
+Zero-Shot Limitations: mBLIP struggles with neutral class prediction in VXNLI.
+Next Steps: Incorporate augmented training data or finer class alignment.
+Resource Imbalance: Proportional training data favors high-resource languages.
+Next Steps: Dynamic data allocation based on language resource distribution.
+Efficiency Tradeoff: 4-bit quantization improves storage but was not fully validated.
+Next Steps: Benchmark computational efficiency vs. accuracy.
+
+
 
 ### Experience using the LLM
 
 _Describe your process for using the LLM.  How did the LLM perform?_
+
+
+In experimenting with JAN UI’s ERNIE-4_5-21B-A3B-Thinking-IQ4_XS model (advertised context length 32,768), I encountered a number of unexpected usability constraints. Although the platform provides a PDF-upload feature, the model was unable to process the full article within a single conversation. In practice, the effective context window was much smaller than the specification suggested, and even after multiple attempts, the model never succeeded in ingesting the entirety of the paper at once. Because of this, I had to break the article into smaller sections and feed them incrementally, which disrupted the natural flow of analysis. Moreover, each conversation had strict token limits, preventing me from asking all of my follow-up questions in one session. I frequently had to restart the conversation or re-upload excerpts of the paper, which reduced efficiency. I also noticed that the model had difficulty maintaining conversational continuity: it sometimes forgot earlier parts of the discussion, mistakenly conflated new prompts with prior instructions, or misinterpreted context I had already clarified. Overall, despite being a large-scale “Thinking” model, its practical handling of long documents and multi-turn academic questioning fell short of expectations.
  
 #### Errors and limitations of the LLM 
 
 _Where did it fall short or make mistakes?_
+
+The limitations of the model became especially clear when I evaluated its ability to extract and summarize the authors’ key takeaways from the paper. When presented with a section of text and asked whether it accurately reflected the authors’ conclusions, the model produced a long, structured list of “takeaways” that appeared detailed but was ultimately misaligned with the paper’s actual content. It introduced five categories—“Strengths of mBLIP,” “Critical Limitations,” “Design Insights,” “Fair Comparison,” and “Core Conclusion”—none of which were explicitly presented by the authors themselves. These headings were essentially hallucinated, and the points listed under them blended selective experimental observations, speculative interpretations, and invented author intentions. The model emphasized peripheral results (such as BLOOMZ underperformance or neutral-class issues in XVNLI) as if they were central claims, while failing to identify the true main takeaway emphasized in the introduction and conclusion: that mBLIP demonstrates a computationally efficient method for creating a massively multilingual Vision-LLM by re-aligning an English BLIP-2 model with a multilingual LLM using machine-translated data and LoRA. This mismatch shows clear limitations in the model’s ability to (1) recognize authorial intent, (2) distinguish between primary contributions and secondary experimental details, and (3) avoid hallucinating organizational structure or conclusions that do not appear in the source text.
