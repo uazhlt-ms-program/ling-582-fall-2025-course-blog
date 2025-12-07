@@ -63,6 +63,36 @@ The model was trained with AdamW optimizer. The latest approach and the submissi
 
 ## Task summary
 
+The goal of this project, which is part of the Kaggle class-wide shared task, is Authorship Verification. The input for each example is a single string in the TEXT column that contains two spans of English text separated by the special token [SNIPPET]. This is a binary classification task where we need to determine if both spans were written by the same author or by different authors. The provided training data (train.csv) consists of 1,601 records. 
+
+The train.csv file contains three columns: 
+
+-> ID  - a unique identifier
+
+-> TEXT, which is the concatenated text spans with [SNIPPET] in the middle and 
+
+-> LABEL,- which is 0 or 1
+
+whereas the test.csv file has the same structure, but it doesn’t have labels.
+
+The labels are binary: 0 (Different Authors) and 1 (Same Authors). We need to create a test.csv file with predictions for the unlabelled test set, which is evaluated on Kaggle using the Macro F1 score to weight performance on both classes equally. 
+
+Challenges:
+
+A few areas of this task are specifically challenging, primarily due to class imbalance. The training labels are highly imbalanced, with roughly 77% being class 0 (Different Author) and only 22% being class 1 (Same Author). Without techniques like class weighting or sampling, the model might easily learn to predict 0 most of the time and barely learn the Same Author class at all.
+
+One more challenging part was that there can be a chance of two different authors writing about a similar topic in a similar style, and the same author can also change their style across different works. For example, during the narration text can be different and in dialogues, it can be different, so the model needs to pay more attention to the writing styles, not only the topic of the keywords present in the text.
+
+For example, some of the texts are extremely short or noisy, which can make verification difficult. 
+
+-> Example 1: ID 892 contains fragmented dialogue: "cried Penrod. “ I HAVEN'T?”... “WHAT IS IT?” Mrs. Gelbraith echoed..."  
+
+-> Example 2: ID 1055 is similarly sparse: "Number 52. Captain Laurent Deligne... Died at Ahaggar..."
+
+Related work:
+
+While learning more about the authorship verification for this task, I came across a few related works on digital stylometry and shared tasks such as PAN (Pattern Analysis) authorship verification. These works also generally focus on comparing the writing style rather than just topic, and many recent systems use pre-trained transformers such as BERT-like models for this purpose. My approach follows the same general idea at a smaller scale, that is, I fine-tune a DistilBERT classifier on the class-imbalanced training data and optimise it for macro F1.
+
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
 
 ## Exploratory data analysis
