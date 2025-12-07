@@ -57,28 +57,104 @@ The plan for the back half of the semester is as follows:
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
 
+For this project, I needed to design a model which would predict the likelihood that two excerpts of text were written by the same author based on a binary label.  This would then need to be output to a CSV file that could be uploaded to our Kaggle database.  The training and test datasets were contained in separate CSV files with them both containing IDs and texts (with each snippet being separated by "[SNIPPET]") and all other components being separated by commas in the CSV files themselves.  Additionally, the ```train.csv``` file also contained a file with the labels, which is what we would utilize for training.
+
+The project seemed simple in practice, but as you can probably tell by the fact that I devoted an entire header and several paragraphs to "challenges faced", this project pushed me to my limits.  I am pleased that I made it through the other side with something that I am proud of!  Yet first, let me explain how I got there...
+
+## Challenges Faced
+
+I am not going to sugarcoat it, this is one of the hardest projects I have ever done.  The challenges that I faced went above and beyond the practical aspects of the task (finding out how to handle the missing '1999' ID, for example), I *struggled* with even getting my code to work.  I went through no less than 3 completely different iterations started from scratch, with multiple sub-iterations (especially within the last 2).
+
+I started out with a variant of a Logistic Regression Classifier as a base mid-way through the semester, which performed terribly.  As expected, such a thing is not strictly designed for this type of task and would need an immense amount of work to make successful.  Utilizing my previous code from the last course would not suffice.
+
+Yet I had grand plans, amazing plans... I wanted to design an LSTM in PyTorch and have it run everything in one consolidated file.  However, not only was I not able to figure out how to approach the task in a computationally reasonable way, I was not even able to get the code to run properly at all.  I then started to pivot my PyTorch code to something that would be easier to work with in theory, a GRU-based model.  I believed that this would be simpler and more easy to run without necessitating the HPC for every single run.
+
+However, trying to converted my broken LSTM into a GRU which was partially converted from semi-unoptimized Logistic Regression code ended up causing me to dig myself further and further into complexities that I could not unearth myself from.
+
+That being said, after I decided to work on the other two projects and come back to this one, I was able to port much of my from-the-ground-up GRU code using keras to this project.  This was the 3rd (and successful) model.  Much of the challenges that I faced in designing that model (converting dataframes between formats for speed optimization and RAM space) were not quite as necessary for a small dataset like this, but I still decided to incorporate the lessons that I learned there.
+
+In the end, I was pleasantly surprised that the absolute hardest class project I have done throughout all of my time at the University of Arizona end up being one of my cleanest.  Aside from needing to remove some commented out code, it is a project that I am *proud* of!  I still cannot put into words how much of a crucible this felt like, but it resulted in something genuinely amazing!  As I mentioned in my course project, I learned not only how to tackle the project itself, but I also feel like I *learned how to learn* better.  That is something that I will take with me throughout my life going forward.
+
+(I'm also really excited to continue fine-tuning my model going forward!)
+
+## How to Run
+
+For this program, I originally intended to have an easily accessible Docker container available to run (as I desired to with my other projects for this semester).  However, given the fact that I have struggled to a greater degree than most with working with these types of machines (see the above section), the current version of the program needs to have its dependencies installed manually and be ran from the terminal.
+
+As of 12/4/2025, all components utilized were their latest versions.  Installing the latest version of each component (like ```numpy```, ```scikit-learn```, etc.) should not cause issues, but if you do run into problems, make sure to install the versions listed in ```requirements.txt```.
+
+In order to make sure that you are able to install each component, I will provide an example of installation utilizing ```pip```.  Please note that this set of directions presumes a valid installation of Python and a Linux-based operating system.
+
+1. If you do not have ```pip``` installed, open your Terminal and type the following commands:
+```
+sudo apt update
+sudo apt install python3-pip
+```
+
+2. Once pip is installed, you can begin installing each component from ```requirements.txt```.  For example, here is the command that you can use to install the first item listed, which is listed as ```scikit-learn~=1.7.2``.  In this case, you can ignore the version number at the end and enter the following command into your terminal:
+```
+pip install scikit-learn
+```
+
+3. Repeat this process for each item listed in ```requirements.txt```.
+
+4. It is now time to run the script!  Navigate to the directory that the script is in using ```cd path/to/directory``` and then run the script by typing the correct version of Python installed on your system.  For example, that command may look like ```python3 GRU_Master.py```.  Note that depending on your system, the process might take a moment.  (It usually does not take too long, but it still is running a model that is intensive, so results may vary.)
+
+5. Your result will be saved in the root directory with the name output in your terminal.  Open the file that your terminal names and you will find a CSV file with the ID of each pair of excerpts, as well as a binary "0" or "1" prediction (with 0 assuming that the authors were different and 1 assuming that the authors were the same).
+
 ## Exploratory data analysis
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+
+Going through the data, while I am not able to directly compare to the test dataset itself, it performed very poorly there (0.48797).  However, when running through the original data it was outputting results closer to ~0.98.  This indicates a *MASSIVE* overfitting issue.  (If you want to, you can feel free to experiment with the version of my model as of 12/6/2025 to see these results for yourself.)
+
+I had initially assumed that utilizing keras's built in feature to use some of the training data automatically to test as it went would help significantly, at least like it did for the "control" on my course project (where I included 1,000,000 training examples for the model).  However, that could not correct for the issue that I found here.
+
+After the course concludes, I plan to further tune the model, as I believe that improving here will be relatively simple.  (Getting the model running was a huge challenge for me - and while I know that fine-tuning a model is anything but easy it will be much easier to tune it within the existing framework I have built.)
+
+There are three main issues that I believe are at play here:
+1. More-or-less copying my GRU-based system designed for working with the Sentiment140 dataset (with 1.6 *million* tweets) and retrofitting it for this much smaller task means that it would be massively prone to overfitting from the outset.  I need to pull back on the training.
+2. Splitting the strings from the excerpts would massively help the training as well, I believe.  This would explicitly tell the model that the point is to compare the strings.
+3. I believe that there is some level of data leakage in my current model during training.  That could be contributing to the massive overfitting as well.
 
 ## Approach
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
 
+I will admit, my approach certainly is not the most novel in the wide world of models used by most people.  Yet for me, I am simply excited that I managed to build one of my own and get it working!  That is an achievement that I am proud of.
+
+As I mentioned in my introduction, my approach changed drastically *several* times, including 3 massive shifts where I scrapped and rebuilt my model from the ground up because I could not get it to work properly.
+
+In the end, the approach that I used was to retrofit my GRU-based model from my course project designed for the Sentiment140 dataset and utilize it for this project.  While that performed significantly better than my mid-semester logistic regression method, it still failed to succeed due to a massive overfitting issue.  That being said, I believe that the *theory* behind utilizing GRUs is solid (as they are relatively efficient compared to LSTMs, much more accurate than simple RNNs, LR-based implementations like I used earlier, etc.).  I believe with further tweaking, this could be a very successful way of tackling the project!
+
 ## Results
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
 
+My approach, due to the limitations that I hypothesize about above, only ended up scoring 0.48797.  This was a significant improvement above my logistic regression based method (which scored 0.40331) and an *even more significant improvement* over my LSTM based method (because I could not get that one to run...).  This means that I improved roughly 21% upon my original score, which I will take!
+
 ## Error analysis
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+
+As I mentioned during my exploratory data analysis, much of the errors that my current model seems to face seem to be tied to overfitting, rather than to specific issues with certain individual portions of the data itself.  When I used the automatic training system included with keras, it averaged ~98% accuracy on the held-out portions of data.  While I am pretty new to researching these kinds of models, I know that that could indicate a level of data leakage as well.  Between that and the insane amount of repetition of training loops for such a small dataset, I believe that those contributed most greatly to the errors that I found during this process.
+
+While I am not able to compare specific examples from the actual test data for accuracy in the same way that I was able to for my other course project, the significant gap here seems to imply that these major issues are at play more so than small misreads of certain tokens or other tiny issues.
 
 ## Reproducibility
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
 _If you'ved covered this in your code repository's README, you can simply link to that document with a note._
 
+In order to reproduce these results, you will want to download the version of my program (as of 12/6/2025) which includes all necessary training and test data.  You can then follow the guide above for how to run it and then reference the Kaggle competition website here:
+[https://www.kaggle.com/competitions/ling-582-fa-2025-course-competition/](https://www.kaggle.com/competitions/ling-582-fa-2025-course-competition/)
+
+The program is entirely self contained and running it will train the model, run it, and export the results all in one go!]
 
 ## Future Improvements
 
 _Describe how you might best improve your approach_
+
+My next priority is fixing any sort of data leakage issue, if one does exist.  After that, I plan to work on fine tuning the model, which I believe should be a very fun process!  Now that I have finally overcome the challenge of learning how to properly work with these kinds of models properly, tweaking them is the next exciting journey for me.  I did minimal tweaking in my other course project and got decent results, but for this one there is much room for fine tuning based on adjusting the amount of epochs, GRUs, etc.
+
+I look forward to doing that and, perhaps once the test results are publicly available, also making the program able to output an "accuracy" result to the terminal just like my other course project did!
