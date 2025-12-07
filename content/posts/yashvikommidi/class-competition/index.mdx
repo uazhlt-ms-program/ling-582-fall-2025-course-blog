@@ -46,7 +46,7 @@ To handle the class imbalance, I have done computing the class weights, to make 
 The model I have built fine tunes a pre-trained DistilBERT model for 5 epochs using AdamW optimizer with learning rate scheduling, which automatically tracks and saves the best- performing model based on the macro F1-score. 
 At the end, after training, it loads the best saved model with highest F1score and uses it to generate predictions on test data.
 
-##Approach
+## Approach
 
 I have tried using BERT, but the runtime was higher and my system was not handling at this moment, so I have choosen DistilBERT as its smaller and faster than BERT while maintaining the strong performance. 
 
@@ -77,7 +77,7 @@ whereas the test.csv file has the same structure, but it doesn’t have labels.
 
 The labels are binary: 0 (Different Authors) and 1 (Same Authors). We need to create a test.csv file with predictions for the unlabelled test set, which is evaluated on Kaggle using the Macro F1 score to weight performance on both classes equally. 
 
-Challenges:
+# Challenges:
 
 A few areas of this task are specifically challenging, primarily due to class imbalance. The training labels are highly imbalanced, with roughly 77% being class 0 (Different Author) and only 22% being class 1 (Same Author). Without techniques like class weighting or sampling, the model might easily learn to predict 0 most of the time and barely learn the Same Author class at all.
 
