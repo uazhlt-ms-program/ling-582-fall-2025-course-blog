@@ -66,10 +66,58 @@ My next move will be to add more augmented data to better train the model and me
 ## Exploratory data analysis
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+The data was an ID, TEXT (which were actually two texts by the same or different author combined with the string [SNIPPET]) and LABEL of 0 or 1 depending on if the texts were the same or different author.
+To discover the dispersal of data, I checked several things.
+In the full dataset:
+Entries: 1,601
+Label 0: 1,245
+Label 1: 356
 
+Train Dataset:
+Entries: 1,280
+Label 0: 999
+Label 1: 281
+
+Test Dataset:
+Entries: 321
+Label 0: 246
+Label 1: 75
+
+I tried adding more data through augmentation with AI, but it made up things. 
+So next I did research on other datasets and found this dataset on Kaggle [Spooky Authorship Dataset](https://www.kaggle.com/competitions/spooky-author-identification/data?select=train.zip)
+It had text samples from three different authors with columns: ID, text, author.
+While I didn't care about who the author was, I set something up that randomly selected two rows and put the two text columns together with [SNIPPET] and if the author was the same, set the corrosponding label.
+While I ended up not using the data because it actually made my data worse, even though it balanced the two categories, here was the breakdown
+In the full dataset:
+Entries: 2,997
+Label 0: 1,725
+Label 1: 1,273
+
+Train Dataset:
+Entries: 2,398
+Label 0: 1,381
+Label 1: 1,017
+
+Test Dataset:
+Entries: 600
+Label 0: 344
+Label 1: 256
+
+While this 'balanced' the data, I did some reasearch and found that BERT does not need much for finetuning https://stackoverflow.com/questions/58696041/how-to-deal-with-a-highly-imbalanced-issuetext-classification-dataset
+To make the data easier to visualize, I added text1 and text2 columns which split the single [Snippet] special token into two texts/
 ## Approach
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
+My approach was to use a text classifier BERT model to classify the texts. 
+1. Performed exploratory analysis and decided to add two new columns for each of the text snippets. This is also where I attempted to supplement with more data.
+2. Seperated the dataframe into train and test and imported it into a Dataset for easier manipulation
+3. Set up the tokenizer, I used bert-base-uncased as that was suggested by [Text classifier](https://huggingface.co/docs/transformers/en/tasks/sequence_classification)
+    For this I mapped the dataset and did some alterations for the model to better understand, such as renaming 'LABEL' and ignoring the actual texts columns and focusing on the IDs, input_ids, token_type_ids, attention_mask, and labels.
+    Next I put it in the format of torch based on this example [Dealing with tokenizer](https://huggingface.co/docs/datasets/en/process)
+
+4. Next I set up a data_collator with dynamic padding to better organize padding
+5. Creating a metric to test the success of the model using accuracy, function taken from [Text Classifier](https://huggingface.co/docs/transformers/en/tasks/sequence_classification)
+6. Set up the training arguments as suggested by [Text Classifier](https://huggingface.co/docs/transformers/en/tasks/sequence_classification). My initial run was 3 num epochs, but I thought if I ran it longer it would be better - but that was not the case. I was *trying* to be novel and try new things, but HuggingFace knows what it is talking about. But at least I learned what didn't work as well (though all my experimentations did help me learn more about my model, and were relatively close to eachother ie 65%-67% compared to the top first model which was 70%)
 
 ## Results
 
@@ -83,7 +131,7 @@ _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/cl
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
 _If you'ved covered this in your code repository's README, you can simply link to that document with a note._
-
+[README.md](https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-bess-days/blob/main/README.md) - I showed reproducibility
 
 ## Future Improvements
 
