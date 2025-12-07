@@ -77,7 +77,7 @@ whereas the test.csv file has the same structure, but it doesn’t have labels.
 
 The labels are binary: 0 (Different Authors) and 1 (Same Authors). We need to create a test.csv file with predictions for the unlabelled test set, which is evaluated on Kaggle using the Macro F1 score to weight performance on both classes equally. 
 
-### Challenges:
+#### Challenges:
 
 A few areas of this task are specifically challenging, primarily due to class imbalance. The training labels are highly imbalanced, with roughly 77% being class 0 (Different Author) and only 22% being class 1 (Same Author). Without techniques like class weighting or sampling, the model might easily learn to predict 0 most of the time and barely learn the Same Author class at all.
 
@@ -85,9 +85,9 @@ One more challenging part was that there can be a chance of two different author
 
 For example, some of the texts are extremely short or noisy, which can make verification difficult. 
 
--> Example 1: ID 892 contains fragmented dialogue: "cried Penrod. “ I HAVEN'T?”... “WHAT IS IT?” Mrs. Gelbraith echoed..."  
+-> ID 892 contains fragmented dialogue: "cried Penrod. “ I HAVEN'T?”... “WHAT IS IT?” Mrs. Gelbraith echoed..."  
 
--> Example 2: ID 1055 is similarly sparse: "Number 52. Captain Laurent Deligne... Died at Ahaggar..."
+-> ID 1055 is similarly sparse: "Number 52. Captain Laurent Deligne... Died at Ahaggar..."
 
 ### Related work:
 
