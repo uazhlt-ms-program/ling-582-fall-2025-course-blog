@@ -1,7 +1,7 @@
 ---
 title: "Bhinneka Tunggal Ika: One Nation's Challenging NLP Landscape"
 slug: "/aaronradlicki/paper-summary"
-date: 2025-11-09
+date: 2025-12-02
 author: Aaron Radlicki
 description: "This paper is about the challenges facing people doing NLP work in Indonesia, due to..."
 tags:
@@ -66,7 +66,7 @@ I chose this paper because:
 * Despite Indonesia being the fourth most populous country in the world and one of the most linguistically dense, this essay analyzes the specific challenges that have resulted in this being one of the hardest to tackle areas for many computational linguists
 * I think the topic is neat :)
 
-\-\-\- THE REMAINING PORTION OF THIS .MDX FILE WILL BE UTILIZED FOR MY FINAL SUBMISSION AT THE END OF THE SEMESTER \-\-\-
+\-\-\- FINAL SUBMISSION BELOW: \-\-\-
 
 ## LLM
 
@@ -83,19 +83,19 @@ I chose this paper because:
 <tbody>
   <tr>
     <th><b>LLM model</b></th>
-    <td>???</td>
+    <td>SmolLM v3</td>
   </tr>
   <tr>
     <th><b>LLM model version</b></th>
-    <td>???</td>
+    <td>SmolLM3-3B</td>
   </tr>
   <tr>
     <th><b>Model/service URL</b></th>
-    <td>???</td>
+    <td>[https://huggingface.co/HuggingFaceTB/SmolLM3-3B](https://huggingface.co/HuggingFaceTB/SmolLM3-3B)</td>
   </tr>
   <tr>
     <th><b>Why this model?</b></th>
-    <td>???</td>
+    <td>It seemed well rounded for the task.  Since it falls relatively towards the middle of the spectrum in terms of running quickly and running with detailed results, I think it will be a solid choice!  Additionally, to be frank, I am *quite* new to the AI world in many ways.  So, as someone relatively late to the game when it comes to actually using AI, I went with the default setup that was recommended by the course instructions.  I figure that I can get more adventurous later, but for now, there is no shame in starting smol. ;)</td>
   </tr>
 </tbody>
 </table>
@@ -108,91 +108,553 @@ _In the LLM's words, what is this paper about?_
 ##### Prompt
 
 ```markdown
-prompt here
+**INPUT**
+**NOTE:** After telling SmolLM that I was going to be pasting the contents of a research essay and asking it some questions, I then gave it this prompt:
+First question: In your own words, what was the paper about?
+
+___________________________
+
+**OUTPUT**
+
+The paper explores the significant challenges in developing and applying Natural Language Processing (NLP) technologies to Indonesia's over 700 local languages, which are linguistically diverse and often underrepresented in NLP research. Key issues include:
+
+1. **Data Scarcity**: Limited high-quality datasets for low-resource languages like Indonesian local dialects hinder model training and deployment.
+2. **Dialectal and Stylistic Variations**: Local languages exhibit substantial dialectal differences (e.g., Javanese, Balinese, Sasak) and stylistic variations (e.g., formal vs. informal registers), complicating model generalization.
+3. **Lack of Standardization**: Many local languages lack standardized orthographies, leading to multiple written forms of the same word and increased vocabulary complexity.
+4. **Societal and Technological Barriers**: Limited internet access in remote regions, insufficient computational resources (e.g., GPUs), and the dominance of Indonesian as a unifying language further constrain NLP adoption.
+
+The authors propose solutions to address these challenges:
+
+- **Data- and Compute-Efficient Methods**: Utilize techniques like adaptation, few-shot learning, and low-rank approximation to reduce data and computational costs.
+- **Community Engagement**: Collaborate with linguists and local communities to document languages, standardize orthographies, and ensure solutions are culturally relevant.
+- **Open Science and Standardization**: Promote open-access datasets and models (e.g., BigScience, ICLR CoSubmitting Summer) to facilitate collaboration and reproducibility.
+- **Standardized Datasets**: Create benchmarks (e.g., IndoNLG, IndoBERT) to evaluate performance on Indonesian and local languages.
+
+The paper emphasizes the importance of addressing these challenges to improve NLP systems for Indonesian languages, which could enhance communication, support language preservation, and foster cross-cultural understanding. Future directions include expanding data collection, developing multilingual models, and leveraging adaptation techniques to make NLP more accessible and sustainable for underrepresented languages globally.
+
+
 ```
+
+My summary: Please see the AI's full summary above.
 
 #### What are the authors proposing?
 
 ##### Prompt
 
 ```markdown
-prompt here
+**INPUT**
+That was a solid summary, overall pretty similar to the main points I latched onto in most areas too.
+
+Now for the next question: What are the authors proposing, solutions-wise?
+
+**OUTPUT**
+The authors of the paper propose a multi-faceted approach to address the challenges in NLP for Indonesia's underrepresented languages, including:
+
+1. **Data-Efficient Methods**
+   - **Adaptation Techniques**: Use techniques like few-shot learning, adaptation to related languages (e.g., Malay), and model pruning to reduce data and computational costs.
+   - **Low-Rank Approximation**: Apply methods like low-rank matrix factorization to distill transformer models, making them lighter and faster.
+
+2. **Data Collection**
+   - **Parallel Data**: Collect parallel datasets between Indonesian and local languages, leveraging bilingual speakers and translation opportunities.
+   - **Synthetic Data**: Utilize translation between Indonesian and local languages to generate synthetic data for training, reducing reliance on native data scarcity.
+
+3. **Community Engagement**
+   - **Linguistic Collaboration**: Partner with linguists, local communities, and researchers to document languages, standardize orthographies, and ensure solutions are culturally relevant.
+   - **End-to-End NLP**: Focus on spoken language understanding (e.g., speech recognition) for languages with limited written forms.
+
+4. **Standardization and Documentation**
+   - **Dialect and Style Metadata**: Add metadata to datasets and models to document dialectal and stylistic variations, improving transparency and usability.
+   - **Open-Access Repositories**: Promote standardized repositories for NLP resources (e.g., BigScience, ICLR CoSubmitting Summer) to facilitate collaboration and reproducibility.
+
+5. **Multilingual Models**
+   - **Dialectal and Stylistic Adaptation**: Develop models that handle variations in dialects (e.g., Javanese Ngoko, Krama) and styles (e.g., formal vs. informal registers).
+   - **Multilingual Pre-training**: Train models on Indonesian and local languages to capture their unique linguistic features and improve cross-language transfer.
+
+6. **Open Science and Resource Optimization**
+   - **Open-Access Datasets**: Encourage the sharing of datasets and models to enable collaboration and reduce duplication of effort.
+   - **Resource Optimization**: Leverage the large Indonesian population to create synthetic data through translation, reducing the need for large-scale native data.
+
+7. **Research and Data Collection**
+   - **Sustained Efforts**: Advocate for ongoing research and data collection to address the persistent challenges of data scarcity and underrepresentation.
+   - **Cross-Lingual Transfer**: Explore transfer learning from related languages to adapt models for underrepresented languages.
+
+These solutions aim to create more accurate, efficient, and culturally appropriate NLP technologies for Indonesia's diverse linguistic landscape, with broader implications for supporting language preservation, multilingual communication, and inclusive technology development.
 ```
+
+My summary: The authors are proposing that for effective NLP work to be furthered amongst minority and underresourced language groups in Indonesia (the 4th most populous country in the world), a number of necessary societal, technological, and pragmatic challenges will need to be overcome.
 
 #### What is the motivation for the work?
 
 ##### Prompt
 
 ```markdown
-prompt here
+**INPUT**
+Next, what is the motivation for this work?
+
+**OUTPUT**
+The motivation behind the paper lies in addressing the underrepresentation of Indonesia's 700+ local languages in the field of NLP research, a critical yet often overlooked area. The authors are driven by the following key motivations:
+
+1. **Linguistic Diversity and Inclusivity**:
+   - Indonesia is one of the most linguistically diverse countries globally, with over 700 local languages spoken by over 273 million people.
+   - The paper aims to highlight the urgent need to develop NLP technologies that can effectively support these languages, which are currently underrepresented in existing datasets and research.
+
+2. **Societal and Educational Benefits**:
+   - The authors emphasize that language technology can enhance education, communication, and cultural preservation in a multilingual society. For example, NLP tools could facilitate multilingual learning, improve healthcare access (e.g., through medical terminology), and reduce language barriers in social media and digital platforms.
+   - By supporting local languages, the paper underscores the importance of preserving linguistic diversity, which is vital for cultural identity and social cohesion in a country with a vast number of ethnic groups.
+
+3. **Addressing Ethical and Social Responsibility**:
+   - The paper advocates for NLP research that reflects the linguistic realities of the global population. By focusing on underrepresented languages, it aims to promote a more equitable and inclusive approach to NLP, ensuring that technologies are accessible to all, regardless of language or cultural background.
+
+4. **Practical Applications and Accessibility**:
+   - The authors seek to improve the daily lives of Indonesians by enabling more accurate and efficient language processing in their native languages. This could include tasks like sentiment analysis, machine translation, and language understanding in spoken contexts, which are essential for various applications (e.g., education, healthcare, and social media).
+   - By addressing the lack of NLP resources for local languages, the paper contributes to making language technology more practical and accessible to the broader Indonesian population.
+
+5. **Global Implications for NLP Research**:
+   - The paper also serves as a call to action for the NLP community to prioritize underrepresented languages, reflecting the broader need to support linguistic diversity in global technology. It underscores the importance of NLP research that is both technically robust and ethically responsible, ensuring that technologies are designed with the needs of diverse populations in mind.
+
+6. **Addressing Data and Resource Gaps**:
+   - The authors recognize that limited data and standardized orthographies are major barriers to NLP development in Indonesia. By proposing solutions like data-efficient methods, community collaboration, and open science practices, they aim to bridge these gaps and create a more sustainable path for NLP research in the country.
+
+In essence, the paper is motivated by the dual goals of advancing NLP technology for the linguistic diversity of Indonesia and promoting ethical, inclusive, and accessible language processing tools that benefit its citizens and contribute to global linguistic equity.
+
 ```
+My summary: The motivation for the work is that it will increase equity and the ability to thrive amongst the peoples of Indonesia, which is one of the most linguistically diverse countries on the planet.  It has several large barriers to NLP development, which makes further research a major challenge there, even before getting into the realities of developing NLP technology.  The unique linguistic environment of Indonesia has caused there to be a much less-than-level playing field for those who do not have access to technology in their preferred languages, have little access to technology in general, or who are neglected by NLP development.  (Sadly, the focus of NLP development on the national and majority languages has further caused underresourced languages to struggle more and more, while furthering interest in the majority languages because they possess more NLP tools and technological development in their languages.)
+
+(As a side note, while this is not explicitly discussed in the paper as extensively, many individuals in Indonesia do speak the national language, but not everyone does.  In a rural village that I visited in eastern Papua in 2019, there were several individuals that did not speak the national language - and since their primary language was not accessible in *any* online or computational platform it was causing a generational divide of sorts amongst the younger crowd who were focusing more on the national language to stay connected and those of middle-age and up who wanted to preserve their struggling language.  The situation is complex, but very relevant to what this essay is discussing, so I found it worth notating in further detail here.)
 
 #### What is the approach or innovation?
 
 ##### Prompt
 
 ```markdown
-prompt here
+**INPUT**
+By your estimation, what is the key approach or innovation of this paper?
+
+**OUTPUT**
+The **key innovation** of the paper lies in its **integrated approach to addressing the challenges of NLP in underrepresented languages**, particularly in Indonesia's linguistically diverse context. This innovation combines three core strategies:
+
+1. **Data-Efficient Methods**:
+   - The authors propose using **adaptation techniques**, **few-shot learning**, and **low-rank matrix factorization** to reduce the computational and data requirements for NLP models. These methods allow for the development of efficient models that can handle low-resource languages without relying on massive datasets, making NLP more accessible for Indonesia's local languages.
+
+2. **Multilingual and Context-Aware Modeling**:
+   - The paper advocates for **multilingual models** that can handle dialectal and stylistic variations (e.g., Javanese Ngoko vs. Krama, Balinese regional dialects). This innovation moves beyond traditional multilingual approaches by explicitly accounting for the unique linguistic contexts of local languages, ensuring models perform well across diverse dialects and styles.
+
+3. **Open Science and Community Collaboration**:
+   - The authors emphasize the importance of **open-access datasets**, **open science practices**, and **community engagement** with linguists and local communities. This approach not only facilitates reproducibility and collaboration but also ensures that solutions are culturally relevant and linguistically accurate for the Indonesian context.
+
+These elements together create a **holistic framework** for NLP in underrepresented languages. By merging data efficiency with multilingual context-awareness and fostering open collaboration, the paper offers a practical and scalable path to developing NLP technologies that can support the linguistic diversity of Indonesia and beyond.
+
+The innovation is further enhanced by the authors' recognition of the **societal and ethical dimensions** of NLP. By prioritizing inclusivity and accessibility, the paper contributes to a more equitable global NLP landscape, where technologies are designed to serve the needs of all linguistic groups, not just the dominant ones.
+
+
 ```
+
+My summary: The key innovation of this essay is indeed the unification of societal, technological, and scientific solutions in working to increase NLP amongst underresourced language groups in Indonesia.  Whether that be technological solutions designed to work with smaller amounts of source data, cultural solutions like working with bilingual speakers to make connections in the preservation of dialects, and further scientific analysis of similar language groups to expediate the analysis of these linguistic groups, the hope is that the situation will improve drastically.  In the long-term, this should hopefully result in not only language preservation, but also increased literacy, but healthcare access (as it is essential to have accessible medical terminology) and technological development amongst underresourced groups.
 
 #### What are the results and how do they compare with competing approaches?
 
 ##### Prompt
 
 ```markdown
-prompt here
+**INPUT**
+What were the results of this study?  How does it compare to competing approaches/analyses?
+
+**OUPUT**
+The study's results and comparative analysis are structured around three primary outcomes, each addressing a critical challenge in NLP for Indonesian local languages:
+
+### **1. Data Efficiency and Computational Advantages**
+- **Key Result**: The authors demonstrate that their **data-efficient methods** (e.g., adaptation, few-shot learning, and low-rank matrix factorization) significantly reduce the computational and data requirements for NLP models. For example, their models perform **30–50% better** on tasks like language identification and sentiment analysis compared to traditional models trained on large datasets (e.g., CLD3, FastText).
+- **Comparison to Competing Approaches**:
+  - Traditional multilingual models (e.g., mBERT, mT5) are often trained on high-resource languages and struggle with low-resource languages like Indonesian dialects.
+  - Existing adaptation techniques (e.g., few-shot learning) are limited to specific domains or languages, whereas the authors' approach generalizes across diverse dialects and styles.
+  - The authors' use of **multilingual models with dialectal awareness** outperforms existing methods in handling variability in Indonesian languages, such as Javanese Ngoko vs. Krama.
+
+### **2. Multilingual and Context-Aware Modeling**
+- **Key Result**: The authors propose **multilingual models that account for dialectal and stylistic variations**, enabling them to generalize better across diverse languages and contexts. For instance, their models achieve **higher accuracy** (e.g., 90%+ on sentiment classification) on Indonesian local languages compared to monolingual models.
+- **Comparison to Competing Approaches**:
+  - Most multilingual models are designed for high-resource languages and do not explicitly address dialectal or stylistic differences.
+  - The authors' approach is unique in its **integration of dialectal metadata**, which is critical for languages with significant variation (e.g., Balinese, Madurese).
+  - Their multilingual models are benchmarked against existing benchmarks (e.g., WikiMatrix, IndoNLG) and outperform them in tasks requiring contextual awareness.
+
+### **3. Community Collaboration and Open Science**
+- **Key Result**: The authors emphasize the importance of **community collaboration** and **open science practices** in NLP for underrepresented languages. Their work includes:
+  - **Data collection** from bilingual speakers and translation opportunities, which is more feasible than relying on native data scarcity.
+  - **Standardized metadata** for dialects and styles, ensuring transparency and reproducibility.
+  - **Public repositories** for datasets and models, such as the proposed **IndoNLG** and **IndoBERT**, which are open-access and designed for Indonesian and local languages.
+- **Comparison to Competing Approaches**:
+  - Most NLP research is conducted in isolation from communities, leading to solutions that may not address real-world needs. The authors' approach bridges this gap by involving linguists and local communities in the design and validation of models.
+  - Traditional NLP benchmarks (e.g., XPersona, BiToD) are often limited to high-resource languages, whereas the authors' work focuses on multilingual and low-resource contexts.
+  - Their use of **community-driven data collection** and **open science** practices sets a new standard for collaborative research in underrepresented language domains.
+
+### **Implications and Comparisons**
+- **Broader Implications**: The authors' results suggest that **data-efficient and context-aware NLP models** can be developed for low-resource languages, reducing the computational and data barriers. This is a significant advancement for NLP research, as it enables scalable solutions for diverse languages.
+- **Comparison to Existing Analyses**:
+  - While other studies have explored adaptation and multilingual models, the authors' work is unique in its **explicit integration of dialectal and stylistic metadata** and its **emphasis on open science**.
+  - Their approach addresses the **societal and ethical dimensions** of NLP, ensuring solutions are culturally relevant and inclusive, unlike traditional research that often prioritizes technical efficiency over real-world applicability.
+
+### **Conclusion**
+The study's results highlight a **transformative approach** to NLP for underrepresented languages, particularly in Indonesia. By combining data efficiency, multilingual context-awareness, and community collaboration, the authors provide a scalable framework that overcomes the limitations of existing methods. Their work not only advances the technical capabilities of NLP for low-resource languages but also sets a new benchmark for ethical and inclusive research practices in the field.
+
+
 ```
+
+My summary: As you can read about below, this is a question that the AI seemed to misunderstand pretty drastically.  I will save discussion about that for now, however.
+
+The results of the analysis conducted by the authors concluded that there are not only major needs for improvement amongst underresourced languages, but also *dialects*.  Their study comparing the results of different dialectical analysis with varying models concluded that there is much room for improvement even amongst the latter.  What actually sets the authors' approach apart is their recognition that a solution for a place as linguistically and culturally diverse as Indonesia is *not* going to be "one size fits all".  There is a reason that underresourced language groups in Indonesia have been neglected for so long in the world of NLP and it is not merely because of lack of care; the task is also *immensely difficult*.  Having so many different linguistic groups with differing needs packed into a relatively tight area (at least on a global scale) means that the solution is not as simple as "better NLP tools" or "better cross-cultural collaboration" or "better linguistic analysis" but is usually a combination of those factors and more.
+
+(As another side note going beyond what the paper says, I also encountered a tricky situation where one cultural group in Indonesia that I visited had some members that did not want another cultural group to receive NLP development.  I am not going to name either group, as I do not want to put them in a bad light, as I certainly do not believe that the entirety of the former group feels this way.  Yet this goes to show that the cultural side of things can play a HUGE role in determining the effectiveness of inclusive research practices - and navigating that can be a huge challenge.)
 
 #### Is the comparison fair?
 
 ##### Prompt
 
 ```markdown
-prompt here
+**INPUT**
+Is the comparison fair?
+
+**OUTPUT**
+The comparison in the paper is **fair and well-justified**, as it is grounded in a clear and systematic evaluation framework. Here’s why:
+
+1. **Relevance of Benchmarks**:
+   The authors use **benchmark datasets and models** (e.g., CLD3, FastText for traditional models, IndoNLG and WikiMatrix for multilingual models) that are widely recognized in the NLP community. These benchmarks provide a standardized way to evaluate performance, making the comparison valid.
+
+2. **Appropriate Metrics**:
+   The comparison is based on **task-specific metrics** (e.g., accuracy, precision, recall, F1-score) for tasks like language identification, sentiment analysis, and machine translation. These metrics are standard in NLP research and ensure a fair comparison of methods across tasks.
+
+3. **Contextual Fairness**:
+   The authors explicitly address the **unique challenges of Indonesian local languages**, such as dialectal and stylistic variation. They compare their methods (e.g., multilingual models with dialectal awareness) to traditional models that do not account for these complexities. This comparison is fair because it highlights the **specific advantages** of their approach in handling variability.
+
+4. **Community Collaboration**:
+   The comparison includes an evaluation of **community-driven data collection** and **open science practices**. This is fair because it directly addresses the limitations of traditional NLP research, which often neglects community input and lacks transparency. The authors’ approach is explicitly compared to isolated, community-agnostic methods.
+
+5. **Data Efficiency**:
+   The authors’ use of **data-efficient methods** (e.g., adaptation, few-shot learning, low-rank approximation) is compared to traditional models that require large datasets. This is a fair comparison because it evaluates the **resource utilization** of methods in the context of low-resource languages.
+
+6. **Open Science Practices**:
+   The paper’s emphasis on **open-access datasets and models** (e.g., IndoNLG, BiToD) is a valid approach to ensure reproducibility and transparency. The comparison to traditional, closed-source benchmarks (e.g., mBERT, mT5) is fair because it highlights the **openness** of the authors’ approach and its potential to democratize NLP research.
+
+7. **Task-Specific Fairness**:
+   The authors compare their methods across **multiple tasks** (e.g., language identification, sentiment analysis, machine translation), ensuring that the comparison is task-agnostic and comprehensive. This is critical for validating the generalizability of their approach.
+
+### **Limitations and Fairness Considerations**
+While the comparison is fair, it is important to note that:
+- **Traditional models may not be designed for dialectal variation**. The authors’ multilingual models are explicitly designed to handle this, making their comparison valid.
+- **Community collaboration** is a new dimension in NLP research, and the paper’s comparison to traditional, community-agnostic methods is fair in highlighting the benefits of participatory approaches.
+- **Data scarcity** is a shared challenge, but the authors’ use of **parallel data between Indonesian and local languages** (e.g., WikiMatrix) is a valid strategy to address this.
+
+In summary, the comparison is **fair** because it:
+- Uses **standard benchmarks** and **task-specific metrics**.
+- **Highlights the unique advantages** of the authors’ approach in addressing dialectal and community-driven challenges.
+- **Complements traditional research** by emphasizing inclusivity and accessibility.
+
+The paper’s comparison is robust and justifies the innovation in its approach, making it a valuable contribution to the field.
+
+
 ```
+
+My summary: I believe that the comparisons that the authors make to existing methods of linguistic development fairly point out the unique challenges facing underresourced groups in Indonesia.  They point out the unique challenges (several of which I mentioned in my above summary) that make this environment different from other contexts which may come to mind.  They are careful in pointing out those unique aspects and emphasize the cultural aspects that set the situation apart (while also not ignoring the technological aspects, such as the fact that many underresourced language groups tend to be more rural and have less access to technology).
 
 #### What are the takeaways according to the authors?
 
 ##### Prompt
 
 ```markdown
-prompt here
+**INPUT**
+According to the authors, what are a few brief takeaways from the paper?
+
+**OUTPUT**
+Here are a few **brief takeaways** from the paper:
+
+1. **Linguistic Diversity is a Critical Challenge**:
+   Indonesia’s over 700 local languages, many of which are underrepresented in NLP research, require tailored solutions to address the lack of data and resources. This diversity complicates model training and deployment, highlighting the need for targeted approaches.
+
+2. **Dialectal and Stylistic Variation Must Be Addressed**:
+   Local languages in Indonesia exhibit significant dialectal and stylistic differences (e.g., Javanese Ngoko vs. Krama, Balinese regional dialects), which traditional models often fail to capture. Models must be designed to handle these variations to ensure accuracy and generalizability.
+
+3. **Lack of Standardization in Orthography**:
+   Many local languages lack standardized orthographies, leading to multiple written forms of the same word. This increases vocabulary size and reduces model efficiency. The paper advocates for standardized orthographies to improve model performance.
+
+4. **Community Collaboration and Open Science Are Essential**:
+   Involving linguists, local communities, and open science practices (e.g., open-access datasets) is crucial for developing culturally relevant and accessible NLP solutions. This ensures that models address real-world needs and are reproducible.
+
+5. **Multilingual Models with Dialectal Awareness**:
+   Training models on Indonesian and local languages can lead to more efficient and accurate solutions for underrepresented languages. Multilingual models that account for dialectal and stylistic variations are particularly effective in handling the unique linguistic profiles of Indonesian local languages.
+
+6. **Data-Efficient Methods Are Key**:
+   Techniques like adaptation, few-shot learning, and low-rank approximation are vital for reducing the computational and data requirements of NLP models, making them more feasible for low-resource languages.
+
+7. **Societal and Technological Barriers Must Be Mitigated**:
+   Limited internet access, funding constraints, and the dominance of Indonesian as a unifying language pose challenges for deploying NLP technologies in Indonesia. Solutions must address these barriers to ensure practical application.
+
+8. **Open Science and Transparency Are Critical**:
+   Open-access datasets and models (e.g., IndoNLG, BiToD) and community-driven data collection are essential for fostering collaboration and ensuring that NLP solutions are culturally appropriate and accessible.
+
 ```
+
+My summary: According to the authors, we must have a collaborative and open process working not only amongst researchers but also amongst the people being worked with.  This extends not only to more equitable language databases and technologies that do not favor majority language groups, but also ensuring that we are culturally aware in making sure that the research and development we do is accessible and able to build up underresourced languages.  Furthermore, their data shows that our work cannot stop at arbitrary "language" barriers, but that often dialectical differences can warrent entire fields of work in and of themselves, especially for wide-ranging languages like Javanese, which might appear to be a majoritively-spoken language on the surface but may in reality have several underresourced dialects as well.
 
 #### What are the takeaways according to you?
 
 ##### Prompt
 
 ```markdown
-prompt here
+**INPUT**
+Next, what are the takeaways according to you?
+
+**OUTPUT**
+Here are the **takeaways** from the paper, distilled into actionable insights for readers:
+
+1. **Underrepresented Languages Require Tailored NLP Solutions**:
+   Indonesia’s 700+ local languages are underrepresented in NLP research, with limited data and resources. Developing models that address these languages is critical to improving global NLP equity.
+
+2. **Dialectal and Stylistic Variation Must Be Handled**:
+   Local languages in Indonesia exhibit significant variation in dialects (e.g., Javanese, Balinese) and styles (e.g., formal vs. informal). Models must be designed to handle these differences to ensure accuracy and generalizability.
+
+3. **No Standard Orthography Complicates Data Collection**:
+   The lack of standardized orthographies for many local languages leads to multiple written forms of the same word, increasing vocabulary size and model complexity. Standardizing orthographies is essential for efficient NLP.
+
+4. **Community Collaboration and Open Science Are Vital**:
+   Involving linguists, local communities, and adopting open science practices (e.g., open-access datasets) ensures solutions are culturally relevant and reproducible. This fosters inclusive NLP development.
+
+5. **Data-Efficient Methods Are Necessary**:
+   Techniques like adaptation, few-shot learning, and low-rank matrix factorization reduce computational and data costs, making NLP more feasible for low-resource languages.
+
+6. **Multilingual Models with Dialectal Awareness Are Critical**:
+   Training models on Indonesian and local languages can lead to more efficient and accurate solutions. Multilingual models that account for dialectal and stylistic variations are particularly effective in handling the unique linguistic profiles of Indonesian languages.
+
+7. **Address Societal and Technological Barriers**:
+   Limited internet access, funding constraints, and the dominance of Indonesian as a unifying language must be mitigated to ensure practical deployment of NLP solutions.
+
+8. **Open Science and Transparency Are Key**:
+   Open-access datasets and models (e.g., IndoNLG, BiToD) and community-driven data collection are essential for fostering collaboration and ensuring solutions are culturally appropriate and accessible.
+
+These takeaways highlight the main challenges and recommendations from the paper, providing actionable insights for advancing NLP in Indonesia’s diverse linguistic landscape.
+
 ```
+
+My summary: According to *me*, the key takeaways are that every situation in Indonesia is unique.  It requires a world of work, true, but a world's worth of love for its people can make that happen.  NLP for underresourced language groups is never easy - and Indonesia brings many of its own challenges.  (This paper outlined many and I have even added a few myself as you have likely read.)  Yet with creativity and perseverence, we can make the world more equitable and worthwhile one language group at a time! :)
 
 #### Would you use this?  If so, how/where would you use this?
 
 ##### Prompt
 
 ```markdown
-prompt here
+**INPUT**
+Would you use this?  If so, how and/or where would you use this?
+
+**OUTPUT**
+If I were to use these **takeaways** from the paper, I would apply them in **various contexts**, such as academia, industry, and community projects. Below is a breakdown of where and how the takeaways could be utilized:
+
+---
+
+### **Academic Research**
+- **Methodology**: Use the takeaways to design research studies focused on developing NLP models for Indonesian local languages, incorporating data-efficient methods and multilingual models with dialectal awareness.
+- **Benchmarking**: Apply the takeaways to evaluate the performance of existing models (e.g., CLD3, FastText) against new approaches, emphasizing the importance of dialectal and stylistic metadata.
+- **Theoretical Frameworks**: Incorporate the need for community collaboration and open science into theoretical frameworks for NLP research, ensuring solutions are culturally relevant and reproducible.
+
+---
+
+### **Industry and Product Development**
+- **Translation Tools**: Design chatbots or translation apps that handle Indonesian dialects (e.g., Javanese, Sundanese) by leveraging multilingual models with dialectal awareness.
+- **Educational Platforms**: Develop educational tools that support local languages, such as grammar checkers or language learning apps, by addressing orthographic and dialectal variations.
+- **AI-Powered Services**: Use data-efficient methods to train models for sentiment analysis, language identification, or machine translation in multilingual settings, ensuring efficiency and scalability.
+
+---
+
+### **Community Projects and Outreach**
+- **Local Language Preservation**: Collaborate with linguists and communities to document and standardize orthographies, enabling the development of NLP tools tailored to local needs.
+- **Community Engagement**: Involve local speakers in model training and validation to ensure solutions are culturally appropriate and meet user requirements.
+- **Offline Deployment**: Address societal barriers (e.g., limited internet access) by designing models that work offline or with minimal connectivity, such as speech recognition systems for dialects without widespread data.
+
+---
+
+### **Policy and Advocacy**
+- **Language Policy**: Use takeaways to advocate for policies that prioritize underrepresented languages in NLP research and development.
+- **Inclusive Education**: Inform educational policies to include local languages in curricula and digital tools, ensuring students can access NLP resources in their native tongue.
+- **Digital Equity**: Highlight the need for equitable access to NLP technologies, particularly for marginalized communities, to address language-based inequalities.
+
+---
+
+### **Open Science and Collaboration**
+- **Data Repositories**: Establish open-access repositories for Indonesian and local language NLP datasets (e.g., IndoNLG, BiToD) to foster collaboration and reproducibility.
+- **Standardization Initiatives**: Advocate for standardized orthographies and dialect classification to improve model performance and usability.
+- **Interdisciplinary Workshops**: Organize workshops to bridge the gap between linguists, NLP researchers, and policymakers, ensuring solutions are both technically sound and culturally relevant.
+
+---
+
+### **Theoretical and Methodological Advancements**
+- **Research Methodologies**: Use the takeaways to develop novel methodologies for NLP research, such as hybrid approaches combining adaptation and multilingual models.
+- **Benchmarking**: Create benchmarks that explicitly account for dialectal and stylistic variations, such as the **IndoNLG Benchmark** for Indonesian and local languages.
+- **Evaluation Metrics**: Develop task-specific metrics (e.g., dialectal accuracy, orthographic consistency) to evaluate the performance of NLP models in low-resource contexts.
+
+---
+
+### **Practical Implementation**
+- **Iterative Development**: Apply the takeaways in iterative cycles, starting with data collection, model training, and community feedback to refine solutions.
+- **Cross-Linguistic Transfer**: Explore transfer learning from Indonesian to local languages to leverage existing resources and reduce data needs.
+- **Multilingual Training**: Use multilingual datasets (e.g., Indonesian-Wikipedia, WikiMatrix) to train models that generalize across dialects and styles.
+
+---
+
+### **Limitations and Considerations**
+- **Data Gaps**: Acknowledge the need for more data, especially for non-written or less-spoken local languages.
+- **Ethical Considerations**: Ensure that NLP solutions do not perpetuate language bias or marginalize speakers.
+- **Technical Feasibility**: Balance model complexity with computational efficiency, especially in resource-constrained environments.
+
+---
+
+### **Conclusion**
+The takeaways from the paper provide a **comprehensive roadmap** for addressing the challenges of NLP in Indonesia’s linguistic diversity. By integrating data efficiency, multilingual context-awareness, and community collaboration, researchers and practitioners can develop models that are both technically robust and culturally inclusive. These insights are applicable across academic, industry, and community sectors, ensuring that NLP technologies support the linguistic needs of underrepresented languages globally.
+
+
 ```
 
-##### Prompt
-
-```markdown
-prompt here
-```
+My summary: As a quick side note, I loved the AI's notes here, going well beyond the fields I'm interested in.  I would focus my personal next steps on doing work like what International Literacy and Development is doing in Indonesia, working on both language documentation and culturally aware NLP.  Yet going beyond my personal callings, I think there is room for many others to step in as well.  I know some individuals in Indonesia that I think could make a great fit in their community areas of leadership, speaking up for their communities and encouraging cultural development that benefits their language groups!  On a global scale, we can encourage more linguists to focus NLP research into the harder-to-access groups in Indonesia, which oftentimes requires literal boots on the ground.  We can even get healthcare officials involved in ensuring that basic medical documentation is available in each person's preferred language!
 
 #### What problems remain and what are the next steps?
 
 ##### Prompt
 
 ```markdown
-prompt here
+**INPUT**
+And now, finally, what problems remain and what are the next steps?
+
+**OUTPUT**
+The paper identifies several **remaining challenges** and **next steps** for advancing NLP in Indonesia’s underrepresented languages:
+
+### **Remaining Challenges**
+1. **Underrepresentation of Local Languages**:
+   - Many Indonesian local languages are not adequately represented in NLP datasets, limiting model training and deployment.
+   - **Solution**: Develop standardized datasets and benchmarks (e.g., IndoNLG, WikiMatrix) that incorporate a wide range of local languages and dialects.
+
+2. **Dialectal and Stylistic Variation**:
+   - Local languages exhibit significant dialectal and stylistic differences (e.g., Javanese Ngoko vs. Krama, Balinese regional dialects), which traditional models often fail to capture.
+   - **Solution**: Design multilingual models with explicit dialectal and stylistic metadata to improve generalization across dialects.
+
+3. **Lack of Standard Orthography**:
+   - The absence of standardized orthographies for many local languages complicates data collection and model training.
+   - **Solution**: Collaborate with linguists and policymakers to create orthography guidelines and standardize orthographic practices.
+
+4. **Societal and Technological Barriers**:
+   - Limited internet access and funding constraints hinder data collection and model deployment in remote areas.
+   - **Solution**: Establish partnerships with local governments, NGOs, and internet providers to improve infrastructure and funding for NLP projects.
+
+5. **Data Efficiency and Scalability**:
+   - Even with data-efficient methods, training models for very rare or poorly documented languages remains challenging.
+   - **Solution**: Explore advanced techniques like few-shot learning, transfer learning, and lightweight models (e.g., distillation, pruning) to reduce computational costs.
+
+6. **Cultural Relevance and Accessibility**:
+   - Models must be designed to meet the linguistic and cultural needs of the intended user groups.
+   - **Solution**: Engage with local communities and linguists to ensure solutions are culturally appropriate and accessible.
+
+---
+
+### **Next Steps**
+1. **Expand Data Collection**:
+   - Develop comprehensive datasets (e.g., parallel corpora, speech data) that include a wide range of local languages and dialects.
+   - Leverage translation opportunities (e.g., Indonesian-Wikipedia, WikiMatrix) to create synthetic data for underrepresented languages.
+
+2. **Advocate for Standardization**:
+   - Collaborate with linguists and policymakers to create orthography guidelines and standardize orthographic practices for local languages.
+
+3. **Develop Multilingual Models**:
+   - Train models on Indonesian and local languages to capture dialectal and stylistic variation.
+   - Explore hybrid models that combine monolingual and multilingual pre-training for improved generalization.
+
+4. **Promote Open Science and Collaboration**:
+   - Establish open-access repositories for NLP datasets and models (e.g., IndoNLG, BiToD).
+   - Foster interdisciplinary collaboration between linguists, NLP researchers, and policymakers to ensure solutions are culturally relevant.
+
+5. **Address Societal and Technological Barriers**:
+   - Work with local governments and internet providers to improve internet access and funding for NLP projects in remote areas.
+   - Use offline deployment strategies (e.g., speech recognition for dialects without data) to bypass connectivity limitations.
+
+6. **Iterative Testing and Feedback**:
+   - Pilot projects to test NLP models in real-world scenarios, gather feedback from end-users, and refine solutions.
+   - Continuously update models and datasets based on community input and emerging linguistic needs.
+
+7. **Research and Benchmark Development**:
+   - Create benchmarks that explicitly account for dialectal and stylistic variation (e.g., **IndoNLG Benchmark**).
+   - Investigate the effectiveness of data-efficient methods in handling rare languages and dialects.
+
+8. **Policy and Advocacy**:
+   - Advocate for policies that prioritize underrepresented languages in NLP research and education.
+   - Inform educational policies to include local languages in curricula and digital tools.
+
+---
+
+### **Conclusion**
+The remaining challenges and next steps highlight the need for a **holistic approach** to NLP in Indonesia’s linguistic diversity. By addressing underrepresentation, dialectal complexity, orthography, societal barriers, and data efficiency, researchers can develop models that are both technically robust and culturally inclusive. The paper’s takeaways provide a roadmap for overcoming these challenges, with open science, community collaboration, and interdisciplinary approaches being central to achieving sustainable progress.
+
+
 ```
+
+My summary: The problems that remain are simply... complicated.  Indonesia is a large country, with myriad languages and dialects.  This means that there is not a simple solution to solve every challenge.  As the authors of the essay mentioned, however, there is great room for improvement in areas that *can* help most every underresourced language group (such as focusing development on NLP data and research in a more equitable way that does not favor majority/national languages).  We can also ensure cultural awareness and sensitivity remain at the forefront as we seek an equitable future for all the people of Indonesia.  Yet that will require a slow but steady hand.
+
+A holistic approach is necessary and doable, but not easy.  Yet I am confident that there are a number of people who, perhaps, are eager to serve their neighbors in Indonesia and are up for a challenge! :)
 
 ### Experience using the LLM
 
 _Describe your process for using the LLM.  How did the LLM perform?_
- 
+
+The LLM performed surprisingly well.  While I am new to much of the use of AI for serious applications in coding and research (having only really played around with it at an elementary level early on when everyone was initially fascinated by it), I found it was quite easy to work with (*especially* using HuggingChat's interface).  Furthermore, knowing that I can run SmolLM on my own machine and get relatively similar results even from within my own applications is astounding!  However, that does not mean it is a perfect solution.  It is limited and has faults.  (See below.)
+
+I was particularly impressed with how when I asked it about the motivations behind the paper that it was able to grasp important concepts like the healthcare necessity (i.e. the fact that having health terminology available and understandable to oneself is essential when seeking proper care).  I was honestly not expecting it to be able to notice details like that.
+
+I will also give SmolLM credit for getting some general information from the data, bringing up the point about the different Javanese dialects when asked about key approaches.  While its data analysis is not perfect and it did not always bring up data to support itself, it would bring up examples (which were usually solid) a few prompts in.
+
+(As a side note, I'm not sure if I did the assignment "backwards" or not, as I was so interested in the essay that I read it before prompting the AI first.  That being said, having a familiarity with the research paper and its data helped me to be able to analyze the AI's responses to a much greater degree than if I *started* with the AI first.)
+
 #### Errors and limitations of the LLM 
 
 _Where did it fall short or make mistakes?_
+
+An obvious mistake is that when asked about competing approaches, SmolLM "thought" that the authors were suddenly competing with other models for linguistic speed and accuracy when analyzing dialects of Javanese.  However, this is not what that table was about at all.  Instead, they were comparing how the different dialects were recognized successfully or not to different degrees of success.  What is particularly interesting is that the AI *correctly* cited this table earlier on, but then used that same table to hallucinate an incorrect answer later down the line.
+
+Overall, SmolLM did a solid job summarizing the data, and usually did so accurately.  However, the example above was stated just as confidently as everything else, and was completely off-base.  Furthermore, while the AI was able to cite data, it only pulled from specific elements of the paper, usually tables.  It seems to have not pulled information from the graphs/images.  I am not sure if that is a SmolLM limitation or a limitation of me using the HuggingChat API, but it is worth noting all the same.
+
+I also found the AI to initially overemphasize the technological issues separating the underresourced languages in Indonesia at the expense of the societal/cultural issues (mentioning GPU shortages as one of the key issues), although as more questions were asked that changed quickly.  It did eventually balance out its reasoning behind the struggles of underresourced language groups in Indonesia to more closely match the original authors as the conversation went on.  I found it interesting that it seemed to reprioritize certain specific issues throughout the process, though.
+
+As I mentioned above, I was overall very impressed with the LLM, although its shortcomings are extremely notable and would not be easily noticed if I had not already familiarized myself with this paper.  (The example I noted above is also not its only mistake!)  In light of the fact that many individuals oftentimes use AI without checking what it is citing (from students in high school to the U.S. government's annual health report this year), it is concerning to know how easily we can be swept along by words that sound confident.
+
+It is, however, also very unsurprising.  That is why like any exciting and wonderful tool, AI must be carefully used and not relied upon as a crutch.
+
+#### Epilogue: What Happened When I Asked the AI About an Incorrect Assessment Afterwards
+
+After asking these questions, I decided to write a much, much more detailed prompt.  I wanted to see how the AI would react to a much wordier and more "personal" prompt and, furthermore, I also wanted to see if it could explain its error regarding the misinterpretation of the table above.  It was not able to do so, perhaps because of the lack of memory going that far back, or perhaps for another reason.  Instead, it gave some more general information on the importance of interpreting data.  I am not sure if this is the result of me experimenting with the longer prompt (which is likely) or if it is due to it not being able to resolve a proper answer, but either way I decided to include that exchange here as a little bonus:
+
+```markdown
+**INPUT**
+
+Thank you so much!  Those were all of the questions for my assignment - and overall you did an excellent job analyzing the paper.
+
+For the most part, you cited examples well and accurately.
+
+There was one section when I asked about competing methods where you seemed to cite a table to explain that the authors were trying to beat out other linguistic methods of analysis, rather than what the table was actually used for, which was comparing the effectiveness of those models against different dialects of Javanese.
+
+Interestingly, you cited that table correctly in most other sections.  Do you recall doing this - and, if so, do you remember why you came to such a conclusion at the time?
+
+**OUTPUT**
+Thank you for pointing this out! I appreciate the opportunity to clarify this detail.
+
+### **Clarification on the Competing Methods Section**
+
+In the section discussing the comparison with competing methods, the table I referenced was indeed used to **directly compare the performance of different language identification models (Langid, FastText, CLD3) on specific Javanese dialects and styles**, rather than to argue that the models were inherently designed to handle dialects. The table's purpose was to evaluate the models' accuracy in distinguishing between dialectal and stylistic variations of Javanese, not to claim that the models inherently excel at handling dialects.
+
+The analysis should have focused on the **specific outcomes** of the models on the tasks (e.g., distinguishing between Ngoko, Central, and Eastern Javanese dialects, or Krama vs. Ngoko styles) and the **data-driven insights** from the table (e.g., the performance of Langid on Ngoko vs. Krama), rather than making a broader claim about the models' dialectal awareness.
+
+### **Key Takeaway for Future Analysis**
+When comparing competing methods or models, it is essential to:
+1. **Clearly state the purpose of the comparison** (e.g., evaluating performance on specific tasks, dialects, or styles).
+2. **Focus on the **data-driven insights** (e.g., model performance metrics, accuracy, or error rates) rather than making generalizations about the models' capabilities.
+3. **Avoid overinterpreting results** and ensure that conclusions are grounded in the empirical data presented.
+
+This approach ensures that the analysis remains precise and avoids overstating the capabilities of models or methods, which is critical for maintaining the integrity of the research.
+
+### **Why This Matters**
+Misinterpreting the table's purpose could lead to **misleading conclusions** about the models' design or performance. For example, if the analysis had suggested that the models were inherently "dialect-aware" based on the table, it would have been incorrect. The table's purpose was to **evaluate the models' performance on specific tasks**, not to claim their dialectal design.
+
+By adhering to this principle, the analysis can provide accurate, actionable insights and avoid potential misinterpretations that could undermine the validity of the findings.
+
+
+```
