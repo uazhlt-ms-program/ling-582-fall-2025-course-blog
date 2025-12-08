@@ -272,26 +272,79 @@ Based on the paper "Balanced and Explainable Social Media Analysis for Public He
 
 #### What are the takeaways according to the authors?
 
+The authors' main takeaways, as stated in the paper, are:  
+
+Balanced Data Training: They address data imbalance in social media datasets through data augmentation (e.g., TextAttack) and weighted loss fine-tuning.  
+
+LLM-Based Correction: They correct BERT predictions using large language models (LLMs), enhancing accuracy and transparency.  
+
+Scalability and Efficiency: Their framework is designed for real-world applications, balancing accuracy and computational efficiency.  
+
+Competition Validation: Ablation studies and competition results (SMM4H 2023) demonstrate ALEX's superiority over other methods in public health tasks.  
+
+Public Health Relevance: They emphasize the importance of reliable, explainable public health analysis for decision-making.
+
 ##### Prompt
 
 ```markdown
-prompt here
+From the paper "Balanced and Explainable Social Media Analysis for Public Health with Large Language Models," what are the main takeaways according to the authors?
+Only include points that the authors clearly state as conclusions or findings. Do not change or add anything that is not explicitly mentioned.
+
 ```
 
 #### What are the takeaways according to you?
 
+The main takeaways from the paper, based on my interpretation, are:  
+
+Data Imbalance Mitigation: The authors address imbalanced social media datasets by using data augmentation (e.g., TextAttack) and weighted loss to prioritize minority class samples.  
+
+Improved Model Accuracy: They enhance accuracy by correcting BERT predictions with large language models (LLMs), ensuring transparency and reliability in public health analysis.  
+
+Scalability and Efficiency: The framework is designed for real-world applications, balancing accuracy with computational efficiency for public health tasks.  
+
+Competition Validation: The framework's performance is validated through competition results (SMM4H 2023), demonstrating its practical utility in public health.  
+
+Public Health Relevance: Reliable, explainable public health analysis is critical for decision-making, as emphasized by the authors.
+
+These points are derived from the paper's content, focusing on the authors' proposed solutions and their validation through competition and ablation studies.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Based on the paper "Balanced and Explainable Social Media Analysis for Public Health with Large Language Models," what are the main takeaways according to you, not according to the authors?
+
+You can give your own opinion for this answer, but base it only on the information which is present this paper and remember to not bring in outside facts.
 ```
 
 #### Would you use this?  If so, how/where would you use this?
 
+Based on the paper, I would use the proposed ALEX framework in public health applications where data imbalance and transparency are critical, such as:  
+
+Monitoring Rare Health Conditions: To improve detection of rare health events through balanced training and transparent predictions.  
+Analyzing Social Media for Health Trends: To track public sentiment and health awareness on platforms like Twitter or Reddit.  
+Public Health Communication Strategies: To evaluate the impact of health policies or messaging by analyzing social media sentiment.  
+Real-Time Health Monitoring: For tracking outbreaks or health trends using large social media datasets.  
+Resource-Constrained Systems: To provide scalable, efficient analysis in resource-limited settings.
+
+The framework's balanced training and LLM-based correction ensure:  
+
+Improved Accuracy: Correcting BERT predictions with LLMs ensures reliable, transparent predictions.  
+Transparency: Step-by-step explanations enhance accountability and trust in public health decisions.  
+Scalability: Designed for large datasets, suitable for public health applications requiring real-time or large-scale analysis.
+
+Why This Framework?  
+
+Data Imbalance Mitigation: Addresses rare health condition monitoring and public health trend analysis where minority class samples are underrepresented.  
+Model Reliability: Corrects BERT predictions to enhance accuracy and transparency, critical for trust in public health decisions.  
+Competition Validation: Outperforms other methods in public health competitions (e.g., SMM4H 2023), validating its effectiveness in real-world scenarios.  
+Transparency and Accountability: Supports explainable analysis for stakeholder trust and regulatory compliance.  
+Scalability: Balances accuracy with computational efficiency for large-scale public health initiatives.
+
+This framework would be particularly valuable in public health decision-making, health communication, and outbreak detection, where data imbalance and transparency are essential for informed policy and response.
 ##### Prompt
 
 ```markdown
-prompt here
+Based on the paper "Balanced and Explainable Social Media Analysis for Public Health with Large Language Models," would you use the proposed work? If so, how and where would you use it?
 ```
 
 ##### Prompt
@@ -302,16 +355,68 @@ prompt here
 
 #### What problems remain and what are the next steps?
 
+Remaining Problems (Limitations):  
+
+Competition Context: The framework's performance is validated on a subset of the training data (SMM4H 2023 competition), but a full test set is not used, limiting the generalizability of the results.  
+LLM Hallucinations: Addressing the issue where LLMs sometimes produce incorrect predictions due to hallucinations.
+
+Future Works (Next Steps):  
+
+Competition Validation: Expanding competition validation to a full test set or including more diverse datasets.  
+Model Architecture Exploration: Investigating other transformer architectures or models for public health tasks.  
+Data Augmentation: Applying similar techniques to other social media domains (not explicitly mentioned in the paper).  
+Scalability: Considering scaling the framework for larger datasets or more complex tasks.
+
+These points are derived from the paper's explicit statements and are limited to the information provided.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Based on the paper "Balanced and Explainable Social Media Analysis for Public Health with Large Language Models," what problems remain such as limitations or open problems and what future works or next steps did the authors suggest?
+
+Answer using only information that is explicitly mentioned in the paper especially in the discussion, analysis, or conclusion.  
+Do not generalize to other domains, models, or datasets that are not named in the given paper.  
+If the authors do not clearly state a limitation or future work item,  don't mention them.
+
 ```
 
 ### Experience using the LLM
 
 _Describe your process for using the LLM.  How did the LLM perform?_
+
+In this assignment, I used the SmolLM3-3B model on HuggingChat as my open-weight LLM. First, I converted the research paper from PDF to a text file using Python, because the hugging chat interface could only accept text file input. After that, I uploaded the text file version of the paper and, for each question in the assignment, I wrote a specific prompt and fed it to the model.
+
+My process was very iterative. I started with fairly simple prompts and then looked at the answers the model gave. After each answer, I checked whether it was actually responding to the question and whether it matched the content of the paper. When the answers were incomplete, off-topic, or too generic, I tightened the prompts to get better behavior. For example, I added instructions like “use only information from the paper” and “don’t add anything that isn’t explicitly mentioned in the paper.” Over time, I tried to make the prompts as clear as possible so I could get the most accurate answers from the LLM.
+
+Overall, I feel the LLM did well on high-level understanding. It consistently recognized that the paper proposes the ALEX framework for public health social media analysis, combining balanced training with LLM-based correction. For many of the improved prompts, the answers were mostly correct at a big-picture level. However, I noticed that for some of the more basic and direct questions and also the improved promots, the answers were still not completely accurate. The model was also helpful for brainstorming how to phrase prompts and for generating structured answers.
+
+As the answers were not always correct, I almost always had to go back to the original paper and double-check details. The model was strongest at giving high-level explanations in simple language, and weaker at precise technical details, such as exact metrics from the results tables, details of the evaluation setup, and the specific limitations and future work the authors mentioned.
  
 #### Errors and limitations of the LLM 
 
 _Where did it fall short or make mistakes?_
+
+
+few of the limitations and errors that I encountered are :
+
+### Wrong or mixed-up numerical results: 
+
+while working with this LLM, it often gave the numbers wrong when i asked for results. Sometimes it mixed values from different rows or tables , sometimes it pulled wrong values instead of correct ones. Even when I told it not to guess numbers, it still tried to give specific scores that didn’t match the paper.
+
+False claim about missing baseline metrics: For one of the question, the model confidently said that the paper didn't provide a detailed baseline performance metrics. But I felt, it was wrong because the paper has a full results table with multiple baselines. It showed me that the LLM can make up statements about the paper itself and still sound very sure.
+
+Misrepresenting the evaluation setup: The LLM kept describing the evaluation as being done on a “subset of the training data,” which is not how the paper explains it. The authors say they use the shared-task validation set, not some random subset of training. This mistake repeated several times, even after I refined the prompts.
+
+Hallucinated limitations and future work: When I asked about limitations and future work, the model started adding things that were never explicitly mentioned, like exploring other transformer architectures, using the method in education, real-time monitoring, or regulatory compliance. Some of these ideas sounded plausible, but they were clearly not stated by the authors. So the LLM tended to fill in future work on its own instead of sticking to the paper.
+
+Blurring motivation, approach, and takeaways: For questions such as “What is the motivation?” or “What are the takeaways according to the authors?”, the model sometimes mixed everything together. It would talk about methods or results instead of just focusing on motivation or conclusions. It also kept inserting themes like “scalability and efficiency” as if they were clearly highlighted by the authors, which they weren’t.
+
+Ignoring strict prompt instructions: I tried to control the way few answers were given by writing very strict prompts like “only use information from this paper” and “don’t add anything that isn’t explicitly mentioned.” Even then, the LLM still generalized to new domains or added extra bullets that weren’t in the text. In a few answers, it even admitted something wasn’t explicitly mentioned while still including it.
+
+Mixing “according to the authors” and “according to you”: When I asked for the takeaways “according to the authors” and “according to you,” the LLM didn’t always keep that distinction clear. It sometimes presented its own interpretations for example, emphasizing scalability as a main takeaway as if they were explicitly stated by the authors. This made it harder to trust that it was really reflecting the authors’ views.
+
+Struggling with table-style content: Even though the text file I gave contained the content of the results tables, the LLM still seemed to struggle with the information. It often misread or misused the table information, which probably contributed to the wrong metrics and the confusion about baselines. This suggests that complex table formatting in plain text is still hard for the model.
+
+
+
+
