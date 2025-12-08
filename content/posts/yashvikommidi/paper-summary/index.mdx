@@ -347,11 +347,7 @@ This framework would be particularly valuable in public health decision-making, 
 Based on the paper "Balanced and Explainable Social Media Analysis for Public Health with Large Language Models," would you use the proposed work? If so, how and where would you use it?
 ```
 
-##### Prompt
 
-```markdown
-prompt here
-```
 
 #### What problems remain and what are the next steps?
 
@@ -388,7 +384,7 @@ In this assignment, I used the SmolLM3-3B model on HuggingChat as my open-weight
 
 My process was very iterative. I started with fairly simple prompts and then looked at the answers the model gave. After each answer, I checked whether it was actually responding to the question and whether it matched the content of the paper. When the answers were incomplete, off-topic, or too generic, I tightened the prompts to get better behavior. For example, I added instructions like “use only information from the paper” and “don’t add anything that isn’t explicitly mentioned in the paper.” Over time, I tried to make the prompts as clear as possible so I could get the most accurate answers from the LLM.
 
-Overall, I feel the LLM did well on high-level understanding. It consistently recognized that the paper proposes the ALEX framework for public health social media analysis, combining balanced training with LLM-based correction. For many of the improved prompts, the answers were mostly correct at a big-picture level. However, I noticed that for some of the more basic and direct questions and also the improved promots, the answers were still not completely accurate. The model was also helpful for brainstorming how to phrase prompts and for generating structured answers.
+Overall, I feel the LLM did well on high-level understanding. It consistently recognized that the paper proposes the ALEX framework for public health social media analysis, combining balanced training with LLM-based correction. For many of the improved prompts, the answers were mostly correct at a big-picture level. However, I noticed that for some of the more basic and direct questions and also the improved prompts, the answers were still not completely accurate. The model was also helpful for brainstorming how to phrase prompts and for generating structured answers.
 
 As the answers were not always correct, I almost always had to go back to the original paper and double-check details. The model was strongest at giving high-level explanations in simple language, and weaker at precise technical details, such as exact metrics from the results tables, details of the evaluation setup, and the specific limitations and future work the authors mentioned.
  
