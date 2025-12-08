@@ -399,23 +399,37 @@ _Where did it fall short or make mistakes?_
 
 few of the limitations and errors that I encountered are :
 
-### Wrong or mixed-up numerical results: 
+Wrong or mixed-up numerical results: 
 
 while working with this LLM, it often gave the numbers wrong when i asked for results. Sometimes it mixed values from different rows or tables , sometimes it pulled wrong values instead of correct ones. Even when I told it not to guess numbers, it still tried to give specific scores that didn’t match the paper.
 
-False claim about missing baseline metrics: For one of the question, the model confidently said that the paper didn't provide a detailed baseline performance metrics. But I felt, it was wrong because the paper has a full results table with multiple baselines. It showed me that the LLM can make up statements about the paper itself and still sound very sure.
+False claim about missing baseline metrics: 
 
-Misrepresenting the evaluation setup: The LLM kept describing the evaluation as being done on a “subset of the training data,” which is not how the paper explains it. The authors say they use the shared-task validation set, not some random subset of training. This mistake repeated several times, even after I refined the prompts.
+For one of the question, the model confidently said that the paper didn't provide a detailed baseline performance metrics. But I felt, it was wrong because the paper has a full results table with multiple baselines. It showed me that the LLM can make up statements about the paper itself and still sound very sure.
 
-Hallucinated limitations and future work: When I asked about limitations and future work, the model started adding things that were never explicitly mentioned, like exploring other transformer architectures, using the method in education, real-time monitoring, or regulatory compliance. Some of these ideas sounded plausible, but they were clearly not stated by the authors. So the LLM tended to fill in future work on its own instead of sticking to the paper.
+Misrepresenting the evaluation setup: 
 
-Blurring motivation, approach, and takeaways: For questions such as “What is the motivation?” or “What are the takeaways according to the authors?”, the model sometimes mixed everything together. It would talk about methods or results instead of just focusing on motivation or conclusions. It also kept inserting themes like “scalability and efficiency” as if they were clearly highlighted by the authors, which they weren’t.
+The LLM kept describing the evaluation as being done on a “subset of the training data,” which is not how the paper explains it. The authors say they use the shared-task validation set, not some random subset of training. This mistake repeated several times, even after I refined the prompts.
 
-Ignoring strict prompt instructions: I tried to control the way few answers were given by writing very strict prompts like “only use information from this paper” and “don’t add anything that isn’t explicitly mentioned.” Even then, the LLM still generalized to new domains or added extra bullets that weren’t in the text. In a few answers, it even admitted something wasn’t explicitly mentioned while still including it.
+Hallucinated limitations and future work: 
 
-Mixing “according to the authors” and “according to you”: When I asked for the takeaways “according to the authors” and “according to you,” the LLM didn’t always keep that distinction clear. It sometimes presented its own interpretations for example, emphasizing scalability as a main takeaway as if they were explicitly stated by the authors. This made it harder to trust that it was really reflecting the authors’ views.
+When I asked about limitations and future work, the model started adding things that were never explicitly mentioned, like exploring other transformer architectures, using the method in education, real-time monitoring, or regulatory compliance. Some of these ideas sounded plausible, but they were clearly not stated by the authors. So the LLM tended to fill in future work on its own instead of sticking to the paper.
 
-Struggling with table-style content: Even though the text file I gave contained the content of the results tables, the LLM still seemed to struggle with the information. It often misread or misused the table information, which probably contributed to the wrong metrics and the confusion about baselines. This suggests that complex table formatting in plain text is still hard for the model.
+Blurring motivation, approach, and takeaways: 
+
+For questions such as “What is the motivation?” or “What are the takeaways according to the authors?”, the model sometimes mixed everything together. It would talk about methods or results instead of just focusing on motivation or conclusions. It also kept inserting themes like “scalability and efficiency” as if they were clearly highlighted by the authors, which they weren’t.
+
+Ignoring strict prompt instructions: 
+
+I tried to control the way few answers were given by writing very strict prompts like “only use information from this paper” and “don’t add anything that isn’t explicitly mentioned.” Even then, the LLM still generalized to new domains or added extra bullets that weren’t in the text. In a few answers, it even admitted something wasn’t explicitly mentioned while still including it.
+
+Mixing “according to the authors” and “according to you”: 
+
+When I asked for the takeaways “according to the authors” and “according to you,” the LLM didn’t always keep that distinction clear. It sometimes presented its own interpretations for example, emphasizing scalability as a main takeaway as if they were explicitly stated by the authors. This made it harder to trust that it was really reflecting the authors’ views.
+
+Struggling with table-style content: 
+
+Even though the text file I gave contained the content of the results tables, the LLM still seemed to struggle with the information. It often misread or misused the table information, which probably contributed to the wrong metrics and the confusion about baselines. This suggests that complex table formatting in plain text is still hard for the model.
 
 
 
