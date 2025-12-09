@@ -101,7 +101,7 @@ min       164.000000
 50%       920.000000
 75%      1243.000000
 max      5491.000000
-Name: text_len, dtype: float64
+
 
 and 
 Text length statistics per class:
@@ -110,7 +110,7 @@ Text length statistics per class:
   Class 1:
     mean: 1047.6, std: 610.1, min: 164, max: 3988
 
-This has given a clear picture that there is strong skew towards class 0 and a mix of shorter and longer textx, which motivated using class weights and settings like MAX_LEN = 256 for DistilBERT.
+This has given a clear picture that there is strong skew towards class 0 and a mix of shorter and longer texts, which motivated using class weights and settings like MAX_LEN = 256 for DistilBERT.
 
 
 ## Approach
@@ -130,7 +130,7 @@ I even tried to do 10 fold cross validation, but 5-fold was performing the best 
 
 ## Results
 
-Using the final working best version of my stratified 5-fold DIstilBERT code, 
+Using the final working best version of my stratified 5-fold DistilBERT code, 
 the best validation macro F1 for each fold was: 
 
 Fold 1: 0.6061 
@@ -145,7 +145,7 @@ Fold 5: 0.5605
 
 The average validation macro F1 score across the folds is about 0.578, with only small variation between the folds, which made me think tht this approach is reasonably robust. 
 
-On the Kaggle leaderboad, with the latest working version of my code for 5-fold DistilBERT which I am confident about, the best submission achieved a macro F1 of 0.58707. 
+On the Kaggle leaderboard, with the latest working version of my code for 5-fold DistilBERT which I am confident about, the best submission achieved a macro F1 of 0.58707. 
 
 The provided baseline system score is 0.50261, so the difference in the leaderboard score is about 0.08446. 
 
@@ -153,11 +153,11 @@ Leaderboard score: 0.58707
 baseline score: 0.50261 
 difference : 0.08446. 
 
-When I was doing trial and error with multiple models, I even acheived a higher score than I mentioned above, but the score that I got with the current code is which I am mostly confident about is what I am considering as my final code. 
+When I was doing trial and error with multiple models, I even achieved a higher score than I mentioned above, but the score that I got with the current code is which I am mostly confident about is what I am considering as my final code. 
 
 So I am mentioning this as my best submission so far. Across multiple runs, the average validation macro F1 was around 0.57–0.58, with small variation between folds even with the same code.
 
-The F1 scores did changed when I was adding error analysis, I believe other parts of the code was not changed at all, but it was changed, so I prefered the previous run which got me above results as my best submission and writing the report on it only, and even the submission in kaggle was the previous run and also I mentioned both the codes like before and after error analysis.
+The F1 scores did changed when I was adding error analysis, I believe other parts of the code was not changed at all, but it was changed, so I preferred the previous run which got me above results as my best submission and writing the report on it only, and even the submission in kaggle was the previous run and also I mentioned both the codes like before and after error analysis.
 
 
 ## Error analysis
