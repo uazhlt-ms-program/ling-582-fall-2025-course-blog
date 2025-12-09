@@ -189,19 +189,6 @@ All experiments are on literary translation, where style matters more than, say,
 ```
 ###Qwen3-Max:### According to the authors, the key takeaways from their work are:
 
-Naturalness can be improved without sacrificing translation accuracy: Their multi-perspective alignment framework successfully enhances the lexical richness and human-likeness of NMT outputs while preserving or even slightly improving content fidelity (as measured by metrics like KIWI and MetricX).
-A reward-based, RLHF-inspired approach is effective: By combining a content preservation reward (COMET) with a naturalness reward (from binary classifiers distinguishing OR, HT, and MT), they align the MT system with human expectations in a controllable and flexible way.
-Not all naturalness perspectives are equally effective: The classifier that prefers human translations over machine translations (MT-HT) yields the best trade-off. In contrast, classifiers favoring original target-language text (OR) underperform—likely due to a mismatch with the HT-dominated training data.
-Existing methods often trade accuracy for diversity: Baselines like Tailored RR or Tagging can increase lexical diversity but typically degrade translation quality. Their method avoids this pitfall.
-The framework is adaptable: The use of a harmonic mean reward and a tunable loss weight (β) allows tailoring the balance between naturalness and faithfulness depending on the use case (e.g., literary vs. technical translation).
-Translationese remains a real and measurable issue, especially in domains like literary translation, and addressing it requires explicit modeling of both style (naturalness) and content.
-
-#### What are the takeaways according to the authors?
-```markdown
-###Prompt:### _"What are the takeaways according to the authors? (I'm going to ask about YOUR takeaways after this so don't give the response for that)."_
-```
-###Qwen3-Max:### According to the authors, the key takeaways from their work are:
-
 1. Naturalness can be improved without sacrificing translation accuracy: Their multi-perspective alignment framework successfully enhances the lexical richness and human-likeness of NMT outputs while preserving or even slightly improving content fidelity (as measured by metrics like KIWI and MetricX).
 2. A reward-based, RLHF-inspired approach is effective: By combining a content preservation reward (COMET) with a naturalness reward (from binary classifiers distinguishing OR, HT, and MT), they align the MT system with human expectations in a controllable and flexible way.
 3. Not all naturalness perspectives are equally effective: The classifier that prefers human translations over machine translations (MT-HT) yields the best trade-off. In contrast, classifiers favoring original target-language text (OR) underperform—likely due to a mismatch with the HT-dominated training data.
@@ -338,4 +325,4 @@ The paper focuses on machine translationese, but human translations also differ 
 Future work could build two-stage systems: first reduce machine artifacts, then “de-translate” toward original-style fluency—without losing meaning.
 
 #### What issues and limitations did you encounter while using the LLM to assist with your paper summary?
-I believe some of the issues I observed with this model is that it can be repetitive with the information it provides, but I believe that's common for these models. It was surprisingly accurate and successfully able to analyze data in tables and figures. The limitation with this model is that it is quite large and resource intensive, so it made my computer slower while I used it.
+I believe some of the issues I observed with this model is that it can be repetitive with the information it provides, but I believe that's common for these models. It was surprisingly accurate and successfully able to analyze data in tables and figures.  It also stayed truthful to quantative data. The limitation with this model is that it is quite large and resource intensive, so it made my computer slower while I used it.
