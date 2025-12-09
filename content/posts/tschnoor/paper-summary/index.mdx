@@ -82,19 +82,19 @@ Finally, this paper is relevant to the field of statistical natural language pro
 <tbody>
   <tr>
     <th><b>LLM model</b></th>
-    <td>???</td>
+    <td>Llama 4</td>
   </tr>
   <tr>
     <th><b>LLM model version</b></th>
-    <td>???</td>
+    <td>Scout 17Bx16E</td>
   </tr>
   <tr>
     <th><b>Model/service URL</b></th>
-    <td>???</td>
+    <td>Web Interface: https://llm.jetstream-cloud.org/; Model Info: https://www.llama.com/models/llama-4/ and https://huggingface.co/meta-llama/Llama-4-Scout-17B-16E</td>
   </tr>
   <tr>
     <th><b>Why this model?</b></th>
-    <td>???</td>
+    <td>I originally wanted to use a self-hosted version of SmolLM for this summary, but I realised that SmolLM does not have easy functionality built in to read inputs from PDFs and other files. It also took too long to respond to prompts when running on my PC. I chose to use Llama 4 Scout instead because it is also open source/open weights but is hosted online for easy use. The responses are very fast and the interface allowed for the easy upload of the paper I wanted to summarize.</td>
   </tr>
 </tbody>
 </table>
@@ -107,87 +107,137 @@ _In the LLM's words, what is this paper about?_
 ##### Prompt
 
 ```markdown
-prompt here
+Please tell me what this paper is about. Give me a broad overview of the paper but be concise. I would like the high-level details. 
 ```
+This paper presents a novel deep learning-based neural speech decoding framework that leverages electrocorticographic (ECoG) signals to restore speech in individuals with neurological deficits. The framework consists of an ECoG decoder and a speech synthesizer, which can generate natural-sounding speech from neural signals. The authors tested their framework on 48 participants and achieved high accuracy in decoding speech, with comparable results from both left and right hemispheres. The study demonstrates the potential for a neural speech prosthetic that can be used by individuals with speech impairments.
 
 #### What are the authors proposing?
 
 ##### Prompt
 
 ```markdown
-prompt here
+What are the authors proposing in this paper? What are the authors’ specific aims? Be succinct but answer the question completely.
 ```
+The authors propose a novel neural speech decoding framework that leverages deep learning and speech synthesis to translate electrocorticographic (ECoG) signals into natural-sounding speech. Their specific aims are to:
+* Develop an ECoG decoder that translates ECoG signals into speech parameters
+* Create a differentiable speech synthesizer that generates spectrograms from speech parameters
+* Achieve high accuracy and reproducibility in speech decoding across a large cohort of participants
+* Explore the feasibility of using neural signals from either hemisphere for speech decoding, with implications for neural prosthetics.
 
 #### What is the motivation for the work?
-
 ##### Prompt
 
 ```markdown
-prompt here
+What is the motivation for the work? Answer the question completely but be succinct. Elaborate a little on how the specific methodologies used by the authors address their motivation.
 ```
+The motivation for this work is to develop a neural speech prosthetic that can restore speech in individuals with neurological deficits, such as those with speech loss due to epilepsy or other conditions. The authors aim to address the challenge of decoding neural signals into natural-sounding speech.
 
+The authors' motivation is driven by the limitations of current speech prosthetics and the potential to improve the lives of individuals with speech impairments. To address this motivation, the authors employed a deep learning-based approach, leveraging electrocorticographic (ECoG) signals, which provide high spatial and temporal resolution of neural activity.
+
+The specific methodologies used by the authors, including the development of an ECoG decoder and a differentiable speech synthesizer, address their motivation by:
+* Enabling the translation of neural signals into speech parameters
+* Generating natural-sounding speech from these parameters
+* Achieving high accuracy and reproducibility across a large cohort of participants
+
+By using a deep learning-based approach and exploring different architectures, the authors aim to create a more effective and robust neural speech prosthetic that can be used by individuals with speech impairments.
 #### What is the approach or innovation?
 
 ##### Prompt
 
-```markdown
-prompt here
 ```
+What is the approach or innovation in this paper? Be succinct. Elaborate a little on the speech parameters and synthesis system.prompt here
+```
+The approach or innovation in this paper is a deep learning-based neural speech decoding framework that leverages electrocorticographic (ECoG) signals to restore speech in individuals with neurological deficits.
 
+A key component of this framework is the speech synthesizer, which generates natural-sounding speech from speech parameters. The speech parameters include [1]:
+* **Pitch**: fundamental frequency of the voice
+* **Voice weight**: voicing characteristics
+* **Loudness**: amplitude of the speech signal
+* **Formant frequencies**: resonance frequencies of the vocal tract
+
+The speech synthesizer uses a differentiable digital signal processing (DDSP) approach, combining a voiced component and an unvoiced component to generate a spectrogram. The voiced component is generated by passing a harmonic excitation through a voice filter, while the unvoiced component is generated by filtering white noise through an unvoice filter. The two components are then mixed and amplified to produce the final speech spectrogram.
+
+This approach allows for the generation of natural-sounding speech from neural signals, with a compact representation of 18 speech parameters per time step. The framework's use of a differentiable speech synthesizer enables end-to-end training of the ECoG decoder and speech synthesizer, leading to improved speech decoding performance.
 #### What are the results and how do they compare with competing approaches?
 
 ##### Prompt
 
 ```markdown
-prompt here
+What are the results of this paper and how do they compare with competing approaches? Be succinct but give specific examples of how the methodology in the present study compares to recent approaches.
 ```
+The results of this paper show that the proposed neural speech decoding framework achieves high accuracy in decoding speech from electrocorticographic (ECoG) signals, with a Pearson correlation coefficient (PCC) of 0.806 between the original and decoded spectrograms. This performance is comparable to or better than recent approaches, such as [4, 5, 8, 17].
 
+For example, compared to a recent study that achieved a PCC of 0.6 using linear models [14-16], the proposed framework achieves significantly better performance. Additionally, the framework's use of a compact acoustic representation and a differentiable speech synthesizer allows for more accurate and natural-sounding speech decoding compared to approaches that directly map ECoG signals to speech spectrograms [8, 17].
+
+The framework's performance is also comparable to that of [19], which used a pre-trained large transformer model and achieved robust speech decoding in a few chronic patients. However, the present study has the advantage of using a more limited dataset and a more generalizable approach.
+
+The authors also compared their approach with other architectures, including recurrent neural networks (RNNs) and transformers, and found that the ResNet and Swin architectures outperformed the RNN architecture [1]. 
+
+Overall, the proposed framework offers a robust and accurate approach to neural speech decoding, with potential applications in brain-computer interfaces and speech prosthetics.
 #### Is the comparison fair?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Is the comparison between the present methodology and alternative methods written in this paper fair? Be succinct.
 ```
+The comparison appears to be fair, the authors compare their methodology with several recent approaches, including [4, 5, 8, 17, 19]. They discuss the advantages of their approach, such as the use of a compact acoustic representation and a differentiable speech synthesizer, and note the limitations of previous studies, such as the use of non-causal models and limited datasets.
 
+However, it is worth noting that the authors primarily focus on comparing their results with those of [8, 17], which are closely related to their own approach. They also acknowledge that direct comparisons with other studies are complicated by differences in performance metrics, stimuli, and cortical sampling.
+
+Overall, while the comparison is not exhaustive, it provides a reasonable basis for evaluating the performance of the proposed framework.
 #### What are the takeaways according to the authors?
 
 ##### Prompt
 
 ```markdown
-prompt here
+What are the takeaways according to the authors? Be succinct.
 ```
-
+The authors' takeaways are [1]:
+* A novel neural speech decoding framework was developed, which decodes speech from neural signals into natural-sounding speech.
+* The framework achieves high accuracy and reproducibility across a large cohort of participants.
+* The approach enables causal decoding, essential for real-time brain-computer interface (BCI) applications.
+* The framework can work with low-density grids and decode speech from the right hemisphere, shedding light on future neural prosthetic devices.
 #### What are the takeaways according to you?
 
 ##### Prompt
 
 ```markdown
-prompt here
+What are the takeaways according to you? Be succinct.
 ```
-
+The takeaways are:
+* A novel deep learning framework decodes speech from neural signals with high accuracy.
+* The framework uses electrocorticography (ECoG) and speech synthesis to restore speech in individuals with neurological deficits.
+* It enables real-time decoding and works with low-density grids and right hemisphere signals.
 #### Would you use this?  If so, how/where would you use this?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Would you use the technology discussed in this paper? If so, how/where would you use it? Be succinct.
 ```
+If I were to hypothetically use this technology, I would consider it for applications in [1]:
+* **Neural prosthetics**: restoring speech in individuals with paralysis, ALS, or locked-in syndrome.
+* **Brain-computer interfaces (BCIs)**: enabling people to communicate through speech synthesis.
+* **Rehabilitation**: helping patients with speech disorders or aphasia.
 
-##### Prompt
-
-```markdown
-prompt here
-```
+These potential applications could significantly improve the lives of individuals with speech impairments.
 
 #### What problems remain and what are the next steps?
 
 ##### Prompt
 
 ```markdown
-prompt here
+What problems remain for the authors of this paper? What are the next steps? Be succinct.
 ```
+The authors identify several remaining problems and next steps [1]:
+* **Limited data**: acquiring paired neural and speech data for paralyzed patients.
+* **Temporal misalignment**: addressing misalignment between neural signals and speech signals.
+* **Non-grid electrode sampling**: developing models for non-grid electrode data.
+* **Scalability**: scaling up to larger vocabularies and sentence-level decoding.
+* **Real-time decoding**: optimizing for real-time speech decoding.
 
+Addressing these challenges will be crucial for translating this technology into practical applications.
 ### Experience using the LLM
 
 _Describe your process for using the LLM.  How did the LLM perform?_
