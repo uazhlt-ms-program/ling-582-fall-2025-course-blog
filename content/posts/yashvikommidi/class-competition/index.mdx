@@ -72,7 +72,6 @@ For example, some of the texts are extremely short or noisy, which can make veri
 
 While learning more about the authorship verification for this task, I came across a few related works on digital stylometry and shared tasks such as PAN (Pattern Analysis) authorship verification. These works also generally focus on comparing the writing style rather than just topic, and many recent systems use pre-trained transformers such as BERT-like models for this purpose. My approach follows the same general idea at a smaller scale, that is, I fine-tune a DistilBERT classifier on the class-imbalanced training data and optimise it for macro F1.
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
 
 
 
@@ -80,7 +79,7 @@ _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/cl
 ## Exploratory data analysis
 
 
-I performed exploratory dara analysis as a part of the project where I found that the training file train.csv has 1601 records and the testing file test.csv has 899 records. As we discussed before, the label distribution in the training set is clearly imbalanced because there are 1245 records of class 0 which is different authors and 356 records of class 1 which is same authors. 
+I performed exploratory data analysis as a part of the project where I found that the training file train.csv has 1601 records and the testing file test.csv has 899 records. As we discussed before, the label distribution in the training set is clearly imbalanced because there are 1245 records of class 0 which is different authors and 356 records of class 1 which is same authors. 
 
 to sanity check the data, i have looked at examples for each class from the records: 
 Class 0 example (ID 0):
@@ -113,7 +112,6 @@ Text length statistics per class:
 
 This has given a clear picture that there is strong skew towards class 0 and a mix of shorter and longer textx, which motivated using class weights and settings like MAX_LEN = 256 for DistilBERT.
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
 
 ## Approach
 
@@ -129,7 +127,6 @@ I even tried to do 10 fold cross validation, but 5-fold was performing the best 
 
 
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
 
 ## Results
 
@@ -162,11 +159,10 @@ So I am mentioning this as my best submission so far. Across multiple runs, the 
 
 The F1 scores did changed when I was adding error analysis, I believe other parts of the code was not changed at all, but it was changed, so I prefered the previous run which got me above results as my best submission and writing the report on it only, and even the submission in kaggle was the previous run and also I mentioned both the codes like before and after error analysis.
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
 
 ## Error analysis
 
-For error analysis, I have looked at the held-out validation data splits from my 5-fold cross validation.  After completing the each fold, I saved all the misclassified validation examples into a error_analysis.csv file, which containsn 532 errors in total with ID, TEXT, LABEL, pred , text_len and fold. 
+For error analysis, I have looked at the held-out validation data splits from my 5-fold cross validation.  After completing the each fold, I saved all the misclassified validation examples into a error_analysis.csv file, which contains 532 errors in total with ID, TEXT, LABEL, pred , text_len and fold. 
 
 Most of the errors seen are cases where the true label is 0 which is different authors, but the model predicts 1 which is same authors, 328 records are 0→1 and 204 examples are 1→0. This suggests that the model sometimes overestimates Same Authors, which may be a side effect of using the class weights to compensate for the strong class-0 imbalance.
 
@@ -184,7 +180,6 @@ Finally the main error patterns that I noticed are short or noisy texts do not p
 These observations generally suggests that the future improvements could include models that would compare the two spans more directly and adding dditional regularization or augmentation to  handle short and borderline examples in a better way.
 
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
 
 ## Reproducibility
 
@@ -213,8 +208,6 @@ Now, after running the whole code, then submission.csv and error_analysis.csv fi
 
 Upload the file into kaggle to get the similar leaderboard results of what I got. 
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
-_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
 
 
 
