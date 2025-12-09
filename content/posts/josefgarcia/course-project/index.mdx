@@ -66,6 +66,23 @@ Train - Avg Length: 64.91434944237918, Max Length: 310
 Validation - Avg Length: 64.21390374331551, Max Length: 265
 Test - Avg Length: 66.42683851402577, Max Length: 257
 
+## Summary of individual contributions
+
+<table>
+  <thead>
+  <tr>
+    <th>Team member</th>
+    <th>Role/contributions</th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>Joey Garcia</b></th>
+    <td>Everything</td>
+  </tr>
+</tbody>
+</table>
+
 ## Transformer Summary
 
 To evaluate translation quality from Tajik to English, I fine tuned the multilingual sequence-to-sequence transformer mBART-50 (Many-to-Many MMT). The dataset was wrapped using a custom MBARTDataset class that tokenizes source(Tajik) and target(English) text pairs using MBart50TokenizerFast with a maximum sequence length of 128 tokens. mBART does not include a native Tajik language code, I used 'ru_RU' as the closest Cyrillic proxy for the source language token and 'en_XX' for English.
