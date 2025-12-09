@@ -230,7 +230,24 @@ These steps aim to address scalability, accuracy, and real-world applicability w
 ### Experience using the LLM
 
 _Describe your process for using the LLM.  How did the LLM perform?_
+
+At first, I had a hard time getting to use Jan, since it took a while downloading on my system and on top of that, I had to wait a very long time to download the model Jan-V1-4B-GGUF (Q8_0). But once that got taken care of, it was quite straightforward to use. The downloaded model worked very well with Jan and my computer system. It quickly accepted the article and divided it in “chunks” for easier analysis. It answered all of the questions I asked it. But, when I asked the question: “What was the motivation to create this study” I received an error message from Jan, stating:
+```
+{
+API request failed with status 400: {"error":{"code":400,"message":"the request exceeds the available context size, try increasing it","type":"exceed_context_size_error","n_prompt_tokens":12707,"n_ctx":8192}} 
+}
+```
+I reran the question and received a response, so it must have limited it scope to lesser “chunks” from the article. 
+This “conversation” had a strict limit of tokens, which was something that I was always watching out when asking my questions. But, thankfully, I was able to complete the task within the limits. 
+
  
 #### Errors and limitations of the LLM 
 
 _Where did it fall short or make mistakes?_
+I noticed that when I prompted to tell me what the LLM thought (or its option) about a certain topic, it would give me the same response as when I asked the author’s perspective. Such as, when I asked what it were the takeaways from this paper, it gave me the same response as when I asked what the author’s takeaways were, just written differently. I also noticed that the LLM seems to focus a lot on the fact that this study used Herdan’s C to prepossess the data. When in reality, the study used both Herdan’s C and Type-Token Ratio (TTR) to process this data. While the study did find that Herdan’s C was the more robust system, it also stated that the combination of both systems were necessary for this study. Also, it got the proposed next steps wrong, the article mentions that future plans are: 
+1.	***Deepening Stylometric Analysis*** - such incorporating other stylistic analyses. 
+2.	***Cross Model Comparison*** – Using other AI models (like GPT-3, GPT4o, ChatGPT) to analyze those results. 
+3.	***Domain-Specific Stylometry*** – Using texts that focus on specific areas, like law or medicine for example. 
+4.	***Improving Authorship Detection Algorithms*** - This would include “developing and  refining authorship detection algorithms that specifically target machine generated content.”
+Jan only gets one right, which is the second one, the rest seems like suggestions that the system has come up with.
+
