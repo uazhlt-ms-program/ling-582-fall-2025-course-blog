@@ -44,33 +44,90 @@ Class Competition Info
 </tbody>
 </table>
 
-<!--
+
 ## Task summary
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/ #task-summary)_
+<!--
+Superior: Pass criteria + one or more of the following:
+a)discussion of related tasks
+b) challenges of task (with examples)
+c) discussion of SotA approaches
+Pass: All of the following:
+a) description of task (label space, dataset size, design, etc.)
+-->
 
 ## Exploratory data analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/ #exploratory-data-analysis)_
+There is a class imbalance.
+
+<table>
+<caption>Class distribution per line in training data</caption>
+<thead>
+<tr>
+<th>Class 0</th>
+<th>Class 1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1245</td>
+<td>356</td>
+</tr>
+<tr>
+<td>77.76%</td>
+<td>22.24%</td>
+</tr>
+</tbody>
+</table>
+
+<!--
+Superior: Pass criteria + additional analysis (ex. measures of diversity)
+Pass: All of the following:
+a) observations supported with example data points
+b) dataset size (per class)
+-->
 
 ## Approach
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/ #approach)_
+<!--
+Superior: Pass criteria + approach highlights some novelty/creativity
+Pass: Description of Approach and motivation for use.
+-->
 
 ## Results
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/ #results)_
+<!--
+Superior: Pass criteria + measure of robustness of approach (ex. stratified k-fold cross validation, etc.) and/or statistical analysis
+Pass: Quantitative results on leaderboard noting delta with baseline
+-->
 
 ## Error analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/ #error-analysis)_
+<!--
+Superior: Detailed error analysis on held-out data (characterization of error) with examples
+Pass: Some error analysis on held-out data
+-->
+
+## Leaderboard Result
+
+<!--
+Superior: Pass criteria + leaderboard submission exceeds the baseline
+Pass: All of the following:
+a) post specifies name of submission on leaderboard
+b) post includes score of leaderboard submission
+-->
 
 ## Reproducibility
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/        #reproducibility)_
+<!--
 _If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+Superior: Containerized build with clear step-by-step instructions for reproducing leaderboard numbers
+Pass: clear step-by-step instructions for installing dependencies and reproducing leaderboard numbers
+-->
 
 ## Future Improvements
 
+<!--
 _Describe how you might best improve your approach_
 -->
