@@ -44,9 +44,82 @@ tags:
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
 
+The class competition centers around _authorship attribution_, where one is tasked with determining whether or not two texts were written by the same or different authors. This is a challenging task, as a single author can write a great variety of things! An author's style may vary between texts or even between sentences. Their vocabulary may grow or shrink over time. Their interests may change, and the subjects they write about may change as a result. However, some characteristics of an author's writing may also remain consistent. I like to think that I would be able to recognize my favorite author's writing given a sentence with only limited context (please don't test me on that). You might like an author because of their writing style--something which very well may remain consistent from text to text. Or you might like the subject matter that your favorite author writes about. Perhaps they consistently write about space travel, goblins, or historical figures. Many of the typical approaches to authorship attribution try to extract features from written language that capture these consistencies (or lack thereof) to inform their predictions.
+
+The data provided for this task was already split into train and test sets. Using the Pandas DataFrame data structure and minimal processing, we can create a dataframe with columns for the label (0 for different authors, 1 for the same author), and each text. The 0/1 label space makes authorship attribution into a binary classification task in this case. We start out with 1601 rows of training data (see below) and 899 rows of testing data. The Kaggle leaderboard score is determined by model performance on this testing set (though 20% of the test set is still held out until the very end to keep things interesting), for which we are not given the labels. We are not given much information about how this data was extracted, exactly, but we do know that the majority of the data comes from [Project Gutenberg](https://www.gutenberg.org/).
+
+```Python-repl
+>>> df
+        ID  ...                                              TEXT2
+0        0  ...   How big is a spation in space?" "Van Manderpo...
+1        1  ...   Daddy was always shushing her.... But who was...
+2        2  ...   Do you mind if I stroke one of your paws—hand...
+3        3  ...   And, despite the strangeness of their surroun...
+4        4  ...   You'd think that after a year I would have re...
+...    ...  ...                                                ...
+1596  1596  ...   Their erect posture gave them a weirdly half-...
+1597  1597  ...   The fugitive passed close by us, and Jack sho...
+1598  1598  ...   "I'll make him wait!" Stoutly your pot-bellie...
+1599  1599  ...   Dance, you parts of me, you living things, yo...
+1600  1999  ...   I’m very sorry for all the trouble I’ve cause...
+
+[1601 rows x 5 columns]
+>>> df.columns
+Index(['ID', 'TEXT', 'LABEL', 'TEXT1', 'TEXT2'], dtype='object')
+```
+
+### Challenges of the task (examples)
+
+I have already written about some of the challenges of this task, but would like to illustrate with a couple examples from the training set.
+
+#### Similar vocabulary does not necessarily come from the same author
+Both of the texts below describe a character who handles a pipe. Given that pipe-smoking is rare in the modern day, a feature that captures common content words--particularly if it also accounts for rarity--might strongly indicate shared authorship. But these texts are written by different authors!
+
+_This example also illustrates how parsing errors can sneak into the data and complicate matters. Note the page number in text 2!_
+```Python-repl
+>>> df["TEXT1"][27]
+'"I had forgotten that they were circular." "That is because of the pressure. A circle presents the best resistance," and picking an odd envelope from his pocket, he made the following sketch and passed it to me. I nodded as I recognized the cross-section. "Now the plan of the thing is like this," he added, putting aside his pipe and pulling a sheet of paper from the corner of his desk. Rapidly, with all his old accuracy, he sketched the main plan and leaned over as he handed it to me. "You see," he explained, picking up his pipe again, "both pumps work at one time—in fact, I should say all four, because this plan is duplicated on the English side. On both ends then, a train is gently pushed in by an electric locomotive. A car at a time goes through the gate so that there is a cushion of air between each car. '
+>>> df["TEXT2"][27]
+' We\'ll only be a mile and a half away, and that\'ll be too close to fifty kilos[Pg 6] of negamatter if the field collapses." "It\'ll be all right," Pitov assured him. " The bugs have all been chased out years ago." "Not out of those generators in the rocket. They\'re new." He fumbled in his coat pocket for his pipe and tobacco. " I never thought I\'d run another nuclear-bomb test, as long as I lived."'
+>>> df["LABEL"][27]
+0
+```
+#### Similar lengths do not guarantee shared authorship
+I use features for both the difference in number of characters and the difference in number of words in my model, but this example illustrates that a similar length does not guarantee anything. 
+```Python-repl
+>>> len(df["TEXT1"][1211].split())
+107
+>>> len(df["TEXT2"][1211].split())
+109
+>>> df["LABEL"][1211]
+0
+```
+
 ## Exploratory data analysis
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+
+Here is some additional information about the data. First, the distribution of data between classes:
+```Python-repl
+>>> df["LABEL"].value_counts()
+LABEL
+0    1245
+1     356
+Name: count, dtype: int64
+```
+This shows that there are far more cases of different authorship than shared authorship. I describe how I address this disparity in the next section.
+
+I realized early on that most or all of the data come from what appear to be fictional stories. For example:
+```Python-repl
+>>> df["TEXT1"][100]
+'But you\'re not the only person who has psi ability. I\'ve wired General Sanfordwaithe to send me another fellow; one who will coöperate." The Swami thought it over. Here he was with a suite in a good hotel; with an army lieutenant to look after his earthly needs; on the payroll of a respectable company; with a ready-made flock of believers; and no fear of the bunco squad. He had never had it so good. The side money, for private readings alone, should be substantial. Further, and he watched me narrowly, I didn\'t seem to be afraid of the cylinders. '
+```
+I was also interested in how long these text snippets generally were, both in terms of characters and words. 
+
+<div style="display:flex; align-items:center;">
+  <img src="nwords.png" style="width:50%; margin-left:auto; margin-right:auto;"></img>
+  <img src="nchars.png" style="width:50%; margin-left:auto; margin-right:auto;"></img>
+</div>
 
 ## Approach
 
@@ -82,6 +155,18 @@ Future Architectures:
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
 
+```stdout
+Classification Report:
+               precision    recall  f1-score   support
+
+           0       0.79      0.98      0.88       484
+           1       0.97      0.76      0.85       512
+
+    accuracy                           0.87       996
+   macro avg       0.88      0.87      0.86       996
+weighted avg       0.89      0.87      0.86       996
+```
+
 ## Error analysis
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
@@ -91,6 +176,7 @@ _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/cl
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
 _If you'ved covered this in your code repository's README, you can simply link to that document with a note._
 
+Steps for reproducing my results can be found in my code repository's README [here](https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-tschnoor).
 
 ## Future Improvements
 
