@@ -45,28 +45,6 @@ Despite this progress, very little of this literature examines CoT in multilingu
 
 This project directly addresses this gap by evaluating whether a substantially shorter reasoning cue, Minimal-CoT (“Let’s think briefly.”) can recover the benefits of standard step-by-step CoT while avoiding these costs. By comparing No-CoT, Minimal-CoT, and Standard-CoT across Nepali and English reasoning benchmarks , we test whether concise reasoning triggers can offer a more efficient, more robust, and more cross-lingually stable alternative to verbose CoT in low-resource settings.
 
-<b> References </b>
-
-1. [Chain-of-Thought Prompting Elicits Reasoning in Large Language Models](https://arxiv.org/abs/2201.11903) (Wei et al., arXiv 2023)
-
-2. [Chain-of-Thought Prompting Elicits Reasoning in Large Language Models](https://arxiv.org/abs/2201.11903) (Wei et al., arXiv 2023)
-
-3. [Automatic Chain of Thought Prompting in Large Language Models](https://arxiv.org/abs/2210.03493) (Zhang et al., arXiv 2022)
-
-4. [Better Zero-Shot Reasoning with Self-Adaptive Prompting](https://arxiv.org/abs/2305.14106) (Wan et al., arXiv 2023)
-
-5. [Universal Self-Adaptive Prompting](https://arxiv.org/abs/2305.14926) (Wan et al., arXiv 2023)
-
-6. [Chain of Draft: Thinking Faster by Writing Less](https://arxiv.org/abs/2502.18600) (Xu et al., arXiv 2025)
-
-7. [Token-Budget-Aware LLM Reasoning](https://arxiv.org/abs/2412.18547) (Han et al., arXiv 2025)
-
-8. [RouteLLM: Learning to Route LLMs with Preference Data](https://arxiv.org/abs/2406.18665) (Ong et al., arXiv 2025)
-
-9. [Adaptive Gating in Mixture-of-Experts based Language Models](https://aclanthology.org/2023.emnlp-main.217/) (Li et al., EMNLP 2023)
-
-10. [Contrastive Decoding: Open-ended Text Generation as Optimization](https://aclanthology.org/2023.acl-long.687/) (Li et al., ACL 2023)
-
 ## Goals
 
 - Evaluate the effectiveness of Minimal CoT prompting in a low-resource language (Nepali).
@@ -117,11 +95,11 @@ This project directly addresses this gap by evaluating whether a substantially s
 <tbody>
   <tr>
     <th><b>Shreya Nupur Shakya</b></th>
-    <td>Experiments; Error analyis; Write-up</td>
+    <td>Experiments for LLaMA-7B-Instruct and Qwen2.5-7B-Instruct on GSM8K in English and Nepali; Error analyis; Write-up</td>
   </tr>
   <tr>
     <th><b>Oghenevovwe Ikumariegbe</b></th>
-    <td>Synthetic data generation and back translation; Experiments; Write-up</td>
+    <td>Data translation, backtranslation and validation of GSM8K and CommonsenseQA; Reproducibility and container setup; Write-up</td>
   </tr>
 </tbody>
 </table>
@@ -130,10 +108,30 @@ This project directly addresses this gap by evaluating whether a substantially s
 
 We evaluate two open-source models: LLaMA-7B-Instruct and Qwen2.5-7B-Instruct on GSM8K in English and Nepali, under three prompting configurations: no-CoT, minimal-CoT, and standard-CoT. We further conduct a comprehensive minimal-CoT reasoning length study, varying the maximum reasoning budget (cap) from 192 to 1024 tokens across both models in Nepali. Our results show clear differences across languages and models in accuracy, efficiency, and error patterns, helping us understand how much reasoning minimal-CoT needs to work effectively in a low-resource language.
 
-<p style="text-align:center;"> Table 1: Performance of No-CoT, Minimal-CoT, and Standard-CoT Across Qwen and LLaMA (English & Nepali GSM8K) </p> 
+| Model | Language | Style         | Accuracy (%) | Avg Gen Tokens (Input+Output) | Avg Time (s) |
+|-------|----------|---------------|--------------|--------------------------------|--------------|
+| Llama | English  | Minimal-CoT   | 73.62        | 332.32                         | 0.6708       |
+|  |   | No-CoT        | 11.90        | 84.42                          | 0.0826       |
+|  |   | Standard-CoT  | **77.10**    | 488.79                         | 1.0937       |
+|       |          |               |              |                                |              |
+| Llama | Nepali   | Minimal-CoT   | **23.73**    | 532.30                         | 1.3314       |
+|  |    | No-CoT        | 4.93         | 173.07                         | 0.1512       |
+|  |    | Standard-CoT  | 20.55        | 660.27                         | 1.8836       |
+|       |          |               |              |                                |              |
+| Qwen  | English  | Minimal-CoT   | 82.03        | 279.62                         | 0.4997       |
+|   |   | No-CoT        | 17.51        | 73.76                          | 0.0615       |
+|   |   | Standard-CoT  | **86.73**    | 397.21                         | 0.7613       |
+|       |          |               |              |                                |              |
+| Qwen  | Nepali   | Minimal-CoT   | 29.80        | 525.52                         | 1.3551       |
+|   |    | No-CoT        | 8.49         | 269.52                         | 0.3510       |
+|   |    | Standard-CoT  | **30.02**    | 717.52                         | 2.2289       |
+
+
+    Table 1: Performance of No-CoT, Minimal-CoT, and Standard-CoT Across Qwen and LLaMA (English & Nepali GSM8K)
 
 Table 1 summarizes the performance of Qwen 2.5–7B and LLaMA-7B-Instruct on English and Nepali GSM8K under the three prompting strategies: No-CoT, Minimal-CoT, and Standard-CoT. This table provides the clearest cross-sectional view of how reasoning style interacts with model architecture and language.
-Across both models and both languages, Minimal-CoT consistently outperforms No-CoT and often matches or exceeds Standard-CoT, despite requiring fewer tokens and shorter inference times.
+
+Across both models and both languages, Minimal-CoT consistently outperforms No-CoT or at least tries to match or exceed Standard-CoT, despite requiring fewer tokens and shorter inference times.
 
 <b> Some key observations: </b>
 
@@ -181,7 +179,35 @@ This provides strong empirical support for the broader hypothesis that small, fo
 
 To determine the optimal reasoning budget for Minimal-CoT in low-resource settings, we performed a study on Nepali GSM8K by varying the maximum reasoning length (cap) from 192 to 1024 tokens for both LLaMA-7B and Qwen2.5-7B. Table 2 summarizes accuracy trends at each cap.
 
-<p style="text-align:center;"> Table 2: Minimal-CoT Results for Nepali GSM8K (LLaMA-7B & Qwen2.5-7B) </p> 
+| Cap | Accuracy (%) | Avg. tokens (Input+Output) | Time (s) |
+|-----|--------------|------------------------|----------|
+| 192 | 15.92 | 397.52 | 0.8435 |
+| 256 | 25.02 | 461.52 | 1.0914 |
+| 320 | 29.80 | 525.52 | 1.3484 |
+| 384 | 33.28 | 589.52 | 1.6189 |
+| 448 | 34.04 | 653.52 | 1.8855 |
+| 512 | 34.19 | 717.52 | 2.1661 |
+| 640 | **34.50** | 845.52 | 2.7552 |
+| 768 | 33.66 | 973.52 | 3.3858 |
+| 896 | 32.60 | 1101.52 | 4.0226 |
+
+    Table 2: Minimal-CoT Results for Nepali GSM8K on Qwen2.5-7B 
+
+| Cap | Accuracy (%) | Avg. tokens (Input+Output) | Time (s) |
+|-----|--------------|------------------------|----------|
+| 192 | 11.83 | 340.88 | 0.6578 |
+| 256 | 18.50 | 404.88 | 0.8731 |
+| 320 | 21.76 | 468.88 | 1.0972 |
+| 384 | 23.73 | 532.30 | 1.3327 |
+| 448 | 24.18 | 581.84 | 1.5263 |
+| 512 | **24.34** | 612.24 | 1.6494 |
+| 640 | 24.34 | 641.24 | 1.7756 |
+| 768 | 24.34 | 660.47 | 1.8661 |
+| 896 | 24.11 | 646.90 | 2.0312 |
+| 1024 | 24.11 | 663.20 | 2.1248 |
+| 1280 | 24.11 | 695.81 | 2.3340 |
+
+    Table 3: Minimal-CoT Results for Nepali GSM8K on Llama-7B
 
 Across both models, accuracy improves rapidly as the cap increases from 192 to 512 tokens, after which gains taper off:
 - LLaMA-7B reaches its best performance at 640 tokens (16–18%), with only marginal improvements beyond 512.
@@ -269,16 +295,40 @@ https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-shre
 
 Although Minimal-CoT proves both effective and efficient for Nepali GSM8K, several focused improvements can strengthen multilingual reasoning performance.
 
-1. Better handling of Nepali numerical expressions.
+1. Better handling of Nepali numerical expressions
+
 Errors often stem from misinterpreting Nepali number words (e.g., आधा, डेढ) and mixed-script percentages. Future work could add lightweight numeric-normalization modules, targeted fine-tuning, or curated examples that teach models how these number words correspond to mathematical operations.
 
-2. Adaptive reasoning budgets.
+2. Adaptive reasoning budgets
+
 Our results show that ~500–700 tokens are sufficient for peak Minimal-CoT performance. Instead of using a fixed cap, future systems could dynamically adjust reasoning length based on predicted uncertainty or question difficulty and allocating more reasoning only when needed.
 
-3. Higher-quality Nepali (low resource) datasets.
+3. Higher-quality Nepali (low resource) datasets
+
 While back-translation helps filter major issues, the machine-translated Nepali GSM8K still contains phrasing irregularities. Future work could incorporate a small set of human-authored Nepali reasoning problems or refined translations produced in collaboration with native speakers.
 
-4. Broader evaluation across models and tasks.
+4. Broader evaluation across models and tasks
+
 Minimal-CoT should be tested on additional reasoning tasks (ARC, StrategyQA, MAWPS) and across more open-source models to determine whether the observed gains generalize beyond GSM8K-style arithmetic. We planned to test it across more models and datasets like Commonsense QA, but due to time constraints, we were unable to run experiments for them. We have shared the translated version of Commonsense QA on our github repo.
 
 Overall, these improvements aim to make Minimal-CoT even more reliable, interpretable, and broadly applicable across multilingual reasoning settings.
+
+<b> References </b>
+
+1. [Chain-of-Thought Prompting Elicits Reasoning in Large Language Models](https://arxiv.org/abs/2201.11903) (Wei et al., arXiv 2022)
+
+2. [Automatic Chain of Thought Prompting in Large Language Models](https://arxiv.org/abs/2210.03493) (Zhang et al., arXiv 2022)
+
+3. [Better Zero-Shot Reasoning with Self-Adaptive Prompting](https://arxiv.org/abs/2305.14106) (Wan et al., arXiv 2023)
+
+4. [Universal Self-Adaptive Prompting](https://arxiv.org/abs/2305.14926) (Wan et al., arXiv 2023)
+
+5. [Chain of Draft: Thinking Faster by Writing Less](https://arxiv.org/abs/2502.18600) (Xu et al., arXiv 2025)
+
+6. [Token-Budget-Aware LLM Reasoning](https://arxiv.org/abs/2412.18547) (Han et al., arXiv 2025)
+
+7. [RouteLLM: Learning to Route LLMs with Preference Data](https://arxiv.org/abs/2406.18665) (Ong et al., arXiv 2025)
+
+8. [Adaptive Gating in Mixture-of-Experts based Language Models](https://aclanthology.org/2023.emnlp-main.217/) (Li et al., EMNLP 2023)
+
+9. [Contrastive Decoding: Open-ended Text Generation as Optimization](https://aclanthology.org/2023.acl-long.687/) (Li et al., ACL 2023)
