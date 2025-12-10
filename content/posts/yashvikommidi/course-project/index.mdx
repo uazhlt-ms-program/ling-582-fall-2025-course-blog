@@ -215,3 +215,19 @@ We have also written the same in our repo https://github.com/uazhlt-ms-program/l
 
 ## Future improvements
 
+Our project covers a full RAG pipeline end to end including steps such as data processing, chunking, multiple embedding models, FAISS retrieval, LLM answering and a tagger RAG vs non-RAG analysis. 
+Few of the limitations that we see in our model are:
+- Our RAG vs non-RAG comparison was done on a  small, manually inspected set of questions. This was enough to see clear patterns , but we feel it is not yet a large-scale evaluation.
+- The system currently runs from the command line, there is no proper interactive UI where someone can type a question and see retrieval and answers live.
+- We only used one LLM and one main prompt style for both RAG and non-RAG, so we do not fully know how much the behaviour changes with the different models or different prompts.
+- We focused on a simple and clean retrieval setup that is one dense embedding model + FAISS at a time. But we did not add hybrid retrieval like BM25 + dense or re-ranking, even though these are common in larger systems.
+
+At the same time, there are several natural extensions we thought of working on but we did not have time to explore in this course project. Some of the them are :
+
+- Extending the RAG vs non-RAG analysis to many more questions like for example 100–200 from HotpotQA and then break the results down by question types such as comparison, bridge, factual. We believe that this would turn our initial observations into stronger empirical claims.
+- Add any sparse retrieval on top of our dense models, or plan to use a cross-encoder re-ranker on the top-k chunks.  So that this could improve the few remaining retrieval misses and gives even a cleaner context to the LLM.
+- We used only one LLM, but we want to compare different open-source LLMs and experiment with prompts that ask the model to show its reasoning, also cite specific chunks, or explicitly say when the context is insufficient. This would help us to separate model weakness from retrieval weakness more clearly.
+- We believe wrapping the existing pipeline in a lightweight UI where users can enter a question, see the retrieved chunks, and compare RAG vs non-RAG answers side by side would make the behaviour of the system easier to explore and present. This is something we want to work on.
+- If we have chance we want to build a small checker that flags the answer sentences not supported by any retrieved chunk, or uses a second model as a judge, so that we can label hallucinations. This could scale up our error analysis beyond fully inspection.
+
+Now, we see our current work as a solid starting point with having a working multi-embedding RAG system plus a tagged error analysis. The ideas above are natural next steps that we want to work on as we go into our next course works.
