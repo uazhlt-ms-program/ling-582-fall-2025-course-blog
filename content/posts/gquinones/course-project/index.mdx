@@ -96,34 +96,57 @@ Project Approach - Jake Mains and Gabriela Quiñones
   </thead>
 <tbody>
   <tr>
-    <th><b>???</b></th>
-    <td>???</td>
+    <th><b>Jake Mains</b></th>
+    <td>
+
+- Created the code to identify the language sample
+        
+- Searched for sample texts of the languages
+        
+- Created short biographies of the selected languages.
+
+    </td>
   </tr>
   <tr>
-    <th><b>???</b></th>
-    <td>???</td>
-  </tr>
-  <tr>
-    <th><b>???</b></th>
-    <td>???</td>
+    <th><b>Gabriela Quiñones</b></th>
+    <td>
+
+- Created a database to store the languages, sample texts and information about the langueges.
+
+- Created test files to make sure everything was progressing correctly.
+
+- Helped search for sample texts on the languages. 
+
+    </td>
   </tr>
 </tbody>
 </table>
 
-
 ## Results
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
+Using the text files that we found and processed, we were able to create a sufficient identification system. 
+This system returned the correct language prediction when given a short string of text, about the size of one
+setntence. We included 6 Iroquoian languages as well as English as a baseline. Predictions were based off of 
+language script as well as common words found in the language. With the language prediction, a short biography 
+of the identified language is also returned.
 
 ## Error analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
+This system works well with the data it's trained on, but may have some limitations on held-out data. This system 
+relies on the target language to be in a certain script for proper identification. For example, Cherokee in particular 
+is trained on a specific script and will not likely be identified if working with another script. In addition, some 
+langugaes were trained on a more generic script, so we used common words in the language to identify them, for 
+instance "tsha'" in Onondaga. If the text entered does not have one of these words, it may not identify the language.
 
 ## Reproducibility
+Results are reproducable through the files accessable in the team repo.
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility)_
-_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+You can access it [here](https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-jake-gabriela.git)
 
 ## Future improvements
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_
+Our main limitation for this project was a lack of text from each lnaguage in this family. Some future improvements could
+involve sourcing more texts for more accurate language prediction. This could also involve a deeper language analysis that
+allows for proper identification no matter the script or if the text given is missing a key word. This could involve other 
+metrics like average word length or consonant patterns unique to the language. Lastly, building a user interface for more
+practical use would be a major improvement.
