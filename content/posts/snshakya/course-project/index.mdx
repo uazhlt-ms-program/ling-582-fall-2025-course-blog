@@ -33,6 +33,40 @@ tags:
 
 This project investigates whether Minimal Chain-of-Thought (Minimal-CoT) prompts can achieve comparable reasoning performance to the standard (“Let’s think step by step”) CoT format in low-resource language settings (e.g., Nepali). Chain-of-Thought (CoT) prompting is a technique where models generate intermediate reasoning steps before producing a final answer, often improving performance on complex tasks such as arithmetic, commonsense reasoning, and logical inference. In this project, we examine three CoT styles: No-CoT, where the model is prompted to answer directly with no reasoning steps; Minimal-CoT, where the model is nudged with a short trigger such as “Let’s think briefly.”; and Standard-CoT, which uses the full reasoning cue “Let’s think step-by-step.” We evaluate these prompting strategies on tasks like math-reasoning (e.g., GSM8K) and commonsense reasoning (e.g., CommonsenseQA) to analyze how much reasoning signal is needed in low-resource languages. We also analyze differences in accuracy, token cost, efficiency, and inference time across the three styles and languages.
 
+## Related Works
+
+Chain-of-Thought (CoT) prompting has been shown to significantly improve the ability of large language models to perform complex reasoning by generating explicit intermediate steps before producing an answer [Wei et al., 2022]. However, CoT introduces two major types of costs that are especially problematic in multilingual and low-resource settings. First, manual-CoT (few-shot, human-written reasoning demonstrations) require tedious, task-specific annotations that do not easily generalize across new domains or languages [Wei et al., 2022; Zhang et al., 2022]. Second, verbose CoT rationales dramatically increase inference cost: outputs can be an order of magnitude longer than direct answers, inflating token usage, latency, and, in multilingual cases, amplifying error propagation through translation and script mixing [Xu et al., 2025; Han et al., 2025].
+To reduce these costs, prior work has explored several directions.
+   (a) Automatic demonstration generation, including Auto-CoT [Zhang et al., 2022], Consistency-based Self-Adaptive Prompting (COSP) [Wan et al., 2023], and Universal Self-Adaptive Prompting (USP) [Wan et al., 2023], eliminates the need for human-authored CoT exemplars by having models generate or refine their own demonstrations.
+   (b) Concise reasoning methods, such as Chain-of-Draft (CoD) [Xu et al., 2025] and Token-Budget-Aware LLM Reasoning (TALE) [Han et al., 2025], explicitly aim to compress or constrain rationales to reduce inference cost while preserving accuracy.
+   (c) Adaptive computation and uncertainty-aware decoding, including RouteLLM [Ong et al., 2024], Mixture-of-Experts gating strategies [Li et al., 2023], and Contrastive Decoding variants [Li et al., 2023], seek to minimize compute by selectively allocating reasoning effort or stabilizing token choices through contrastive expert - base model reweighting.
+
+Despite this progress, very little of this literature examines CoT in multilingual or low-resource languages, and even less addresses the unique challenges these languages pose. Moreover, existing efficient CoT methods assume high-resource training conditions and well-calibrated reasoning behavior, which do not hold for low-resource languages like Nepali.
+
+This project directly addresses this gap by evaluating whether a substantially shorter reasoning cue, Minimal-CoT (“Let’s think briefly.”) can recover the benefits of standard step-by-step CoT while avoiding these costs. By comparing No-CoT, Minimal-CoT, and Standard-CoT across Nepali and English reasoning benchmarks , we test whether concise reasoning triggers can offer a more efficient, more robust, and more cross-lingually stable alternative to verbose CoT in low-resource settings.
+
+<b> References </b>
+
+1. [Chain-of-Thought Prompting Elicits Reasoning in Large Language Models](https://arxiv.org/abs/2201.11903) (Wei et al., arXiv 2023)
+
+2. [Chain-of-Thought Prompting Elicits Reasoning in Large Language Models](https://arxiv.org/abs/2201.11903) (Wei et al., arXiv 2023)
+
+3. [Automatic Chain of Thought Prompting in Large Language Models](https://arxiv.org/abs/2210.03493) (Zhang et al., arXiv 2022)
+
+4. [Better Zero-Shot Reasoning with Self-Adaptive Prompting](https://arxiv.org/abs/2305.14106) (Wan et al., arXiv 2023)
+
+5. [Universal Self-Adaptive Prompting](https://arxiv.org/abs/2305.14926) (Wan et al., arXiv 2023)
+
+6. [Chain of Draft: Thinking Faster by Writing Less](https://arxiv.org/abs/2502.18600) (Xu et al., arXiv 2025)
+
+7. [Token-Budget-Aware LLM Reasoning](https://arxiv.org/abs/2412.18547) (Han et al., arXiv 2025)
+
+8. [RouteLLM: Learning to Route LLMs with Preference Data](https://arxiv.org/abs/2406.18665) (Ong et al., arXiv 2025)
+
+9. [Adaptive Gating in Mixture-of-Experts based Language Models](https://aclanthology.org/2023.emnlp-main.217/) (Li et al., EMNLP 2023)
+
+10. [Contrastive Decoding: Open-ended Text Generation as Optimization](https://aclanthology.org/2023.acl-long.687/) (Li et al., ACL 2023)
+
 ## Goals
 
 - Evaluate the effectiveness of Minimal CoT prompting in a low-resource language (Nepali).
@@ -94,11 +128,136 @@ This project investigates whether Minimal Chain-of-Thought (Minimal-CoT) prompts
 
 ## Results
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
+We evaluate two open-source models: LLaMA-7B-Instruct and Qwen2.5-7B-Instruct on GSM8K in English and Nepali, under three prompting configurations: no-CoT, minimal-CoT, and standard-CoT. We further conduct a comprehensive minimal-CoT reasoning length study, varying the maximum reasoning budget (cap) from 192 to 1024 tokens across both models in Nepali. Our results show clear differences across languages and models in accuracy, efficiency, and error patterns, helping us understand how much reasoning minimal-CoT needs to work effectively in a low-resource language.
+
+<p style="text-align:center;"> Table 1: Performance of No-CoT, Minimal-CoT, and Standard-CoT Across Qwen and LLaMA (English & Nepali GSM8K) </p> 
+
+Table 1 summarizes the performance of Qwen 2.5–7B and LLaMA-7B-Instruct on English and Nepali GSM8K under the three prompting strategies: No-CoT, Minimal-CoT, and Standard-CoT. This table provides the clearest cross-sectional view of how reasoning style interacts with model architecture and language.
+Across both models and both languages, Minimal-CoT consistently outperforms No-CoT and often matches or exceeds Standard-CoT, despite requiring fewer tokens and shorter inference times.
+
+<b> Some key observations: </b>
+
+English:
+- Qwen improves from 4.9% to 23.7% (+18.8) when moving from No-CoT to Minimal-CoT.
+- LLaMA improves from ~6% to ~22% (+16).
+- Standard-CoT does not outperform Minimal-CoT, despite using 650–900 tokens on average.
+
+Nepali:
+- Qwen improves from ~3–4% to 10–14% (+7–10).
+- LLaMA improves from ~3–5% to 15–18% (+12–13).
+- Standard-CoT again provides no major advantage over Minimal-CoT.
+
+These improvements are especially notable in Nepali, where Standard-CoT tends to produce longer, less structured explanations and is more susceptible to hallucination or drift in reasoning (misleading rationales). Minimal-CoT appears to anchor the model to a concise reasoning path that is easier to maintain in low-resource languages.
+
+<b> Across all four conditions (English/Nepali × Qwen/LLaMA): </b> 
+- Minimal-CoT achieves 70–90% of Standard-CoT’s accuracy at 40–60% of the token cost.
+- In Nepali, Minimal-CoT often outperforms Standard-CoT, making it better both in accuracy and efficiency.
+
+These findings directly support the project’s central research question: a small amount of reasoning is enough; and in multilingual settings, more reasoning is often harmful.
+
+<b> Cross-model insights </b> 
+
+- LLaMA is more stable and structured, especially in Nepali. Minimal-CoT shows consistently strong results (15–18%).
+- Qwen improves sharply with Minimal-CoT in English but remains less stable in Nepali. Standard-CoT often causes markdown-like hallucinations or long paraphrases.
+
+Minimal-CoT mitigates many of these issues, explaining why both models perform best under this prompting style.
+
+<b> Cross-lingual insights </b> 
+
+- Accuracy decreases from English to Nepali for both models, as expected due to reduced training exposure, morphological complexity, and numeric expression differences.
+- However, Minimal-CoT narrows the performance gap, providing a more stable reasoning structure across languages.
+- The gains we observe in both English and Nepali show that Minimal-CoT is not tied to English-specific training biases and instead generalizes effectively across languages.
+
+<b> Summary </b>
+
+Overall, the results in Table 1 demonstrate that:
+- Minimal-CoT is the most effective and efficient reasoning strategy across all tested models and languages.
+- Standard-CoT is not reliably better in low-resource settings and often introduces unnecessary verbosity and instability.
+- No-CoT is insufficient, especially for Nepali, where minimal reasoning cues are crucial.
+
+This provides strong empirical support for the broader hypothesis that small, focused reasoning signals outperform long chain-of-thought in multilingual contexts.
+
+<b> How Much Reasoning Is Enough for Minimal-CoT in Nepali? </b>
+
+To determine the optimal reasoning budget for Minimal-CoT in low-resource settings, we performed a study on Nepali GSM8K by varying the maximum reasoning length (cap) from 192 to 1024 tokens for both LLaMA-7B and Qwen2.5-7B. Table 2 summarizes accuracy trends at each cap.
+
+<p style="text-align:center;"> Table 2: Minimal-CoT Results for Nepali GSM8K (LLaMA-7B & Qwen2.5-7B) </p> 
+
+Across both models, accuracy improves rapidly as the cap increases from 192 to 512 tokens, after which gains taper off:
+- LLaMA-7B reaches its best performance at 640 tokens (16–18%), with only marginal improvements beyond 512.
+- Qwen2.5-7B peaks slightly later, around 768 tokens (11–13%), reflecting its need for a slightly longer reasoning space to avoid paraphrase loops.
+
+Beyond 768–896 tokens, neither model shows meaningful improvement, despite generating longer chains.
+Overall, the results demonstrates that Minimal-CoT needs only ~500–700 tokens to reach peak performance in Nepali. Longer reasoning chains offer little benefit and may even reduce stability, reinforcing that concise reasoning is both efficient and effective in low-resource settings.
+
 
 ## Error analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
+To better understand how Minimal-CoT behaves across languages and models, we performed a detailed error analysis over the incorrect outputs extracted from the JSON files for Qwen-7B and LLaMA-7B on English and Nepali GSM8K. Errors were manually inspected and also categorized as shown below:
+
+1. Truncation and Incomplete Reasoning 
+
+Across both models, the smallest minimal-CoT caps (192–320) consistently lead to truncated chains and reasoning that stops mid-sentence or fails to complete with the final answer. This pattern is especially common in LLaMA-7B, whose JSON outputs show early termination such as:
+
+Example (LLaMA-7B, 192 cap):
+
+    "…तेस्रो चरण: उनी बाँकीलाई किसानको बजारमा…"
+
+The model attempts a decent reasoning but cannot finish due to only 192 token cap.
+
+The model with higher token cap at 256 produced the correct final output:
+
+    “...तेस्रो चरण: उनी बाँकीलाई किसानको बजारमा दैनिक ताजा हाँसको अण्डा २ डलरमा बेच्छन्, त्यस्तो मात्र ९ अण्डा x २ डलर = १८ डलर कमाउँछिन्।\n\nउत्तर: #### १८"
+
+These errors diminish significantly once caps exceed 384 to 448 tokens.
+
+2. Semantic Drift with Nepali Numeric Expressions
+
+A failure seen across both models involves misinterpretation of Nepali number words, often leading to incorrect intermediate steps.
+Common patterns observed in the JSON examples include:
+- treating आधा (“half”) as a literal 0.5 in contexts where a unit transformation was required
+- confusing डेढ (“one and a half”) with 1.5, 2, or even 0.5
+- errors in mixed Devanagari - Arabic numerals (e.g., “१ 150०%”)
+- incorrect expansion of Nepali positional number words
+
+Example (LLaMA, 192 cap):
+    
+    "...दोस्रो चरण: आधा सेतो फाइबर चाहिन्छ, त्यसैले सेतो फाइबरको संख्या ½ हुन्छ।\n\nअन्तिम संख्यात्मक उत्तर: २.५","
+
+These mistakes reflect true semantic grounding gaps, not lack of reasoning length. The reasoning states " आधा” as 0.5 but the final answer is 2.5".
+
+3. Arithmetic Drift (Common in Across All Caps)
+
+The models tend to produce correct multi-step reasoning structures but arrive at wrong intermediate arithmetic values. The JSON files show this pattern even at high caps (512–768 tokens):
+- correct decomposition of word problem
+- correct symbolic transformation
+- incorrect multiplication, division, or addition in one step
+- final answer deviates from gold even though logic is correct
+
+Here, the chain is structurally valid but numerically unreliable.
+
+Example:
+
+    "style": "standard-cot", 
+    "question": "Sarah has a rope that is 20 meters long. Her friend wants to buy the rope for $2 a meter. Sarah plans to use the profit to buy a new rope, which at the store costs $1.5 a meter. How much money will she have left over after she buys the new rope?", 
+    "gold_full_answer": "Her friend pays her $40 for the rope because 20 x 2 = <<20*2=40>>40\nShe can buy the rope at the store for $30 because 20 x 1.5 = <<20*1.5=30>>30\nShe has $10 left over because 40 - 30 = <<40-30=10>>10\n#### 10",
+    "gold_numeric": "10",
+    "output": "To solve this problem, I will first calculate the total cost of the rope Sarah sells to her friend. Since the rope is 20 meters long and her friend wants to buy it for $2 a meter, the total cost will be:\n\n20 meters x $2 per meter = $40\n\nSarah will earn $40 from selling the rope. She plans to use this money to buy a new rope that costs $1.5 a meter. To find the length of the new rope she can buy, I will divide the $40 she earned by the cost per meter of the new rope:\n\n$40 ÷ $1.5 per meter = 26.67 meters\n\nSince Sarah can't buy a fraction of a meter, I will round down to the nearest whole number to find the actual length of the new rope she can buy:\n\n26.67 meters → 26 meters\n\nThe cost of the new rope will be:\n\n26 meters x $1.5 per meter = $39\n\nSarah will spend $39 on the new rope, leaving her with:\n\n$40 (earned) - $39 (spent) = $1\n\nSo, Sarah will have $1 left over after buying the new rope.\n\n#### 1",
+
+The model does the math correctly but solves the wrong problem (provides misleading rationale). Instead of calculating the cost of replacing the same 20-meter rope, it tries to maximize how much new rope Sarah can buy, then subtracts that cost. This reasoning drift leads to the wrong final answer. 
+
+4. Paraphrase Loops
+
+The models often get stuck repeating or rephrasing the question instead of solving it. At medium caps (320 to 640), the model produces long reflective restatements like “You are a math solver…” or repeating the problem in Nepali without doing any calculations. This paraphrasing loop disappears once the reasoning cap is large enough (≈768 tokens).
+
+Example:
+
+    "style": "minimal-cot", 
+    "question_nepali": "ग्रेगसँग एक अलार्म सेट छ जुन दिनको तीन पटक रिमाइन्डरको रूपमा बज्छ। जब अलार्म बन्द हुन्छ, तबसम्म यो बजिरहन्छ जबसम्म ग्रेगले यसलाई बन्द गर्दैन। आज पहिलो पटक यो बन्द भयो, यो चार पटक बज्यो। दोस्रो पटक यो बन्द भयो, यो पहिलो पटक भन्दा तीन गुणा लामो समयसम्म बज्यो। तेस्रो पटक, यो दोस्रो पटक भन्दा आधा लामो समयसम्म बज्यो। अलार्म कुल कति पटक बज्यो?", "gold_full_nepali": "दोस्रो पटक ग्रेगको अलार्म बज्यो, यो पहिलो भन्दा तीन गुणा लामो भयो, त्यसैले यो 3 * 4 = <<3*4=12>>12 पटक दोस्रो पटक बज्यो। तेस्रो पटक यो गयो, यो दोस्रो भन्दा आधा लामो भयो, त्यसैले यो 12 / 2 = <<12/2=6>>6 पटक तेस्रो पटक बज्यो। कुलमा, ग्रेगको अलार्म 4 + 12 + 6 = <<4+12+6=22>>22 पटक बज्यो।", 
+    "gold_numeric": "22", 
+    "output": "user\n\nतपाईं एक गणित समाधानकर्ता हुनुहुन्छ। तलको शब्द समस्यालाई नेपालीमा समाधान गर्नुहोस्।\nसमाधान गर्दा नेपालीमा छोटो रूपमा चरणबद्ध सोच्नुहोस् र बाहिर पनि धेरै लामो व्याख्या नगरी संक्षिप्त रूपमा १–२ वाक्यमा मुख्य कदमहरू लेख्नुहोस्। अन्त्यमा, एक छुट्टै नयाँ लाइनमा मात्र अन्तिम संख्यात्मक उत्तर '#### <संख्या>' को ढाँचामा लेख्नुहोस्।\n\nप्रश्न: ग्रेगसँग एक अलार्म सेट छ जुन दिनको तीन पटक रिमाइन्डरको रूपमा बज्छ। जब अलार्म बन्द हुन्छ, तबसम्म यो बजिरहन्छ जबसम्म ग्रेगले यसलाई बन्द गर्दैन। आज पहिलो पटक यो बन्द भयो, यो चार पटक बज्यो। दोस्रो पटक यो बन्द भयो, यो पहिलो पटक भन्दा तीन गुणा लामो समयसम्म बज्यो। तेस्रो पटक, यो दोस्रो पटक भन्दा आधा लामो समयसम्म बज्यो। अलार्म कुल कति पटक बज्यो?\nउत्तर:assistant\n\nassistant\n\nसमाधान:\n\nपहिलो पटक अलार्म बन्द भयो र यो चार पटक बज्यो।\n\nदोस्रो पटक अलार्म बन्द भयो र यो पहिलो पटक भन्दा तीन गुणा लामो समयसम्म बज्यो।\n\nतेस्रो पटक अलार्म बन्द भयो र यो दोस्रो पटक भन्दा आधा लामो समयसम्म बज्यो।\n\nअलार्म कुल कति पटक बज्यो?\n\n#### 6", 
+
+The model repeats the prompt (“तपाईं एक गणित समाधानकर्ता हुनुहुन्छ…”) and restates each sentence of the question instead of computing the three alarm counts. It never performs the calculations 4, 12, or 6, and ends with an unsupported final answer ‘#### 6’, illustrating a paraphrase loop with no actual reasoning.
 
 ## Reproducibility
 
@@ -107,4 +266,18 @@ _If you'ved covered this in your code repository's README, you can simply link t
 
 ## Future improvements
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_
+Although Minimal-CoT proves both effective and efficient for Nepali GSM8K, several focused improvements can strengthen multilingual reasoning performance.
+
+1. Better handling of Nepali numerical expressions.
+Errors often stem from misinterpreting Nepali number words (e.g., आधा, डेढ) and mixed-script percentages. Future work could add lightweight numeric-normalization modules, targeted fine-tuning, or curated examples that teach models how these number words correspond to mathematical operations.
+
+2. Adaptive reasoning budgets.
+Our results show that ~500–700 tokens are sufficient for peak Minimal-CoT performance. Instead of using a fixed cap, future systems could dynamically adjust reasoning length based on predicted uncertainty or question difficulty and allocating more reasoning only when needed.
+
+3. Higher-quality Nepali (low resource) datasets.
+While back-translation helps filter major issues, the machine-translated Nepali GSM8K still contains phrasing irregularities. Future work could incorporate a small set of human-authored Nepali reasoning problems or refined translations produced in collaboration with native speakers.
+
+4. Broader evaluation across models and tasks.
+Minimal-CoT should be tested on additional reasoning tasks (ARC, StrategyQA, MAWPS) and across more open-source models to determine whether the observed gains generalize beyond GSM8K-style arithmetic. We planned to test it across more models and datasets like Commonsense QA, but due to time constraints, we were unable to run experiments for them. We have shared the translated version of Commonsense QA on our github repo.
+
+Overall, these improvements aim to make Minimal-CoT even more reliable, interpretable, and broadly applicable across multilingual reasoning settings.
