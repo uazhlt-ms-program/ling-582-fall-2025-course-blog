@@ -30,7 +30,7 @@ tags:
 
 
 
-## Description
+## Project description
 
 In this project, we build a Retrieval-Augmented Generation (RAG) system for question answering on the HotpotQA dataset. Here we use an embedding model and FAISS to retrieve the most relevent chinks from a corpus built from HotpotQA. Then we send the question along with the retrieved chunks to an LLM to generate an answer.
 
@@ -49,28 +49,19 @@ We felt HotpotQA is not an easy dataset. We observed that many questions need mu
 State-of-the-art systems on HotpotQA usually uses more complicated setups like they may have learned retrievers, cross-encoder re-rankers, and big models that actually read many passages together. Here Our system is much simpler as we take one embedding model along with FAISS and one LLM. We feel the benefit of this simpler setup is that it makes it easier for us to clearly see how embedding choice, retrieval quality, and RAG vs non-RAG behavior affect the correctness and hallucinations.
 
 
-
-
 ## Timeline 
 
 Week 1 ( Nov 3 - Nov 9) : Forming a team and discussing about the interests of different team members to work on as a project.
 
 week 2 ( Nov 10- Nov 16): Finalizing the project and choosing different embedding systems and open source LLMs.
 
-Week 3 ( Nov 17–Nov 23): Preprocess and chunk documents, then set up vector embeddings with an initial model (such as E5). Working on different embedding models like BGE, GTE. 
+Week 3 ( Nov 17–Nov 23): Implemented the data pipeline such as loaded HotpotQA,  then converted it into document form, and chunked documents into passages.  We also debugged several environment issues and got clean processed files.
 
-Week 4 (Nov 24–Nov 30): Setting up a vector database, manually evaluating the quality metrics. Integrating the cost effective LLM and build RAG pipelines for question answering.
+Week 4 (Nov 24–Nov 30): Computed embeddings for all chunks with E5, BGE, and GTE, built FAISS indices, and ran retrieval evaluation. We measured Recall@5 for each model and generated evaluation samples (`eval_samples_*.jsonl`) for a subset of questions.
 
-Week 5 (Dec 1–Dec 7) : Analyze results, track hallucination/errors, and finalize the repo for the submission and check up on rubrics to make the final version.
+Week 5 (Dec 1–Dec 7) : Implemented the RAG pipeline with the OpenAI LLM and ran RAG vs non-RAG experiments on sampled questions. We collected gold answers, RAG answers, and non-RAG answers into a CSV and also added labels for correctness and error type such as hallucination, safe “I don’t know”, etc. Finally, we also ran the error analysis script, interpreted the results, and wrote up the report according to the rubric.
 
-## Team Members
 
-Bharath Cherukuru,
-Yashvi Kommidi,
-Abhiram Nandimandalam
-
-## Project description
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility).  Use subsections to organize components of the description._
 
 ## Summary of individual contributions
 <table>
@@ -82,19 +73,23 @@ _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/co
   </thead>
 <tbody>
   <tr>
-    <th><b>???</b></th>
-    <td>???</td>
+    <th><b>Abhiram Nandimandalam</b></th>
+    <td> Implemented the embedding scripts for all the three models: E5, BGE, GTE and also made sure that the embeddings and metadata were saved in a consistent format and wrote the code to build evaluation samples and the error analysis script that labels each example.  Helped analyze the error patterns (hallucinations vs safe failures) and contributed to documenting the experimental setup and reproducibility instructions in the repository
+</td>
   </tr>
   <tr>
-    <th><b>???</b></th>
-    <td>???</td>
+    <th><b>Bharath Cherukuru</b></th>
+    <td> Helped to set up the project repository and Python environment, including the fixing dependency issues like numpy/pandas/sklearn. Implemented and debugged the data processing pipeline like loading HotpotQA, building documents, and chunking. Worked on building the FAISS indices and also running the retrieval evaluation for E5, BGE, and GTE. Contributed to writing the results section and checking that the reported numbers matched the code output. 
+</td>
   </tr>
   <tr>
-    <th><b>???</b></th>
-    <td>???</td>
+    <th><b>Yashvi Kommidi</b></th>
+    <td>Coordinated the overall project plan and timeline, and managed the final write-up in the course blog format. Implemented the RAG pipeline with the OpenAI LLM, including the prompt design for RAG vs non-RAG comparisons. Also ran the RAG vs non-RAG experiments, organized the CSV with gold answers, RAG answers, and also non-RAG answers, and performed inspection of hallucination examples. Led the writing of the project description, motivation, and error analysis sections.</td>
   </tr>
 </tbody>
 </table>
+
+All three team members have discussed the design decisions together like choice of dataset, embedding models, and evaluation setup, reviewed each other’s code, and jointly interpreted the final results. Everyone contributed equally and helped each other if one knows more and learnt from each other throughout the project.
 
 
 ## Results
