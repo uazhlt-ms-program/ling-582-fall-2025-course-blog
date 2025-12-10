@@ -32,11 +32,23 @@ tags:
 
 ## Description
 
-We are creating a RAG pipeline as the course project, where we will use publicly available data. Firstly we will be working with multiple embedding systems, where all the data used is embedded by a embedding system and will set up a retriever to get the most matched information with the query . 
+In this project, we build a Retrieval-Augmented Generation (RAG) system for question answering on the HotpotQA dataset. Here we use an embedding model and FAISS to retrieve the most relevent chinks from a corpus built from HotpotQA. Then we send the question along with the retrieved chunks to an LLM to generate an answer.
 
-Later we will connect with one of the open source LLMs available and build a RAG pipeline. Along with the query, the retreived chunks are feeded to the LLMs. So to know the performance of the pipeline, we will manually evaluate by making a test set of sample questions, their expected answers and the answers we get from LLMs and compare them. Here we will be repeating with different embedding models and compare the results manually. 
+Here we compared three embedding models such as E5, BGE and GTE for retrieval quality, and we have also compared RAG vs non-RAG answers from the same LLM. We know that LLMs can sound very confident but still hallucinate the facts, especially on specific or multi-hop questions. For that we felt RAG is a common way to reduce this like instead of letting the model guess from memory, we give the LLMs real text from a knowledge source and ask it to answer based on that.
 
-As an extended analysis, we are also planning to work on hallucinations,  by checking if the LLMs generates facts not found in the retrieved sources, or did the retriever fail or the LLM is making up things. And also compare RAG vs Non RAG, like how the results are when we are using RAG and when we are not using RAG.
+Our main goal is generally to understand few things with a concrete dataset such as
+- How much does RAG help compared to using the LLM alone?
+- How important is the choice of embedding model for the retrieval?
+- Whose fault it is when things go wrong, is it retriever fault or the LLM's?We chose this problem because LLMs often hallucinate facts, and we wanted to see how much a simple RAG setup can actually reduce those mistakes and how much the retriever vs the LLM is responsible when things go wrong.
+
+As a part of project, we have build a RAG pipeline and plugged in three different embedding models such as E5, BGE and GTE under the same conditions such as same chunks, same FAISS setup, so that the comparision is fair. Then for a set of questions, we have collected gold answers, RAG answers and non-RAG answers in a single csv. We then labeled each example with whether each answer is correct, whether retrieval found a supporting document and what type of error it is like hallucinations etc. The main contribution is this side-by-side analysis of retrieval quality and hallucinations, not just a single accuracy number.
+
+Our project is based on the general RAG idea used in earlier work like REALM and RAG (Lewis et al.), where a retriever is combined with a language model to answer questions more accurately. For retrieval, we use modern dense sentence embedding models like E5, BGE, GTE instead of only keyword-based methods like BM25.
+We felt HotpotQA is not an easy dataset. We observed that many questions need multi-hop reasoning, meaning that the system has to pull the information from more than one article. For example, to answer the question “Were Scott Derrickson and Ed Wood of the same nationality?”, we need to look at the information about both of them and compare them. And also we ran into practical issues with chunking like sometimes the answer sentence is split at the boundary of a chunk and with hallucinations when the context is incomplete, for example, the non-RAG model guessing the wrong book series or a wrong arena capacity, somthing like this. We have done good amount of trial and error while coding and also it gave us chance to learn more about the ways to solve the issues.
+
+State-of-the-art systems on HotpotQA usually uses more complicated setups like they may have learned retrievers, cross-encoder re-rankers, and big models that actually read many passages together. Here Our system is much simpler as we take one embedding model along with FAISS and one LLM. We feel the benefit of this simpler setup is that it makes it easier for us to clearly see how embedding choice, retrieval quality, and RAG vs non-RAG behavior affect the correctness and hallucinations.
+
+
 
 
 ## Timeline 
