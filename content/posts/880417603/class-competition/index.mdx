@@ -42,134 +42,162 @@ tags:
 
 ## Task summary
 
-_Authorship verification determines whether two text spans belong to the same author (label = 1) or different authors (label = 0)._
-_Each training example contains:_
-_SPAN1_TEXT [SNIPPET] SPAN2_TEXT_
-_The official evaluation metric is Macro F1._
-_Training and test sets contain 1601 and 899 examples, respectively._
+Authorship verification determines whether two text spans belong to the same author (label = 1) or different authors (label = 0).
 
-_This problem connects to:_
+Each training example contains:
+* SPAN1_TEXT [SNIPPET] SPAN2_TEXT
+* The official evaluation metric is Macro F1.
+* Training and test sets contain 1601 and 899 examples, respectively.
 
-_a) Author Profiling – Inferring stylistic traits from text._
-_b) Authorship Identification – Assigning text to known authors, unlike verification._
-_c) Digital Stylometry – Measuring style via linguistic, structural, and lexical features._
-_d) Text Classification – TF-IDF + linear models (logistic regression) are strong statistical NLP baselines._
+**This problem relates to:**
 
-_Key challenges include:_
-_a) Short spans offering limited stylistic signal._
-_b) Topic mismatch between same-author spans._
-_c) Topical similarity misleading the model for different authors._
-_d) Dialogue-heavy text affecting uppercase, punctuation ratios._
-_e) Uneven span length reducing reliability of stylometric differences._
+a) Author Profiling – Inferring stylistic traits from text.  
+b) Authorship Identification – Assigning text to known authors, unlike verification.  
+c) Digital Stylometry – Measuring style via linguistic, structural, and lexical features.  
+d) Text Classification – TF-IDF + linear models (logistic regression) are strong statistical NLP baselines.  
 
-_Example records examined during EDA confirm all of these issues._
+**Key challenges include:**  
+a) Short spans offering limited stylistic signal.    
+b) Topic mismatch between same-author spans.  
+c) Topical similarity misleading the model for different authors.  
+d) Dialogue-heavy text affecting uppercase, punctuation ratios.  
+e) Uneven span length reducing reliability of stylometric differences.  
+
+Example records examined during EDA confirm all of these issues.
 
 ## Exploratory data analysis
 
-_Initial Observations:_
+**Initial Observations:**
 
-_* [SNIPPET] always appears exactly once._
-_* Span lengths vary dramatically (short < 50 chars; long > 1000)._
-_* Authors display consistent tendencies in punctuation, function-word usage, and sentence length._
-_* Some label 0 pairs show topical overlap that can mislead lexical models.*
+* [SNIPPET] always appears exactly once.
+* Span lengths vary dramatically (short < 50 chars; long > 1000).
+* Authors display consistent tendencies in punctuation, function-word usage, and sentence length.
+* Some label 0 pairs show topical overlap that can mislead lexical models.
 
-_Dataset Size per Class:_
-_Label    Meaning                   Count         %_
-_0        Different Authors         1,245         77.76%
-_1        Same Author               356           22.24%
+**Dataset Size per Class:**
+Label    Meaning                   Count         %  
+0        Different Authors         1,245         77.76%  
+1        Same Author               356           22.24%  
 
-_Metrics examined include:_
-_* Distribution of average word length*
-_* Sentence length words per sentence*
-_* Type–token ratio*
-_* Punctuation ratio*
-_* Uppercase ratio*
+**Metrics examined include:**
 
-_Same-author pairs tend to have smaller stylometric differences, motivating pairwise-difference features._0
+* Distribution of average word length
+* Sentence length words per sentence
+* Type–token ratio
+* Punctuation ratio
+* Uppercase ratio
+
+Same-author pairs tend to have smaller stylometric differences, motivating pairwise-difference features.
 
 ## Approach
 
-_A1) Baseline Model — TF-IDF + Logistic Regression_
-_TF-IDF: ngram_range=(1,2), max_features=50,000_
-_Classifier: Logistic Regression with class_weight="balanced"_
+**Approach 1:** Baseline Model — TF-IDF + Logistic Regression  
+TF-IDF: ngram_range=(1,2), max_features=50,000  
+Classifier: Logistic Regression with class_weight="balanced"  
 
-_Reason: Provide a strong statistical NLP baseline using lexical similarity._
-_Macro F1: 0.5139_
+**Reason:** Provide a strong statistical NLP baseline using lexical similarity.  
+**Macro F1:** 0.5139  
 
-_A2) Stylometry-Only Model_
-_Computed per-span features:_
+**Approach 2:** Stylometry-Only Model  
+Computed per-span features:  
 
-_* Avg word length_
-_* Avg sentence length_
-_* Type–token ratio_
-_* Punctuation ratio_
-_* Uppercase ratio_
-_* Digit ratio_
-_* Function-word ratio_
-_Plus pairwise absolute differences between SPAN1 and SPAN2._
+* Avg word length
+* Avg sentence length
+* Type–token ratio
+* Punctuation ratio
+* Uppercase ratio
+* Digit ratio
+* Function-word ratio
+Plus pairwise absolute differences between SPAN1 and SPAN2.  
 
-_Classifier: StandardScaler → Logistic Regression._
+Classifier: StandardScaler → Logistic Regression.  
 
-_Reason: Stylometry captures writing style independent of topic._
-_Dev Macro F1: 0.5647_
+**Reason:** Stylometry captures writing style independent of topic.  
+**Macro F1:** 0.5647  
 
-_Outperforms TF-IDF baseline (+0.0508)._
+Outperforms TF-IDF baseline (+0.0508).  
 
-_A3) Combined Model — TF-IDF + Stylometry (Final System)_
+**Approach 3:** Combined Model — TF-IDF + Stylometry (Final System)
 
-_Implemented via ColumnTransformer_
+Implemented via ColumnTransformer  
 
-_Processing Pipeline:_
+**Processing Pipeline:**
 
-_Step 1: Two different types of features (TEXT and STYLE) are processed and then fed into one classifier. These are scaled before going into Logistic Regression._
-_Step 2: Each part goes through a different ColumnTransformer_
+Step 1: Two different types of features (TEXT and STYLE) are processed and then fed into one classifier. These are scaled before going into Logistic Regression.  
+Step 2: Each part goes through a different ColumnTransformer  
 
-_TEXT → TfidfVectorizer_
-_* Converts text into a sparse vector of TF-IDF weights._
-_* Output: a matrix of size (n_samples × vocab_size)_
+**TEXT → TfidfVectorizer**
+* Converts text into a sparse vector of TF-IDF weights.  
+* Output: a matrix of size (n_samples × vocab_size)  
 
-_STYLE → StandardScaler_
-_* Standardizes numeric features i.e. mean = 0, std = 1_
-_*Ensures all features contribute equally to the classifier._
+**STYLE → StandardScaler**  
+* Standardizes numeric features i.e. mean = 0, std = 1  
+* Ensures all features contribute equally to the classifier.  
 
-_Step 3: The ColumnTransformer merges them_
-_The ColumnTransformer runs TF-IDF on column "TEXT" and runs StandardScaler on all "style" columns, then concatenates the results horizontally._
-_This results to one unified feature vector per row._
+Step 3: The ColumnTransformer merges them  
+The ColumnTransformer runs TF-IDF on column "TEXT" and runs StandardScaler on all "style" columns, then concatenates the results horizontally.  
+This results to one unified feature vector per row.  
 
-_Reason: Combining lexical and stylistic signals provides complementary information._
-_Dev Macro F1: 0.6346_
+**Reason:** Combining lexical and stylistic signals provides complementary information.
+**Macro F1:** 0.6346
 
-_Best-performing system. +0.1207 over TF-IDF baseline._
+**Best-performing system. +0.1207 over TF-IDF baseline.**
 
 ## Results
 
-_Quantitative Summary_
+**Quantitative Summary**
 
-| Model              | Features               | Macro F1 | Δ vs Baseline |
-| ------------------ | ---------------------- | ------------ | ------------- |
-| Baseline (TF-IDF)  | word uni/bi-grams      | 0.5139       | —             |
-| Stylometry-only    | style + pairwise diffs | 0.5647       | **+0.0508**   |
-| **Combined Model** | TF-IDF + stylometry    | **0.6346**   | **+0.1207**   |
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Features</th>
+      <th>Macro F1</th>
+      <th>Δ vs Baseline</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Baseline (TF-IDF)</td>
+      <td>word uni/bi-grams</td>
+      <td>0.5139</td>
+      <td>—</td>
+    </tr>
+    <tr>
+      <td>Stylometry-only</td>
+      <td>style + pairwise diffs</td>
+      <td>0.5647</td>
+      <td><strong>+0.0508</strong></td>
+    </tr>
+    <tr>
+      <td><strong>Combined Model</strong></td>
+      <td>TF-IDF + stylometry</td>
+      <td><strong>0.6346</strong></td>
+      <td><strong>+0.1207</strong></td>
+    </tr>
+  </tbody>
+</table>
 
-_Observations:_
 
-_* Sylometric signals are strong and meaningful._
-_* Combined model significantly outperforms either component alone._
-_* Improvements validate that both content and style contribute to authorship cues._
+**Observations:**
 
-_Robustness Analysis_
+* Sylometric signals are strong and meaningful.
+* Combined model significantly outperforms either component alone.
+* Improvements validate that both content and style contribute to authorship cues.
 
-_Running multiple random train/dev splits (80/20):
-_* Combined model variance ≈ ±0.01 Macro F1
-_* Stylometry-only variance slightly higher due to sensitivity to small spans
-_* TF-IDF baseline stable but weaker overall
+**Robustness Analysis**
+
+**Running multiple random train/dev splits (80/20):**
+* Combined model variance ≈ ±0.01 Macro F1
+* Stylometry-only variance slightly higher due to sensitivity to small spans
+* TF-IDF baseline stable but weaker overall
 
 ## Error analysis
 
-_a) Little stylistic or lexical signal for short spans._
-_b) High uppercase/punctuation disrupt style patterns._
-_c) Same-author but semantically distant texts._
-_d) Different authors writing similar content._
+a) Little stylistic or lexical signal for short spans.  
+b) High uppercase/punctuation disrupt style patterns.  
+c) Same-author but semantically distant texts.  
+d) Different authors writing similar content.  
 
 ## Reproducibility
 
@@ -178,18 +206,19 @@ _https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-
 
 ## Future Improvements
 
-_This project demonstrates that combining TF-IDF lexical modeling with digital stylometry yields strong, interpretable solutions to authorship verification. The final model achieves a Macro F1 of 0.6346, substantially outperforming either TF-IDF alone or stylometric features alone._
-_The workflow remains simple, reproducible, and aligned with classic methods in authorship analysis._
+This project demonstrates that combining TF-IDF lexical modeling with digital stylometry yields strong, interpretable solutions to authorship verification. The final model achieves a Macro F1 of 0.6346, substantially outperforming either TF-IDF alone or stylometric features alone.  
 
-_Other options to explore:_
+The workflow remains simple, reproducible, and aligned with classic methods in authorship analysis.
 
-_1) SBERT sentence embeddings for content-invariant semantic comparison._
-_While TF-IDF captures lexical similarity, it fails when the same author discusses different topics or different authors use similar vocabulary (e.g., genre conventions)_
-_This adds a semantic similarity dimension that TF-IDF lacks:_
-_* If the same author writes differently but with similar semantic tendencies (e.g., similar phrasing or rhetorical structure), SBERT will detect it._
-_* If two authors write about the same topic but in different styles, stylometry helps differentiate them._
+**Other options to explore:**
 
-_2) POS-Based Stylometry (Part-of-Speech Patterns)_
-_Syntactic preferences — not just surface word choices — are strong markers of author identity. Authors differ in how frequently they use various POS._
-_Possible implementation is tagging each span using a lightweight POS tagger like spaCy, computing POS distribution features and adding pairwise POS differences._
-_The same ColumnTransformer pipeline (Approach #3) can be utilized.This enhances your model’s ability to detect deeper syntactic habits or grammatical style._
+**1) SBERT sentence embeddings for content-invariant semantic comparison.**  
+While TF-IDF captures lexical similarity, it fails when the same author discusses different topics or different authors use similar vocabulary (e.g., genre conventions)  
+This adds a semantic similarity dimension that TF-IDF lacks:  
+* If the same author writes differently but with similar semantic tendencies (e.g., similar phrasing or rhetorical structure), SBERT will detect it.
+* If two authors write about the same topic but in different styles, stylometry helps differentiate them.
+
+**2) POS-Based Stylometry (Part-of-Speech Patterns)**
+* Syntactic preferences — not just surface word choices — are strong markers of author identity. Authors differ in how frequently they use various POS.  
+* Possible implementation is tagging each span using a lightweight POS tagger like spaCy, computing POS distribution features and adding pairwise POS differences.  
+* The same ColumnTransformer pipeline (Approach #3) can be utilized.This enhances your model’s ability to detect deeper syntactic habits or grammatical style.  
