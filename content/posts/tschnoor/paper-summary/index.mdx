@@ -1,0 +1,197 @@
+---
+title: "A neural speech decoding framework leveraging deep learning and speech synthesis"
+slug: "/tschnoor/paper-summary"
+date: 2025-11-16
+author: Tyler Schnoor 
+description: "My incredible paper summary ..."
+tags:
+  - paper summary
+---
+
+
+## Citation
+
+Chen, X., Wang, R., Khalilian-Gourtani, A. et al. A neural speech decoding framework leveraging deep learning and speech synthesis. Nat Mach Intell 6, 467–480 (2024). https://doi.org/10.1038/s42256-024-00824-8
+
+<table>
+  <caption>
+    Citation summary
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <td><b>Paper</b></td>
+    <td>A neural speech decoding framework leveraging deep learning and speech synthesis</td>
+  </tr>
+  <tr>
+    <td><b>Authors</b></td>
+    <td>Xupeng Chen, Ran Wang, Amirhossein Khalilian-Gourtani, Leyao Yu, Patricia Dugan, Daniel Friedman, Werner Doyle, Orrin Devinsky, Yao Wang & Adeen Flinker</td>
+  </tr>
+  <tr>
+    <td><b>Year published</b></td>
+    <td>2024</td>
+  </tr>
+  <tr>
+    <td><b>Venue</b></td>
+    <td>Nature Machine Intelligence</td>
+  </tr>
+  <tr>
+    <td><b>Paper URL</b></td>
+    <td>https://doi.org/10.1038/s42256-024-00824-8</td>
+  </tr>
+  <tr>
+    <td><b>Code URL</b></td>
+    <td>https://github.com/flinkerlab/neural_speech_decoding</td>
+  </tr>
+</tbody>
+</table>
+
+## Description
+
+The aim of this paper is to restore real time speech communication in patients with a neural prosthesis that decodes electrocorticography (ECoG) signals. Specifically, the methods proposed are suitable for patients who have a disorder that affects speech motor control but leaves the language centers of the brain intact. The methodology proposed by Chen et al. uses electrical signals collected from patients undergoing brain surgery. Patients are asked to repeat words while cortical activity is recorded. The authors test multiple architectures for decoding these signals into parameters for a speech synthesizer, finding the ResNet architecture to perform best. They process the high gamma component of the ECoG signals into windows, but only include current and previous context to inform the network's predictions. This is done to emulate a practical, real time application where it is impossible to use future information to make a prediction. The ECoG decoder network outputs parameters for a speech synthesizer, which is designed to function similarly to a vocoder (i.e., source and filter components are separated and then recombined to produce a pressure waveform). The methodology used in this study is advantageous and novel in the following ways:
+1. It uses causal operations which can be applied to create real time speech restoration neural prostheses
+2. It applies the ResNet architecture (which is commonly used for image processing) to ECoG signals for the purpose of decoding to speech parameters
+3. It has the model predict speech synthesis parameters that preserve talker identity and other extralinguistic characteristics
+4. It was able to successfully decode speech parameters from both left and right hemisphere information
+
+## Motivation
+
+The first reason I selected this paper is because it is relevant to my research program. In my opinion, it represents a gold standard in the area, providing a method for real-time speech restoration that performs well and is relatively interpretable compared to other neural methods.
+
+I also chose this paper because it is relevant to my course project proposal. The data that I plan to use in my project was collected by the cited authors for use in this study. They also describe the effectiveness of several architectures, the best-performing of which I plan to use in my project. Thus, I chose to summarize this paper in order to gain more exposure to the authors' work.
+
+Finally, this paper is relevant to the field of statistical natural language processing. It was published recently, uses network architectures that were developed relatively recently, and proposes a novel approach to a complex and interesting task.
+
+## LLM
+
+<table>
+  <caption>
+    LLM model summary
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>LLM model</b></th>
+    <td>???</td>
+  </tr>
+  <tr>
+    <th><b>LLM model version</b></th>
+    <td>???</td>
+  </tr>
+  <tr>
+    <th><b>Model/service URL</b></th>
+    <td>???</td>
+  </tr>
+  <tr>
+    <th><b>Why this model?</b></th>
+    <td>???</td>
+  </tr>
+</tbody>
+</table>
+
+
+#### Description (LLM)
+
+_In the LLM's words, what is this paper about?_
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### What are the authors proposing?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### What is the motivation for the work?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### What is the approach or innovation?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### What are the results and how do they compare with competing approaches?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### Is the comparison fair?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### What are the takeaways according to the authors?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### What are the takeaways according to you?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### Would you use this?  If so, how/where would you use this?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### What problems remain and what are the next steps?
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+### Experience using the LLM
+
+_Describe your process for using the LLM.  How did the LLM perform?_
+ 
+#### Errors and limitations of the LLM 
+
+_Where did it fall short or make mistakes?_

@@ -1,0 +1,108 @@
+---
+title: "Course project: Comparing Retrieval Strategies for Multi-hop Question Answering on 2WikiMultihopQA"
+slug: "/23721598/course-project"
+date: 2025-11-15
+author: Yanyan Dong
+description: "Project proposal for exploring statistical and neural retrieval methods for multi-hop QA."
+tags:
+  - course project
+---
+
+<table>
+  <caption>
+    Course Project Info
+  </caption>
+<tbody>
+  <tr>
+    <th>Code Repository URL</th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-yanyan</td>
+  </tr>
+  <tr>
+    <th>Demo URL (optional)</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Team name</th>
+    <td>yanyan</td>
+  </tr>
+</tbody>
+</table>
+
+
+## Project description
+
+### Overview
+This project focuses on the multi-hop question answering task using the 2WikiMultilingualQA dataset (https://huggingface.co/datasets/xanhho/2WikiMultihopQA). The goal is to analyze how different retrieval strategies influence downstream QA performance. Multi-hop QA requires combining information from multiple supporting documents, which makes retrieval a key component of the pipeline.
+
+To align with the “statistical NLP” theme of the course, the project includes both traditional and modern retrieval approaches. I will compare the following three methods:
+
+1. TF-IDF retrieval (statistical baseline)  
+   A classic bag-of-words approach using cosine similarity over TF-IDF representations.
+
+2. Dense retrieval using Sentence Transformers  
+   A neural embedding-based retriever using a small pre-trained encoder (e.g., `multi-qa-MiniLM-L6-cos-v1`) with vector similarity search.
+
+3. Decomposition-based retrieval (simple multi-hop)  
+   A small open-source LLM will decompose the question into sub-questions. Retrieval will be performed for each sub-question separately, and the results will be merged before passing to the QA model.
+
+A lightweight LLM-based QA model will serve as the reader.
+
+### Motivation
+Retrieval quality is one of the main bottlenecks in multi-hop QA. While TF-IDF remains a strong baseline, dense retrieval and question decomposition may provide more relevant context for multi-step reasoning and question answering. This comparison will help clarify which retrieval strategies most effectively support multi-hop reasoning.
+
+### Timeline
+11/17 - 11/21
+- Preprocess the dataset
+- Implement baseline retrieval (TF-IDF + dense embeddings)
+
+11/22 - 11/28 
+- Develop multi-hop question decomposition and retrieval pipeline  
+- Integrate retrieval with a lightweight QA reader model
+
+11/29 – 12/3
+- Run full experiments and evaluate all retrieval settings  
+- Collect metrics and retrieval statistics
+
+12/4 - 12/6
+- Perform error analysis and finalize results  
+- Write reproducibility instructions and prepare the final summary
+
+12/7
+- Submit final pull request
+
+## Summary of individual contributions
+<table>
+  <thead>
+  <tr>
+    <th>Team member</th>
+    <th>Role/contributions</th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>Yanyan Dong</b></th>
+    <td>Core contributor</td>
+  </tr>
+</tbody>
+</table>
+
+---
+
+(To be completed in final submission.)
+
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+## Future improvements
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_

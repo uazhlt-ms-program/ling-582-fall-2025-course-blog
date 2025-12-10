@@ -1,0 +1,86 @@
+---
+title: "My approach to the class-wide shared task"
+slug: "/23721598/class-competition"
+date: 2025-11-15
+author: Yanyan Dong
+description: "My approach can be summarized as encoding both text segments with sentence embeddings, building simple contrastive features, and training a LightGBM classifier for prediction."
+tags:
+  - class competition
+---
+
+
+<table>
+  <caption>
+    Class Competition Info
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>Leaderboard score</b></th>
+    <td>0.52939</td>
+  </tr>
+  <tr>
+    <th><b>Leaderboard team name</b></th>
+    <td>Yanyan Dong</td>
+  </tr>
+  <tr>
+    <th><b>Kaggle username</b></th>
+    <td>yanyandong17</td>
+  </tr>
+  <tr>
+    <th><b>Code Repository URL</b></th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-yanyan-dong</td>
+  </tr>
+</tbody>
+</table>
+
+## Description of my preliminary approach
+My current approach uses sentence-level embeddings and a gradient boosting classifier.
+- First of all, I split each input pair on the [SNIPPET] delimiter to obtain two separate text segments.
+- Encode both segments using the all-mpnet-base-v2 SentenceTransformer model.
+- I construct contrastive features, including absolute difference, elementwise product, and cosine similarity between embeddings.
+- Then I train a LightGBM binary classifier using these features.
+
+## Planned improvements
+- Try to add some features.
+- Experimenting with additional models.
+
+---
+
+(To be completed in final submission.)
+
+
+## Task summary
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
+
+## Exploratory data analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+
+## Approach
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
+
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+
+## Future Improvements
+
+_Describe how you might best improve your approach_
