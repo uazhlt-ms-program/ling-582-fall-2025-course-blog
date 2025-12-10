@@ -3,7 +3,7 @@ title: "Lexical Semantic Change"
 slug: "/joshdunlapc/course-project"
 date: 2025-11-17
 author: Josh Dunlap
-description: "My submission for the course project will be a comparison of static and dynamic embeddings for a specific measurement of cultural shifts in the concept of utopia"
+description: "My submission for the course project is an assessment of static embeddings on a novel dataset for analyzing cultural shifts in the concept of utopia over time"
 tags:
   - course project
 ---
@@ -18,10 +18,6 @@ tags:
     <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-lexical-semantic-change-researchers</td>
   </tr>
   <tr>
-    <th>Demo URL (optional)</th>
-    <td></td>
-  </tr>
-  <tr>
     <th>Team name</th>
     <td>Lexical Semantic Change Researchers</td>
   </tr>
@@ -31,69 +27,163 @@ tags:
 
 ## Project description
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility).  Use subsections to organize components of the description._
-### Broader Context
-My higher level research goals are in the sub-field of Natural Language Processing and Computational Linguistics called “Lexical Semantic Change,” “Semantic Change Detection,” or “Diachronic Linguistics.”  The idea is studying how language use changes over time. This happens both as a natural consequence of the fact that languages are always evolving, but also for social/cultural/technological reasons (which I'm more interested in). 
-I'm working on the early stages of a research project right now where I'm trying to demonstrate that in the early 20th century the cultural perception of the idea of "utopia" was that it was something very futuristic, but my suspicion is that this has changed over time and now "utopia" is a pastoral, agrarian—even backward-looking—concept.
-I'm pursuing this from a number of different angles: literary analysis of utopian fiction from different times, social theory about the shifting cultural perception of utopianism, but also NLP! One thing I know I'll need is a way to analyze “utopia” and related concepts at distinct points in time. In order to ask, for example: “what are the differences between a word embedding for the word ‘utopia’ as it was used in the 1960s, as opposed to how it was used in the 2010s?”
-I had been focused on [this survey paper](https://arxiv.org/abs/1806.03537) from 2019 that explored how people had been using static word embedding models to explore language change over time. I had been having a hard time figuring out where to follow this thread, but it turns out (predictably) that a lot of the research moved on to using LLMs to explore language change over time. I found [another survey paper](https://dl.acm.org/doi/pdf/10.1145/3672393) from 2024 that seems to sum up a lot of the advances in the field in the intervening 5 years.
-A question I’m left with is: if perhaps *the* major benefit to using an LLM is to understand all the different ways that one word can hold multiple meanings (colexification: homonymy, polysemy) and to be able to parse these meanings out mathematically, *is this benefit relevant to my current project?* By and large there’s just the one meaning to utopia, at least compared to some of the examples used in that survey (e.g. “rock” like a stone vs “rock” like rock n roll). 
-### Task
 
-Compare the findings and suitability of employing static embeddings (as described in [these](https://arxiv.org/pdf/1605.09096) [two](https://aclanthology.org/D16-1229/) papers) for exploring diachronic change of “utopia” in contrast with dynamic embeddings (as described in [this paper](https://arxiv.org/pdf/2202.03612)).
+### Motivation/Broader Context:
 
-In many ways, then, the task here becomes a qualitative comparison of what each methodological approach—static embeddings on one hand, and dynamic or contextual embeddings on the other—actually affords for this specific research question about utopia. Because the word itself does not exhibit strong polysemy or colexification, the usual advertised advantage of LLM-based methods (that they can disentangle multiple distinct senses of a word) may not be the central factor. Instead, the comparison becomes more about their relative strengths in capturing subtle shifts in collocational patterns, connotations, and cultural framing. Static embeddings can provide a clear, interpretable picture of neighborhood changes across decades; dynamic embeddings might give more detailed insight into rhetorical or thematic patterns surrounding the word across individual contexts. The point of this proposal is not to decide in advance which is “better,” but to comparatively evaluate what each approach can or cannot reveal about a concept like utopia whose cultural meaning may shift even if its dictionary sense remains stable.
-Datasets. The ideal dataset for this project would be the Corpus of Historical American English (COHA), since it is explicitly designed for diachronic linguistic analysis, is balanced across genres, and has reliable decade-level metadata. In the event that I might not be able to access COHA, I intend to use the ProQuest Historical Newspapers Collections to which I have access through the U of A library—specifically The New York Times (1851–1936). This set is not as balanced as COHA, and it doesn't cover the decades I’m most interested in, but it have the advantage of rich cultural commentary in the format I hope to eventually work with (historical newspaper data). Finally, if neither of those proves feasible, I have a smaller, topic-specific, timestamped corpus downloaded locally that I can use as a fallback. It would limit the scope of the conclusions I can draw, but it would still allow me to test the two embedding approaches in a controlled way.
+My higher level research goals are in the sub-field of Natural Language Processing and Computational Linguistics called “Lexical Semantic Change,” “Semantic Change Detection,” or “Diachronic Linguistics.” The idea is studying how language use changes over time. This happens both as a natural consequence of the fact that languages are always evolving, but also for social/cultural/technological reasons (which I'm more interested in). I'm working on the early stages of a research project right now where I'm trying to demonstrate that in the early 20th century the cultural perception of the idea of "utopia" was that it was something very futuristic, but my suspicion is that this has changed over time and now "utopia" is a pastoral, agrarian—even backward-looking—concept. I'm pursuing this from a number of different angles: literary analysis of utopian fiction from different times, social theory about the shifting cultural perception of utopianism, but also through Natural Language Processing. One thing I know I'll need is a way to analyze “utopia” and related concepts at distinct points in time. In order to ask, for example: “what are the differences between a word embedding for the word ‘utopia’ as it was used in the 1960s, as opposed to how it was used in the 2010s?”
 
-### Timeline.
-Week of 11/17/2025: Confirm dataset access (COHA, ProQuest, or fallback) and prepare texts; set up basic preprocessing and time-slicing.
+### Overview of the project:
 
+I originally described my task for this project as to “compare the findings and suitability of employing static embeddings for exploring diachronic change of ‘utopia’ in contrast with dynamic embeddings.” From working on this project, I have shifted focus to simply analyzing the findings and suitability of using static word embeddings for the task, while leaving contextual embeddings out. At some level, this is simply due to overly ambitious scoping on my part (I spent a lot of time preparing my dataset, as I will detail below), and I still hope to compare with contextual embeddings at some point. 
+That said, it was also notable to me that all the references I could find in the academic literature to doing this historical research/social analysis quite specifically referenced the advantages of static embeddings. For example, Bonafilia et al., in their analysis of related work, claim, “Of note is that all these [diachronic social analysis] papers opt to use global word embeddings instead of contextual word embeddings. While global word embeddings associate a single embedding vector with a word, contextual word embeddings assign a different vector for the same word depending on the sentence in which it appears. While this has the advantage of being able to take the context of the specific occurrence of a word into account, it does not provide a way to represent the position of a single word in the embedding space. That is, when we care about the global shift of words (as we do here), we need a global and not a contextual embedding. _As such, most authors in the social sciences, and we here as well, opt to use global embeddings._” (emphasis added) (Bonafilia et al., ACL 2023). 
 
-Week of 11/24/2025: Run initial static embedding experiments across chosen time periods; generate preliminary neighbor lists and observe coarse semantic shifts.
+### Data:
 
+The dataset that I ended up using for this project is the ProQuest Historical Newspapers Collections to which I have access through the U of A library—specifically The New York Times (1851–1936). I had originally intended to use the Corpus of Historical American English (COHA), since it is explicitly designed for diachronic linguistic analysis, is balanced across genres, and has reliable decade-level metadata, but, unfortunately, we didn’t have full paid access through the U of A library. While this was a factor in my decision not to also pursue a comparison of my project with contextual embeddings (the model I was going to use, HistBert, was specifically designed to be plug-and-play with COHA), there were meaningful benefits to using the NYT dataset as well. 
 
-Week of 12/1/2025: Run dynamic/LLM-based embedding or contextual clustering experiments; compare findings qualitatively with the static results.
+I got valuable experience preparing a dataset to be used for LSC research, a task I expect to repeat during my studies. The data were delivered as a giant list of unsorted, twenty-five thousand article apiece XML files, 5.6 million articles in total. In the preparation phases, I transformed these into decade size parquet files and then batch preprocessed them before training word2vec models on decade-by-decade data.
 
-Week of 12/7/2025 (deadline week): Synthesize results, write up comparison of methods, and finalize the argument about the feasibility of each approach for studying diachronic meaning change of “utopia.”
+To my knowledge, in direct contrast to COHA, no one has ever used this dataset for LSC research before. While there are some issues with the data quality (see Error Analysis section), my ultimate hope will be to make both my models and my approach public so that other researchers can pursue projects on this dataset.
+
+### Description of its novelty/discussion of related work:
+
+In addition to the novelty of preparing this NYT dataset for LSC research as just described, I would note the relative dearth of LSC projects focusing on social and cultural questions at all. While many social science researchers have employed NLP techniques, including static word embeddings, to investigate social and cultural questions, relatively few researchers (at least to my knowledge) have incorporated a diachronic analysis as I do here, demonstrating the shifting semantic map of language over time. Where this work does appear, it tends to be limited to trying to analyze the shifting discourse of a relatively small dataset, as in Card et al.’s analysis of the changing framing of immigration over time in congressional speeches (2022), or the diachronic component of the research tends to be relatively minor as in Kozlowski et al.’s study of identifiable cultural dimensions in the static embedding vector space (2018).
+
+What may be truly novel, though unfortunately I didn’t have the time to implement it in this course, will be to use contextual embeddings for this type of research. As noted in the survey paper I chose for my paper summary, “So far, LSC through contextualized embeddings is still a theoretical problem not yet integrated in real application scenarios such as historical information retrieval, lexicography, linguistic research, or social-analysis.” After exploring those few examples that this paper does cite (Bonafilia et al., ACL 2023), (Menini et al., LChange 2022), (Paccosi et al., LChange 2023),  I found that all of these papers utilized static embeddings. This may mean that, at least to the knowledge of the authors of this survey paper, no one is yet using these techniques for social analysis, which is what I would classify this project as attempting to do through its study of the shifting historical connotations of the word utopia.
+
 
 ## Summary of individual contributions
-<table>
-  <thead>
-  <tr>
-    <th>Team member</th>
-    <th>Role/contributions</th>
-  </tr>
-  </thead>
-<tbody>
-  <tr>
-    <th><b>???</b></th>
-    <td>???</td>
-  </tr>
-  <tr>
-    <th><b>???</b></th>
-    <td>???</td>
-  </tr>
-  <tr>
-    <th><b>???</b></th>
-    <td>???</td>
-  </tr>
-</tbody>
-</table>
+
+I was the sole member of this team, so everything in the project was my contribution :)
+
+## Proposal for future improvements
+
+There are a few obvious limitations/avenues for improvement I’ve already noted. I incorrectly scoped the project size for this timeframe, and ideally I would like to add contextual embeddings trained on the same dataset. I also ran into an issue with pyarrow array capacities, and haven’t (as of 12/10/25) completed the training of the models for the 1890s, 1900s, 1910s, and 1920s. 
+
+One thought about making this analysis more robust would be to recreate the decade-length static embedding models, but split at the 5 year mark rather than at the start of a decade (e.g. 1855-1864 rather than 1850-1859), and then compare the trends over time from each set of models. My reasoning is that the decade mark is actually rather arbitrary. What I’m interested in is how the discourse has shifted over time, and it would be best to make sure that by dividing it up a little differently I don’t produce vastly different results.
+
+Perhaps the most ambitious version of an avenue for future improvement that I could describe has to do with making these models public, easily accessible, and explorable. My immediate project is relatively limited in scope; I am only really looking for cultural shifts related to a small set of related concepts about utopianism. While I have broader research goals that these models may be useful for (exploring, for example, the measurable shifts in language use after important global political moments, inspired by Wallerstein’s World Systems Theory), one could imagine that there may be all sorts of research related to “historical information retrieval, lexicography, linguistic research, or social-analysis” that I couldn’t possibly anticipate that could make use of these models for diachronic analysis. The significant shortcoming to this ambition, however, is a concern about the quality of the data that I will address in the error analysis section.
 
 
 ## Results
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
+## Robustness checks:
+As a first step after training the models, I wanted to demonstrate that they did, in fact, encode semantic information. I started with a few famous examples, first proving that the models could solve gender analogies by taking the vector for “father,” subtracting the vector for “man,” and adding the vector for “woman,” and then asking for the closest vector to that position. I found that in all the models, “mother” was either the closest (or functionally tied for the closest) vector. 
+
+Next, having demonstrated that simple semantic information was encoded, I sought to also show that historical developments would be reflected in the decade-by-decade encodings. Using the same analogy test, but for geographic information, I took the vector for “France,” subtracted the vector for “Paris,” and added the vector for “Berlin,” functionally asking “what country is Berlin the capital of?” Notably, however, Germany was only a proposed national concept, not a nation, until German unification in 1871. Here are the answers to this analogy over time:
+
+=== Results for 1850s ===
+
+Geography analogy:
+
+  prussia: 0.614
+
+  germany: 0.556
+
+  russia: 0.523
+
+
+=== Results for 1860s ===
+
+Geography analogy:
+
+  prussia: 0.711
+
+  austria: 0.678
+
+  russia: 0.648
+
+
+=== Results for 1870s ===
+
+Geography analogy:
+
+  germany: 0.726
+
+  austria: 0.664
+
+  prussia: 0.664
+
+
+=== Results for 1880s ===
+
+Geography analogy:
+
+  germany: 0.757
+
+  austria: 0.648
+
+  gormany: 0.643
+
+
+Until German unification, Prussia is listed as the top result, which is historically accurate: Berlin was the capital of Prussia until the beginning of the German Empire in 1871. In the 1870s we still see Prussia in the top 3 results, but by the 1880s it’s not even in the top 20. The analogy example is responsive to historical developments in this diachronic approach.
+
+## Analysis of shifts in “utopia”:
+
+From here, I proceeded to my particular area of interest, the shifting associations with the concept of utopia over time. This dataset, unfortunately, does not include the decades I’m most interested in (1940s-2000s), but plenty of interesting information related to my research question can still be gleaned from these models.
+
+First, because I am particularly interested in the temporal orientation of utopia (is it seen as a forward-looking or backward-looking ideal), I couldn’t help but note that the adjective form, “utopian,” had the word “visionary” as one of its closest 7 neighbors in every model (see plots folder in github repo). 
+
+Also notable (though perhaps not directly bearing on my temporal orientation question) is the change in nearest neighbors to the word “utopia” from the late 1800s to the 1930s. In both the 1870s and 1880s, the top 2 nearest neighbors are “Elysia,” in reference to the paradisaical afterlife from Greek mythology, and “Alsatia,” a term I wasn’t familiar with before, but that I learned was historical slang in reference to a past sanctuary area in London that was consequently seen as a refuge for criminals. What stands out to me about both of these examples is that they are rather fanciful, and seem to suggest that it was out of the question that utopian ideas would have a meaningful impact on contemporary political thinking. In contrast, we can look at the 10 nearest neighbors to “utopia” in the 1930s:
+
+1930s — Most similar words to 'utopia':
+
+  utopian: 0.4780
+
+  idealists: 0.4384
+
+  materialistic: 0.4285
+
+  evolutionary: 0.4280
+
+  reality: 0.4277
+
+  socialism: 0.4229
+
+  paradoxes: 0.4224
+
+  collectivist: 0.4199
+
+  superman: 0.4193
+
+  democracy: 0.4190
+
+At this time, after the Russian Revolution of 1917, and stirrings of anti-capitalist revolution in Spain throughout the 1930s, we can see that the idea of utopia has become tied to ongoing political movements. 
+
 
 ## Error analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
+What follows is largely an error analysis related to data quality. It contains examples of issues with the data, explanations of various attempts I made to improve data quality, and an assessment of the degree to which data quality was or was not improved through these efforts.
+
+To start, here’s a brief unprocessed excerpt from a classified ad from 1871:
+
+BY ORDER Op"h$E" > '               P          NEUR MORRIS , DECEASIrD,                 120 LOTS, COMPRISING THE TWb ENTIRE  BOUNDED BY CENTRAL PARg, (3T. -AP., ?TH-AV. BOULEVARD, , , AND 112TH 8.                 SEVENTY PER CENT. I,IAY REMAIN ON BOND AND 1. 
+
+Obviously, there are a number of elements that pose challenges in this excerpt that simple text processing approaches may not solve. While deleting extra white space, lowercasing, and tokenization will do some work to make this text more intelligible, a number of errors will remain, many of them attributable to mistakes made by the Optical Character Recognition (OCR) software used to digitize these texts. “DECEASIrD” is clearly supposed to be “deceased,” “TWb” should read “two,” and “I,IAY” and “Op"h$E" don’t clearly indicate anything at all.
+
+Options I considered to rectify this issue:
+
+Exclude all classifieds. After a brief exploration of the data, I found that classifieds appeared to be more prone to OCR errors (perhaps due to frequently being in all caps), so I considered pruning them all from the dataset. After a test on 25,000 files, however, I found that excluding classifieds did not have a meaningful impact on the percentage of words found in the NLTK English dictionary. This led me to:
+
+Exclude all tokens not found in the NLTK English dictionary. A brief test on some common proper nouns (e.g. Paris) convinced me not to pursue this approach for fear of losing lots of important historical information.
+
+I landed on using a relatively high mincount (15) in the training of the static word embeddings. My reasoning was that this would act to exclude all but the most common OCR errors, and I ran searches for example OCR errors on an entire decades worth of text to confirm this intuition.
+
+After building the models, and checking for the terms in the vocabulary with only 15 occurrences, it is clear that quite a large number of OCR error words still exist (e.g. from the 1850s vocabulary: (dehart, 15 wilfon, 15 slils, 15 paval, 15 ybo, 15, some of these could be proper nouns, though likely they are all errors), but, as noted, in the results section, these models still encode semantic relationships as expected.
+
 
 ## Reproducibility
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility)_
-_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+I opted to use micromamba in order to create a reproducible environment. Follow the readme at the code repo for more detailed instructions. 
 
-## Future improvements
+## Citations
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_
+Bonafilia, Brian, Bastiaan Bruinsma, Denitsa Saynova, and Moa Johansson. 2023. Sudden Semantic Shifts in Swedish NATO discourse. In Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (Volume 4: Student Research Workshop), pages 184–193, Toronto, Canada. Association for Computational Linguistics.
+
+Card, D., S. Chang, C. Becker, J. Mendelsohn, R. Voigt, L. Boustan, R. Abramitzky, & D. Jurafsky. 2022. Computational analysis of 140 years of US political speeches reveals more positive but increasingly polarized framing of immigration. Proc. Natl. Acad. Sci. U.S.A., 119 (31) e2120510119. https://doi.org/10.1073/pnas.2120510119.
+
+Kozlowski, Austin C., Matt Taddy, and James A. Evans. 2018. The Geometry of Culture: Analyzing Meaning through Word Embeddings. arXiv:1803.09288. Preprint, arXiv. https://doi.org/10.48550/arXiv.1803.09288.
+
+Menini, Stefano, Teresa Paccosi, Sara Tonelli, Marieke Van Erp, Inger Leemans, Pasquale Lisena, Raphael Troncy, William Tullett, Ali Hürriyetoğlu, Ger Dijkstra, Femke Gordijn, Elias Jürgens, Josephine Koopman, Aron Ouwerkerk, Sanne Steen, Inna Novalija, Janez Brank, Dunja Mladenic, and Anja Zidar. 2022. A Multilingual Benchmark to Capture Olfactory Situations over Time. In Proceedings of the 3rd Workshop on Computational Approaches to Historical Language Change, pages 1–10, Dublin, Ireland. Association for Computational Linguistics.
+
+Paccosi, Teresa, Stefano Menini, Elisa Leonardelli, Ilaria Barzon, and Sara Tonelli. 2023. Scent and Sensibility: Perception Shifts in the Olfactory Domain. In Proceedings of the 4th Workshop on Computational Approaches to Historical Language Change, pages 143–152, Singapore. Association for Computational Linguistics.
