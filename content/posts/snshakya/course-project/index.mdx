@@ -255,15 +255,15 @@ Example (LLaMA, 192 cap):
 
 These mistakes reflect true semantic grounding gaps, not lack of reasoning length. The reasoning states " आधा” as 0.5 but the final answer is 2.5".
 
-3. Arithmetic Drift (Common in Across All Caps)
+3. Numerical/Reasoning Drift or Misleading Rationales
 
-The models tend to produce correct multi-step reasoning structures but arrive at wrong intermediate arithmetic values. The JSON files show this pattern even at high caps (512–768 tokens):
-- correct decomposition of word problem
-- correct symbolic transformation
-- incorrect multiplication, division, or addition in one step
-- final answer deviates from gold even though logic is correct
+Models often produce CoT explanations that look correct but are unreliable. Two patterns appear frequently:
 
-Here, the chain is structurally valid but numerically unreliable.
+- Numerical drift: The model decomposes the problem correctly and sets up the right operations, but makes a wrong arithmetic step (e.g., incorrect multiplication or addition), causing the final answer to deviate despite a structurally valid chain.
+
+- Reasoning drift and misleading rationales: The model solves the wrong problem or introduces unstated assumptions. Sometimes the final answer is correct, but the rationale is incoherent or unrelated to the actual question, giving a misleading impression of correctness.
+
+Both patterns show that CoT rationales can appear fluent and logical while being mathematically or conceptually unfaithful.
 
 Example:
 
@@ -306,7 +306,7 @@ Covered in our code repository's README.
 
 https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-shreya-vovwe
 
-## Future improvements
+## Limitations and Future improvements
 
 Although Minimal-CoT proves both effective and efficient for Nepali GSM8K, several focused improvements can strengthen multilingual reasoning performance.
 
