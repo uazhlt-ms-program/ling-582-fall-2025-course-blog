@@ -22,7 +22,7 @@ tags:
 <tbody>
   <tr>
     <th><b>Leaderboard score</b></th>
-    <td>0.48986</td>
+    <td>0.53273</td>
   </tr>
   <tr>
     <th><b>Leaderboard team name</b></th>
@@ -191,3 +191,7 @@ Steps for reproducing my results can be found in my code repository's README [he
 ## Future Improvements
 
 _Describe how you might best improve your approach_
+
+Although there are advantages to the approach I took, I do not think that it was optimal in terms of achieving a high F1 score on the test set. I was successful in extracting some useful features, but a more complex architecture would be better able to capture the complexity of the task (and handle a high-dimensional representation of the text snippets). If I had another opportunity to participate, I would spend less time engineering features and more time creating a neural network classifier. I could potentially use raw SBERT embeddings as the input representation and a separate transformer network for classification. I wanted to try fine-tuning an existing classifier as well, but ran out of time.
+
+If I were to maintain my current simple architecture, I could still improve. I would engineer additional features and do a more intensive analysis of the contribution of each to model performance. Additionally I would investigate data augmentation techniques that would allow me to take full advantage of the given training data.

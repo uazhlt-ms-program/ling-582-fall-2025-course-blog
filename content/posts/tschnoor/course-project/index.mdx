@@ -33,19 +33,37 @@ tags:
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility).  Use subsections to organize components of the description._
 
-## Background
-### Related work and the state of the art
-The gold standard of speech restoration is real-time decoding and reconstruction so that the one can use their speech neuroprosthesis to communicate in a naturalistic way. The design of models and algorithms that can do this is made more difficult by the fact that little is known abou the representation of speech primitives in the brain. How does the brain use motor programs to encode discrete linguistic information into a continuous acoustic signal?
-### Challenges of the task
-
 ## Present study
 ### Overview
-As stated in the goals above, this project aims to make a neural network electrocorticography (ECoG) signal decoder that classifies vowels. ECoG signals are obtained by implanting hundreds of small electrodes deep within the brain to record electrical activity. This methodology has the potential to be useful in a variety of practical applications, particularly as a brain-computer interface. One area of interest is in restoring speech communication by decoding ECoG signals and using the decoded features to reconstruct an acoustic signal. Artificial neural networks are the current standard for ECoG decoding.
-### Novelty
+This project aims to make a neural network electrocorticography (ECoG) formant decoder. ECoG signals are obtained by implanting hundreds of small electrodes deep within the brain to record electrical activity. This methodology has the potential to be useful in a variety of practical applications, particularly as a brain-computer interface. One area of interest is in restoring speech communication by decoding ECoG signals and using the decoded features to reconstruct an acoustic signal. Artificial neural networks are the current standard for ECoG decoding.
 
-### Motivation
+The specific aim of the project is to create a neural network ECoG decoder that decodes ECoG -> normalized formant frequencies. For example, the model might take a window of 32 samples of 15 x 15 electrode readings as input and its task would be to predict the frequencies of the first two formants at the end of the window. I aim to use a modified version of the [ResNet](https://openaccess.thecvf.com/content_cvpr_2016/html/He_Deep_Residual_Learning_CVPR_2016_paper.html) architecture for the decoder, heavily inspired by the study described below. The intention behind this system is to use it in conjunction with an acoustic waveguide model of the vocal tract to simulate speech. The end result would be a more interpretable pipeline from cortical signals to speech that could be used to model the entire speech production process.
 
-## Archive (from draft assignment)
+<div style="display:flex; align-items:center; flex-direction: column">
+  <img src="formants.png" style="width:50%; margin-left: auto; margin-right: auto;"></img>
+  <p>The formants are the dark bands in this image, called a spectrogram.</p>
+</div>
+
+### Related work and the state of the art
+The gold standard of speech restoration is real-time decoding and reconstruction so that a speech neuroprosthesis can be used to communicate in a naturalistic way. The data used in this project come from a study by [Chen et al. (2024)](https://doi.org/10.1038/s42256-024-00824-8) that represents one of the most recent innovations in the field. The data are constituted by ECoG signals that were recorded while participants spoke sentences aloud. The study aimed to create a real-time speech neuroprosthesis that could restore speech communication for people with severe motor impairments. Their methodology involved training two neural networks with different purposes. The first was an ECoG -> Speech features decoder. The next network was a speech auto encoder that reconstructed an acoustic signal from the decoded speech features. The present project focuses on the first of these two networks, though I certainly grew to appreciate the necessity of the second (see section "Challenges of the task"). 
+
+### Novelty and motivation
+
+This project uses interpretable acoustic features as the speech representation. This is in contrast to most approaches, which use abstract features or features which are only loosely related to certain qualities of spoken language. An additional novelty associated with this project is the intention to use decoded features with an acoustic waveguide model. A full description of the acoustic waveguide algorithm is outside the scope of this blog post, but the model can be thought of as a physics-based model of speech. It can synthesize intelligible speech, much like other models can, but it is also a _simulation_ of speech, as it calculates the propagation of pressure waves through a digital vocal tract. The model is therefore useful for doing science because its parameters and calculations are interpretable analogues to natural speech production.
+
+Such a model also has its drawbacks. For one, it is only useful if it can be controlled. Choosing the right parameters to emulate a speech recording is a labor-intensive and finicky task. The vision with this project is to decode one of the parameters for the model automatically from cortical activity so that the speech chain (from brain to acoustics) can be studied.
+
+There would also be significant practical applications for such a pipeline. As in the previously described paper, an ECoG decoder + speech synthesizer pairing could provide real-time speech restoration to those with a speech impairment. Using a waveguide model would also provide significant benefits here over other synthesis methods. For example, if the BCI user is young and still growing but has already lost the ability to speak naturally, the model parameters could be adjusted to scale the size of the vocal tract with age, producing a deeper, more age appropriate fundamental frequency. Achieving the same effect with a different system may require artificially lowering the pitch of training data and then retraining networks, which would require far more work and likely yield a less natural result.
+
+### Challenges of the task
+
+This is a highly challenging task that is unlikely to be performant in a condensed form like this project. The first challenge is that the task involves the extraction of interpretable but low-dimensional information from high-dimensional cortical signals. The fear is that the desired information could get "lost" in all of the input data.
+
+Neurosignal decoding is an inherently difficult task because it is noisy. There is no guarantee that a particular electrode channel or region of electrode channels correspond to any particular feature. Signals can be complicated by a distracted participant, a participant error, faulty electrode, or interference from other equipment.
+
+Perhaps the most significant challenge (and it is one that I didn't know about until I had started this project) is that the formant tracks provided by the authors are extremely innacurate. At first I assumed that, because the authors experienced such success with their system, the formant tracks--which are used as input parameters to their own speech synthesizer--must be quite accurate. However, I failed to account for just how much the network could compensate for formant tracking errors. The "black box" nature of their system means that it is difficult to say how much information their synthesizer even gleans from the formant parameters. It may simply rely on the other, more accurate parameters to synthesize speech. The beauty of the two-network system is that the speech synthesis network can learn to compensate for inconsistencies in provided parameters. It accomplishes this by comparing its output to the natural recording directly, through Short-Time Objective Intelligibility loss.
+
+<!-- ## Archive (from draft assignment)
 _*Note that some aspects of the project changed since I wrote this._
 ### Goals
 <i>Subsequent goals can only be achieved if the model achieves satisfactory performance after the first goal is finished. However, I believe that accomplishment of the first goal satisfies the demands of this course project.</i>
@@ -54,22 +72,12 @@ _*Note that some aspects of the project changed since I wrote this._
 2. The secondary goal of this project is to conduct a contribution analysis of the electrodes from which cortical signals are obtained.
 3. The final goal is to examine whether the results of the contribution analysis can be explained by a theory of speech production that describes phonetic segments as resonance deflection patterns.
 
-The proposed procedure will be described in detail in the next section.
+The proposed procedure will be described in detail in the next section. -->
 
-### Project Overview
-#### Background
-As stated in the goals above, this project aims to make a neural network electrocorticography (ECoG) signal decoder that classifies vowels. ECoG signals are obtained by implanting hundreds of small electrodes deep within the brain to record electrical activity. This methodology has the potential to be useful in a variety of practical applications, particularly as a brain-computer interface. One area of interest is in restoring speech communication by decoding ECoG signals and using the decoded features to reconstruct an acoustic signal. Artificial neural networks are the current standard for ECoG decoding.
-
-The gold standard of speech restoration is real-time decoding and reconstruction so that the one can use their speech neuroprosthesis to communicate in a naturalistic way. The design of models and algorithms that can do this is made more difficult by the fact that little is known abou the representation of speech primitives in the brain. How does the brain use motor programs to encode discrete linguistic information into a continuous acoustic signal?
-
-It has been established that ECoG signals can provide practical benefits when used as inputs to brain-computer interfaces. However, I also believe that these signals may be useful for scientific investigation into spoken communication. More specifically, I believe they may provide information about how phonetic segments are represented in the brain.
-
-MAY ADD SHORT PARAGRAPH ABOUT PHONETIC SEGMENT REPRESENTATIONS (PHON. FEATURES, MOTOR PROGRAMS, RDP) JUSTIFYING METHOD OF ANALYSIS
-
-#### Procedure
+<!-- #### Procedure -->
 
 
-#### Scope
+<!-- #### Scope
 This project is intended to be a small preliminary investigation that could lead to a more comprehensive study. Thus, I intend to set firm limits so that the scope of the study does not balloon beyond what would be appropriate for this course project. 
 
 The first limit I am setting is a limit on the training/testing data. I will only be using ECoG signals collected during the production of vowels in this study. This limit presents the network with an easier classification task and reduces the amount of time I need to spend segmenting, annotating, and extracting data from the continuous signals. I will begin by extracting data from only two vowels (/i/ and /u/) but if time allows, I may add additional categories (e.g., /a/). Although the annotation of additional vowels would certainly take more time, it is currently unknown whether the addition of more vowels will help or hinder the training process. Adding more categories may make the inference task more difficult, but would also provide more data from which the network can learn to generalize.
@@ -147,7 +155,7 @@ An important part of preventing the scope of this project from ballooning is my 
       <td>Not Started</td>
     </tr>
   </tbody>
-</table>
+</table> -->
 
 ## Summary of individual contributions
 <table>
@@ -171,15 +179,54 @@ An important part of preventing the scope of this project from ballooning is my 
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
 
+Below are the results of my best training run. The training loss, logged every 10 batches can be seen on the left, while the validation loss by epoch on a 20% holdout set is shown on the right. These show that the loss never drops below ~0.9. That is high considering that it is MSE. 
+
+<div style="display:flex; align-items:center; flex-direction: row">
+  <img src="2025-12-06-shorterwin_resnet_mlp-epochloss-1.png" style="width:50%; margin-left: auto; margin-right: auto;"></img>
+  <img src="2025-12-06-shorterwin_resnet_mlp-valloss-1.png" style="width:50%; margin-left: auto; margin-right: auto;"></img>
+</div>
+
+Unfortunately, upon further evaluation, it is obvious that the model has simply learned to predict the mean:
+<div style="display:flex; align-items:center; flex-direction: column">
+  <img src="scatterplot.png" style="width:50%; margin-left: auto; margin-right: auto;"></img>
+</div>
+
+
 ## Error analysis
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
 
+I did some limited error analysis to confirm that the model learned to predict the mean.
+
+```Julia-repl
+julia> mae  = mean(abs.(y_true .- y_pred))
+0.5873926876750887
+
+julia> rmse = sqrt(mean((y_true .- y_pred).^2))
+0.9436236172835178
+
+julia> mape = mean(abs.((y_true .- y_pred) ./ y_true)) * 100
+229.95062746555342
+
+julia> 
+
+julia> println("MAE: $mae, RMSE: $rmse, MAPE: $mape%")
+MAE: 0.5873926876750887, RMSE: 0.9436236172835178, MAPE: 229.95062746555342%
+```
+<div style="display:flex; align-items:center; flex-direction: column">
+  <img src="residuals.png" style="width:50%; margin-left: auto; margin-right: auto;"></img>
+</div>
 ## Reproducibility
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility)_
 _If you'ved covered this in your code repository's README, you can simply link to that document with a note._
 
+I have containerized my code. To reproduce my results, follow the instructions in the README [here](https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-ecog-speech-decoding).
+
 ## Future improvements
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_
+
+Ultimately, this project did not work. The system is severely limited by the inaccuracy of the formant values on which it was trained. In addition, a 2 x 1 (two formant values per window) representation of the speech process may not be descriptive enough for this sort of task. As seems to so often be the case, I also think I was limited by the amount of data I had to work with. Even though I could extract thousands of windows to train the model, many of these windows were similar to one another (sliding windows with a step size of one, for example) and may have starved the system of real diversity. 
+
+These limitations could be improved upon. Formant tracks could be manually corrected or automatically extracted through more robust means. I also think that a more rich representation of the speech signal would aid training (e.g., if the rest of the parameters for the waveguide model could be used as our "y"). Although I did test some of these parameter changes, it would also be interesting to do a more comprehensive evaluation of optimal window sizes, step sizes for sliding windows, feature channels in the convolutional layers, etc. Unfortunately, unless the authors of the source paper begin to feel more generous, it is unlikely I will obtain more of this already rare data. However, there are many things I could do to refine the data that I do have access to. Or, one next step could be devising my own speech autoencoder, but using acoustic waveguide parameters.
