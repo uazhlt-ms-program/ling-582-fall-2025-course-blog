@@ -28,44 +28,51 @@ tags:
 </tbody>
 </table>
 
-# Project Proposal
-This project focuses on building multi-label classification system to categorize retail customer complaints into predefined complaint types. 
-Since real-world labeled data may be limited, we aim to generate synthetic dataset using a combination of LLM generated data and template 
-based techniques. We then explore and compare two methods - embedding based models and transformer based models to analyze their effectiveness 
-on this task. We aim to evaluate the model performance and to compare them.
-
 
 ## Project description
 
-# Goals of Final Project:
-- Generate a synthetic dataset of retail customer complaints using Large Language Model (LLM) and Template based generation method. The dataset will contain around 1000 rows of data and include realsitic complaints in the categories: product quality issues, delivery and shipping, payment, customer service, website/ app issue or account security.
-- Develop a multi label classification system to automatically identify different categories a complaint belongs to.
-- Experiment and compare with different statistical NLP approaches focusing separately on embedding-based and transformer-based methods.
+### Goals of Final Project
+- Generate a synthetic dataset of retail customer complaints using a Large Language Model (LLM) and a template-based generation method. The dataset will contain around 1000 rows of data and include realistic complaints in the categories: product quality issues, delivery and shipping, payment, customer service, website/ app issues, or account security.
+- Develop a multi-label classification system to automatically identify different categories a complaint belongs to.
+- Experiment and compare with different statistical NLP approaches ,focusing separately on embedding-based and transformer-based methods.
 - Evaluate the model performance using accuracy, macro F1 score, micro F1 score and classification report. 
 
-# Rough Timeline:
-- Week 1 (Oct 27 - Oct 31):
+### Rough Timeline:
+- Week 1 (Oct 27 - Oct 31)
   Collaborate as a Team
-  Exploring different ideas for course project
+  Exploring different ideas for the course project
 - Week 2 (Nov 3 - Nov 7):
-  Finalised on the idea of project: "Retail Customer Complaint Categorisation Model"
-  Exploration on approaches and tools for the project
+  Finalised on the idea of the project: "Retail Customer Complaint Categorisation Model”
+  Exploration of approaches and tools for the project
 - Week 3 (Nov 10 - Nov 14):
   Define complaint categories 
   Explore LLM options for synthetic data generation
-  Generate partial dataset and test the approach using basic classifier model
+  Generate a partial dataset and test the approach using a basic classifier model
 - Week 4 (Nov 17 - Nov 21):
-  Generate full synthetic dataset
-  Perform data preprocessing - normalization, encoding labels, handling duplicates or null values
+  Generate a full synthetic dataset
+  Perform data preprocessing - normalization, encoding labels, handling duplicates, or null values
   Perform Exploratory Data Analysis - Analysing distributions of complaints
 - Week 5 (Nov 24 - Nov 28):
   Implement Baseline Statistical models
   Implement embedding-based models
-  Evaluate and compare performace on the task for both the approaches
+  Evaluate and compare performance on the task for both approaches
 - Week 6 (Dec 1 - Dec 5):
-  Analyze results and summarise findings in the report 
-  Submit final project and push final code to GitHub
+  Analyze results and summarize findings in the report 
+  Submit the final project and push the final code to GitHub
 
+### Overview
+
+The project aims to automatically classify retail customer complaints into multiple categories. Each complaint can belong to one or more of the following categories:
+- Product quality issues
+- Delivery and shipping
+- Payment
+- Customer service
+- Website/ app issues 
+- Account security
+
+Due to the limited availability of public datasets, we generated a synthetic dataset of around 1000s complaints using Large Language Models (LLMs) combined with template-based generation. This approach ensures realistic language variation while maintaining coverage of all categories. Automating complaint classification can help in reducing human workload, speeding up responses, and improving overall customer satisfaction.
+
+Related work includes classical NLP methods like TF-IDF or Bag-of-Words representations with Logistic Regression or SVMs, embedding-based models like Word2Vec or GloVe embeddings combined with multilabel classifiers, or transformer-based models like BERT, RoBERTa, or DistilBERT, which provide contextual embeddings and often achieve state-of-the-art results in text classification tasks. 
 
 ## Summary of individual contributions
 <table>
@@ -77,7 +84,7 @@ on this task. We aim to evaluate the model performance and to compare them.
   </thead>
 <tbody>
   <tr>
-    <th><b>Krisha Vardhni Mahesh</b></th>     
+    <th><b>KrishaVardhini Mahesh</b></th>
     <td>Owner/ Implement Transformer Based Model</td>
   </tr>
   <tr>
@@ -87,20 +94,112 @@ on this task. We aim to evaluate the model performance and to compare them.
 </tbody>
 </table>
 
+Both contributed equally to data generation part while Krisha worked on Transformer Based Model and Ankitha worked on Embedding Based Model approach to solve the problem.
+
+## Methodology
+
+### Dataset Preparation
+
+- Generated around 1000 complaints using a combination of LLM-based text generation and templates. 
+- Created binary labels for multi-label classification using MultiLabelBinarizer. 
+
+### Embedding-Based Model
+
+- Represented text using sentence embeddings.
+- Trained Logistic Regression for multi-label prediction.
+- Evaluated on held-out test set.
+
+### Transformer-Based Model
+
+- Tokenized complaint texts with attention masks to use as input.
+- Used RoBERTa-base fine-tuned model for multi-label classification.
+- Binary cross-entropy across labels is used as loss, and the threshold value is iterated through 0.1 - 0.5 to maximize micro F1 on the training set.
+- Best threshold from the training data applied to the test set.
 
 ## Results
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
 
+We evaluated two approaches for multi-label complaint classification:
+- Embedding-based model using sentence embeddings + Logistic Regression (One-vs-Rest)
+- Transformer-based model using RoBERTa-base fine-tuned on the synthetic dataset with optimized threshold.
+
+Both models were evaluated on the same test set. 
+
+<table>
+  <thead>
+  <tr>
+    <th>Metric</th>
+    <th>Embedding-Based Model</th>
+    <th>Transformer-Based Model</th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th>Subset Accuracy</th>
+    <td>0.6565</td>
+    <td>0.7696</td>
+  </tr>
+  <tr>
+    <th>Micro F1</th>
+    <td>0.8483</td>
+    <td>0.9137</td>
+  </tr>
+  <tr>
+    <th>Macro F1</th>
+    <td>0.8485</td>
+    <td>0.9156</td>
+  </tr>
+</tbody>
+</table>
+
+Transformer-based method stood out to be a better model with its ability to understand nuanced customer language and multi-label overlap, making it a significantly more reliable model for real-world use.
+
 ## Error analysis
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
+
+Based on the classification report, we can understand that:
+- The embedding model struggles with context-heavy complaints and multi-level ambiguity.
+- The transformer model improves recall and label consistency, indicating strong contextual understanding.
+- Both models agree that customer service is the most challenging label due to vagueness and overlap with other categories.
 
 ## Reproducibility
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility)_
 _If you'ved covered this in your code repository's README, you can simply link to that document with a note._
 
+Clone Reporsitory
+
+```markdown
+git clone https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-krisha-ankitha.git
+```
+
+- Verify Dependencies
+
+Python >= 3.10 recommended
+Visual Studio Code
+
+Other dependencies will be installed based on the requirement and is already a part of the code file.
+
+- Open and run the notebook
+
+To run the ipynb file, open jupyter and run the file Retail Customer Complaint Categorizer.ipynb to create the submission.csv file
+
+```markdown
+jupyter notebook
+```
+To run in Visual Studio Code, enable extensions and run either Retail Customer Complaint Categorizer.ipynb by clicking on "Run All Cells"
+
 ## Future improvements
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_
+
+Complaints may belong to multiple categories and could be challenging to categorise, as careful threshold tuning is required. Some categories might be underrepresented, which can pose class imbalance and should be accounted for while modeling. Synthetic complaints may not capture all linguistic variations of real-world complaints.
+
+- Increasing dataset size and to include real complaints.
+- Experiment with hierarchical multi-label models or ensemble approaches combining transformer and embedding-based methods.
+- Considering category-specific thresholds to improve recall for rare classes.
+- Implementing k-fold cross-validation to ensure robustness.
+
+

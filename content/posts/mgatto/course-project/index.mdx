@@ -47,18 +47,12 @@ I will use a **character**-level RNN, in the form of an LTSM implemented in Pyth
 3. <s>infix</s> (recall that Form I has no infixes),
 4. root.
 
-<!-- TODO or, it could be a binary classification:
-"In case dout = 1, the network’s output is a scalar. Such networks can be used for regression (or scoring) by considering the value of the output, or for binary classification by consulting the sign of the output." - Yuval
-
-I think binary would be much easier!
--->
-
 This output vector will then be fed into an MLP to select the probability of the letter being a root or not with a selecting function: $softmax(MLP([RNN(x_{1:n}, i)]))$.
 
-### Goal:
+### Goal
 Given a list of 100 Arabic test words of Form I derived from known, tri-literal consonantal roots, the Root Extractor successfully identifies at least 90 of them.
 
-### Outline:
+### Outline
 1. Examine prior art and detail flaws with non-NN approaches.
 2. Experiment with al-Mus'haf dataset in a Jupyter Notebook.
 3. Experiment with **CAMeL Tools** for Arabic pre-processing.
@@ -77,21 +71,6 @@ By these dates, accomplish:
 - 11/30/2025 - Tuned RNN and decoded output vector with MLP and Softmax to present words' root consonants.
 - 12/05/2025 - Polished codebase and packaged into Docker container.
 
-<!--
-Superior (3 pts):
-* project is appropriately scoped to the course (i.e., not overly ambitious)
-* rough timeline (with dates)
-
-Pass (2 pts)
-All of the following:
-
-* pull request submitted to course blog repository by the deadline
-* clear outline of the goals of your final project
-* project proposal investigates some aspect of statistical NLP
-* post includes a link to a course project code repository
-* the code repository uses the required assignment template (i.e., the repository is owned by the appropriate GitHub organization)
--->
-
 ## Summary of individual contributions
 <table>
 <thead>
@@ -109,23 +88,268 @@ All of the following:
 </table>
 
 <!--
+a)discussion of related work
+b) challenges of task (with examples)
+c) discussion of SotA approaches.
+Pass: All of the following:
+a) clear overview of project
+b) description of its novelty
+c) motivation for project
+-->
+
+
 ## Results
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/ #results)_
+Most stemmers for Arabic are largely rule-based, especially state of the art ones which approach an F1 of 98%. There is , however, a line of research in using neural network approaches which I wanted to pursue for its novelty. A remarkably early attempt at using Deep Learning is in [Serhan, Ayesh (2006)](https://abdn.elsevierpure.com/en/publications/an-application-of-neural-network-for-extracting-arabic-word-roots/) who reported an accuracy rate of 84%.
+
+A more recent paper using Deep Learning was [Ziadi, Cheikh & Jemni (2017)](https://pdfs.semanticscholar.org/2465/5ef3eef27d7faa3ed6cc43aeefaf698cd889.pdf) (PDF) who reported a CNN model which "achieved a 97% classification rate in root word recognition" while their "preliminary experiments with the LSTM model gave a score equal to 87.2%". These approaches generally used classification techniques often paired with factoring out affixes. This had initially guided my first attempts based on my stated approach, which performed quite poorly.
+
+I significantly changed my approach per Dr. Hahn-Powell's suggestion. Instead of classifying letters as belonging to the root class or not, I switched to simply generating three characters instead. This yielded [extraordinary results](https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-arabic-tri-literal-root-extraction/blob/main/results/run_17.txt):
+
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Accuracy</strong></td>
+<td>0.9924</td>
+</tr>
+<tr>
+<td><strong>F1 Score</strong> (weighted)</td>
+<td>0.9924</td>
+</tr>
+<tr>
+<td><strong>Precision</strong> (weighted)</td>
+<td>0.9924</td>
+</tr>
+<tr>
+<td><strong>Recall</strong> (weighted)</td>
+<td>0.9924</td>
+</tr>
+</tbody>
+</table>
+
+
+This reflect's [Kaddoura et.al's baseline](https://dx.doi.org/10.2139/ssrn.4544833) of 98%, "The results demonstrate that ANN-based root extraction achieved the highest F1-score of 98%, while other state-of-the-art stemmers yield lower scores".
+
+At first, this modest experiment initially processed only non-weak, non-geminated triliterals for simplicity. This means that each of the three letters were different and not "y", "w" nor the glottal stop. Encouraged by this unexpectedly superior performance, I unfiltered the geminated roots first. Geminated roots repeat the second character, for example: *sh-d-d* = to be severe. The results only [lowered F1 by 1%](https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-arabic-tri-literal-root-extraction/blob/main/results/run_18.txt) which I found still quite acceptable. 
+
+In the final stage, I also allowed weak triliterals into the dataset. A weak root is a root containing "y", "w", or "`" (glottal stop) as one of the root consonants. Weak roots can comprise up to two of the three roots, and unstably drop out during word formation using templates applied to the root. For example, *w-h-b* = to bestow, becomes the 3rd person masculine singular verb *ya-hib* (*ya-whib). Words derived from weak root are quite frequent in Arabic, thus excluding them gave a less realistic result. Including them resulted in a noticable, but expected decline in F1:
+
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Root-level Exact Match Accuracy</td>
+<td> 0.8669 (736/849)</td>
+</tr>
+<tr>
+<td>Character-level Accuracy</td>
+<td>0.9399 </td>
+</tr>
+<tr>
+<td>F1 Score (weighted)</td>
+<td>0.9392</td>
+</tr>
+<tr>
+<td>Precision (weighted)</td>
+<td>0.9392 </td>
+</tr>
+<tr>
+<td>Recall (weighted)</td>
+<td>0.9399 </td>
+</tr>
+</tbody>
+</table>
+
+Character level accuracy means that the model chose a correct character, but that the characters was in a different position than its actual place in the root sequence.
+
+For more about the model's architecture and training, please see the [README](https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-arabic-tri-literal-root-extraction/blob/main/README.md) file in the code repository.
+
+Detailed training progressions are available for four late runs in the [results](https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-arabic-tri-literal-root-extraction/tree/main/results) directory of the code repository.
+
+I did not need to use any HPC facility; using the MPS on my MacBook proved sufficient. Testing in my Docker container using only Pytorch
+'s "cpu" device yielded somewhat slower, but identical results.
 
 ## Error analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/ #error-analysis)_
+Geminated final literal still prove mildly problematic. Some errors were:
+
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Word</th>
+<th>Actual</th>
+<th>Predicted</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>✗</td>
+<td>أضلوا</td>
+<td>ضلل</td>
+<td>غلل</td>
+</tr>
+<tr>
+<td>✗</td>
+<td>خلة</td>
+<td>خلل</td>
+<td>خلد</td>
+</tr>
+<tr>
+<td>✗</td>
+<td>مدرارا</td>
+<td>درر</td>
+<td>قرر</td>
+</tr>
+<tr>
+<td>✗</td>
+<td>أعمام</td>
+<td>عمم</td>
+<td>نعم</td>
+</tr>
+</tbody>
+</table>
+
+Curiously, it would correctly predict the geminated 2nd and 3rd consonants, but somehow get the 1st consonant complettely wrong. This was the opposite of my expectations.
+
+BUT, it got some correct:
+
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Word</th>
+<th>Actual</th>
+<th>Predicted</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>✓</td>
+<td>ملة</td>
+<td>ملل</td>
+<td>ملل</td>
+</tr>
+<tr>
+<td>✓</td>
+<td>يضلل</td>
+<td>ضلل</td>
+<td>ضلل</td>
+</tr>
+</tbody>
+</table>
+
+Weak roots are indeed the most error prone. In run #20, 9 of 11 incorrect roots were weak:
+
+<table>
+<thead>
+<tr>
+<th>Status</th>
+<th>Word</th>
+<th>Actual</th>
+<th>Predicted</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>✗</td>
+<td>غيث</td>
+<td>غيث</td>
+<td>غوث</td>
+</tr>
+<tr>
+<td>✗</td>
+<td>شقي</td>
+<td>شقو</td>
+<td>شقق</td>
+</tr>
+<tr>
+<td>✗</td>
+<td>مليم</td>
+<td>لوم</td>
+<td>ملم</td>
+</tr>
+<tr>
+<td>✗</td>
+<td>باغ</td>
+<td>بغي</td>
+<td>بغغ</td>
+</tr>
+<tr>
+<td>✗</td>
+<td>تديرون</td>
+<td>دور</td>
+<td>دير</td>
+</tr>
+<tr>
+<td>✗</td>
+<td>مرء</td>
+<td>مرء</td>
+<td>مري</td>
+</tr>
+<tr>
+<td>✗</td>
+<td>فائزون</td>
+<td>فوز</td>
+<td>فيز</td>
+</tr>
+<tr>
+<td>✗</td>
+<td>تصلية</td>
+<td>صلي</td>
+<td>صلو</td>
+</tr>
+<tr>
+<td>✗</td>
+<td>راسيات</td>
+<td>رسو</td>
+<td>رسي</td>
+</tr>
+</tbody>
+</table>
+
+For *d-w-r*, *f-w-z*, and *r-s-w* the model correctly understood that these were weak roots, but consistently preferred to generate a "y" each time instead of the correct "w". It could denote some kind of issue with the corpus' sample distributions. Note, that no feature engineering was done to hint at whether a word was based on a weak root or not.
+
+More curiously, the model sometimes generates geminated roots when the actual root is in the weak class of triliterals.
+
 
 ## Reproducibility
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/           #reproducibility)_
-_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+Please see the [README](https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-arabic-tri-literal-root-extraction/blob/main/README.md) file in the code repository.
+
 
 ## Future improvements
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/ #proposal-for-future-improvements)_
--->
+### Phonemic Restraints
+
+There are phonemic restrictions on the letters which can appear as roots together in sequence. This phenomenon is well known to the literature: [Arabic root cooccurrence restrictions](https://roa.rutgers.edu/content/article/files/1229_alderete_1.pdf) (PDF). Restraints on proposed root combinations based on the immediately preceeding generated root character could prove useful, though I don't currently understand how to encode that as a feature for deep learning.
+
+### Bigger Corpus
+
+I would like to use a much larger corpus. One canidate is the very large Oxford Arabic Corpus which also contains word-root pairs necessary for this supervised learning experiment.
+ 
+There's a danger that some roots are undersampled. The DataSet class should use more sophisticated techniques to ensure there is a more even distribution between roots and words. For example, [r, H, m] is likely to be over-represented in this theological dataset in various appellations and verbal forms. A Git branch in the repository contains an implementation, but remains untested.
+
+### Quadriliterals
+
+4-letter roots ought to be just as easy. Quadriliterals are typically not weak and would pose the same problems. However, since this model is written to generate three characters, it may perform oddly when it's expected to output four. This remains an active and fertile area for expansion.
+
+One area which I won't consider expanding into is biliteral roots, or roots with only two letters which are very rare. Biliterals are usually particles fossilized from Arabic's earliest stages within Afro-Asiatic in the Neolithic.
+
+### Weak Roots
+
+The model proved less capacble with so-called weak/defective roots. It is unclear at this point how to help the model perform better in selecting the correct, but often absent "y" or "w". More training and correcting class imbalances specifically in labeled roots containing weak consonants could prove useful. 
 
 ### Citations
 <ol>
