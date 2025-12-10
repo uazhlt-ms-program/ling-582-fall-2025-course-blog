@@ -53,22 +53,22 @@ _Shadya Sanchez Carrera, Roberto Zariquiey, and Arturo Oncevay. 2024. Unlocking 
 
 ## Description
 
-_This paper is about the use of Optical Character Recognition(OCR) on indigenous languages of the Americas. OCR is the process of extracting text (essentially digitizing it) from an image, or in this case scanned typed pdfs. Most language resources for Indigenous low-resource languages come from handwritten fieldnotes or older books that taught the language which have no digital copies. But it takes a long time to go through and type in everything from the books, many people don't have sources or time._
+This paper is about the use of Optical Character Recognition(OCR) on indigenous languages of the Americas. OCR is the process of extracting text (essentially digitizing it) from an image, or in this case, scanned typed PDFs. Most language resources for Indigenous low-resource languages come from handwritten fieldnotes or older books that taught the language, which have no digital copies. But it takes a long time to go through and type in everything from the books; many people don't have the time.
 
 
-_This is why the article talks about using OCR and training the model on the limited annotated or even synthetic data. They selected PDFS from four indigenous languages of South America: Asháninka, Shipibo-Konibo, Yanesha and Yine. Their data was 454 scanned pages from 89 books with 3,900 tokens along with tables and graphs, both typed and handwritten. Next they annotated the data (adding the typed words.) Next they pre-processed the pdfs by using software to eliminate noise like scanned marks, stains, page numbers. _
+This is why the article discusses using OCR and training the model on limited annotated or even synthetic data. They selected PDFS from four indigenous languages of South America: Asháninka, Shipibo-Konibo, Yanesha, and Yine. Their data consisted of 454 scanned pages from 89 books, totaling 3,900 tokens, along with tables and graphs, both typed and handwritten. Next, they annotated the data (adding the typed words). Next, they preprocessed the PDFs using software to remove noise such as scanned marks, stains, and page numbers.
 
 
-_Then comes the OCR process, the article specifically discusses two popular OCR models, Google Vision and Tesseract.  They ran these models using the Latin script and used Character Error Recognition (CER) and Word Error Rate (WER) as metrics to judge the success of the model._
+Then comes the OCR process; the article specifically discusses two popular OCR models, Google Vision and Tesseract.  They ran these models in Latin script and used Character Error Rate (CER) and Word Error Rate (WER) as metrics to evaluate model performance.
 
 
-_The different models had strengths and weaknesses, such as Google Vision didn't do a good job at keeping the correct order and format of multicolumned text, while Tesseract did a good job. On the other hand, Tesseract had more character insertions (for example mistaking one unique character as two common characters) compared to Google Vision. Other issues included word boundery issues (adding spaces where there shouldn't be, or treating single spaces as new paragraphs), which predominately effected Google Vision._
+The different models had strengths and weaknesses: Google Vision didn't do a good job of maintaining the correct order and format of multicolumn text, while Tesseract did. On the other hand, Tesseract had more character insertions (e.g., mistaking one unique character for two common characters) than Google Vision. Other issues included word boundary issues (adding spaces where there shouldn't be, or treating single spaces as new paragraphs), which predominantly affected Google Vision.
 
 
-_Now with the basic OCR done, they wen't back with manually corrected data and fed it into sequence2sequence models to reduce errors. These included Denorm, Ensemble, and Single Source._
+Now that the basic OCR was complete, they returned to manually correcting data and fed it into sequence-to-sequence models to reduce errors. These included Denorm, Ensemble, and Single Source.
 
 
-_The results were overall better, with signifcantly enchanced accuracy on diaretics, along with that few characters were deleted or inserted._
+The results were overall better, with significantly improved accuracy on diacritics, though a few characters were deleted or inserted.
 
 ## Motivation
 
@@ -319,26 +319,26 @@ What problems remain and what are the next steps according to the author’s (sp
 ### Experience using the LLM
 
 _Describe your process for using the LLM.  How did the LLM perform?_
-So I did two versions of this, the first I didn't ask it for concise like the rubric said so I ended up redoing it, but I want to share a bit about my first round.
-Firstly, I just told it to tell me about this article and I sent a link. It ended up summarizing a completely different article, which is when I realized, the base URL I copied could refer to other articles. That is when I exactly mentioned the name and authors of the article and it got on track...sort of.
-The first time around I just asked it almost verbatim the questions in the assignment and it didn't do great!
-Okay onto this time when I mentioned the name and authors of the article.
+So I did two versions of this. The first one I didn't make concise, as the rubric said, so I ended up redoing it. I want to share a bit about my first round.
+Firstly, I just told it to tell me about this article, and I sent a link. It ended up summarizing a completely different article, which is when I realized that the base URL I copied could refer to other articles. That was when I exactly mentioned the name and authors of the article, and it got on track... sort of.
+The first time around, I just asked the assignment questions almost verbatim, and it didn't do so well!
+Okay, onto the time when I mentioned the article's name and authors.
 
-It's responses were thorough and well structured (gotta say, I love organizing things with emojis) and it provided good summaries (in terms of what it generated, not the actual text) in tables and bullet points. 
-I had to be pretty specific with questions after what I learned the first time. For example, I specifically asked it to name the two specific OCR software used instead of just 'what approaches' because the first time it rambled on about other stuff - here it gave me two things, the first Tesseract which was correct, but then Adobe's OCR which was wrong, the other method it discussed was Google Vision OCR. When I challenged it later on, it said the article never mentioned Google Vision OCR which is false.
-JanAI also showed it's thinking which was interesting. I also asked it to provide concrete numbers for the results and quotes for questions that were like "author's conclusion" etc, all of which it hallucinated.
+Its responses were thorough and well structured (gotta say, I love organizing things with emojis), and it provided good summaries (in terms of what it generated, not the actual text) in tables and bullet points. 
+I had to be pretty specific with questions after what I learned the first time. For example, I specifically asked it to name the two specific OCR software used instead of just 'what approaches' because the first time it rambled on about other stuff - here it gave me two things, the first Tesseract, which was correct, but then Adobe's OCR, which was wrong, the other method it discussed was Google Vision OCR. When I challenged it later on, it said the article never mentioned Google Vision OCR, which is false.
+
 
 #### Errors and limitations of the LLM 
 
-It made....quite a few mistakes. Some more detrimental than others. For example, it kept saying the article was a study in Quechua language, but no where in the article does it mention Quechua, it mentions four other languages which do not include whatAI mentioned. Other things it hallucinated includes all the quotes and numbers it gives, along with as formentioned, the consistent mentioning of Adobe's OCR and refusing to achnowledge Google Vision OCR is mentioned (ie in Is this Comparison Fair). Also in the category, the article specifically mentions others' OCR works, but the article does not necessarily pick up on that - but it does share the author's goal of using this pipeline as a process, not a superior process. Luckily it got the fact that it used Tesseract version 5 correct.
+It made....quite a few mistakes. Some are more detrimental than others. For example, it kept saying the article was a study in the Quechua language, but nowhere in the article does it mention Quechua; it mentions four other languages, none of which the AI mentioned. Other things it hallucinated include all the quotes and numbers it gives, along with, as mentioned, the consistent mention of Adobe's OCR and the refusal to acknowledge Google Vision OCR (i.e., in "Is this Comparison Fair"). Also, in the category, the article specifically mentions others' OCR work, but it does not necessarily pick up on that; it does, however, share the author's goal of using this pipeline as a process, not a superior one. Luckily, it got the fact that it used Tesseract version 5 correct.
 
-I thought maybe Adobe had some Quecha OCR which is why it pivoted to that, but upon research it doesn't seem so. My thought is Quecha is a well-known Peruvian Indigenous language so maybe when it didn't recognize the four it mentioned, it defaulted to that, which is one limitation.
-
-
-At the end of each response it would inform me it only used sources from the article and did not extrapolate any other information, which is obviously false.
+I thought maybe Adobe had some Quecha OCR, which is why it pivoted to that, but upon research, it doesn't seem so. My thought is Quecha is a well-known Peruvian Indigenous language, so maybe when it didn't recognize the four it mentioned, it defaulted to that, which is one limitation.
 
 
-However, besides those technical hallucinations, it did generally understand the point of the article, both the motivation and process used (ie taking into account the pre and post processing of the data which the article mentions in detail, even if it failed to retrieve correct technicalities.) The numbers it gave do somewhat corrospond with the trends, like how things were better once post-processed, though it was humans that did the post-processing but correction models, and did not achieve 100% efficiency. 
+At the end of each response, it would inform me that it only used sources from the article and did not extrapolate any other information, which is obviously false.
 
-In conclusion it understand the point of the article but messed up on almost every technicality, some technicalities of which were critical to the proper analysis of the article. 
+
+However, aside from those technical hallucinations, it is generally understood the point of the article, both the motivation and the process used (i.e., taking into account the pre- and post-processing of the data, which the article mentions in detail, even if it failed to capture the technical details). The numbers it gave somewhat correspond with the trends, like how things were better once post-processed, though it was humans who did the post-processing, not correction models, and it did not achieve 100% efficiency. 
+
+In conclusion, it understood the point of the article but messed up on almost every technicality, some of which were critical to the proper analysis. 
 __

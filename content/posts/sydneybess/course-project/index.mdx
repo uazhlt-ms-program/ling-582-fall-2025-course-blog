@@ -39,6 +39,8 @@ For this project, I am trying to perform Optical Character Recognition on typed 
 The document’s nature includes bad fax copy lines, blurred text, handwritten notes, and typewriter-written text with flaws and inconsistencies.
 For this project, I’ve decided to use TrOCR, which is a transformer-based OCR model.
 
+My reason for choosing this project is because it is also my HLT internship. As a linguist, I've always been fascinated by languages, especially indigenous languages. While I knew nothing about OCR before starting this, I've learned plenty. My main obstacle is there is very little resources or code demos about training on languages with special tokens like mine.
+
 ### 💻 Choosing the model
 
 There has been some research specifically on TrOCR used for this purpose. For example, researchers at the National Library of Norway and the Arctic University of Norway tried various OCR models on the Sami Indigenous Language. The three were Transkibus, Tesseract, and TrOCR.
@@ -305,13 +307,13 @@ Maybe it is the small number of training sources (79 annotated images) or poorly
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility)_
 _If you'ved covered this in your code repository's README, you can simply link to that document with a note._
 
-[README.md](https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-bess-days/blob/main/README.md) I demonstrated reproducibility and set up file seeds.
+[README.md](https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-indigenous-language-ocr/blob/main/README.md) I demonstrated reproducibility and set up file seeds.
 I didn’t include specific versions besides Transformers because when I attempted to add them based on the pip list and reproduce it, I got errors. So I let the magic of pip handle it.
 
 ## Future improvements
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_
 
-Firstly, I would add A LOT more manually annotated ground truth, and I plan to do so for further testing. Another thing is the data; even though I strived to represent rare character patterns, I don’t think I did well enough, as it performed poorly on novel patterns. Additionally, my synthetic data images lacked additional noise. 
+Firstly, I would add A LOT more manually annotated ground truth, and I plan to do so for further testing. Another thing is the data; even though I strived to represent rare character patterns, I don’t think I did well enough, as it performed poorly on novel patterns.  For testing, I would clean up the testing images to not be as hard to read.
 
 Also, I might try to find a better processor that is trained on more similar data. Upon researching forums, I found suggestions to use the ROBERTA processor because it is larger and more trained on multilingual data that trocr-base-printed; however, that would require redoing the infrastructure of the project and starting over.
 
