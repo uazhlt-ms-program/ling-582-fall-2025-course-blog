@@ -1,7 +1,7 @@
 ---
 title: "An Insightful Summary of **Large Language Models are Zero-Shot Reasoners**"
 slug: "/oaikumariegbe/paper-summary"
-date: 2025-11-09
+date: 2025-12-08
 author: Oghenevovwe Ikumariegbe
 description: "This blog post summarizes a paper showing that minimal cueing—such as the prompt “Let’s think step by step”—can induce reasoning in large language models"
 tags:
@@ -87,19 +87,24 @@ using simple prompts.
 <tbody>
   <tr>
     <th><b>LLM model</b></th>
-    <td>???</td>
+    <td>Llama 3.2</td>
   </tr>
   <tr>
     <th><b>LLM model version</b></th>
-    <td>???</td>
+    <td>Llama-3.2-3B-Instruct</td>
   </tr>
   <tr>
     <th><b>Model/service URL</b></th>
-    <td>???</td>
+    <td>https://huggingface.co/chat/models/meta-llama/Llama-3.2-3B-Instruct</td>
   </tr>
   <tr>
     <th><b>Why this model?</b></th>
-    <td>???</td>
+    <td>I chose this model for a two main reasons: 
+      1. I have worked with the model in the past, 
+      although not in a chat environment.
+      2. It was one of the few models with image support 
+      available on HuggingFace Chat while being small (3B)
+    </td>
   </tr>
 </tbody>
 </table>
@@ -107,97 +112,278 @@ using simple prompts.
 
 #### Description (LLM)
 
-_In the LLM's words, what is this paper about?_
+The paper "Large Language Models are Zero-Shot Reasoners" by Takeshi Kojima, Shixiang Shane Gu, Machel Reid, Yutaka Matsuo, and Yusuke Iwasawa attempts to fill the gap in existing research on the capabilities of large language models (LLMs) in zero-shot reasoning.
+
+Zero-shot reasoning refers to the ability of a model to reason and solve problems without having seen any specific examples or training data for the task at hand. This is in contrast to few-shot learning, where the model is given a few examples to learn from, or in-context learning, where the model is trained on a specific task with a set of examples.
+
+Existing research has shown that LLMs are excellent few-shot learners, but their performance on system-2 tasks, which require slow and multi-step reasoning, is limited. System-2 tasks include tasks such as arithmetic, symbolic reasoning, and commonsense reasoning, which are difficult for humans and are considered a grand challenge for LLMs.
+
+The paper identifies a specific gap in existing research, which is the lack of effective methods for zero-shot reasoning in LLMs. While there have been proposals for few-shot and in-context learning, there is a need for methods that can enable LLMs to reason and solve problems without any specific examples or training data.
+
+To address this gap, the authors propose a novel approach to zero-shot chain-of-thought (CoT) prompting for LLMs. The approach involves adding a simple prompt "Let's think step by step" before each answer to facilitate step-by-step thinking and multi-hop reasoning across a wide range of tasks.
+
+The paper shows that this approach can significantly improve the performance of LLMs on zero-shot reasoning tasks, including arithmetic, symbolic, and other logical reasoning tasks. The approach also generates reasonable and understandable chain of thought across diverse tasks, which is an important aspect of human reasoning.
+
+The paper highlights the importance of carefully exploring and analyzing the enormous zero-shot knowledge hidden inside LLMs before crafting finetuning datasets or few-shot exemplars. It also emphasizes the potential of simple prompting methods to elicit high-level, multi-task broad cognitive capabilities in LLMs, such as generic logical reasoning.
+
+Overall, the paper presents a significant contribution to the field of natural language processing, demonstrating the potential of zero-shot CoT prompting to improve the reasoning capabilities of large language models. The paper fills a gap in existing research by providing a novel approach to zero-shot reasoning in LLMs and demonstrating its effectiveness on a range of tasks.
 
 ##### Prompt
 
 ```markdown
-prompt here
+Provide a thorough description on what the paper is about. In other words, what gap in existing research was the paper trying to fill?
 ```
 
 #### What are the authors proposing?
+The authors of the paper "Large Language Models are Zero-Shot Reasoners" are proposing a novel approach to zero-shot reasoning in large language models (LLMs). Specifically, they are proposing a method called "Zero-shot-CoT" (Chain of Thought) prompting.
 
+The Zero-shot-CoT approach involves adding a simple prompt "Let's think step by step" before each answer to facilitate step-by-step thinking and multi-hop reasoning across a wide range of tasks. This prompt is designed to elicit a chain of thought from the LLM, which is a series of logical steps that the model can use to reason and solve problems.
+
+The authors' approach is based on the idea that LLMs are capable of generating chain of thought, but they need to be prompted to do so. By adding the "Let's think step by step" prompt, the authors aim to encourage the LLM to generate a chain of thought that can be used to reason and solve problems.
+
+The Zero-shot-CoT approach is different from other methods for zero-shot reasoning, such as few-shot learning or in-context learning, because it does not require any specific examples or training data. Instead, it relies on the LLM's ability to generate chain of thought on its own.
+
+The authors' approach has several key components:
+
+1. **Chain of Thought Prompting**: The authors propose a simple prompt "Let's think step by step" that is added before each answer to facilitate step-by-step thinking and multi-hop reasoning.
+2. **Step-by-Step Reasoning**: The authors aim to elicit a chain of thought from the LLM, which is a series of logical steps that the model can use to reason and solve problems.
+3. **Multi-Hop Reasoning**: The authors' approach is designed to facilitate multi-hop reasoning, which is the ability of a model to reason and solve problems that involve multiple steps and logical connections.
+4. **Task-Agnostic**: The authors' approach is task-agnostic, meaning that it can be used on a wide range of tasks, including arithmetic, symbolic reasoning, and other logical reasoning tasks.
+
+Overall, the authors' approach to zero-shot reasoning in LLMs is designed to leverage the model's ability to generate chain of thought and facilitate step-by-step reasoning and multi-hop reasoning.
 ##### Prompt
 
 ```markdown
-prompt here
+What are the authors proposing in this work? What is their approach / solution to the problem?
 ```
 
 #### What is the motivation for the work?
+The authors proposed the Zero-shot-CoT solution to address the limitations of existing large language models (LLMs) in zero-shot reasoning. The motivation behind the work is to improve the reasoning capabilities of LLMs, which are currently unable to perform well on system-2 tasks that require slow and multi-step reasoning.
 
+The authors identified a gap in existing research on zero-shot reasoning in LLMs, which is the lack of effective methods for enabling LLMs to reason and solve problems without any specific examples or training data. While there have been proposals for few-shot and in-context learning, these methods require hand-crafted few-shot examples or training data, which is not always available.
+
+The authors' motivation can be summarized as follows:
+
+1. **Improving LLMs' reasoning capabilities**: The authors wanted to improve the reasoning capabilities of LLMs, which are currently limited to few-shot learning and in-context learning.
+2. **Addressing the limitations of existing methods**: The authors wanted to address the limitations of existing methods for zero-shot reasoning in LLMs, which are often task-specific and require hand-crafted examples or training data.
+3. **Enabling LLMs to reason and solve problems**: The authors wanted to enable LLMs to reason and solve problems without any specific examples or training data, which is a key aspect of zero-shot reasoning.
+4. **Leveraging the model's ability to generate chain of thought**: The authors wanted to leverage the model's ability to generate chain of thought, which is a key aspect of human reasoning, to improve the reasoning capabilities of LLMs.
+
+The authors' motivation is also driven by the potential applications of zero-shot reasoning in LLMs, such as:
+
+1. **Improved performance on complex tasks**: Zero-shot reasoning can improve the performance of LLMs on complex tasks that require slow and multi-step reasoning.
+2. **Increased flexibility**: Zero-shot reasoning can increase the flexibility of LLMs, allowing them to be used in a wider range of applications.
+3. **Better understanding of human reasoning**: The authors' approach can provide insights into human reasoning and problem-solving abilities, which can be useful for improving the performance of LLMs.
+
+Overall, the authors' motivation is to develop a more effective method for enabling LLMs to reason and solve problems without any specific examples or training data, which can improve the performance of LLMs on complex tasks and increase their flexibility.
 ##### Prompt
 
 ```markdown
-prompt here
+Why did the authors propose this solution? What is the motivation behind the work?
 ```
 
 #### What is the approach or innovation?
+The authors of the paper "Large Language Models are Zero-Shot Reasoners" innovated a new approach to zero-shot reasoning in large language models (LLMs), specifically a method called "Zero-shot-CoT" (Chain of Thought) prompting.
 
+The innovation lies in the use of a simple prompt "Let's think step by step" to facilitate step-by-step thinking and multi-hop reasoning across a wide range of tasks. This prompt is designed to elicit a chain of thought from the LLM, which is a series of logical steps that the model can use to reason and solve problems.
+
+The authors' innovation can be summarized as follows:
+
+1. **Proposed a new prompting method**: The authors proposed a new prompting method, Zero-shot-CoT, which involves adding a simple prompt "Let's think step by step" before each answer to facilitate step-by-step thinking and multi-hop reasoning.
+2. **Developed a novel way to elicit chain of thought**: The authors developed a novel way to elicit chain of thought from LLMs, which is a key aspect of human reasoning.
+3. **Showcased the effectiveness of Zero-shot-CoT**: The authors showcased the effectiveness of Zero-shot-CoT on a range of tasks, including arithmetic, symbolic reasoning, and other logical reasoning tasks.
+4. **Demonstrated that Zero-shot-CoT is task-agnostic**: The authors demonstrated that Zero-shot-CoT is task-agnostic, meaning that it can be used on a wide range of tasks without requiring any specific examples or training data.
+
+The authors' innovation has several key benefits, including:
+
+1. **Improved performance on zero-shot reasoning tasks**: Zero-shot-CoT improves the performance of LLMs on zero-shot reasoning tasks, which is a key aspect of human reasoning.
+2. **Increased flexibility**: Zero-shot-CoT increases the flexibility of LLMs, allowing them to be used in a wider range of applications.
+3. **Better understanding of human reasoning**: The authors' approach provides insights into human reasoning and problem-solving abilities, which can be useful for improving the performance of LLMs.
+
+Overall, the authors' innovation has the potential to significantly improve the performance of LLMs on complex tasks and increase their flexibility, making them more useful for a wide range of applications.
 ##### Prompt
 
 ```markdown
-prompt here
+What did they innovate to solve the problem?
 ```
 
 #### What are the results and how do they compare with competing approaches?
+The authors of the paper "Large Language Models are Zero-Shot Reasoners" presented several experimental results to demonstrate the effectiveness of their Zero-shot-CoT approach. Here are some of the key experimental results they showed and how they were compared with previous works:
 
+1. **Comparison with standard zero-shot prompting**: The authors compared the performance of Zero-shot-CoT with standard zero-shot prompting on several benchmark reasoning tasks. They showed that Zero-shot-CoT outperformed standard zero-shot prompting by a significant margin.
+2. **Comparison with few-shot CoT**: The authors compared the performance of Zero-shot-CoT with few-shot CoT on several benchmark reasoning tasks. They showed that Zero-shot-CoT achieved similar performance to few-shot CoT, but with less engineering required.
+3. **Comparison with Finetuning GPT-3**: The authors compared the performance of Zero-shot-CoT with finetuning GPT-3 on several benchmark reasoning tasks. They showed that Zero-shot-CoT outperformed finetuning GPT-3 by a significant margin.
+4. **Comparison with PaLM**: The authors compared the performance of Zero-shot-CoT with PaLM on several benchmark reasoning tasks. They showed that Zero-shot-CoT outperformed PaLM by a significant margin.
+
+The authors also showed the following experimental results:
+
+1. **Accuracy on MultiArith, GSM8K, and AQUA-RAT**: The authors reported the accuracy of Zero-shot-CoT on the MultiArith, GSM8K, and AQUA-RAT benchmarks. They showed that Zero-shot-CoT achieved high accuracy on these benchmarks, with improvements ranging from 60% to 90% over the standard zero-shot baseline.
+2. **Accuracy on CommonsenseQA and StrategyQA**: The authors reported the accuracy of Zero-shot-CoT on the CommonsenseQA and StrategyQA benchmarks. They showed that Zero-shot-CoT achieved high accuracy on these benchmarks, with improvements ranging from 50% to 80% over the standard zero-shot baseline.
+3. **Chain of thought generation**: The authors showed that Zero-shot-CoT can generate chain of thought that is similar to human reasoning. They reported the results of a human evaluation task, where human evaluators rated the chain of thought generated by Zero-shot-CoT as similar to or better than human-generated chain of thought.
+
+The authors compared their results with previous works in the following ways:
+
+1. **Comparison with previous zero-shot prompting methods**: The authors compared their results with previous zero-shot prompting methods, such as standard zero-shot prompting and few-shot CoT. They showed that Zero-shot-CoT outperformed these methods by a significant margin.
+2. **Comparison with finetuning GPT-3**: The authors compared their results with finetuning GPT-3, a state-of-the-art large language model. They showed that Zero-shot-CoT outperformed finetuning GPT-3 by a significant margin.
+3. **Comparison with PaLM**: The authors compared their results with PaLM, another state-of-the-art large language model. They showed that Zero-shot-CoT outperformed PaLM by a significant margin.
+
+Overall, the authors' experimental results demonstrate the effectiveness of their Zero-shot-CoT approach in improving the performance of large language models on benchmark reasoning tasks.
 ##### Prompt
 
 ```markdown
-prompt here
+What experimental results did they show and how were they compared with previous works?
 ```
 
 #### Is the comparison fair?
+Upon reviewing the paper, I noticed that the authors' comparisons with prior work are primarily based on their own previous work and other papers that used similar approaches. While the authors do mention some prior works that used different approaches, their comparisons are often limited to only those papers that used similar methods or had similar limitations.
 
+To assess the fairness and methodological consistency of the comparisons, I'll examine the following aspects:
+
+1. **Similarity of approaches**: The authors often compare their Zero-shot-CoT approach with methods that used similar approaches, such as standard zero-shot prompting or few-shot CoT. However, these methods might not be directly comparable due to differences in their underlying assumptions or implementation details.
+2. **Limited scope of comparisons**: The authors primarily focus on comparing their Zero-shot-CoT approach with methods that used similar approaches or had similar limitations. This limited scope might not accurately reflect the overall performance of their approach.
+3. **Use of identical evaluation metrics**: The authors use identical evaluation metrics (e.g., accuracy) to compare their Zero-shot-CoT approach with other methods. While this approach provides a clear comparison, it might not accurately reflect the differences in their underlying assumptions or implementation details.
+4. **Lack of error bars**: The authors do not provide error bars or standard deviations for their results, which can make it difficult to assess the reliability and consistency of their findings.
+
+To potentially inflate their numbers, the authors might be:
+
+1. **Using overly optimistic evaluation metrics**: The authors might be using evaluation metrics that are overly optimistic or biased towards their approach, such as accuracy or F1-score.
+2. **Selectively presenting results**: The authors might be selectively presenting results that support their approach, while ignoring or downplaying results that do not.
+3. **Using identical hyperparameters**: The authors might be using identical hyperparameters for their approach and the methods they are comparing with, which could artificially inflate their numbers.
+
+To address these concerns, the authors could:
+
+1. **Use more diverse and representative approaches**: The authors could compare their Zero-shot-CoT approach with a broader range of methods that use different approaches, such as meta-learning, transfer learning, or reinforcement learning.
+2. **Use more robust evaluation metrics**: The authors could use more robust evaluation metrics that better reflect the underlying assumptions and limitations of their approach, such as precision, recall, and F1-score.
+3. **Provide more detailed error analysis**: The authors could provide more detailed error analysis, including error bars and standard deviations, to assess the reliability and consistency of their findings.
+
+By addressing these concerns, the authors can improve the fairness and methodological consistency of their comparisons, providing a more accurate representation of their approach's performance.
 ##### Prompt
 
 ```markdown
-prompt here
+Are their comparisons with prior work fair and methodological consistent? Is there any way in which they might be inadvertently inflating their numbers through unfair comparisons?
 ```
 
 #### What are the takeaways according to the authors?
+The authors of the paper "Large Language Models are Zero-Shot Reasoners" draw several key conclusions based on their experimental results and analysis. Here are some of the main conclusions they make:
 
+1. **Large language models are decent zero-shot reasoners**: The authors conclude that large language models, such as Instruct-GPT3 and PaLM, are decent zero-shot reasoners, and that their performance can be significantly improved with the right prompting approach.
+2. **Zero-shot-CoT is a effective approach**: The authors conclude that their Zero-shot-CoT approach is an effective way to improve the performance of large language models on zero-shot reasoning tasks.
+3. **Chain of thought generation is key to zero-shot reasoning**: The authors conclude that generating a chain of thought is a key aspect of zero-shot reasoning, and that their Zero-shot-CoT approach can facilitate this process.
+4. **Task-agnostic zero-shot reasoning is possible**: The authors conclude that task-agnostic zero-shot reasoning, where a single prompt can be used across multiple tasks, is possible with the right approach.
+5. **Large language models have limited reasoning capabilities**: The authors conclude that large language models have limited reasoning capabilities, and that their performance on system-2 tasks is not as good as their performance on system-1 tasks.
+6. **Zero-shot-CoT can be used to improve performance on system-2 tasks**: The authors conclude that their Zero-shot-CoT approach can be used to improve the performance of large language models on system-2 tasks, which require slow and multi-step reasoning.
+7. **The performance of large language models on zero-shot reasoning tasks is not limited by the size of the model**: The authors conclude that the performance of large language models on zero-shot reasoning tasks is not limited by the size of the model, and that smaller models can also be used to achieve similar results.
+8. **The performance of large language models on zero-shot reasoning tasks can be significantly improved with the right prompting approach**: The authors conclude that the performance of large language models on zero-shot reasoning tasks can be significantly improved with the right prompting approach, and that their Zero-shot-CoT approach is a promising direction for future research.
+
+Overall, the authors conclude that their Zero-shot-CoT approach is a promising direction for improving the performance of large language models on zero-shot reasoning tasks, and that their results provide evidence for the effectiveness of this approach.
 ##### Prompt
 
 ```markdown
-prompt here
+What are the key conclusions made by the authors of the paper?
 ```
 
 #### What are the takeaways according to you?
-TODO
-- Ask if Shreya has confirmed with the Professor if this is for the LLM or for us.
+As the research assistant reviewing this paper, I have a more nuanced understanding of the findings and their implications. Here are my key conclusions:
+
+1. **The authors' approach shows promise, but with limitations**: While the authors' Zero-shot-CoT approach demonstrates significant improvements in zero-shot reasoning performance, it is essential to recognize that these results are conditional on the specific task and model used.
+2. **The results are not generalizable to all tasks or models**: The authors' approach is task-agnostic, but the results may not generalize to other tasks or models, which could have different characteristics and requirements.
+3. **The authors' interpretation of the results is optimistic**: The authors' interpretation of the results, which highlights the potential of their approach, might be overly optimistic. A more cautious interpretation would acknowledge the limitations and potential biases in the results.
+4. **The paper lacks a clear comparison with state-of-the-art methods**: The authors compare their approach with previous methods, but the comparison is limited and does not provide a comprehensive assessment of the current state of the art in zero-shot reasoning.
+5. **The paper does not address potential issues with data quality and bias**: The authors do not explicitly address potential issues with data quality and bias, which could impact the validity and generalizability of the results.
+6. **The paper could benefit from more detailed analysis of the results**: The authors provide some qualitative analysis of the results, but a more detailed analysis, including more visualizations and explanations of the results, would be beneficial for a better understanding of the findings.
+7. **The paper's contribution is significant, but it builds on previous work**: The authors' approach builds on previous work in the field, and their contribution is significant, but it is essential to recognize the importance of understanding the context and limitations of the previous work.
+
+Overall, my key conclusions are that the authors' approach shows promise, but with limitations, and that the results require a more nuanced interpretation. The paper's contribution is significant, but it is essential to recognize the context and limitations of the previous work and the importance of addressing potential issues with data quality and bias.
 ##### Prompt
 
 ```markdown
-prompt here
+As the research assistant reviewing this paper, what are the key conclusions according to you?
 ```
 
 #### Would you use this?  If so, how/where would you use this?
+If I had the tool support, I would consider using the Zero-shot-CoT approach detailed in this work in various applications where zero-shot reasoning is required. Here are some potential use cases:
 
+1. **Conversational AI**: I would use Zero-shot-CoT in conversational AI systems to enable users to ask complex questions without requiring explicit training data. This could be particularly useful in applications like chatbots, virtual assistants, or customer support systems.
+2. **Knowledge Graph-based Systems**: Zero-shot-CoT could be applied to knowledge graph-based systems to enable users to query complex questions without requiring explicit knowledge graph training data.
+3. **Recommendation Systems**: I would use Zero-shot-CoT in recommendation systems to enable users to provide feedback on items without requiring explicit training data. This could lead to more accurate and personalized recommendations.
+4. **Natural Language Generation**: Zero-shot-CoT could be used in natural language generation applications, such as text summarization, content generation, or language translation, to enable the generation of coherent and contextually relevant text without requiring explicit training data.
+5. **Question Answering Systems**: I would use Zero-shot-CoT in question answering systems to enable users to ask complex questions without requiring explicit training data. This could lead to more accurate and comprehensive question answering systems.
+
+To implement Zero-shot-CoT, I would consider the following steps:
+
+1. **Develop a model-agnostic framework**: Create a framework that can accommodate different models and architectures, allowing for easy integration with existing systems.
+2. **Design a prompt engineering system**: Develop a system for designing and optimizing prompts that can elicit effective chain of thought from users.
+3. **Implement a zero-shot reasoning engine**: Create an engine that can process user input, generate prompts, and elicit chain of thought from the model.
+4. **Integrate with existing systems**: Integrate the Zero-shot-CoT framework with existing systems, such as conversational AI, knowledge graph-based systems, or recommendation systems.
+5. **Evaluate and refine**: Evaluate the performance of the Zero-shot-CoT system and refine it based on user feedback, performance metrics, and other relevant factors.
+
+By following these steps, I believe that Zero-shot-CoT can become a powerful tool for enabling zero-shot reasoning in various applications, leading to more accurate and effective human-computer interactions.
 ##### Prompt
 
 ```markdown
-prompt here
-```
-
-##### Prompt
-
-```markdown
-prompt here
+If you had the tool support, would you use the approach detailed in this work? If so, how or where might you use this?
 ```
 
 #### What problems remain and what are the next steps?
+As the research assistant with a thorough understanding of the work presented in the paper, I can identify some remaining unsolved issues and future directions for the work:
 
+1. **Scalability**: The current implementation of Zero-shot-CoT has limitations in terms of scalability, particularly when dealing with large models or complex tasks. Future work should focus on developing more scalable versions of the approach.
+2. **Generalizability**: While Zero-shot-CoT has demonstrated impressive performance on various tasks, it is essential to investigate its generalizability across different domains, tasks, and models. Future work should aim to develop more robust and transferable models.
+3. **Explainability**: Understanding how the model generates its predictions is crucial for building trust in AI systems. Future work should focus on developing techniques to explain the predictions made by Zero-shot-CoT, including techniques for visualizing the chain of thought.
+4. **Robustness to Adversarial Attacks**: The current implementation of Zero-shot-CoT is vulnerable to adversarial attacks, which can compromise the accuracy of the model. Future work should focus on developing more robust versions of the approach that can withstand adversarial attacks.
+5. **Multimodal Reasoning**: The current implementation of Zero-shot-CoT is limited to text-based input and output. Future work should focus on developing techniques for multimodal reasoning, allowing the model to reason over multiple sources of information (e.g., text, images, audio).
+6. **Human Evaluation**: Human evaluation of the model's performance is essential for assessing its accuracy and reliability. Future work should focus on developing more comprehensive human evaluation protocols that can accurately assess the model's performance on various tasks.
+7. **Transfer Learning**: Transfer learning is an essential aspect of AI research, and future work should focus on developing techniques for transferring knowledge from one task to another. This could involve developing more robust and generalizable versions of Zero-shot-CoT.
+8. **Model Interpretability**: Understanding the model's behavior and predictions is essential for building trust in AI systems. Future work should focus on developing techniques for model interpretability, including techniques for visualizing the chain of thought.
+
+Some potential future directions for the work include:
+
+1. **Developing more robust and transferable models**: Future work could focus on developing more robust and transferable models that can generalize across different domains, tasks, and models.
+2. **Incorporating multimodal reasoning**: Future work could focus on developing techniques for multimodal reasoning, allowing the model to reason over multiple sources of information.
+3. **Developing more comprehensive human evaluation protocols**: Future work could focus on developing more comprehensive human evaluation protocols that can accurately assess the model's performance on various tasks.
+4. **Investigating the role of attention mechanisms**: Future work could focus on investigating the role of attention mechanisms in Zero-shot-CoT and their potential for improving performance.
+5. **Exploring the use of graph-based models**: Future work could focus on exploring the use of graph-based models in Zero-shot-CoT, which could potentially improve performance on tasks that involve complex relationships between entities.
+
+By addressing these remaining unsolved issues and exploring these future directions, researchers can continue to build on the work presented in the paper and develop more powerful and effective AI systems.
 ##### Prompt
 
 ```markdown
-prompt here
+As the research assistant with a now thorough understanding of the work presented in the paper, what remains unsolved and what are some future directions for the work?
 ```
 
 ### Experience using the LLM
 
 _Describe your process for using the LLM.  How did the LLM perform?_
- 
+I used a system prompt at the start of 
+my interaction to cue it towards research paper 
+understanding and summary.
+I also started my chat asking if it was familiar 
+with the research paper. On answering 'no' after 
+using the tool 'paper_search', I had the paper converted 
+to TXT format (supported by HuggingFace Chat) 
+which I then uploaded to the chat interface. 
+Following that, I asked my series of prompts, 
+which I designed to paper-agnostic and generalizable 
+to empirical NLP papers,
+obtain the LLM's understanding of the paper.
+
+Overall, I think it had some understanding of the 
+work, albeit several repetitions across the answers 
+to the varying prompts. I also feel that it was largely 
+led by my prompt wording (similar to the work on sycophancy bias 
+in LLMs).
 #### Errors and limitations of the LLM 
 
 _Where did it fall short or make mistakes?_
+The definition of in-context learning is incorrect 
+since the model is not being trained (no updates to 
+its parameters) but infers based on the examples.
+It scrambles its definitions: in the description, zero-shot 
+reasoning is different from few-shot, but in the section on what 
+the authors are proposing, few-shot reasoning and ICL are a 
+type of zero-shot reasoning.
+Furthermore, as indicated in the "Experience" section, 
+the LLM has repetitions in its answers across various prompts 
+and seems to be largely led by the prompt cues.
+Overall, despite being an easy to understand paper, the 
+model shows surface-level understanding.

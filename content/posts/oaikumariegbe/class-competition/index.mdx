@@ -1,9 +1,9 @@
 ---
-title: "An Hybrid Approach to Author Profiling"
+title: "An Hybrid Approach to Author Verification"
 slug: "/oaikumariegbe/class-competition"
-date: 2025-11-16
+date: 2025-12-10
 author: Oghenevovwe Ikumariegbe
-description: "My approach explores how to combine dense neural embeddings with sparse extracted stylistic features to capture an author's writing fingerprint."
+description: "This approach explores how to combine dense neural embeddings with sparse extracted stylistic features to capture an author's writing fingerprint."
 tags:
   - class competition
 ---
@@ -22,7 +22,7 @@ tags:
 <tbody>
   <tr>
     <th><b>Leaderboard score</b></th>
-    <td>0.62</td>
+    <td>0.65</td>
   </tr>
   <tr>
     <th><b>Leaderboard team name</b></th>
@@ -41,25 +41,84 @@ tags:
 
 
 ## Task summary
+### Introduction
+The task, which is commonly known as author verification in 
+the field of Natural Language Processing, is one whose objective
+is to determine whether two (or more) snippets of text were 
+written by the same author. Unlike authorship attribution, 
+where the goal is to select the most likely author 
+from a predefined set of candidates, 
+author verification operates in an open-set scenario: 
+deciding whether two documents share authorship 
+without relying on a closed list of known writers.
+to the same author or not. A closely related task, 
+author profiling, extends author verification 
+to infer latent characteristics of an author&emdash;such as age, 
+gender, native language, or personality traits&emdash;
+purely from linguistic patterns.
 
-The task is to determine if two spans of texts are written by the same author. 
+These tasks share the broad aim of uncovering 
+stylistic signals in text, and have practical uses in 
+digital forensics, cybersecurity, plagiarism detection,
+among other. However, they can be challenging to accomplish for 
+a number of reasons: 
+i. An author's style can be subtle 
+and vary across topics and genres 
+(even by the same author)
+ii. Stylistic signals extend beyond semantic similarity,
+therefore adding to its complexity.
+iii. Limited and noisy data, 
+which is needed to generalizing to unknown authors' styles.
+
+Author verification, which is the focus of this blog, 
+is a binary classification task with 0 corresponding to 
+'Not the same author' and 1 to 'Same author'.
+The dataset provided consists of 1601 training instances 
+and 899 (80%) test instances. I go into more details 
+on the dataset in the [Exploratory Data Analysis section](#exploratory-data-analysis).
+
+### Related Work and State of the Art Approaches
+Classical approaches to author verification relied heavily on stylometry, 
+focusing on manually crafted linguistic features: distribution of function words,
+character n‑grams, POS tags, and other style markers, 
+combined with distance measures or supervised classifiers.
+With the rise of deep learning and neural architectures&emdash;first CNNs and RNNs, 
+and later transformers&emdash;have become more prominent in the task. 
+Pretrained language models such as BERT, RoBERTa, and ELECTRA 
+have been fine-tuned for author verification [Nguyen et al., van Leeuwen et al.]. 
+In parallel, contrastive and pairwise training objectives have been 
+have been specialized for this task, more explicitly model authorship similarity, 
+encouraging embeddings of texts by the same author to 
+cluster together while pushing apart those from different authors.
+Benchmark datasets and standardized evaluations have also played a crucial role. 
+In particular, the [PAN](https://pan.webis.de/)have established widely used 
+benchmarks for author verification, 
+enabling the comparison of methods across domains, and 
+levels of stylistic difficulty.
 
 ## Exploratory data analysis
+The initial provided dataset consisted of 1601 examples, 
+which I split into train and val using a test_size of 0.08 
+and setting a seed for reproducibility. 
+In addition, I generated my data from Gutenberg books and 
+created a balanced set by augmenting it with the original dataset.
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+The table below shows the basic statistics of the dataset.
+| Data Split | Number of examples | Class distribution|
+|-----|--------------|------------------------|
+| Train | 1472 | 0    1145; 1     327 | 
+| Val | 129| 0    100; 1     29 | 
+| Augmented Train | 35,425 | 0    17713; 1    17712 |
+| Augmented Val | 3081 | 0    1540; 1    1541 |
 
-## Approach
-This project explores a hybrid approach to 
-authorship profiling by combining dense neural embeddings 
-with linguistically motivated sparse features. 
-The goal is to capture both high-level semantic information and 
-fine-grained stylistic patterns that may distinguish one 
-author from another.
-The dense component is based on a BERT-style transformer. 
-Two text spans—separated in the data by a special token 
-([SNIPPET])—are encoded either as a single combined sequence 
-or as two independent sequences whose pooled representations 
-are passed to a classifier. 
+In addition, I looked into the mean token lengths of the snippets 
+which informed the data augmentation process as well as the model architecture.
+The mean length of the tokenized snippets in original test set was ~266 
+and the max length was 1252. Hence, using BERT and BERT-based models with 
+a model max length of 512, I decided on a model architecture that 
+generated the embeddings independently.
+### Data augmentation
+
 To improve robustness and reduce overfitting, 
 the training corpus is augmented with additional samples drawn 
 from the Gutenberg library. 
@@ -72,7 +131,22 @@ original train set.
 These constraints help ensure that the augmented examples 
 more closely resemble the 
 original train set.
-In parallel, the classifier model incorporates a set of 
+
+## Approach
+This project explores a hybrid approach to 
+authorship profiling by combining dense neural embeddings 
+with linguistically motivated sparse features. 
+The goal is to capture both high-level semantic information and 
+fine-grained stylistic patterns that may distinguish one 
+author from another.
+The dense component is based on a BERT-style transformer. 
+I also experimented with Longformer (4096 max length). 
+I trained some layers of the transformer architecture as well,
+so the embeddings are learned for my task.
+Two text spans—separated in the data by a special token 
+([SNIPPET])—are encoded as two independent sequences whose pooled representations 
+are passed to a classifier. 
+The classifier model incorporates a set of 
 hand-engineered features designed to 
 reflect stylistic tendencies at the lexical, syntactic, 
 and structural levels. 
@@ -90,6 +164,15 @@ These features include:
 
 * Frequencies of the top-k POS bigrams, capturing local transitions in part-of-speech sequences
 
+* Cosine similarity of 3-5 character level bigrams
+
+Furthermore, to reduce the dimensionality, 
+I used PCA from scikit-learn to reduce the dimension to 50.
+
+A final decision made was to train the model to be invariant 
+of the order pair. Therefore, I used either the absolute difference 
+of the embeddings/features, their product and their average.
+
 For each pair of spans, 
 the feature extraction code computes this vector 
 for both texts and appends the absolute difference between the two, 
@@ -99,22 +182,63 @@ By jointly leveraging dense semantic information
 and interpretable syntactic/lexical indicators, 
 my approach aims to produce a more reliable model 
 for distinguishing authors based on their stylistic signatures.
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
 
 ## Results
+I obtain the following results on the validation set
+BERT:
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
+<pre>
+Classification Report 
+              precision    recall  f1-score   support
 
+           0       0.90      0.71      0.79      1540
+           1       0.76      0.92      0.83      1541
+
+    accuracy                           0.81      3081
+   macro avg       0.83      0.81      0.81      3081
+weighted avg       0.83      0.81      0.81      3081
+</pre>
+DEBERTA:
+<pre>
+Classification Report 
+              precision    recall  f1-score   support
+
+           0       0.90      0.71      0.79      1540
+           1       0.76      0.92      0.83      1541
+
+    accuracy                           0.81      3081
+   macro avg       0.83      0.81      0.81      3081
+weighted avg       0.83      0.81      0.81      3081
+</pre>
+Longformer:
+<pre>
+Classification Report 
+              precision    recall  f1-score   support
+
+           0       0.84      0.80      0.82      1540
+           1       0.81      0.85      0.83      1541
+
+    accuracy                           0.82      3081
+   macro avg       0.83      0.82      0.82      3081
+weighted avg       0.83      0.82      0.82      3081
+</pre>
+The results are promising, showing the model is learning to distinguish.
+The model overfit to the training data but early stopping was used to get the last model before the overfitting.
 ## Error analysis
-
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
-
+I did a manual analysis of the data (based on the validation set) and found the following patterns:
+- Two short snippets are likely to be characterized as being the same author
+- When an author writes in a different genre or topic space, the model struggles to correlate it as being by the same person
+- Some snippets were to short to be informative
+- Some snippets were in a similar writing style, leading the model to predict same author even when it was by different authors.
 ## Reproducibility
-
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
-_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
-
-
+See the README in the code repository.
 ## Future Improvements
-
-_Describe how you might best improve your approach_
+A number of limitations and improvements of this work include:
+- Lack of ablation studies: Given more time, I would like to see the effect of the different components of the architecture (embeddings, handcrafted features and dimensionality reduction)
+- Loss: Related work have shown that contrastive or pairwise loss work better in this case. That would be a future extension of the hybrid approach.
+- Cross encoders: Some attentional information is likely lost by generating embeddings independently.
+- Overfitting: My BERT mdel overfit after some epochs despite early stopping.
+<b> References </b>
+[Improving Long-Text Authorship Verification via Model Selection and
+Data Tuning](https://aclanthology.org/2023.latechclfl-1.4)(Nguyen et al, 2023)
+[Combining style and semantics for robust authorship verification](https://doi.org/10.1016/j.mlwa.2025.100732)(van Leeuwen et al.)
