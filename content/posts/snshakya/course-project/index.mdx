@@ -38,7 +38,7 @@ This project investigates whether Minimal Chain-of-Thought (Minimal-CoT) prompts
 Chain-of-Thought (CoT) prompting has been shown to significantly improve the ability of large language models to perform complex reasoning by generating explicit intermediate steps before producing an answer [Wei et al., 2022]. However, CoT introduces two major types of costs that are especially problematic in multilingual and low-resource settings. First, manual-CoT (few-shot, human-written reasoning demonstrations) require tedious, task-specific annotations that do not easily generalize across new domains or languages [Wei et al., 2022; Zhang et al., 2022]. Second, verbose CoT rationales dramatically increase inference cost: outputs can be an order of magnitude longer than direct answers, inflating token usage, latency, and, in multilingual cases, amplifying error propagation through translation and script mixing [Xu et al., 2025; Han et al., 2025].
 To reduce these costs, prior work has explored several directions.
    (a) Automatic demonstration generation, including Auto-CoT [Zhang et al., 2022], Consistency-based Self-Adaptive Prompting (COSP) [Wan et al., 2023], and Universal Self-Adaptive Prompting (USP) [Wan et al., 2023], eliminates the need for human-authored CoT exemplars by having models generate or refine their own demonstrations.
-   (b) Concise reasoning methods, such as Chain-of-Draft (CoD) [Xu et al., 2025] and Token-Budget-Aware LLM Reasoning (TALE) [Han et al., 2025], explicitly aim to compress or constrain rationales to reduce inference cost while preserving accuracy.
+   (b) Concise reasoning methods, such as Chain-of-Draft (CoD) [Xu et al., 2025], Zero-shot CoT [Tojima et al, 2022], and Token-Budget-Aware LLM Reasoning (TALE) [Han et al., 2025], explicitly aim to compress or constrain rationales to reduce inference cost while preserving accuracy.
    (c) Adaptive computation and uncertainty-aware decoding, including RouteLLM [Ong et al., 2024], Mixture-of-Experts gating strategies [Li et al., 2023], and Contrastive Decoding variants [Li et al., 2023], seek to minimize compute by selectively allocating reasoning effort or stabilizing token choices through contrastive expert - base model reweighting.
 
 Despite this progress, very little of this literature examines CoT in multilingual or low-resource languages, and even less addresses the unique challenges these languages pose. Moreover, existing efficient CoT methods assume high-resource training conditions and well-calibrated reasoning behavior, which do not hold for low-resource languages like Nepali.
@@ -136,35 +136,38 @@ Across both models and both languages, Minimal-CoT consistently outperforms No-C
 <b> Some key observations: </b>
 
 English:
-- Qwen improves from 4.9% to 23.7% (+18.8) when moving from No-CoT to Minimal-CoT.
-- LLaMA improves from ~6% to ~22% (+16).
-- Standard-CoT does not outperform Minimal-CoT, despite using 650–900 tokens on average.
+- Qwen improves from 17.51% to 82.03% when moving from No-CoT to Minimal-CoT.
+- LLaMA improves from 11.90% (No-CoT) to 73.62% (Minimal-CoT)
+- Standard-CoT offers only a small accuracy gain over Minimal-CoT in English, despite requiring substantially more tokens on average (≈397 for Qwen and ≈489 for LLaMA).
 
 Nepali:
-- Qwen improves from ~3–4% to 10–14% (+7–10).
-- LLaMA improves from ~3–5% to 15–18% (+12–13).
-- Standard-CoT again provides no major advantage over Minimal-CoT.
+- Qwen improves from 8.49% to 29.80% when moving from No-CoT to Minimal-CoT.
+- LLaMA improves from 4.93% to 23.73% when moving from No-CoT to Minimal-CoT.
+- In both models, Standard-CoT provides no meaningful advantage over Minimal-CoT—and in LLaMA’s case, Minimal-CoT actually performs better.
 
 These improvements are especially notable in Nepali, where Standard-CoT tends to produce longer, less structured explanations and is more susceptible to hallucination or drift in reasoning (misleading rationales). Minimal-CoT appears to anchor the model to a concise reasoning path that is easier to maintain in low-resource languages.
 
 <b> Across all four conditions (English/Nepali × Qwen/LLaMA): </b> 
-- Minimal-CoT achieves 70–90% of Standard-CoT’s accuracy at 40–60% of the token cost.
-- In Nepali, Minimal-CoT often outperforms Standard-CoT, making it better both in accuracy and efficiency.
+- Minimal-CoT achieves 95–115% of Standard-CoT’s accuracy while using only 68–81% of the token budget. In other words, Minimal-CoT is almost as accurate, or sometimes more accurate, while being consistently more efficient.
+- In Nepali, Minimal-CoT often outperforms Standard-CoT, offering higher accuracy for both Qwen and LLaMA while requiring fewer tokens, making it the most balanced and reliable prompting strategy in low-resource settings.
 
 These findings directly support the project’s central research question: a small amount of reasoning is enough; and in multilingual settings, more reasoning is often harmful.
 
 <b> Cross-model insights </b> 
 
-- LLaMA is more stable and structured, especially in Nepali. Minimal-CoT shows consistently strong results (15–18%).
-- Qwen improves sharply with Minimal-CoT in English but remains less stable in Nepali. Standard-CoT often causes markdown-like hallucinations or long paraphrases.
+- LLaMA is more steady and reliable, especially in Nepali. Minimal-CoT reaches 23.73%, which is higher than Standard-CoT at 20.55%, and the reasoning is shorter and more focused.
+- Qwen shows similar accuracy for Minimal-CoT and Standard-CoT in Nepali (29.80% vs. 30.02%), but Standard-CoT often produces long or messy explanations, while Minimal-CoT stays cleaner.
+- In English, both models perform slightly better with Standard-CoT, but Minimal-CoT is close:
+    LLaMA: 73.62% (Minimal) vs 77.10% (Standard)
+    Qwen: 82.03% (Minimal) vs 86.73% (Standard)
 
-Minimal-CoT mitigates many of these issues, explaining why both models perform best under this prompting style.
+Overall, Minimal-CoT stays competitive with Standard-CoT while generating much shorter outputs, making it more efficient and more stable across languages.
 
 <b> Cross-lingual insights </b> 
 
-- Accuracy decreases from English to Nepali for both models, as expected due to reduced training exposure, morphological complexity, and numeric expression differences.
-- However, Minimal-CoT narrows the performance gap, providing a more stable reasoning structure across languages.
-- The gains we observe in both English and Nepali show that Minimal-CoT is not tied to English-specific training biases and instead generalizes effectively across languages.
+- Both models score much higher in English than in Nepali (for example, LLaMA: 73.62% → 23.73%, Qwen: 82.03% → 29.80%), which is expected given lower training coverage and more complex number expressions in Nepali.
+- Minimal-CoT reduces this drop by keeping the reasoning shorter and clearer, helping both models stay more stable across languages.
+- The strong improvements from Minimal-CoT in both English and Nepali show that it is not dependent on English-specific patterns and generalizes well across languages, including low-resource ones.
 
 <b> Summary </b>
 
@@ -209,13 +212,13 @@ To determine the optimal reasoning budget for Minimal-CoT in low-resource settin
 
     Table 3: Minimal-CoT Results for Nepali GSM8K on Llama-7B
 
-Across both models, accuracy improves rapidly as the cap increases from 192 to 512 tokens, after which gains taper off:
-- LLaMA-7B reaches its best performance at 640 tokens (16–18%), with only marginal improvements beyond 512.
-- Qwen2.5-7B peaks slightly later, around 768 tokens (11–13%), reflecting its need for a slightly longer reasoning space to avoid paraphrase loops.
+Across both models, accuracy improves quickly as the reasoning cap increases from 192 to 512 tokens, after which gains become very small.
+- LLaMA-7B reaches its highest accuracy at 512–640 tokens (24.34%), with no further improvement up to 1280 tokens.
+- Qwen2.5-7B reaches its peak at 640 tokens (34.50%), and accuracy begins to decline slightly at 768 tokens and beyond.
 
-Beyond 768–896 tokens, neither model shows meaningful improvement, despite generating longer chains.
-Overall, the results demonstrates that Minimal-CoT needs only ~500–700 tokens to reach peak performance in Nepali. Longer reasoning chains offer little benefit and may even reduce stability, reinforcing that concise reasoning is both efficient and effective in low-resource settings.
+Beyond 768–896 tokens, neither model benefits from the longer reasoning chains, even though the outputs become much longer and slower to generate.
 
+Overall, the results show that Minimal-CoT needs only about 500–700 tokens to reach its best performance in Nepali. Longer chains add cost without adding accuracy, and can even reduce stability, reinforcing that short, focused reasoning is both efficient and effective for low-resource languages.
 
 ## Error analysis
 
@@ -285,6 +288,18 @@ Example:
 
 The model repeats the prompt (“तपाईं एक गणित समाधानकर्ता हुनुहुन्छ…”) and restates each sentence of the question instead of computing the three alarm counts. It never performs the calculations 4, 12, or 6, and ends with an unsupported final answer ‘#### 6’, illustrating a paraphrase loop with no actual reasoning.
 
+<b>Summary </b>
+
+Across these four categories, we find that:
+
+- low caps → truncation
+- Nepali reasoning → semantic grounding failures
+- all caps → arithmetic drift
+- mid caps → paraphrase loops
+- large caps (≥512) → more stable chains but still vulnerable to numeric interpretation issues
+
+These patterns explain why Minimal-CoT reaches peak performance around 500–700 tokens: long enough to avoid truncation and paraphrasing, but short enough to reduce drift and hallucination.
+
 ## Reproducibility
 
 Covered in our code repository's README. 
@@ -332,3 +347,6 @@ Overall, these improvements aim to make Minimal-CoT even more reliable, interpre
 8. [Adaptive Gating in Mixture-of-Experts based Language Models](https://aclanthology.org/2023.emnlp-main.217/) (Li et al., EMNLP 2023)
 
 9. [Contrastive Decoding: Open-ended Text Generation as Optimization](https://aclanthology.org/2023.acl-long.687/) (Li et al., ACL 2023)
+
+10. [Large Language Models are Zero-Shot Reasoners](https://arxiv.org/abs/2205.11916) (Kojima et al., arXiv 2023)
+
