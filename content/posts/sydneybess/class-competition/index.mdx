@@ -22,11 +22,11 @@ tags:
 <tbody>
   <tr>
     <th><b>Leaderboard score</b></th>
-    <td>70.134</td>
+    <td>68.282 (for the model I'll be analyzing)</td>
   </tr>
   <tr>
     <th><b>Leaderboard team name</b></th>
-    <td>n/a</td>
+    <td>Sydney Bess</td>
   </tr>
   <tr>
     <th><b>Kaggle username</b></th>
@@ -44,20 +44,22 @@ tags:
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
 
-The goal of this task is to see if two texts are by the same or different authors.  First task was to examine the datasets and read them into a dataframe.
+The goal of this task is to see if two texts are by the same or different authors. This task has been studied in depth in linguistics, it even has it's own field Stylometry. For this Kaggle competition, we were given a train dataset and a test dataset in the form of CSV files. The train dataset with 1,601 entries was manually labeled if the text in each entry (a combination of two snippets from either the same or different authors) with a 1 or 0 (more on this later). The test set was unlabeled and was what we were supposed to run our model on for inference.
 
-The first thing I tried was to find cosine similarity, but that performed awfully. I was going to try word embeddings but after looking at the data, it wasn't necesarily the _words_ that made them same authors, but other features.
+While Stylometry can be computerized (ie doing feature engineering based on length of sentences, punctuation, etc) I wanted to know if a Sequence classifer pre-trained model could make the process more efficient.
 
-So, to be brief and not give away my competitive edge 😏 I ended up following some guides from HuggingFace to run a Sequence Classifier model and using Transformer tokenizers to encode the text. 
+There has been some research in the use of LLMs to identify authors, while this is a different task then the one I'm partaking in, I think it is notable to discuss (Huan & Chen, 2024). Huan and Chen specifically mention *why* something like a pretrained model (which I am using), isn't the best choice. The main reason to use LLMs instead of something like a BERT transformer is because for a transformer you need a lot of data -- which as you will see in my analysis, the lack of balanced data for this task reflects in the results. The reasons they say LLMs are good is because they have the reasoning to make linguistic conclusions, versus a pre-trained model's hidden feature engineerings. However, I am hesitant to believe Huan and Chen's claim based on something I did for this assignment.
 
-I chose Sequence Classifier because because a sequence2sequence based model is more effective then logistic regression and uses attention mechanisms to better find the important features to tell the differences.
-
-In terms of tokenizers, I chose my specific tokenizer I did because it is considered leading in tokenizers and was suggested for text classification.
-
-My next move will be to add more augmented data to better train the model and mess around with parameters and maybe different pre-trained models.
-
-
-
+I'll discuss later about the imabalance in the data, so I tried to ask JanAI using this prompt
+```I want more data for a project I’m doing. The project is to tell if two text snippets are by the same author or a different author. 0 is for different author and 1 is for same author.
+Right now my train data looks like this:
+ID,TEXT,LABEL
+0,"When his speaker remained silent Dirrul .... [I inputted more examples but leaving it at that]
+the two texts are a single string seperated by [SNIPPET]
+Create a new csv file with more training data with various authors``` 
+When it spit back text, I asked it to tell me what the two authors are because I recognized some quotes from literature but not others. I tried to verify the authors and text it gave me, but to no avail. So, it seems it isn't that efficient at generating text by different authors that are factual - so can it do the reverse?
+Who knows? One day I'll experiment, but for now we're doing old fashioned model.
+In Huan and Chen's article they provided a result table that reflected Tf-IDF (which I used as my base), BERT (which I used for my main model), and GPT. Interestingly, their results comparing TF-IDF and BERT on the task of author identification resembled my proportions used for my same author task (around a 35% improvement from TF-IDF to BERT).
 
 
 
@@ -67,72 +69,120 @@ My next move will be to add more augmented data to better train the model and me
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
 The data was an ID, TEXT (which were actually two texts by the same or different author combined with the string [SNIPPET]) and LABEL of 0 or 1 depending on if the texts were the same or different author.
-To discover the dispersal of data, I checked several things.
+To discover the dispersal of data, I checked several things. First the labels.
 In the full dataset:
-Entries: 1,601
-Label 0: 1,245
-Label 1: 356
 
-Train Dataset:
-Entries: 1,280
-Label 0: 999
-Label 1: 281
+| **Dataset**        | **Entries** | **Label 0** | **Label 1** |
+|----------------|---------|---------|---------|
+| Full Dataset   | 1,601   | 1,245   | 356     |
+| Train Dataset  | 1,280   | 999     | 281     |
+| Validation Set | 160     | 123     | 37      |
+| Test Dataset   | 161     | 123     | 38      |
 
-Test Dataset:
-Entries: 321
-Label 0: 246
-Label 1: 75
 
-I tried adding more data through augmentation with AI, but it made up things. 
+
+I thought the data was imbalanced because the majority of entries being not the same author. I had a theory that the model would have a lower recall because it will learn more from not the same author as same. 
+Hence, tried adding more data through augmentation with AI, but it made up things. 
 So next I did research on other datasets and found this dataset on Kaggle [Spooky Authorship Dataset](https://www.kaggle.com/competitions/spooky-author-identification/data?select=train.zip)
 It had text samples from three different authors with columns: ID, text, author.
 While I didn't care about who the author was, I set something up that randomly selected two rows and put the two text columns together with [SNIPPET] and if the author was the same, set the corrosponding label.
-While I ended up not using the data because it actually made my data worse, even though it balanced the two categories, here was the breakdown
-In the full dataset:
-Entries: 2,997
-Label 0: 1,725
-Label 1: 1,273
+While I ended up not using the data because it actually made my model worse, even though it balanced the two categories, here was the breakdown
 
-Train Dataset:
-Entries: 2,398
-Label 0: 1,381
-Label 1: 1,017
+| **Dataset**       | **Entries** | **Label 0** | **Label 1** |
+|---------------|---------|---------|---------|
+| Full Dataset  | 2,997   | 1,725   | 1,273   |
+| Train Dataset | 2,398   | 1,381   | 1,017   |
+| Test Dataset  | 600     | 344     | 256     |
 
-Test Dataset:
-Entries: 600
-Label 0: 344
-Label 1: 256
+
+
 
 While this 'balanced' the data, I did some reasearch and found that BERT does not need much for finetuning https://stackoverflow.com/questions/58696041/how-to-deal-with-a-highly-imbalanced-issuetext-classification-dataset
-To make the data easier to visualize, I added text1 and text2 columns which split the single [Snippet] special token into two texts/
+To make the data easier to visualize, I added text1 and text2 columns which split the single [Snippet] special token into two texts.
+
+| **ID** | **TEXT**                                  | **LABEL** | **text1**                                 | **text2**                                   |
+|-------:|-------------------------------------------|-----------|---------------------------------------------|-----------------------------------------------|
+| 1596   | Kinton realized to his surprise that the effor... | 0         | Kinton realized to his surprise that the effor... | Their erect posture gave them a weirdly half-h... |
+
+
 ## Approach
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
 My approach was to use a text classifier BERT model to classify the texts. 
 1. Performed exploratory analysis and decided to add two new columns for each of the text snippets. This is also where I attempted to supplement with more data.
-2. Seperated the dataframe into train and test and imported it into a Dataset for easier manipulation
-3. Set up the tokenizer, I used bert-base-uncased as that was suggested by [Text classifier](https://huggingface.co/docs/transformers/en/tasks/sequence_classification)
-    For this I mapped the dataset and did some alterations for the model to better understand, such as renaming 'LABEL' and ignoring the actual texts columns and focusing on the IDs, input_ids, token_type_ids, attention_mask, and labels.
-    Next I put it in the format of torch based on this example [Dealing with tokenizer](https://huggingface.co/docs/datasets/en/process)
+2. Seperated the dataframe into train, validation, and test and imported it into a Dataset for easier manipulation
+3. Set up the tokenizer, I used bert-base-uncased as that was suggested by [Text classifier](https://huggingface.co/docs/transformers/en/tasks/sequence_classification) Though, I didn't just choose a Sequence classifier model because that post told me to. As I've learned in classes, Sequence models are great for NLP because they can take a sequence of words and learn features from it by transforming it into chunks of numerical representation. With these features, it can build dependencies which is useful in this task because you want to learn patterns and similarity of authors.
+
+- For this I mapped the dataset and did some alterations for the model to better understand, such as renaming 'LABEL' and ignoring the actual texts columns and focusing on the IDs, input_ids, token_type_ids, attention_mask, and labels.
+- Next I put it in the format of torch based on this example [Dealing with tokenizer](https://huggingface.co/docs/datasets/en/process)
+
 
 4. Next I set up a data_collator with dynamic padding to better organize padding
-5. Creating a metric to test the success of the model using accuracy, function taken from [Text Classifier](https://huggingface.co/docs/transformers/en/tasks/sequence_classification)
-6. Set up the training arguments as suggested by [Text Classifier](https://huggingface.co/docs/transformers/en/tasks/sequence_classification). My initial run was 3 num epochs, but I thought if I ran it longer it would be better - but that was not the case. I was *trying* to be novel and try new things, but HuggingFace knows what it is talking about. But at least I learned what didn't work as well (though all my experimentations did help me learn more about my model, and were relatively close to eachother ie 65%-67% compared to the top first model which was 70%)
+5. Creating a metric to test the success of the model using accuracy, function taken from [Text Classifier](https://huggingface.co/docs/transformers/en/tasks/sequence_classification) along with other functions taken from class lectures that talked about evaluating binary classification models. 
+6. Set up the training arguments as suggested by [Text Classifier](https://huggingface.co/docs/transformers/en/tasks/sequence_classification). My initial run was 3 num epochs, but I thought if I ran it longer it would be better - but that was not the case. I was *trying* to be novel and try new things, but HuggingFace knows what it is talking about. But at least I learned what didn't work as well (though all my experimentations did help me learn more about my model, and were relatively close to eachother ie 65%-67% compared to the top first model which was 70%) In the end I went with 5 epochs.
 
 ## Results
-
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
+
+
+| **Metric**                 | **Baseline** | **New Model** | **Delta (New − Base)** |
+| -------------------------- | ------------ | ------------- | ---------------------- |
+| **Accuracy**               | 0.781       | 0.844         | **+0.064**            |
+| **Precision**              | 0.500       | 0.875         | **+0.375**            |
+| **Recall**                 | 0.085      | 0.378         | **+0.293**            |
+| **F1 Score**               | 0.146       | 0.520          | **+0.374**            |
+| **AUC ROC**                | —            | 0.727         | —                      |
+| **Average Precision (AP)** | —            | 0.600          | —                      |
+
+First, I set up a base model which used a similarity score and threshold to predict the label based on turning each text into a TFIDF vector. For this I took the training data used later for the model.
+
+
+While accuracy is relatively high, compared to the Sequence model, it tends to dramatically mislabel the positive (same author) class as negative (not same author). More specifically, out of all the golden class 1 labels, it only gets 8% correct. This is a major issue.
+The reason accuracy might be so high is because how much the data is imbalanced for negative.
+
+For my model, I saved on best accuracy, which was epoch 3, though in retrospect, I should have tested with the model with the best Precission and recall.
+
+
+Looking at the 'New Model' column there is a high accuracy, which can be misleading because as I predicted in the begining, the data heavily favors the negative class. 
+
+The high precision means the predicted positives are truly positive. However, on the flip side recall is very low as it only accuratly predicts actual positives 38% of the time (so even though it out of the positives predicted, a high percentage are actually positive, it only picks positive in a third of the cases there are positives.)  The F1 score shows more of the imalance.
+
+That is why I decided to also do the  Area Under the ROC and especially the AP.
+The ROC AUC says it does an average job seperating positives and negatives. But because the data is imbalanced, I wanted to look more at AUC PR which is when the positive cases are ranked above negative The 60% means it is more than random, which is good, which suggests the reason the recall is so low is not because the model can't predict positives, but because the threshold is too high.
+
+All that said, the delta shows there is a 35% average improvement in Precision, Recall, and F1 score, which is good. This shows there is an improvment in using a transformer based model compared to a normal vectorization model. However, it does follow the same proportional trend of high precision and low recall (though to more extremes.) This suggests even though the model improves matters, there is something to be said about the imbalance of the data (though again, when I tried to add data it did worse.)
+
+
+
+
+
 
 ## Error analysis
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
 
+| **Metric**        | **Value** |
+|-------------------|-----------|
+| Eval Accuracy     | 0.8509    |
+| Eval Precision    | 0.7917    |
+| Eval Recall      | 0.5000    |
+| Eval F1           | 0.6129    |
+| Eval AUC ROC      | 0.7668    |
+| Eval AP       | 0.6793    |
+
+This trend of high accuracy, high precision, and low recall continues into evaluating the model on the test data (seperate from the validation and train.) The F1 score is higher because precision and recall are more balanced. This suggests it did a better job at identifying more true positives, instead of categorizing them as negative (though only with 50% recall which is still not great.) The higher but similar accuracy does support that the datasets were relatively similar (as show in EDA.)
+
+
 ## Reproducibility
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
 _If you'ved covered this in your code repository's README, you can simply link to that document with a note._
-[README.md](https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-bess-days/blob/main/README.md) - I showed reproducibility
+[README.md](https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-bess-days/blob/main/README.md) - I showed reproducibility and I set up seeds for the files
 
 ## Future Improvements
 
 _Describe how you might best improve your approach_
+
+The first thing I'd do is balance out the data by augmenting more data. I think when I tried to add more data from the Kaggle dataset I mentioned, I added too much so it didn't actually represent what the test data would look like. It was 65% when submitting the prediction (although at the time I added the data, I wasn't checking the Precision, Recall or F1 score to tell.) I would go back and redo adding the data and try again, because I hadn't persued it after it got my lowest results.
+If that still didn't work (or even along with that), I'd do a method like SMOTE (Synthetic Minority Over-sampling Technique) to better represent the minority by creating synthetic data in similar word vector spaces as data annotated as positive class.
+

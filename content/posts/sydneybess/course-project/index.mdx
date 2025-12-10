@@ -23,7 +23,7 @@ tags:
   </tr>
   <tr>
     <th>Team name</th>
-    <td></td>
+    <td>Indigenous Language OCR</td>
   </tr>
 </tbody>
 </table>
@@ -32,36 +32,98 @@ tags:
 ## Project description
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility).  Use subsections to organize components of the description._
+### Overview
+For this project I am trying to do Optical Character Recognition on typed resources (old and typewritten, scanned documents) in Coeur d'Alene (CdA). The documents are written in a similar way to the Reichard Orthography which is a phonetic transcription of the CdA language. However, for the sake of this project, I will treat it as an orthography for a language compared to something like the IPA.
 
-Draft summary:
+The document's natures include bad fax copy lines, blurred text, handwritten notes, along with the text being written on a typewriter with flaws and inconsistincies.
+For this project, I've decided to use TrOCR which is a transformer based OCR model. 
 
-For this project I am trying to do Optical Character Recognition on typed resources (old and typewritten, scanned documents) in Coeur d'Alene (CdA). The documents are written in a sort of phonetic transcription with lots of accents.
-But the goal is we want to be able to extract the text, make it searchable, and able to be put into a database. First we have to extract it which I'm using transformers and synthetic data.
---- 
-**Goal 1 (Nov 17)**: Create the synthetic data  ✅ [You can see some which I generated](https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-indigenous-language-ocr/tree/main/gen-samples)
 
-  Tools I'll be using:
-  * Markovify (create made up words)
-  * Pillow (generate the images)
-  * Augraphy (for photo augmentation)
---- 
-**Goal 2 (Nov 24)**: Create the model and train on synthetic data to perform OCR on new sources 👩‍💻  [You can see what I have so far](https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-indigenous-language-ocr/blob/main/current_scripts/current_model.ipynb)
 
-Tools I'll be using:
-* TrOCR
-* Transformers
----
-**Goal 3 (Nov 28)**: Improve the model and start working on layout parsing to seperate the English from the CdA and run the respective OCR models. 
-Because TrOCR doesn't do full pdf's, I'll also have to use a tool to split into parts along with splitting by language 
+### 💻 Choosing the model
 
-Tools I'll be using:
-  * Maybe use PyTesseract to create line boundary boxes and filter even and odds to English or CdA and then save them as individual pictures and run through base and modified models
----
-**Goal 4 (Dec 5)**: Have performed testing using the layout parsing and gotten good results
+There has been a bit of research specifically into TrOCR used for this purpose. For example, researchers at the National Library of Norway and The Arctic University of Norway tried various different OCR models on Sami Indigenous Language. The sthree were Transkibus, Tesseract and TrOCR.
 
----
-**Goal 5 (Dec 7)**: Completed blog post and finalized code
+Interestingly, I have experience with all three. Firstly, someone at ALC discussed Transkibus with me during the Q&A portion of my team's presentation, although due to privacy concerns and cost, I decided not to go with that one.  I used Tesseract with my team on a simpler CdA orthography, and it worked pretty well and recently tried it on my data with above average (but not great) results. I had decided on TrOCR with the help of Gus and understanding that we had to have something we can specifically train and its adaptability.
 
+#### TrOCR
+TrOCR is a powerful state of the art model that is a text recognition for images using HuggingFace transformers.
+The TrOCR pipeline includes an encoder (vision transformer (ViT)) and a decoder (a BERT based model). Estad at al. achnowledge the technology is newer and has not been generally used on low-resource languages, but generally when being used on non low-resource languages, it outperforms Tesseract and Transkribus. However, it doesn't do well with layout analysis and can only read single lines of text at a time, not full PDFs. For that you'll need other packages and pipelines as described in [this Medium article](https://medium.com/@sobhan.hota/trocr-a-robust-multi-stage-pdf-ocr-accuracy-pipeline-with-streamlit-9903f9b17ede)
+
+
+#### Tesseract
+Tesseract is a model that also serves text recognition, along with applying an overlane of layout analysis. It has different models for over 100 languages, and while none of them are CdA, Tesseract has a LSTM based Tesstrain program that can fine-tune or train from scratch an OCR pipeline. Tesseract has been used on various indigenous languages, like Peruvian languages to some success when combined with pre and post-processing (Carrera et al, 2024).
+
+### 📈 Data
+
+#### 👧 Human Annotated data
+To get ground truths I could further train my model on, I screenshot and transcribed 80 lines from the various documents, making sure to capture various character pattern and as equal representation of less frequent characters as possible. As mentioned before, the documents are blurry, with smudges, writings, and noise.
+
+Here are some examples:
+![Sample 1](./images/real_02.png)
+![Sample 2](./images/real_16.png)
+![Sample 3](./images/real_60.png)
+
+#### 🧪 Synthetic Data
+
+##### ✍️ Text
+Because of limited human capacity, I didn't have a lot of ground truths so sought to create synthetic data (something that is common in OCR pipelines for indigenous languages (Carrera et al, 2024 & Enstad et al,2025)).
+Because I had about 292 unique words already transcribed, I built novel words based on patterns found within the words. To do this I used [Markovify](https://github.com/jsvine/markovify) which uses state-sizes to build sentences based on the pattern of n words before it. However, I had to modify it so it looks at the character level instead of the word level. To do that, instead of splitting the text file (gathered sentences from all my ground truths) by sentences, I split it by words. Traditionally, the model would take each sentence split the sentence into words and perform it's magic in the order of words. But, with only feeding it a word for each line, it split the words into characters and learned from there.
+Some good examples resembling real words include:
+tcäsṕä'ä
+tcä appears in 25/292 words, and the ending of ä'ä appears together in appears in 31/292 words, and word final in around 10/292 words. It learns the patterns in which words appear and add onto them etc.
+I chose order 3 for originality while keeping trending patterns - because of only 292 words, I didn't want it to be repeating. I also found the higher the order, the more it repeats or returns None (which it does when the state size is too for the selected character length) - so at state size 4, after being prompted to generate 500 words, only 394 words were not None, and out of that, only 121 were unique (only 30% of words generated were unique). But with state size 3 with prompting 500 words, all were not None, and 390 were unique (78% unique).
+I decided to generate 1000 words, 656 generated words for novel, and when combined with my 292 I got 946 words.
+
+
+##### 📸 Images 
+As mentioned, the scanned documents were a bad photo copy, with dotted edges, blurred text, and fuzzy backgrounds. I mimicked that in my synthetic data using [Augraphy](https://augraphy.readthedocs.io/en/latest/index.html) - an image augmentation Python package.
+As I learned through other experimentation, I didn't want to make the text match the chaoticness of the ground truth documents, because it struggled to learn - so I only used a few alterations. 
+For this I used the setting 
+- [LowRandomInkLines](https://augraphy.readthedocs.io/en/latest/doc/source/augmentations/lowinkrandomlines.html)
+- [InkBleed](https://augraphy.readthedocs.io/en/latest/doc/source/augmentations/inkbleed.html)
+- [LetterPress](https://augraphy.readthedocs.io/en/latest/doc/source/augmentations/letterpress.html)
+- [DirtyDrum](https://augraphy.readthedocs.io/en/latest/doc/source/augmentations/dirtydrum.html)
+- [SubtleNoise](https://augraphy.readthedocs.io/en/latest/doc/source/augmentations/subtlenoise.html)
+- [Scribbles](https://augraphy.readthedocs.io/en/latest/doc/source/augmentations/scribbles.html) - this is because the documents had handwritten notes in the margins and slash marks - I wanted the model to learn around that
+
+I also chose different fonts, though it was hard to find a typewritter font that allowed the unique characters. I needed a variety so I did: 
+- Charis (Bold and regular)
+- Duolis SIL
+
+##### Data going into the model
+I generated 3000 synthetic images and saved them into a Dataset object, then splitting them into Train and Test
+2,400 images used for training
+600 used for test
+
+### 🏃‍♀️ Running the model
+
+
+#### 🔤 Processor
+The microsoft/trocr-base-printed TrOCR processor is in charge of tokenizing the text and mapping features. However, it wasn't trained on my specific characters, so I had to add several to the tokenizers and adjust the decoder and config accordingly. At the end the processor had 34 special tokens, including built-in Roberto special tokens like PAD and UNK, along with around 30 special characters like: u̥, ʷ, ɫ, ḿ
+
+
+#### 🧐 Vision Encoder Decoder
+As mentioned there is also the need of a Vision Encoder Decoder needed, and for that I also used `microsoft/trocr-base-print` Originally I was using `microsoft/trocr-base-stage1` at [NielRogg's example](https://github.com/NielsRogge/Transformers-Tutorials/blob/master/TrOCR/Fine_tune_TrOCR_on_IAM_Handwriting_Database_using_Seq2SeqTrainer.ipynb) showed, but upon research and reading articles, it was suggested base-stage1 was not the best. So I ran it again - however, the results were pretty similar so I'm not sure it really made a difference.
+
+#### 📍 Mapping the Data
+Based on [NieleRogg's example](https://github.com/NielsRogge/Transformers-Tutorials/blob/master/TrOCR/Fine_tune_TrOCR_on_IAM_Handwriting_Database_using_Seq2SeqTrainer.ipynb) of finetuning a TrOCR model, I built the Phonetic class which allows mapping of the tokenized items and image processing to the dataset to then feed it into the Sequence training model.
+
+#### 🧗‍♂️ Training arguments and Trainer settings
+While I used several paramaters standard for OCR, a few notable parameters include:
+Num epochs: 25. Honestly, I had tried running 50 and it eather gave me a bad C.E.R (like 80%) or returned padding when testing, at the time I did this, I didn't realize it was because I had to go back several checkpoints before the CER sharply intook (for some reason early stopping wasn't working.) I'm trying at 50 epochs as we speak and it's doing well so far, but I'm just writing everything up on my Monday testing. 
+Optimizer: adafactor to better improve memory and tracking
+Report to: Tensorboard to better visualize my results
+I also used dynamic padding through default_data_collator for the Trainer which helped manage padding to not be extrenuous.
+
+### 🔎 Finetuning and Testing
+#### 🔧 Fine Tuning
+To finetune the model, I ran it on 80 ground-truths (actual images from the book with manually annotated transcriptions) again with the base processor being the processor outputed from the previous step and the model outputed by the previous step.
+The point of this was to fine-tune the model on what the documents actually look like compared to the less messy synthetic data.
+I then ran it on fewer epochs.
+
+#### ☑️ Testing
+To test, I wrote a script that, as mentioned in finetuning took the previous outputs of the original model and ran inferences on new data.
 
 ## Summary of individual contributions
 <table>
@@ -73,8 +135,8 @@ Tools I'll be using:
   </thead>
 <tbody>
   <tr>
-    <th><b>???</b></th>
-    <td>???</td>
+    <th><b>Sydney Greenspun</b></th>
+    <td>All</td>
   </tr>
   <tr>
     <th><b>???</b></th>
@@ -92,6 +154,14 @@ Tools I'll be using:
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
 
+I kept track of the Character Error Rate and Word Error Rate throught training. When I first started this endeavor I was getting horrible C.E.R and upon deep diving on the internet, I found that downgrading Transformers works - and it worked for me!
+
+[I'm going to be completely honest here, I used tensorboard, but the graphs didn't come out that pretty and I only know the basics of matplotlib so I asked Gemini to generate the graphs based on my data. I did go through and verify all the data]
+
+
+
+
+
 ## Error analysis
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
@@ -102,5 +172,7 @@ _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/co
 _If you'ved covered this in your code repository's README, you can simply link to that document with a note._
 
 ## Future improvements
+
+Firstly, I would add A LOT more manually annotated ground-truths, and I plan to for further testing.  I'm also thinking of switching to Tesseract as it can do full pages at a time with decent accuracy (better than TrOCR).
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_
