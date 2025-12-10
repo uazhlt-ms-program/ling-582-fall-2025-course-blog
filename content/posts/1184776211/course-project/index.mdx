@@ -3,7 +3,7 @@ title: "Looking for Connections in All the Wrong Places"
 slug: "/1184776211/course-project"
 date: 2025-11-13
 author: 1184776211
-description: "An exploration of semantic word representations in the interest of grouping words in accordance with the New York Times Games Connections puzzle."
+description: "Applying the DBSCAN approach of unsupervised word disambiguation to automatic solving of the New York Times Games Connections puzzle."
 tags:
   - course project
 ---
@@ -37,58 +37,26 @@ challenged to group into four categories of four cards according to unspecified
 (until after solving) commonalities within each category.
 Most commonly, said commonalities are semantic, often specifically words that
 appear within some given context.
+Because the words are often deliberately chosen for their ambiguity,
+word-disambiguation is a core part of the puzzle.
 
-Conceptually, word embeddings, as representations of word meanings based on
-words' contexts, seem particularly well-suited toward automated solving of
-such a puzzle.
-Even so, the cards are often deliberately chosen for their ambiguity, which
-presents players with additional challenges in the form of red herrings and
-misdirection.
-Such ambiguity seems also to present a similar confound for embeddings that
-combine all of a word's contexts into a single representation; if all such
-meanings are blended into a single vector, it is no small challenge to
-know in what dimensions the multiple meanings are represented.
+Meanwhile, [Thurnbauer et al. 2023](https://arxiv.org/abs/2307.13417)
+present a method of unsupervised
+word-disambiguation by means of density-based clustering (DBSCAN) based on
+a given target word's context in a corpus.
 
-The project aims to explore ways in which this might be resolved.
-There are two avenues of such exploration that may fit into the scope of the
-project.
+I have chosen to adapt their approach to word-disambiguation to the task of
+the Connections solver; that is, exploring their approach as a means to
+automatically generate a solution to any given Connections puzzle.
+This is a continuation of an earlier attempt to achieve the same.
+The first attmept, which simply used a cosine comparison of pre-trained
+GloVe embeddings, was ineffective. That ineffectiveness is not entirely
+surprising, becuase such word embeddings encoded all meanings of a word,
+which is problematic when a single meaning is the key to a solution.
 
-1. A narrow, supervised approach using pre-trained embeddings and annotated
-categories
-
-It is worth noting up front that this would likely be time-consuming for a
-human, with dubious promise of results.
-It is, however, an idea.
-
-The idea, such as it is, is to generalize the solution categories into some
-basic types, e.g. words from a common practical context,
-words with rough synonymy, words that appear in the context of some other
-specific word (e.g. magic *marker*, magic *carpet*).
-
-Thus, given some known groupings of words into these categories, perhaps a
-model may be trained to perform a classifiction of whether a pair or group
-of candidate words are in that category.
-
-Historical puzzle data, including solutions, is made available by NYT Games;
-however, the generalization of such categories would need to be done manually.
-This is no trivial effort when faced with the roughly 900 existing puzzles at
-the time of writing.
-
-2. An unsupervised approach borrowing from
-[Thurnbauer et al. 2023](https://arxiv.org/abs/2307.13417)
-
-Thurnbauer et al. present a method for capturing ambiguity in word embeddings
-by separating clusters of meaning of a given word form, via the exclusion
-of "noise," i.e. the common contexts that would otherwise conflate the meanings.
-
-A benefit here is that the approach would be entirely unsupervised.
-The subsequent challenge, assuming reproducing their method, would be to use
-resultant multiple embeddings in the puzzle solver itself.
-This subsequent endeavor may likely be beyond the confines of this project.
-
-I have made a request to the authors for the code cited in the article, as
-the github repo has become unavailable since publishing.
-
+Because part of the spirit of this project is a re-creation of previous work,
+it can't be said to be entirely novel; however, the adaptation of that work
+toward my particular application of course is.
 
 ## Summary of individual contributions
 <table>
@@ -106,48 +74,18 @@ the github repo has become unavailable since publishing.
 </tbody>
 </table>
 
-### Tentative timeline
+## Approach
 
-Should the authors of the aforementioned article respond, 
+While I was able to obtain the code used by Thurnbauer et al. for their
+published paper, I found that it relied heavily on a pre-existing model,
+i.e. that which they trained for their own use, and various external files.
+Indeed, I had no expectation to use their particular model (not only because
+it used the German wikipedia), this left me to devise the preprocessing
+and training.
 
-<table>
-<tbody>
-  <tr>
-    <td>2025-11-23</td>
-    <td>Repllicate ambiguity-sensitive training</td>
-  </tr>
-  <tr>
-    <td>2025-11-30</td>
-    <td>Evaluate for puzzle task</td>
-  </tr>
-  <tr>
-    <td>2025-12-07</td>
-    <td>Completion</td>
-  </tr>
-</tbody>
-</table>
-
-Otherwise,
-
-<table>
-<tbody>
-  <tr>
-    <td>2025-11-23</td>
-    <td>Annotate portion of training data (existing puzzle solutions)</td>
-  </tr>
-  <tr>
-    <td>2025-11-30</td>
-    <td>Further annotation, evaluate efficacy</td>
-  </tr>
-  <tr>
-    <td>2025-12-07</td>
-    <td>Completion</td>
-  </tr>
-</tbody>
-</table>
-
-
-
+I largely followed what Thurnbauer et al. described in their paper.
+That is, I also used Wikipedia as a corpus (albeit the English one).
+Similarly, I followed their lead in using Spacy for preprocessing.
 
 ## Results
 
@@ -170,6 +108,31 @@ _If you'ved covered this in your code repository's README, you can simply link t
 
 ## Future improvements
 
-\#TODO
+It is worth acknowledging that there is already a follow-up paper from (many of) 
+the same authors: Reisinger, Goller and Fischer (2024);
+however, I have not yet deved into this later work.
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_
+It is also worth acknowledging that Thurnbauer et al. themselves pointed out
+that a TF-IDF adjustment on context words may be effective in narrowing words'
+distinct meanings; I believe that that is a reasonable assessment.
+
+That being said, mine is still very much an incomplete project, so there is
+much to be done in order to apply these clustered vectors to the puzzle.
+
+One thing that stands out in particular if I were to continue with the
+DBSCAN approach is that
+considerations must be made for the computational time required by DBSCAN,
+which is impractical for common words, appearing to run at O(n^2).
+For instance, 'navy', with 349,335 occurences, took a bit over 18 minutes.
+Meanwhile, extrapolating for 'great', with 1.2 million occurrences,
+could take as much as hours (to say nothing of memory limitations).
+For the moment, I've simply excluded from testing any words with excessive
+counts. It consider it might be reasonable to simply set a cap on the number
+of occurrences/contexts to use, randomly sampled, which I imagine would still
+be plenty of data to capture the distinct clusters.
+
+
+## Reference
+Thurnbauer, Matthias, Johannes Reisinger, Christoph Goller, and Andreas Fischer. 2023. *Towards Resolving Word Ambiguity with Word Embeddings*. arXiv. https://arxiv.org/abs/2307.13417
+
+Reisinger, Johaness, Christop Goller, and Andreas Fischer. 2024. 14th International Conference on Advanced Computer Information Technologies. https://ieeexplore.ieee.org/document/10712629
