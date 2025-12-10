@@ -3,7 +3,7 @@ title: "Vanilla Machine Learning Methods: Welp, I never expected them to work th
 slug: "/joshdunlapc/class-competition"
 date: 2025-11-17
 author: Josh Dunlap
-description: "My approach can be summarized as implemting logistic regression, KNN, and decision tree classifiers"
+description: "My approach can be summarized as implementing a transformer classifier to try to identify text author"
 tags:
   - class competition
 ---
@@ -42,42 +42,77 @@ tags:
 
 ## Task summary
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
+The competition is an author classification task on a dataset with 1601 training examples and 899 test examples. The training examples consist of an ID number, a TEXT column, sometimes composed of several excerpts separated by [SNIPPET] tags, and a LABEL column with either a 0 or 1, negative or positive. All positive labeled data has the same author, and the task is to be able to accurately predict on unlabeled data whether it was written by that author or not.
 
 ## Exploratory data analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+The dataset has 1601 data points, 1245 negative (coming from a number of different authors) and 356 positive (coming from the target author), for a proportion of 77.76% negative to 22.24% positive. 
+The positive class consists entirely of narrative and even dialog, including languages other than English and elements that suggest non-realist fiction, for example: 
+
+1481 “He was depressed, and he did something that usually made him feel better again. He reached under the edge of his desk and pulled a little switch that made the galactic map on the wall light up in three-dimensional depth, then he swung around in his chair so he could see it. Eight thousand planets that his race had conquered, eight thousand planets hundreds of light-years apart. Looking at the map gave him a sense of accomplishment and pride in humanity which even a stupid war and its aftermath could not completely destroy.” 
+
+The negative class also largely contains fiction with a lot of dialog, and even references to outer space that may confuse the classifier: 
+
+112  “We're just telling you what we actually saw—that is—what—what—we—saw looked like to us." Clayton nodded. " Of course. That is all people were doing back in 1938 when the Martians landed in New Jersey, at the time Orson Welles presented a radio version of H. G. Wells' 'War of the Worlds'. Or when the 'Flying Saucer' craze first started. Or when Fantafilm put on their big publicity stunt for the improved 3-D movie, 'The Outsiders', and people saw the aliens over Broadway and heard them address the populace in weird, booming tones. "Gentlemen, I am not pleased to find students of this University engaging in such unwanted extra-curricular activity as inventing interplanetary scares. I don't think Washington will be amused, either." 
+
 
 ## Approach
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
+My original approach was a series of rather basic classification methods: I combined the vectorizer from my statistical NLP competition with the implementation of logistic regression (and later KNN, decision tree, and random forest) from a data mining course I’m in. 
 
-For my mid-semester course competition submissions, I noted that there had a been a suggestion that we could start from our course competition code from statistical NLP, and I combined that with the fact that I was just then in the process of completing an assignment in a data mining course that was about implementing some basic machine learning methods.
+For my next attempt, I decided to use a transformer model from Huggingface (distilbert largely chosen due to limitations of my local machine). I modified the Huggingface tutorial on using transformers for text classification in an attempt to have it solve this task. 
 
-I combined the vectorizer from my statistical NLP competition with the implementation of logistic regression (and later KNN, decision tree, and random forest) from my data mining course. I split the training set to give myself a development set and used the implementation of a confusion matrix I had just learned in data mining as well. 
-
-The results seemed to indicate that logistic regression was being fooled by the asymmetrical nature of the training data and classifying almost everything as negative. I (briefly) looked into methods for alleviating this problem (class_weight="balanced"), but this didn’t seem to work. I may look into oversampling the underrepresented class. 
-
-The approach that got the highest score was the decision tree classifier. Notably, it didn’t have the highest average f1 score with kfold cross validation, but it was the method that was the most likely to predict the positive class. 
-
-I’m not certain what my approach will be for the latter half of the course, but I think my time would probably be best used by implementing an entirely new approach rather than trying to improve some of these more vanilla methods. I think as I continue to work through the course modules I will try to implement each method for the class competition and see how it goes. 
-
+I decided to take a transformer approach largely due to curiosity about implementing them for this use case, and because I found the course content about transformers to be interesting, not necessarily because I thought they would be particularly well suited for this task.
 
 
 ## Results
+My leaderboard score was 0.48526, while the baseline was 0.50261. All in all, pretty dismal, considering that I set my computer whirring and straining for a few hours to run 8 epochs and the result didn’t do as well as just randomly guessing! Speaks to the way that none of my approaches seemed to overcome the issue of class imbalance.
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
+My measures on the dev set:
+
+Accuracy: 0.625
+
+Precision: 0.25925925925925924
+
+Recall: 0.18421052631578946
+
+F1 Score: 0.2153846153846154
+
+Notably a decrease in accuracy relative to my earlier approaches actually resulted in a higher score (precision/recall tradeoff coming into play here).
 
 ## Error analysis
+The problem that all of the approaches that I employed succumbed to, and which the transformed approach did only a little better on, was a tendency to predict nearly all negative, likely due to the imbalance test set. With that in mind, those instances where the predicted label was 0 and the true label was 1 likely won’t tell me that much about what the model is getting wrong. That said, some of the false negatives appeared to be either entirely or partially in Assyrian, which I don’t think is a component of any true negatives, and I would have hoped that the model could have picked up on that. For example:
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+35el-ki-šú-ma áš-ta-ka-an-š 36a-na a-ḫi-i 37um-mi dGiš mu-da-at [ka]-la-m 38[iz-za-kàr-am a-na dGiš] 39[dGiš šá ta-mu-ru amêlu] 40[ta-ḫa-ab-bu-ub ki-ma áš-šá-tim el-šú] 41áš-šum uš-[ta]-ma-ḫa-ru it-ti-k 42dGiš šú-na-tam i-pa-š 43dEn-ki-[dũ wa]-ši-ib ma-ḫar ḫa-ri-im-t
+
+True Label: 1
+
+Predicted Label: 0
+
+Lines 38–40, completing the column, may be supplied from the Assyrian version I, 6, 30–32, in conjunction with lines 33–34 of our text. The beginning of line 32 in Jensen’s version is therefore to be filled out [ta-ra-am-šú ki]-i. Line 43. The restoration at the beginning of this l En-ki-[dũ wa]-ši-ib ma-ḫar ḫa-ri-im-t enables us to restore also the beginning of the second tablet of the Assyrian version (cf. the colophon of the fragment 81, 7–27, 93, in Jeremias, Izdubar-Nimrod, plate IV = Jensen, p. 134), [dEn-ki-dũ wa-ši-ib] ma-ḫar-šá.
+
+True Label: 1
+
+Predicted Label: 0
+
+The other type of error however (predicted label 1, true label 0) may be interesting due to how rarely it predicts 1 at all. From a dev set that I held out, some of the errors appeared to make sense, being narrative or dialog in a not wholly dissimilar style to that of many of the true positives, for example:
+
+Rob closed the lid of the Record with a sudden snap that betrayed his deep feeling, and the king pretended to cough behind his handkerchief and stealthily wiped his eyes.  "'Twasn't so bad, after all," remarked the boy, with assumed cheerfulness; "but it looked mighty ticklish for your men at one time."  King Edward regarded the boy curiously, remembering his abrupt entrance and the marvelous device he had exhibited.  "What do you call that?" he asked, pointing at the Record with a finger that trembled slightly from excitement.
+
+True Label: 0
+
+Predicted Label: 1
+
+On the other hand, some of the false negatives gave me the sense that the model I trained was truly taking stabs in the dark, as in this classification of an advertisement for pyramid books as part of the target class:
+
+EACH BOOK ONLY 40c (plus 5c handling charge) PYRAMID BOOKS, Dept. F774, 444 Madison Ave., New York 22, N Please send me the following books. Each book 40c plus 5c handling charge. I enclose $_________________. F783 F771 F742 F733 F732 F722 F703 F698 F693 F
+
+True Label: 0
+
+Predicted Label: 1
+
 
 ## Reproducibility
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
-_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+See readme: https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-jd3162/blob/main/README.md
 
-
-## Future Improvements
-
-_Describe how you might best improve your approach_
