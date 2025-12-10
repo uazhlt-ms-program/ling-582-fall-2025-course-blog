@@ -107,7 +107,7 @@ Here all the three models looks very strong on this task, with E5 and BGE retrie
 The other part of the project we worked on is RAG vs non-RAG answer accuracy. We have compared the quality with and without RAG on a held out set of 10 HotpotQA validation questions.. For each question we have stored gold answer from HotpotQA, RAG answer which is question along with retrieved chunks given to LLM and non-RAG answer, which is giving just the question only to the same LLM.
 
 We then tagged each example with titles like rag_correct, no_rag_correct which is does the answer match the gold answer or not.
- rag_error_type, no_rag_error_type with one of these ( R0 means correct, R3 means hallucination, and R4 means safe failure. 
+ rag_error_type, no_rag_error_type with one of these:  R0 means correct, R3 means hallucination, and R4 means safe failure. 
 
 The overall results that we got out of these are :
 - The questions we have taken = 10
