@@ -18,10 +18,6 @@ tags:
     <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-vox-omnium</td>
   </tr>
   <tr>
-    <th>Demo URL (optional)</th>
-    <td></td>
-  </tr>
-  <tr>
     <th>Team name</th>
     <td>Vox Omnium</td>
   </tr>
@@ -32,30 +28,28 @@ tags:
 
 Automatic speech recognition (ASR) systems&mdash;such as those used in voice assistants, captioning, and accessibility tools&mdash;are known to perform significantly worse for individuals with speech disabilities, including dysarthria, stuttering, apraxia, and other motor-speech disorders. This performance discrepancy limits the inclusiveness of voice-driven technologies. This project aims to quantify ASR bias against speakers with speech disabilities and explore fine-tuning strategies that improve recognition accuracy.
 
-The goals for this project are:
-* Benchmark baseline ASR performance on typical vs. atypical speech.
-* Fine-tune the open-source ASR model Wave2Vec2 on speech-disability datasets.
-* Measure improvements in Word Error Rate (WER) on impaired-speech test sets.
-* Analyze which disability types or acoustic characteristics see the most improvement.
+### Workflow
 
-### Timeline
+1. **Preprocess the audio files**  
+For consistency during training, all audio files must be converted to .wav, converted to mono (no stereo), and normalized for loudness. The audio files are then saved to their respective dataset directories under the "processed" directory.
+2. **Create training splits**  
+Once the audio files have been pre-processed, a .csv metadata file is created with the headings "path", "label", "text", and "dataset". "Path" shows each audio file's directory path, "label" contains the tags "typical" or "atypical" representing the type of speech in the audio file, "text" contains the transcriptions for the audio, and "dataset" shows which dataset the audio file comes from.
+From there, the .csv file is split using scikit-learn to create the training, testing, and validation sets.
+3. **Establish baseline WER**
+Using the pretrained Wave2Vec2 CTC model, audio files are loaded and transcribed to lowerscase text strings. The transcriptions are compared against the strings in the "text" column of metdata.csv to determine word error rate (WER).
+4. **Train Wav2Vec2**
+The Sequence Classification Wav2Vec2 model is fine-tuned on the speech datasets with the intention of training the model to better recognize atypical speech.
 
-<table>
-  <tbody>
-    <tr>
-      <th>Week 1</th>
-      <td>Evaluate typical and atypical speech with Wav2Vec2 and record baseline WER differences.</td>
-    </tr>
-    <tr>
-      <th>Week 2</th>
-      <td>Preprocess the audio in the datasets using Libroso and fine-tune the speech model using TORGO (dysarthric speech) and SEP-28k (stuttering).</td>
-    </tr>
-    <tr>
-      <th>Week 3</th>
-      <td>Evaluation, error analysis, and final write-up.</td>
-    </tr>
-  </tbody>
-</table>
+### Challenges
+
+There are many challenges that come with this task. The biggest hurdle for me was the lack of matching transcription data for the audio files. Without it, it's basically impossible to determine WER. Another issue I had was an imbalance in the datasets. My typical speech dataset was much smaller (1,369 files) than my atypical speech dataset (32,048 files). Within the atypical speech datasets, there was an imbalance as well, with the majority of the audio files containing stuttering speech (31,909 files) compared to the disarthric speech (139 files). It is reasonable to assume that the model would be much more likely to correctly transcribe stuttering speech versus other types of atypical speech.
+
+In general, this is a difficult task because the model can inadvertently become trained on the wrong information. Commonly, the quality of the audio files skews ASR training results (known as acoustic bias), which is why I chose not to supplement my atypical speech dataset with another popular open-source one called LibriSpeech. LibriSpeech contains extremely high-quality audio files and I ran the risk of my model learning that high-quality audio is typical speech and low quality audio is atypical or impaired speech.
+Additionally, there are not that many open-source atypical speech datasets available and many of them are stuttering, as opposed to other forms of disarthric speech. Stuttering is not necessarily the most valuable metric to train on because stuttering is generally curable, versus other impaired speech that is not. The dispropotionate amount of stuttering samples also means that ASR models are more likely to recognize stuttering than any other type of atypical speech.
+
+### Motivation
+
+I chose those this task for my course project because improving accessibility of ASR services for people with developmental disabilites is an area of interest for me and a career goal. In undergrad, I had a part-time job working with people with disabilities and saw first-hand how the combination of impaired or atypical speech and low literacy levels created major challenges for my clients. Ultimately, I would like to be involved in projects that collects and cleans (for HIPPA compliance) high-quality speech samples from people with various developmental disabilities to use for ASR training.
 
 ## Summary of individual contributions
 <table>
@@ -76,17 +70,20 @@ The goals for this project are:
 
 ## Results
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
+
 
 ## Error analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
+
 
 ## Reproducibility
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility)_
-_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+See <https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-vox-omnium/blob/main/README.md>.
 
 ## Future improvements
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_
+* Use k-fold cross validation in stead of scikit-learn traning splits.
+* Find the matching transcriptions for the UCLASS audio files.
+* Replace sep28k data with dataset that has audio transcriptions.
+* Optimize code for training using GPUs on an HPC system.
+* Run error analysis on the trained Wav2Vec2 model.
