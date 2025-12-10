@@ -83,7 +83,7 @@ I chose order 3 for originality while keeping trending patterns - because of onl
 
 I decided to generate 1000 words, 656 generated words for the novel, and when combined with my 292, I got 946 words.
 
-📸 Images
+#####  📸 Images
 
 As mentioned, the scanned documents were poor photocopies, with jagged edges, blurred text, and fuzzy backgrounds. I mimicked that in my synthetic data using [Augraphy](https://augraphy.readthedocs.io/en/latest/index.html), a Python image augmentation package.
 
@@ -184,7 +184,7 @@ I kept track of the Character Error Rate and Word Error Rate throughout training
 
 As seen, the model does relatively well as the epochs pass, with the final model having a CER of under .025 and a word error rate of .1. This means in each eval sample it gets about 2.5% of the characters wrong and calculates to 10% of words wrong. Not perfect, but not bad.
 
-![Training loss](./images/training_los.png)
+![Training loss](./images/training_loss.png)
 
 The training loss was also good, following the traditional pattern of a sharp decrease in the first few steps, then steadying out to a minuscule value of about 0. The ending training loss was .0002, pretty close to 0.
 

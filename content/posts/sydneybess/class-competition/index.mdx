@@ -43,6 +43,7 @@ tags:
 ## Task summary
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
+
 The goal of this task is to see if two texts are by the same or different authors. This task has been studied in depth in linguistics; it even has its own field, Stylometry. For this Kaggle competition, we were given training and test datasets in CSV format. The train dataset, with 1,601 entries, was manually labeled: each entry (a combination of two snippets from the same or different authors) was assigned a 1 or 0 (more on this later). The test set was unlabeled and was what we were supposed to use for inference.
 
 While Stylometry can be automated (i.e., feature engineering based on sentence length, punctuation, etc.), I wanted to know whether a sequence-classification pre-trained model could make the process more efficient.
@@ -51,12 +52,14 @@ There has been some research on using LLMs to identify authors; although this is
 
 I'll discuss the imbalance in the data later, so I tried to ask JanAI using this prompt.
 
-```I want more data for a project I’m doing. The project is to tell if two text snippets are by the same author or a different author. 0 is for different author and 1 is for same author.
+```
+I want more data for a project I’m doing. The project is to tell if two text snippets are by the same author or a different author. 0 is for different author and 1 is for same author.
 Right now my train data looks like this:
 ID,TEXT,LABEL
 0,"When his speaker remained silent Dirrul .... [I inputted more examples, but leaving it at that]
 the two texts are a single string separated by [SNIPPET]
-Create a new CSV file with more training data from various authors.```
+Create a new CSV file with more training data from various authors.
+```
 
 When it spat back text, I asked it to tell me who the two authors are, because I recognized some quotes from literature but not others. I tried to verify the authors and text it gave me, but to no avail. So, it seems it isn't very efficient at generating factual text by different authors. Can it do the reverse?
 Who knows? One day I'll experiment, but for now we're doing an old-fashioned model.
@@ -109,17 +112,20 @@ To make the data easier to visualize, I added text1 and text2 columns, which spl
 
 ## Approach
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_My approach was to use a BERT-based text classifier to classify the texts.
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
+
+My approach was to use a BERT-based text classifier to classify the texts.
 
 1. Performed exploratory analysis and decided to add two new columns for each of the text snippets. This is also where I attempted to supplement with more data.
 2. Separated the dataframe into train, validation, and test, and imported it into a Dataset for easier manipulation
 3. Set up the tokenizer; I used bert-base-uncased, as suggested by the [Text classifier](https://huggingface.co/docs/transformers/en/tasks/sequence_classification). Though I didn’t just choose a Sequence classifier model because that post told me to. As I’ve learned in classes, Sequence models are great for NLP because they can learn features from a sequence of words by transforming it into a sequence of numerical representations. With these features, it can build dependencies, which is useful for this task because you want to learn patterns and the similarities among authors.
 * For this, I mapped the dataset and made some alterations to the model to better understand it, such as renaming ‘LABEL’ and ignoring the actual text columns, focusing on the IDs, input_ids, token_type_ids, attention_mask, and labels.
 * Next, I put it in the Torch format, based on this example: [Dealing with the tokenizer](https://huggingface.co/docs/datasets/en/process).
-1. Next, I set up a data_collator with dynamic padding to better organize padding.
-2. Creating a metric to test the success of the model using accuracy, a function taken from HuggingFace, along with other functions taken from class lectures that talked about evaluating binary classification models.
-3. Set up the training arguments as suggested by Hugging Face. My initial run was 3 num epochs, but I thought if I ran it longer, it would be better - but that was not the case. I was trying to be novel and try new things, but HuggingFace knows what it is talking about. But at least I learned what didn’t work as well (though all my experimentations did help me learn more about my model, and were relatively close to each other, ie, 65%-67% compared to the top first model, which was 70%). In the end, I went with 5 epochs.
-
+4. Next, I set up a data_collator with dynamic padding to better organize padding.
+5. Creating a metric to test the success of the model using accuracy, a function taken from HuggingFace, along with other functions taken from class lectures that talked about evaluating binary classification models.
+6. Set up the training arguments as suggested by Hugging Face. My initial run was 3 num epochs, but I thought if I ran it longer, it would be better - but that was not the case. I was trying to be novel and try new things, but HuggingFace knows what it is talking about. But at least I learned what didn’t work as well (though all my experimentations did help me learn more about my model, and were relatively close to each other, ie, 65%-67% compared to the top first model, which was 70%). In the end, I went with 5 epochs.
+7. Run model on witheld data to see accuracy there
+8. Apply the model to the unlabeled test csv file
 ## Results
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
 
@@ -133,7 +139,6 @@ _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/cl
 | **AUC ROC**                | —            | 0.727         | —                      |
 | **Average Precision (AP)** | —            | 0.600          | —                      |
 First, I set up a base model that used a similarity score and a threshold to predict the label by turning each text into a TF-IDF vector. For this, I used the training data later used for the model.
-
 
 While accuracy is relatively high, compared to the Sequence model, it tends to mislabel the positive (same author) class as negative (not same author) with high frequency. More specifically, among all the golden class 1 labels, it gets only 8% correct. This is a major issue.
 The reason accuracy might be so high is that the data is imbalanced toward negative examples.

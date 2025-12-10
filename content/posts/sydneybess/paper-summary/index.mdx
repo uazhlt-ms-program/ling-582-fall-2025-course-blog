@@ -72,7 +72,7 @@ The results were overall better, with significantly improved accuracy on diacrit
 
 ## Motivation
 
-_I'm currently working with the Coeur d'Alene tribe doing OCR on things like workbooks or dictionaries that aren't digitized (scanned PDFs.) My team and I are using Tesseract and I was looking for an article about Tesseract and OCR on indigenous languages_
+I'm currently working with the Coeur d'Alene tribe doing OCR on things like workbooks or dictionaries that aren't digitized (scanned PDFs.) My team and I are using Tesseract and I was looking for an article about Tesseract and OCR on indigenous languages
 < !-- NOTE: don't use an LLM to generate this! 🙃 -->
 
 ## LLM
@@ -102,7 +102,7 @@ _I'm currently working with the Coeur d'Alene tribe doing OCR on things like wor
   </tr>
   <tr>
     <th><b>Why this model?</b></th>
-    <td>It was the only one that you didn't need to run the model because my vm (even though has GPUs) did not have enough for some of the others I tried.</td>
+    <td>It seemed simple enough to install</td>
   </tr>
 </tbody>
 </table>
@@ -111,6 +111,7 @@ _I'm currently working with the Coeur d'Alene tribe doing OCR on things like wor
 #### Description (LLM)
 
 _In the LLM's words, what is this paper about?_
+
 This paper, presented at the 4th Workshop on Natural Language Processing for Indigenous Languages of the Americas (AmericasNLP 2024), focuses on using OCR (Optical Character Recognition)-driven document digitization to preserve and make accessible knowledge in Peruvian Indigenous Languages. The authors propose a method to convert physical documents (e.g., manuscripts, books) into digital text, which can then be used for language revitalization, academic research, and cultural preservation. The work addresses challenges in digitizing languages that are endangered, by leveraging OCR to unlock linguistic resources previously locked in physical form. The project emphasizes practical applications for communities and researchers working with Peruvian Indigenous Languages.
 
 (Note: The paper was published in 2024, though the current date is December 3, 2025—this indicates it was presented at the AmericasNLP 2024 workshop held earlier in 2024.)
@@ -319,6 +320,7 @@ What problems remain and what are the next steps according to the author’s (sp
 ### Experience using the LLM
 
 _Describe your process for using the LLM.  How did the LLM perform?_
+
 So I did two versions of this. The first one I didn't make concise, as the rubric said, so I ended up redoing it. I want to share a bit about my first round.
 Firstly, I just told it to tell me about this article, and I sent a link. It ended up summarizing a completely different article, which is when I realized that the base URL I copied could refer to other articles. That was when I exactly mentioned the name and authors of the article, and it got on track... sort of.
 The first time around, I just asked the assignment questions almost verbatim, and it didn't do so well!
@@ -341,4 +343,3 @@ At the end of each response, it would inform me that it only used sources from t
 However, aside from those technical hallucinations, it is generally understood the point of the article, both the motivation and the process used (i.e., taking into account the pre- and post-processing of the data, which the article mentions in detail, even if it failed to capture the technical details). The numbers it gave somewhat correspond with the trends, like how things were better once post-processed, though it was humans who did the post-processing, not correction models, and it did not achieve 100% efficiency. 
 
 In conclusion, it understood the point of the article but messed up on almost every technicality, some of which were critical to the proper analysis. 
-__
