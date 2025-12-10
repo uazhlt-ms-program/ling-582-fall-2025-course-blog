@@ -30,29 +30,45 @@ tags:
 
 # Project Proposal
 
-This project compares three open-source decoder-only language models — **GPT-2**, **GPT-2-Medium**, and **GPT-Neo 1.3B** — on creative text generation tasks.  
-Our goal is to evaluate how well these models handle **narrative prompts, dialogue-style interactions, and simple factual questions**, while identifying patterns of hallucination, repetition, and coherence issues.
+For my course project, our team of two compared the capabilities of open-source decoder-only LLMs (GPT-2, GPT-2-Medium, GPT-Neo 1.3B) on creative text generation tasks.
+We used a shared set of 15 prompts that covered storytelling, factual questions, and dialogue-based interactions.
 
-The task aligns with Statistical NLP by focusing on **autoregressive model behavior**, generative stability, and qualitative differences across architectures.
+Our goal was to understand not only how well these models generate text, but how they fail — hallucinations, repetition loops, loss of coherence, and dialogue instability.
 
 ---
+# Goals
+
+Compare fluency, coherence, and creativity across models
+
+Identify strengths and weaknesses using the same prompt set
+
+Analyze hallucination, repetition, factual errors, and dialogue confusion
+
+Build a small evaluation dataset with both quantitative and qualitative findings
 
 # Project Description
 
-We evaluate three decoder-only transformer LLMs across a fixed set of **15 creative prompts**, including:
+We evaluated three open-source decoder-only LLMs:
 
-- Story openings  
-- Dialogue continuations  
-- Instruction-following prompts  
-- Factual Q&A  
+- GPT-2 (117M)
+- GPT-2-Medium (345M)
+- GPT-Neo 1.3B
+This project differs from typical benchmark-style comparisons because we focus on creative behavior, narrative coherence, persona stability, and failure modes rather than accuracy on a structured dataset.  
 
 ### Novelty  
-Unlike benchmark-driven evaluations, this project emphasizes **creative behavior**, narrative flow, hallucination patterns, and conversational stability — areas where small and mid-sized LLMs differ significantly.
+- Evaluation is prompt-driven, not dataset-driven
+- Focused on open-ended generation, where small models often behave unpredictably
+- Includes error characterization, not just output samples
+- All generations were performed locally, highlighting hardware constraints and model limits
 
 ### Motivation  
-Decoder-only LMs often behave unpredictably in free-form text generation.  
-Understanding their weaknesses (e.g., repetition, missing grounding, invented dialogue) helps characterize model limitations and guide future improvements.
-
+Decoder-only models are widely used for text generation, but their limitations are not always obvious without direct comparison.
+By evaluating them side-by-one, we uncover patterns such as:
+- smaller models drifting off topic
+- hallucinated dialogue or facts
+- repetition loops
+- inconsistent persona in assistant-style prompts
+These observations help us understand practical limits of lightweight models.
 ---
 
 # Summary of Individual Contributions
@@ -80,11 +96,11 @@ Both team members contributed equally to analysis, interpretation, and editing.
 # Methodology
 
 ### Dataset / Prompt Design
-We created a **15-prompt evaluation set** covering:
-- Creative writing  
-- Dialogue scenarios  
-- Factual queries  
-- Instruction following  
+We designed a set of 15 prompts, intentionally mixing:
+- Story openings (creative narrative)
+- Dialogue prompts (assistant/chat format)
+- Factual questions
+- Instructional commands
 
 ### Models Evaluated
 - **GPT-2 (117M)**  
@@ -94,47 +110,73 @@ We created a **15-prompt evaluation set** covering:
 All models were run locally using HuggingFace `pipeline()` on CPU-only inference.
 
 ### Generation Settings
-- `max_length = 200`  
-- `num_return_sequences = 1`  
-- `set_seed(42)` for reproducibility  
+To keep comparisons fair, all models used the same parameters:
+- max_length = 200
+- num_return_sequences = 1
+- truncation = True
+- seed = 42
+
+We experimented with temperature and top-k sampling but found that:
+- Higher temperature (>1.0) increased nonsense and repetition in GPT-2
+- Low temperature (<0.7) made responses too short
+- Top-k or top-p sampling destabilized GPT-2 and GPT-2-Medium
+- So we used default greedy sampling for consistency and reproducibility.
+
 
 ### Evaluation Criteria
 Each model output was analyzed for:
-- Fluency  
-- Coherence  
-- Creativity  
-- Factual accuracy  
-- Hallucination  
-- Dialogue stability  
-- Repetition / degeneracy  
-
+- Fluency: Does it read naturally?
+- Coherence: Does the continuation make sense?
+- Creativity: Is the output interesting/novel?
+- Hallucination: Wrong or invented facts
+- Repetition: Loops, degenerate outputs
+- Dialogue correctness: Does the assistant behave correctly?
+- Factuality for Q&A prompts
 ---
 
 # Results
-
-We compared model behavior across all prompts.
-
 ## **1. Creativity & Coherence**
-- **GPT-Neo 1.3B**: Most coherent narratives; better long-range consistency.  
-- **GPT-2-Medium**: Moderate coherence; better than GPT-2 but still unstable.  
-- **GPT-2**: Struggled with narrative flow; frequent off-topic digressions.
+
+| Model        | Creativity | Coherence |
+| ------------ | ---------- | --------- |
+| GPT-2        | Low        | Low       |
+| GPT-2-Medium | Medium     | Medium    |
+| GPT-Neo 1.3B | High       | High      |
+
+GPT-Neo maintained topic and character consistency much better than the GPT-2 family.
 
 ## **2. Factuality**
-- All models hallucinated frequently.
-- **GPT-2** produced the most incorrect or unrelated answers.
+- GPT-2 and GPT-2-Medium failed straightforward questions (“Who wrote Pride and Prejudice?”).
+- GPT-Neo sometimes guessed incorrectly but stayed closer to the topic.
 
 ## **3. Dialogue Stability**
-- **GPT-Neo** maintained conversational structure best.  
-- **GPT-2** confused speaker roles and repeated lines.
+- GPT-2 often produced multiple speakers, switched personas, or contradicted itself.
+- GPT-Neo produced the most stable "assistant" responses.
 
-## Overall Performance Table
+## **4. Repetition**
+- GPT-2 frequently entered repetition loops or reused the same sentence multiple times. 
+- GPT-Neo almost never repeated content.
 
-| Model         | Creativity | Coherence | Factuality | Dialogue Stability | Repetition |
-|---------------|-----------|-----------|------------|--------------------|------------|
-| GPT-2         | Low       | Low       | Poor       | Poor               | High       |
-| GPT-2-Medium  | Medium    | Medium    | Poor       | Medium             | Medium     |
-| GPT-Neo 1.3B  | High      | High      | Moderate   | High               | Low        |
+## Quantitative Error Analysis
 
+We randomly sampled 30 responses (10 per model) and labeled error types.
+
+| Error Type         | GPT-2 | GPT-2-Medium | GPT-Neo 1.3B |
+| ------------------ | ----- | ------------ | ------------ |
+| Hallucination      | 6     | 4            | 2            |
+| Repetition         | 7     | 3            | 1            |
+| Dialogue confusion | 5     | 3            | 1            |
+| Off-topic drift    | 8     | 5            | 2            |
+| Factual errors     | 4     | 3            | 2            |
+
+Total Errors:
+- GPT-2 → 30 errors
+- GPT-2 Medium → 18 errors
+- GPT-Neo → 8 errors
+
+This small quantitative sample supports the qualitative findings:
+- GPT-Neo is clearly the strongest model in coherence and stability.
+- GPT-2 is the least reliable across all categories.
 ---
 
 # Error Analysis
@@ -145,9 +187,9 @@ We selected 3 representative failure cases.
 **Prompt:**  
 *“User: I’ve been feeling overwhelmed with college lately. Assistant:”*
 
-GPT-2 invented multiple speakers, repeated phrases, and produced contradictory statements.
+GPT-2 invents several fictional characters and contradicts itself multiple times.
 
-**Issue:** No grounding; unstable conversational modeling.
+**Issue:** Cannot maintain assistant persona. Treats conversation like random fiction.
 
 ---
 
@@ -157,7 +199,7 @@ GPT-2 invented multiple speakers, repeated phrases, and produced contradictory s
 
 GPT-2 repeated the sentence **“I don’t understand that.”** more than 10 times.
 
-**Issue:** Classic degenerative repetition in small models.
+**Issue:** Degenerative loop — a common limitation in small autoregressive models.
 
 ---
 
@@ -172,6 +214,19 @@ Instead of answering *Jane Austen*, GPT-2 generated unrelated dialogue about Bos
 These errors highlight the limitations of smaller decoder-only LLMs in narrative reasoning, factuality, and role stability.
 
 ---
+
+## Limitations & Future Improvements
+# Limitations
+- CPU-only environment limited model selection
+- Larger models (NeoX-20B, LLaMA-7B) not runnable locally
+- No automatic creativity or fluency metrics
+- Synthetic evaluation only — no human survey
+
+# Future Work
+- Run models in GPU environments to include larger LLMs
+- Add automatic metrics (MAUVE, perplexity, coherence scoring)
+- Introduce human evaluation for creativity
+- Try fine-tuning for narrative tasks
 
 # Reproducibility
 
@@ -188,14 +243,3 @@ Install dependencies:
 ```bash
 pip install transformers torch huggingface_hub
 ```
-Future Improvements
-
-Run models on GPU to enable larger-scale testing
-
-Include larger models like LLaMA-2-Chat, Mistral-7B, and GPT-J
-
-Incorporate automatic metrics (perplexity, MAUVE, distinct-n)
-
-Add human creativity scoring surveys
-
-Experiment with fine-tuning on narrative datasets
