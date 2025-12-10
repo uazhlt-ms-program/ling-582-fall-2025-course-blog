@@ -22,7 +22,7 @@ tags:
 <tbody>
   <tr>
     <th><b>Leaderboard score</b></th>
-    <td>68.282 (for the model I'll be analyzing)</td>
+    <td>68.282 (for the model I'll be analyzing this score, I wasn't sure how to select it on Kaggle because it kept defaulting to my highest)</td>
   </tr>
   <tr>
     <th><b>Leaderboard team name</b></th>
@@ -59,7 +59,10 @@ the two texts are a single string seperated by [SNIPPET]
 Create a new csv file with more training data with various authors``` 
 When it spit back text, I asked it to tell me what the two authors are because I recognized some quotes from literature but not others. I tried to verify the authors and text it gave me, but to no avail. So, it seems it isn't that efficient at generating text by different authors that are factual - so can it do the reverse?
 Who knows? One day I'll experiment, but for now we're doing old fashioned model.
+
 In Huan and Chen's article they provided a result table that reflected Tf-IDF (which I used as my base), BERT (which I used for my main model), and GPT. Interestingly, their results comparing TF-IDF and BERT on the task of author identification resembled my proportions used for my same author task (around a 35% improvement from TF-IDF to BERT).
+
+In my approach, I will review why I chose Sequencing with BERT, along with my approach to the data.
 
 
 
@@ -170,13 +173,14 @@ _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/cl
 | Eval AUC ROC      | 0.7668    |
 | Eval AP       | 0.6793    |
 
-This trend of high accuracy, high precision, and low recall continues into evaluating the model on the test data (seperate from the validation and train.) The F1 score is higher because precision and recall are more balanced. This suggests it did a better job at identifying more true positives, instead of categorizing them as negative (though only with 50% recall which is still not great.) The higher but similar accuracy does support that the datasets were relatively similar (as show in EDA.)
+This trend of high accuracy, high precision, and low recall continues into evaluating the model on the test data (seperate from the validation and train.) The F1 score is higher because precision and recall are more balanced. This suggests it did a better job at identifying more true positives, instead of categorizing them as negative (though only with 50% recall which is still bad). This remains the main type of error. The higher but similar accuracy does support that the datasets were relatively similar (as show in EDA.)
 
 
 ## Reproducibility
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
 _If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
 [README.md](https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-bess-days/blob/main/README.md) - I showed reproducibility and I set up seeds for the files
 
 ## Future Improvements
@@ -184,5 +188,5 @@ _If you'ved covered this in your code repository's README, you can simply link t
 _Describe how you might best improve your approach_
 
 The first thing I'd do is balance out the data by augmenting more data. I think when I tried to add more data from the Kaggle dataset I mentioned, I added too much so it didn't actually represent what the test data would look like. It was 65% when submitting the prediction (although at the time I added the data, I wasn't checking the Precision, Recall or F1 score to tell.) I would go back and redo adding the data and try again, because I hadn't persued it after it got my lowest results.
-If that still didn't work (or even along with that), I'd do a method like SMOTE (Synthetic Minority Over-sampling Technique) to better represent the minority by creating synthetic data in similar word vector spaces as data annotated as positive class.
+If that still didn't work (or even along with that), I'd do a method like SMOTE (Synthetic Minority Over-sampling Technique) to better represent the minority by creating synthetic data in similar word vector spaces as data annotated as positive class. 
 
