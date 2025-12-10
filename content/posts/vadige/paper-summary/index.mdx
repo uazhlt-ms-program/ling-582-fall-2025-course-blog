@@ -78,19 +78,19 @@ _Why did you select this paper?_
 <tbody>
   <tr>
     <th><b>LLM model</b></th>
-    <td>???</td>
+    <td>ChatGPT</td>
   </tr>
   <tr>
     <th><b>LLM model version</b></th>
-    <td>???</td>
+    <td>GPT-5.1 Thinking</td>
   </tr>
   <tr>
     <th><b>Model/service URL</b></th>
-    <td>???</td>
+    <td>https://chat.openai.com</td>
   </tr>
   <tr>
     <th><b>Why this model?</b></th>
-    <td>???</td>
+    <td>I chose this model because it can handle long technical papers and explain ideas in simple English, which helped me understand and summarize the article.</td>
   </tr>
 </tbody>
 </table>
@@ -100,94 +100,113 @@ _Why did you select this paper?_
 
 _In the LLM's words, what is this paper about?_
 
+This paper looks at a very large collection of NLP research papers and tries to understand how the field has changed over time. The authors build a taxonomy, or map, of different research areas and then use automatic methods to assign papers to these areas. By doing this, they can see which topics (like deep learning or text generation) are growing, which ones are shrinking, and which areas are still under-explored.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Summarize the paper "Exploring the Landscape of Natural Language Processing Research" (Schopf et al., 2023) in simple English. Focus on what they studied, how they did it, and what they found.
 ```
 
 #### What are the authors proposing?
 
+
+The authors are proposing a way to map and analyze the whole NLP research landscape. Instead of focusing on one task, they collect about 80,000 papers from the ACL Anthology and build a taxonomy of fields of study. They then automatically classify papers into these fields so they can study trends in NLP research across time.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Explain in simple English what the authors of "Exploring the Landscape of Natural Language Processing Research" are proposing.
 ```
 
 #### What is the motivation for the work?
 
+Their motivation is that NLP research is growing very quickly, and it is hard for people to see the “big picture.” There are many papers, but it is not clear which areas are popular, which are declining, and where there are gaps. The authors want to give researchers, students, and educators a clear overview of how the field is structured and how it has changed.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Explain the motivation for this paper. Why did the authors decide to study the NLP landscape in this way?
 ```
 
 #### What is the approach or innovation?
 
+The authors collect a large set of ACL papers and design a taxonomy of fields of study, such as language resources, applications, generation, and analysis. They then use weakly supervised machine learning to assign each paper to one or more of these fields. Finally, they analyze how the number of papers in each field changes over time. The innovation is combining a custom taxonomy with large-scale automatic classification to study the entire field of NLP.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Describe the approach used in this paper and what is innovative about it. Use simple English.
 ```
 
 #### What are the results and how do they compare with competing approaches?
 
+The results show that topics related to deep learning, transformers, and pre-training have grown very quickly, while rule-based and symbolic methods have decreased. The paper also shows that most NLP research focuses on English and that low-resource languages, fairness, and multimodal research are still under-represented. This is not a model-comparison paper, so there are no “baseline models,” but compared to earlier small surveys, this study uses much more data and gives a broader and more detailed view of the field.
+
 ##### Prompt
 
 ```markdown
-prompt here
+What results did the authors find, and how do these results compare to what earlier, smaller surveys of NLP research showed?
 ```
 
 #### Is the comparison fair?
 
+The comparison is fair in the sense that the authors are clear about their data source (ACL Anthology) and its limits. They do not claim to cover all NLP research, only what is in this collection. They also explain that their classification is weakly supervised and may have some errors. By stating these limitations openly, they make their analysis more honest and balanced.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Explain whether the analysis and comparisons in this paper seem fair. Mention any limitations the authors talk about.
 ```
 
 #### What are the takeaways according to the authors?
 
+According to the authors, the main takeaways are that their taxonomy can serve as a roadmap for NLP research and that the field has grown fast but unevenly. Some areas are heavily studied, while others are neglected. They highlight promising directions for future work, such as low-resource languages, multimodality, and ethical or social aspects of NLP.
+
 ##### Prompt
 
 ```markdown
-prompt here
+List the main takeaways from this paper according to the authors. Use short, clear sentences.
 ```
 
 #### What are the takeaways according to you?
 
+For me, the main takeaway is that NLP is a very broad field, but it is not balanced. Many papers focus on popular topics and on English, while important areas like low-resource languages and fairness do not get as much attention. I also learned that large-scale data analysis can be a powerful tool for understanding research trends and for choosing future project directions.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Help me write my own takeaways from this paper in the first person ("I ..."), in simple English.
 ```
 
 #### Would you use this?  If so, how/where would you use this?
 
-##### Prompt
-
-```markdown
-prompt here
-```
+Yes, I would use this paper when writing literature reviews, project proposals, or research statements. It gives strong evidence about which areas of NLP are crowded and which ones are open. I can also use it to justify working on topics like low-resource languages or fairness by showing that these areas are under-studied.
 
 ##### Prompt
 
 ```markdown
-prompt here
+Explain how I could use the findings from this paper in my own studies or research. Give 2–3 simple examples.
 ```
 
 #### What problems remain and what are the next steps?
 
+Several problems remain. The study only uses ACL Anthology papers, so it may miss work from other conferences and domains. The taxonomy might need to be updated as new topics appear. The classification is weakly supervised, so some papers could be mis-labeled. Next steps include adding more data sources, refining the taxonomy, improving classification quality, and possibly building interactive tools to explore the landscape.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Describe the remaining problems and future work for this paper in simple English.
 ```
 
 ### Experience using the LLM
 
 _Describe your process for using the LLM.  How did the LLM perform?_
+
+I used the LLM to help me understand the main ideas in the paper and to turn complex sentences into simple English. First, I asked it for a high-level summary of the paper. Then I asked more focused questions for each rubric item, such as the motivation, approach, and key results. After getting the answers, I edited them so they matched my own understanding and writing style. Overall, the LLM performed well in explaining difficult parts and helped me organize my thoughts more clearly.
  
 #### Errors and limitations of the LLM 
 
 _Where did it fall short or make mistakes?_
+
+The LLM sometimes gave answers that were too general or repeated ideas without adding new information. In a few cases, it sounded confident about details that I could not directly find in the paper, so I had to double-check the original text. It also tended to use some phrases that felt too formal, so I needed to rewrite them in simpler language. Because of these limitations, I treated the LLM as a helpful assistant, but I did not copy its answers directly without checking.
