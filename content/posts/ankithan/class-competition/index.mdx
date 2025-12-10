@@ -1,9 +1,9 @@
 ---
-title: "My approach to the class-wide kaggle competition"
+title: "My approach to the class-wide Kaggle competition"
 slug: "/ankithan/class-competition"
 date: 2025-11-09
 author: Ankitha Namala
-description: "My approach using sentence embeddings and cosine similiarity scores."
+description: "My approach using sentence embeddings and cosine similarity scores."
 tags:
   - class competition
 ---
@@ -22,7 +22,7 @@ tags:
 <tbody>
   <tr>
     <th><b>Leaderboard score</b></th>
-    <td>0.50707</td>
+    <td>0.54625</td>
   </tr>
   <tr>
     <th><b>Leaderboard team name</b></th>
@@ -44,32 +44,139 @@ tags:
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
 
+The task is authorship verification, which could be simplified as a sentence-pair classification problem. The data contains two segments extracted from a single text using [SNIPPET] as the separator. We would predict a semantic relationship between two segments and assign a 0 or 1 label to indicate the same or different author style. The training data has approximately 1600 sentence pairs with a class imbalance for different authors (around 77% label 0 and 23% label 1). The test dataset has around 900 sentence pairs, but does not have any labels in it. The features I used for analysis include cosine similarity, differences in writing style, including word counts, punctuation ratio, digit ratio, semantic similarity scores and Jaccard similarity of tokens. I used an XGBoost model with Stratified K-Fold Cross-Validation (10 folds) to maintain class balance across splits. This problem is similar to semantic textual similarity use cases or duplicate question detection problems. There are several challenges that I faced during my approach to the problem. Initially, I had to deal with the class imbalance as 77% of train data contained 0 labelled data, and hence, achieving a good F1 score was challenging as most of the test data was categorised as 0. Some sentences were long and others short, having a varied distribution and skewed data. 
+
 ## Exploratory data analysis
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
 
+Train data consists of around 1600 data points, while the test data consists of around 900 data points. Train data consists of ID, TEXT and LABEL columns while test data consists of ID and TEXT columns. The LABEL in train data consists of 77.76% of 0 label and 22.24% of 1 label, which indicates class imbalance in the data. The data is split using [snippet] delimiter, and there are no null values in the data in either sen1 or sen2 columns after splitting. Then computed all features that can be useful for comparing the similarity between two sentences. Computed the correlation matrix between all features to remove highly correlated features to improve generalisation. Selected cos_similarity, avg_word_length_difference, punctuation_ratio, digit_ratio_difference, stopword_difference and jaccard_similarity as important features. Computed summary statistics of the selected features and plotted their distribution. Cosine similarity and Jaccard similarity have 0 label more distributed than label 1 compared to other selected features. 
+
 ## Approach
 
-# Draft Approach 
-
-My approach can be summarized as splitting the sentences based on the delimiter [SNIPPET] and finding word embedding to the sentences. Then used cosine similarity to find similarity between the sentences. Used this similarity score and labels to train model. Also, converted the test file to embeddings, calculated similarity score and used to evaluate the model. My further approach is to try with different transformers for the embeddings and tune the model to improve accuracy."
-
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
+
+### Draft Approach 
+
+My approach can be summarised as splitting the sentences based on the delimiter [SNIPPET] and finding word embedding for the sentences. Then used cosine similarity to find similarity between the sentences. Used this similarity score and labels to train the  model. Also, converted the test file to embeddings, calculated the similarity score and used it to evaluate the model. My further approach is to try with different transformers for the embeddings and tune the model to improve accuracy."
+
+### Final Approach
+
+- PreProcessing:
+
+Sentences are normalised through converting them to lower case and calculating punctuation words and stop words. Separated the text column using the [SNIPPET] delimiter to compute into two separate columns. Missing values are computed, but none are found. 
+
+- Feature Engineering: 
+
+I computed a set of features capturing lexical, structural and semantic similarity. Computed correlation matrix to remove correlated features to improve generalisation. Selected top features like cosine similarity, stop word and digit ratio difference, average length difference and jaccard similarity. 
+
+- Exploratory Data Analysis: 
+
+I understood the class imbalance from analysing the counts of each label in the train data. Visualised the distribution of each selected feature to assess how well they are distributed. Analysed the distribution of each feature with respect to the label to understand the correlation. 
+
+- Modelling: 
+
+I used XGBoost with Stratified K-Fold cross-validation (10 folds), incorporating class imbalance through scale_pos_weight. Also used GridSearchCV to find optimised parameters for F! to improve recall and classify the minority class label as well.
+
+- Validation: 
+
+A 10-fold stratified setup ensured class balance across folds. Metrics included accuracy, mean F1 score and confusion matrices for detailed class-wise evaluation.
+
+- Error Analysis: 
+
+I split the train data into a training and a validation set to test the model. I analysed the scenarios where there was a mismatch between the predicted and true value. Since test data had only a text column and no labels associated with them, I had to do the error analysis on the train data to see how well the model performed. 
+
+- Prediction: 
+
+Used the model parameters from the hyperparameter tuning to run the model and predict the labels for the test data. Created a submission.csv file with the labels predicted by the model and ID from the test data. Achieved an accuracy of 54.63%.
 
 ## Results
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
 
+I evaluated the mode using 10-fold Stratified K-Fold cross-validation to ensure robustness against class imbalance. Performance was measured using F1-score and accuracy. Class imbalance sensitivity was evaluated using scale_pos_weight and performance was improved as F1 for positive class increased as it was in minority. 
+
+<table>
+  <caption>
+    Results
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>Mean F1 score</b></th>
+    <td>0.4254</td>
+  </tr>
+  <tr>
+    <th><b>Accuracy</b></th>
+    <td>0.7783</td>
+  </tr>
+  <tr>
+    <th><b>F1 score - Negative Class</b></th>
+    <td>0.86</td>
+  </tr>
+  <tr>
+    <th><b>F1 score - Positive Class</b></th>
+    <td>0.43</td>
+  </tr>
+</tbody>
+</table>
+
 ## Error analysis
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
 
+Since the test data does not contain labels, error analysis was performed on the training data. I analysed misclassified examples. For each fold, Out-of-Fold (OOF) predictions were stored and compared against true labels. This allowed me to analyse errors across the full training set. 
+
+After generating OOF predictions, I built an error DataFrame to filter out misclassified examples. This filtering helped to analyse the pattern in model mistakes. The value counts on error data, with errors helping to reveal how errors are distributed between two classes. Out of 1600 samples, around 440 were misclassified. Minority class showed proportionally more errors, confirming class imbalance challenges even after using scale_pos_weight and stratification. Analysing a few rows of misclassified data revealed that the model struggles with the positive class in sentences with subtle semantic similarity and long sentences.
+
 ## Reproducibility
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
+
 _If you'ved covered this in your code repository's README, you can simply link to that document with a note._
 
+- Clone Repository
+
+Clone the repository containing the files and code for the competition
+
+```markdown
+git clone https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-AnkithaNamala.git
+
+cd ling-582-fall-2025-class-competition-code-AnkithaNamala.git
+
+```
+
+- Install Dependencies
+
+Python >= 3.10 recommended
+Visual Studio Code
+
+In terminal, run the following command to install all required packages
+```markdown
+pip install -r requirements.txt
+```
+
+- Open and run the notebook
+
+To run the ipynb file, open jupyter and run the file main.ipynb to create the submission.csv file
+
+```markdown
+jupyter notebook
+```
+To run in Visual Studio Code, enable extensions and run either main.ipynb by clicking on "Run All Cells" or main.py file by clicking Run button to create the submission.csv file
+
+- Reproduce leaderboard results
+
+Submit this file in the Kaggle competition, and one can achieve the same leaderboard result
 
 ## Future Improvements
 
 _Describe how you might best improve your approach_
+
+I would improve the model performance by addressing class imbalance by experimenting with SMOTE analysis. I will also incorporate enhanced features like N-gram overlap or transformer-based attention similarity. Instead of just XGBoost, I would try using the ensemble method by using a combination of classifiers for the problem. Also, one can try tuning the threshold of prediction to calibrate the probabilities. 
+
