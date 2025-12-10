@@ -27,7 +27,7 @@ Class Competition Info
 <tbody>
 <tr>
 <th><b>Leaderboard score</b></th>
-<td>0.48873</td>
+<td>0.50677</td>
 </tr>
 <tr>
 <th><b>Leaderboard team name</b></th>
@@ -47,6 +47,11 @@ Class Competition Info
 
 ## Task summary
 
+I was tasked with evaluating snippets of authored text to determine if it was written by the single, unknown author or not. In effect, we asked the question, are these texts so similar to each other that they must therefore be from the same author? 
+
+The training set of text is a few thousand snippets and is provided with a label column and nothing else. 
+
+
 <!--
 Superior: Pass criteria + one or more of the following:
 a)discussion of related tasks
@@ -58,10 +63,12 @@ a) description of task (label space, dataset size, design, etc.)
 
 ## Exploratory data analysis
 
-There is a class imbalance.
+Clearly, some of the texts feel different from others. Proper names of one really made it feel like the snippets came from Dune. If you've read it, you know what I mean: faux-Middle Eastern sounding names really stood out to me. Character dialog was copious. Some looked clearly as if from a starship's logbook (was i right). My poor eyes could not discern much else from it. 
+
+Good thing we have Python! Right away it was easy to calculate if the training data had roughly equal numbers of both Author's and Not Author's samples. It does not; There is a class imbalance:
 
 <table>
-<caption>Class distribution per line in training data</caption>
+<caption>Class distribution in training data</caption>
 <thead>
 <tr>
 <th>Class 0</th>
@@ -80,54 +87,58 @@ There is a class imbalance.
 </tbody>
 </table>
 
-<!--
-Superior: Pass criteria + additional analysis (ex. measures of diversity)
-Pass: All of the following:
-a) observations supported with example data points
-b) dataset size (per class)
--->
+Some snippets contained a tag "[SNIPPET]"; I promptly erased it from the vocabulary. Frankly, I was rather unsure of its significance. 
+
 
 ## Approach
 
-<!--
-Superior: Pass criteria + approach highlights some novelty/creativity
-Pass: Description of Approach and motivation for use.
--->
+I first tried something similar to, but different than the Arabic Roots project: also a character level model, but discarded the LSTM and built it with a CNN for binary classification. I assumed that learned embeddings as in the roots project could be effective here, so despite hints, I did no feature engineering at first. But, I did spice it up with some Attention and over-engineered the heck out of it by pairing it with a GRU, which resulted in absymal performance. 
+
+I then regrouped by scrapping it and returning to my first love, the LSTM and promoting it to a word-level model. This performed much better, but still was not above baseline. Then I removed attention, seeking simplicity in life, but I stood at the ice wall of the baseline at 0.50251, unable to overcome it.
+
+Eventually my approach devolved to constant tunings of hyperparameters and trying out numerous combinations of models with and without attention and n-gram caegories to see which one best stuck to the wall. I reasoned that if all my model attempts overtrained so similarily and resulting in similar F1 scores, then it's probably the data's fault: each snippet is just too short. So, I concatenated snippets in the class 1 two at a time which yielded wonderful figures like "95%" in the validation data, but when it too was concatenated...You see where this is going? Nevertheless, I submitted but the score was horrible. Only then did I realize that it was because the test data could not be concatenated and the model was unable to generalize from large, concatenated snippets to short test snippets. But, that [training graph](https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-mgatto/blob/main/results/training_losses_20251204_150352.png) was just heartwarming for a while.
+
+I then reasoned that given all these models I had trained, why not join them together as an ensemble. This is the only thing which at least got me to the baseline. To pass it, I then saw Feature Engineering as my only hope. 
+ 
+
+### Feature Engineering
+
+My intuition said that I should include words which occur only once since the data exploration showed them to be rather unique per author. Strangely, this did not help at all. Excluding stop words and forcing a minimum frequency of two occurences in the training data noticably improved F1 which left me puzzled as to why my hypothesis seemed incorrect. 
+
+I also tried part of speech tagging features and some stlyometric features which I thought would be very impactful; they were not. What happened? I suspect I may have encoded the features incorrectly. 
+
 
 ## Results
 
-<!--
-Superior: Pass criteria + measure of robustness of approach (ex. stratified k-fold cross validation, etc.) and/or statistical analysis
-Pass: Quantitative results on leaderboard noting delta with baseline
--->
+No matter which combination of LSTM, CNN, GRU that I used, with or without attention, I was not able to control overfitting. Curiously, the maximum F1 for most combinations seemed to hover in the mid 30% range. 
+
+Early attempts (with submission scores):
+- "Bidirectional GRU RNN with attention" = 0.262
+- "LSTM with attention, word level not char-level like the one before" = 0.467
+
 
 ## Error analysis
 
-<!--
-Superior: Detailed error analysis on held-out data (characterization of error) with examples
-Pass: Some error analysis on held-out data
--->
+Because of the class imbalance, many of my runs favored predicting class 0. It was difficult to overcome this despite considerable coding attempts. Class wieghts were calculated: class 0 = 0.6432, class 1 = 2.2456. Despite this and using a POS weight with the loss function (3.4912, but sometimes tuned unsuccessfully), it did not successfully get us above the baseline. The git repo history tells the full, tangled story.
+
+Validation data was separated out, but I unaccountably did not debug incorrect classifications in that set. Which brings us to the leaderboard!
+
 
 ## Leaderboard Result
 
-<!--
-Superior: Pass criteria + leaderboard submission exceeds the baseline
-Pass: All of the following:
-a) post specifies name of submission on leaderboard
-b) post includes score of leaderboard submission
--->
+My best results were with the ensemble models, resulting in my two highest scores:
+
+- "Second attempt at an ensemble model." = 0.49579
+- "Truely ensemble." = 0.50677 which passes the baseline by a hair, a hair I tell you! :-)
+
 
 ## Reproducibility
 
-<!--
-_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+Please see the [README.md](https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-mgatto/blob/main/README.md) file in the code repository.
 
-Superior: Containerized build with clear step-by-step instructions for reproducing leaderboard numbers
-Pass: clear step-by-step instructions for installing dependencies and reproducing leaderboard numbers
--->
 
 ## Future Improvements
 
-<!--
-_Describe how you might best improve your approach_
--->
+I honestly do not know. The failure of my attempted feature engineering was my last hope. I have much more learning to do and will remember this project fondly one day after I arrive at my AHA! moment.
+
+I intend to study feature engineering in great detail over the winter break just to see where I went wrong and how it could be corrected. 
