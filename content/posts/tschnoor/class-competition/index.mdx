@@ -109,12 +109,18 @@ Name: count, dtype: int64
 ```
 This shows that there are far more cases of different authorship than shared authorship. I describe how I address this disparity in the next section.
 
-I realized early on that most or all of the data come from what appear to be fictional stories. For example:
+I realized early on that most of the data come from what appear to be fictional stories. For example:
 ```Python-repl
 >>> df["TEXT1"][100]
 'But you\'re not the only person who has psi ability. I\'ve wired General Sanfordwaithe to send me another fellow; one who will coöperate." The Swami thought it over. Here he was with a suite in a good hotel; with an army lieutenant to look after his earthly needs; on the payroll of a respectable company; with a ready-made flock of believers; and no fear of the bunco squad. He had never had it so good. The side money, for private readings alone, should be substantial. Further, and he watched me narrowly, I didn\'t seem to be afraid of the cylinders. '
 ```
-I was also interested in how long these text snippets generally were, both in terms of characters and words. 
+However, these snippets do seem to span genres and styles:
+```Python-repl
+>>> df["TEXT2"][1599]
+' Dance, you parts of me, you living things, you atoms of my dust! He had torn Esponito\'s photo from a newspaper. Now he let the colored balls drop and stuck the picture on the end of the rod. "This and that are one in kind. Servant rod, find me that!" He stretched out the rod and turned on his heels. He sang and blanked his mind and listened to the tremors in his hands.'
+```
+
+I was also interested in how long these text snippets generally were, both in terms of characters and words. The figures below illustrate that the distribution of length is pretty severely skewed in the dataset. There are far more short snippets than long snippets, and the snippets in the TEXT2 position are generally longer than TEXT1 for some reason. I also address this in the next section.
 
 <div style="display:flex; align-items:center;">
   <img src="nwords.png" style="width:50%; margin-left:auto; margin-right:auto;"></img>
@@ -123,53 +129,57 @@ I was also interested in how long these text snippets generally were, both in te
 
 ## Approach
 
-My planned approach for the class competition is to engineer a set of interpretable features for use as input to an authorship classifier. I have not finalized a set of features or an architecture for the classifier yet, but I will describe what I have already accomplished in the paragraphs below. My motivation in taking this approach is to maximize interpretability so that the relative contributions of each of the features can be investigated. Contribution analyses can provide data that may be used to improve our approach to the task, but also have the potential to tell us more about the task itself. The process of engineering features forces us to think about how the task at hand might be approached by a human, which is, in itself, a useful exercise (and can be one of the first steps of the scientific process).
+My approach for the class competition is to engineer a set of (more or less) interpretable features for use as input to a simple authorship classifier. I wanted to spend my time on this assignment working on the data rather than model architecture because I devoted a lot of time on the class project to recreating specific neural network architectures. One motivation in taking this approach is to maximize interpretability so that the relative contributions of each of the features can be investigated. Contribution analyses can provide data that may be used to improve our approach to the task, but also have the potential to tell us more about the task itself. The process of engineering features forces us to think about how the task at hand might be approached by a human, which is, in itself, a useful exercise (and can be one of the first steps of the scientific process). Additionally, I wanted to address the abnormal distributions in the dataset (more negatives than positives, abnormal distributions of length) by supplementing with outside data.
 
 ### Features
 
 - Length Difference: The difference between the number of words in Text A and Text B.
-  - Currently, this feature is the naive difference in number of words between the two texts. This feature is not very useful in its current state, because we are not provided the method by which the texts were extracted for use in the dataset. I plan to improve this feature by extracting the number of words per sentence instead. This would give an idea of the average length of the sentences written by the author, which may be a characteristic that could be useful for differentiating authors.
+  - This feature is the naive difference in number of words between the two texts. This feature is not very useful in its current state, because we are not provided the method by which the texts were extracted for use in the dataset. I plan to improve this feature by extracting the number of words per sentence instead. This would give an idea of the average length of the sentences written by the author, which may be a characteristic that could be useful for differentiating authors.
 - Number of Common Words: The number of words between the texts that are the same
-  - The idea behind this feature is that an author is likely to reuse the same words in subsequent texts. So, if a high number of common words are found between two texts, the author is more likely to be the same. I plan to improve this feature by excluding common function words from the calculation.
-- SBERT Sentence Embedding Dot Product Similarity: The dot product similarity between two vectors of feature embeddings as produced by [SBERT](https://www.sbert.net)
+  - The idea behind this feature is that an author is likely to reuse the same words in subsequent texts. So, if a high number of common words are found between two texts, the author is more likely to be the same.
+- SBERT Sentence Embedding Similarity: The between two vectors of feature embeddings as produced by [SBERT](https://www.sbert.net). In this way I created 4 different similarity features, each calulated with a different algorithm (cosine, dot product, euclidean, and manhattan distance).
   - I wanted to take advantage of open source/open weight NLP models to create some features. The features created in this way have the disadvantage of being less interpretable (or perhaps the interpretation of the features is just made more complicated by the fact that one must investigate an additional model in the pipeline) but they carry the advantage of leveraging learned generalizations that come from training on very large amounts of data. This feature takes advantage of the SBERT tokenizer, the SBERT encoder, and the built-in simlarity calculation (which defaults to a dot product calculation). I plan to test out the other similarity calculations in the future.
 
-Planned Features:
-- Semantic Classification: I plan to use an open-source model (maybe an OpenAI model) to classify the semantics of the two texts and then create a feature to describe the difference between the two classifications.
+### Data supplementation
 
-### Classifier Architecture
+I supplemented the given data with some from the [Victorian Era Authorship Attribution dataset](https://archive.ics.uci.edu/dataset/454/victorian+era+authorship+attribution) which was created by Gungor and Abdulmecit (full reference below). I took examples of shared authorship from these in order to equalize the amount of positive and negative examples. Additionally, this dataset uses longer snippets to compensate for the shorter length given in the competition data. Depending on the lengths of the mystery testing data, the addition of longer sections could be a benefit or detriment to model performance.
 
-I have approached architecture development with a plan to gradually increase the complexity of the classifier. I think that the simplicity of the models that I am currently using is contributing to their low classification accuracy, but I want to add complexity as I improve my feature set to avoid overcomplicating my model.
+```
+GUNGOR, ABDULMECIT, Benchmarking Authorship Attribution Techniques Using Over A Thousand Books by Fifty Victorian Era Novelists, Purdue Master of Thesis, 2018-04
+```
 
-Current Architecture:
-- Logistic Regression
-  - I wanted to test out performance using a simple binary classification architecture first. All of my leaderboard submissions are from a logistic regression model so far. As I grow my feature set, I anticipate moving on to a more complex architecture.
-- Multilayer Perceptron Network
-  - My next approach will be to test out my current set of features as input to a simple MLP artificial neural network. This may provide better generalization capability, but will also require more tweaking (in terms of number of layers, number of units, etc.).
+As a note, I also tried masking random words in the training data as a form of augmentation with the goal of increasing training exposure. However, masking (at least the way I did it, replacing a random word with a [MASK] token) only ever seemed to decrease performance.
 
-Future Architectures:
-- Convolutional Neural Network
-- Transformer Architecture (perhaps fine-tuning a BERT model)
+### Classifier and training
+
+For classification, I used a simple logistic regression model. Although this model is not very complex relative to many neural network architectures, it is a tried and tested method of doing binary classification. I also tried training a simple multilayer perceptron network but I could never get its performance to exceed that of the logistic regression. 
+
+The training procedure consisted of 10-fold cross validation on held out data. The results of training can be found in the next section.
 
 ## Results
-
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
 
-```stdout
-Classification Report:
-               precision    recall  f1-score   support
+**My highest leaderboard score:** 0.53273
+**Delta:** +0.03012
 
-           0       0.79      0.98      0.88       484
-           1       0.97      0.76      0.85       512
-
-    accuracy                           0.87       996
-   macro avg       0.88      0.87      0.86       996
-weighted avg       0.89      0.87      0.86       996
-```
+|   FOLD |   PRECISION_POS |   PRECISION_NEG |   RECALL_POS |   RECALL_NEG |   F1_POS |   F1_NEG |
+|-------:|----------------:|----------------:|-------------:|-------------:|---------:|---------:|
+|      1 |        0.976077 |        0.788927 |     0.769811 |     0.978541 | 0.860759 | 0.873563 |
+|      2 |        0.968586 |        0.798046 |     0.748988 |     0.976096 | 0.844749 | 0.878136 |
+|      3 |        0.963731 |        0.829508 |     0.781513 |     0.973077 | 0.863109 | 0.895575 |
+|      4 |        0.989583 |        0.800654 |     0.756972 |     0.991903 | 0.857788 | 0.886076 |
+|      5 |        0.974619 |        0.82392  |     0.783673 |     0.980237 | 0.868778 | 0.895307 |
+|      6 |        0.983784 |        0.840256 |     0.784483 |     0.988722 | 0.872902 | 0.908463 |
+|      7 |        0.970149 |        0.821549 |     0.78629  |     0.976    | 0.868597 | 0.892139 |
+|      8 |        0.976636 |        0.795775 |     0.782772 |     0.978355 | 0.869023 | 0.87767  |
+|      9 |        0.965854 |        0.829352 |     0.798387 |     0.972    | 0.874172 | 0.895028 |
+|     10 |        0.967568 |        0.776358 |     0.718876 |     0.975904 | 0.824885 | 0.864769 |
 
 ## Error analysis
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+
+The results of my 10-fold cross validation show that F1 holds pretty steady in the mid-to-high 80s for both negative and positive datapoints. This table also shows that negative precision is lower than positive precision and positive recall is lower than negative recall. Read: we're getting lots of false negatives.
 
 ## Reproducibility
 
