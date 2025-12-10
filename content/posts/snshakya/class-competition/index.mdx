@@ -54,7 +54,20 @@ I started with a simple logistic regression model using only character TF-IDF co
 
 ## Results
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
+I performed 5-fold stratified cross-validation on the training data. In each fold, the system:
+
+1. Extracts character-level and word-level TF–IDF features.
+2. Builds stylometric statistics for each span.
+3. Trains a Linear SVM with `class_weight="balanced"`.
+4. Calibrates probabilities using 3-fold internal cross-validation.
+5. Tunes a decision threshold over the positive probability space to maximize macro-F1.
+
+
+## Leaderboard Result
+
+- **Team name:** Shreya Nupur Shakya  
+- **Kaggle username:** shreyanupurs  
+- **Final competition score:** **63.39 macro-F1**
 
 ## Error analysis
 
