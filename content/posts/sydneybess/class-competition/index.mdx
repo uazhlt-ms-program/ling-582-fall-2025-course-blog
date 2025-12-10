@@ -87,7 +87,7 @@ Hence, tried adding more data via AI augmentation, but it made things up.
 So next, I did research on other datasets and found this dataset on Kaggle [Spooky Authorship Dataset](https://www.kaggle.com/competitions/spooky-author-identification/data?select=train.zip)
 It had text samples from three authors, with columns for ID, text, and author.
 While I didn't care about who the author was, I set up a random selection of two rows, combined the two text columns with [SNIPPET], and, if the author was the same, set the corresponding label.
-While I ended up not using the data because it actually made my model worse, even though it balanced the two categories, here was the breakdown
+While I ended up not using the data because it actually made my model worse (I discuss that more in future improvements), even though it balanced the two categories, here was the breakdown
 
 
 
@@ -182,6 +182,6 @@ _If you'ved covered this in your code repository's README, you can simply link t
 
 _Describe how you might best improve your approach_
 
-The first thing I'd do is balance the data by augmenting it. I think when I tried to add more data from the Kaggle dataset I mentioned, I added too much, so it didn't actually represent what the test data would look like. It was 65% when I submitted the prediction (although at the time I added the data, I wasn't checking the Precision, Recall, or F1 score to tell). I would go back and redo adding the data and try again, because I hadn't pursued it after it got my lowest results.
+The first thing I'd do is balance the data by augmenting it. I think when I tried to add more data from the Kaggle dataset I mentioned, I added too much, so it didn't actually represent what the test data would look like. It was 65% when I submitted the prediction (although at the time I added the data, I wasn't checking the Precision, Recall, or F1 score to tell - all I knew is it had an accuracy of around 75% (below both base and my model) and a 65% on Kaggle). I would go back and redo adding the data and try again, because I hadn't pursued it after it got my lowest results.
 If that still didn't work (or even along with that), I'd do a method like SMOTE (Synthetic Minority Over-sampling Technique) to better represent the minority by creating synthetic data in similar word vector spaces as data annotated as the positive class. 
 
