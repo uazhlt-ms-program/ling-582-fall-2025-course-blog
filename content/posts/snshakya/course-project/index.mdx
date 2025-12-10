@@ -95,7 +95,7 @@ This project directly addresses this gap by evaluating whether a substantially s
 <tbody>
   <tr>
     <th><b>Shreya Nupur Shakya</b></th>
-    <td>Experiments for LLaMA-7B-Instruct and Qwen2.5-7B-Instruct on GSM8K in English and Nepali; Error analyis; Write-up</td>
+    <td>Experiments for Llama-3-8B-Instruct and Qwen2.5-7B-Instruct on GSM8K in English and Nepali; Error analyis; Write-up</td>
   </tr>
   <tr>
     <th><b>Oghenevovwe Ikumariegbe</b></th>
@@ -106,7 +106,7 @@ This project directly addresses this gap by evaluating whether a substantially s
 
 ## Results
 
-We evaluate two open-source models: LLaMA-7B-Instruct and Qwen2.5-7B-Instruct on GSM8K in English and Nepali, under three prompting configurations: no-CoT, minimal-CoT, and standard-CoT. We further conduct a comprehensive minimal-CoT reasoning length study, varying the maximum reasoning budget (cap) from 192 to 1024 tokens across both models in Nepali. Our results show clear differences across languages and models in accuracy, efficiency, and error patterns, helping us understand how much reasoning minimal-CoT needs to work effectively in a low-resource language.
+We evaluate two open-source models: Llama-3-8B-Instruct and Qwen2.5-7B-Instruct on GSM8K in English and Nepali, under three prompting configurations: no-CoT, minimal-CoT, and standard-CoT. We further conduct a comprehensive minimal-CoT reasoning length study, varying the maximum reasoning budget (cap) from 192 to 1024 tokens across both models in Nepali. Our results show clear differences across languages and models in accuracy, efficiency, and error patterns, helping us understand how much reasoning minimal-CoT needs to work effectively in a low-resource language.
 
 | Model | Language | Style         | Accuracy (%) | Avg Gen Tokens (Input+Output) | Avg Time (s) |
 |-------|----------|---------------|--------------|--------------------------------|--------------|
@@ -129,7 +129,7 @@ We evaluate two open-source models: LLaMA-7B-Instruct and Qwen2.5-7B-Instruct on
 
     Table 1: Performance of No-CoT, Minimal-CoT, and Standard-CoT Across Qwen and LLaMA (English & Nepali GSM8K)
 
-Table 1 summarizes the performance of Qwen 2.5–7B and LLaMA-7B-Instruct on English and Nepali GSM8K under the three prompting strategies: No-CoT, Minimal-CoT, and Standard-CoT. This table provides the clearest cross-sectional view of how reasoning style interacts with model architecture and language.
+Table 1 summarizes the performance of Qwen2.5-7B-Instruct and Llama-3-8B-Instruct on English and Nepali GSM8K under the three prompting strategies: No-CoT, Minimal-CoT, and Standard-CoT. This table provides the clearest cross-sectional view of how reasoning style interacts with model architecture and language.
 
 Across both models and both languages, Minimal-CoT consistently outperforms No-CoT or at least tries to match or exceed Standard-CoT, despite requiring fewer tokens and shorter inference times.
 
@@ -180,7 +180,7 @@ This provides strong empirical support for the broader hypothesis that small, fo
 
 <b> How Much Reasoning Is Enough for Minimal-CoT in Nepali? </b>
 
-To determine the optimal reasoning budget for Minimal-CoT in low-resource settings, we performed a study on Nepali GSM8K by varying the maximum reasoning length (cap) from 192 to 1024 tokens for both LLaMA-7B and Qwen2.5-7B. Table 2 summarizes accuracy trends at each cap.
+To determine the optimal reasoning budget for Minimal-CoT in low-resource settings, we performed a study on Nepali GSM8K by varying the maximum reasoning length (cap) from 192 to 1024 tokens for both Llama-3-8B-Instruct and Qwen2.5-7B. Table 2 summarizes accuracy trends at each cap.
 
 | Cap | Accuracy (%) | Avg. tokens (Input+Output) | Time (s) |
 |-----|--------------|------------------------|----------|
@@ -210,10 +210,10 @@ To determine the optimal reasoning budget for Minimal-CoT in low-resource settin
 | 1024 | 24.11 | 663.20 | 2.1248 |
 | 1280 | 24.11 | 695.81 | 2.3340 |
 
-    Table 3: Minimal-CoT Results for Nepali GSM8K on Llama-7B
+    Table 3: Minimal-CoT Results for Nepali GSM8K on Llama-3-8B-Instruct
 
 Across both models, accuracy improves quickly as the reasoning cap increases from 192 to 512 tokens, after which gains become very small.
-- LLaMA-7B reaches its highest accuracy at 512–640 tokens (24.34%), with no further improvement up to 1280 tokens.
+- Llama-3-8B-Instruct reaches its highest accuracy at 512–640 tokens (24.34%), with no further improvement up to 1280 tokens.
 - Qwen2.5-7B reaches its peak at 640 tokens (34.50%), and accuracy begins to decline slightly at 768 tokens and beyond.
 
 Beyond 768–896 tokens, neither model benefits from the longer reasoning chains, even though the outputs become much longer and slower to generate.
@@ -222,13 +222,13 @@ Overall, the results show that Minimal-CoT needs only about 500–700 tokens to 
 
 ## Error analysis
 
-To better understand how Minimal-CoT behaves across languages and models, we performed a detailed error analysis over the incorrect outputs extracted from the JSON files for Qwen-7B and LLaMA-7B on English and Nepali GSM8K. Errors were manually inspected and also categorized as shown below:
+To better understand how Minimal-CoT behaves across languages and models, we performed a detailed error analysis over the incorrect outputs extracted from the JSON files for Qwen-7B and Llama-3-8B-Instruct on English and Nepali GSM8K. Errors were manually inspected and also categorized as shown below:
 
 1. Truncation and Incomplete Reasoning 
 
-Across both models, the smallest minimal-CoT caps (192–320) consistently lead to truncated chains and reasoning that stops mid-sentence or fails to complete with the final answer. This pattern is especially common in LLaMA-7B, whose JSON outputs show early termination such as:
+Across both models, the smallest minimal-CoT caps (192–320) consistently lead to truncated chains and reasoning that stops mid-sentence or fails to complete with the final answer. This pattern is especially common in Llama-3-8B-Instruct, whose JSON outputs show early termination such as:
 
-Example (LLaMA-7B, 192 cap):
+Example (Llama-3-8B-Instruct, 192 cap):
 
     "…तेस्रो चरण: उनी बाँकीलाई किसानको बजारमा…"
 
