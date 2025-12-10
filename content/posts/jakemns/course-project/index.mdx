@@ -15,7 +15,7 @@ tags:
 <tbody>
   <tr>
     <th>Code Repository URL</th>
-    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-???</td>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-jake-gabreila</td>
   </tr>
   <tr>
     <th>Demo URL (optional)</th>
@@ -31,61 +31,10 @@ tags:
 
 ## Project description
 
-Project Approach 
-Outline of Goals
-  identify an indigenous language family of the Americas with sufficient documentation for project
-  train a system/model that can identify the language of a given text. This will require a sample text of each language. Ideally multiple pages of text, but at least a few hundred words.
-  After training, the model will identify the language of a given text. The text will need to be a minimum length, potentially 10 words/2-3 sentences.
-  Aim for a minimum of 3 languages to differentiate. Ideally have 5+ languages to expand usability of the model
-  If possible, outline an approach for training more languages in the future
-Training approach 
-  train model by identifying key statistics of sample text for each language.
-  average word length
-  unique characters
-  unique vocabulary
-  general word order (would first require POS tagging)
-  create an algorithm that combines these factors and outputs a guess with a percentage
-    i.e. “Language A, 85% likely”, “Language C, 34% likely”
-    include a message if the percentage is too low, under 50%?
-      i.e. “Unable to make a reliable estimate. Try again with a longer text.”
-  potential language families:
-    iroquoian (NE U.S.)
-      https://library.si.edu/digital-library/book/hymnalinsenecala00bata
-    Cherokee
-      https://language.cherokee.org/learning-materials/
-Timeline
-  Week 0 (11/16: Approach Due)
-    identify language family
-    identify potential computing approaches
-    submit project approach
-  Week 0.5 (11/19)
-    gather sample texts, clean them, add to database for testing
-    create initial code for testing and training
-    identify more feasible approaches based on initial coding
-  Week 1 (11/23)
-    refine testing and identify major issues to be addressed
-    seek feedback for additional testing approaches if necessary
-    build up database with additional texts if necessary
-    code rough output messages based on results
-  Week 1.5 (11/26)
-    work out bugs in model to improve accuracy
-    establish minimum text length that would be feasible for identification
-  Week 2 (11/30)
-    continue coding
-    identify additional languages to train if model is working well at this point
-    less work completed in this timeframe due to Thanksgiving Break
-  Week 2.5 (12/3)
-    begin training of additional languages, if possible
-    work on write up of project summary, individual contributions, etc.
-    begin analyzing results, limitations, future improvements, etc.
-  week 3 (12/7) PROJECT DUE!
-    make final touches on model
-    organize code and resources, create READEME.md file and put in-line comments, for easy understanding on grader side
-    finish write-up and discussion
-
-
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility).  Use subsections to organize components of the description._
-
+For this project, we created a tool to identify between languages in the Iroquoian family. We chose this project to better 
+understand techniques for lanugage differentiation in genereal. We chose the Iroquoian language family as it is a
+low-resource language family with little work published on it. One of the largest challenges for the project was finding
+sufficient text examples for each langauge and preparing the text to use for our tool. 
 
 ## Summary of individual contributions
 <table>
@@ -97,16 +46,12 @@ _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/co
   </thead>
 <tbody>
   <tr>
-    <th><b>???</b></th>
-    <td>???</td>
+    <th><bGabriela Quinonesb></th>
+    <td>Created database and added text files to database. Created user interface to allow for input</td>
   </tr>
   <tr>
-    <th><b>???</b></th>
-    <td>???</td>
-  </tr>
-  <tr>
-    <th><b>???</b></th>
-    <td>???</td>
+    <th><b>Jake Mains</b></th>
+    <td>Searched for texts for database. Created code file to differentiate languages</td>
   </tr>
 </tbody>
 </table>
@@ -114,17 +59,25 @@ _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/co
 
 ## Results
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
+Using the text files that we found and processed, we were able to create a sufficient identification system. 
+This system returned the correct langugae prediction when given a short string of text, about the size of one
+setntence. We included 6 Iroquoian languages as well as English as a baseline. Predictions were based off of 
+language script as well as common words found in the language. With the language prediction, a short biography 
+of the identified language is also returned.
 
 ## Error analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
-
+This system works well with the data it's trained on, but may have some limitations on held-out data. This system 
+relies on the target language to be in a certain script for proper identification. Cherokee in particular is trained
+on a specific script and will not likely be identified if working with another script. In addition, some langugaes 
+were trained on a more generic script, so we used common words in the language to identify them, for instance "tsha'"
+in Onondaga. If the text entered does not have one of these words, it may not identify the language.
 ## Reproducibility
-
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility)_
-_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
 
 ## Future improvements
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_
+Our main limitation for this project was a lack of text from each lnaguage in this family. Some future improvements could
+involve sourcing more texts for more accurate language prediction. This could also involve a deeper language analysis that
+allows for proper identification no matter the script or if the text given is missing a key word. This could involve other 
+metrics like average word length or consonant patterns unique to the language. Lastly, building a user interface for more
+practical use would be a major improvement.
