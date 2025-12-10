@@ -94,14 +94,47 @@ All three team members have discussed the design decisions together like choice 
 
 ## Results
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
+First we have evaluated how well each embedding model works lie how it well it can retrieve the supporting evidence for HotpotQA questions. For this we have used Recall@5 on 100 validation questions. We have counted it as a hit if at least one of the top 5 retrieved chunks comes from a supporting article for that question. We have used the same chunks and FAISS setup for all the models, we got 
+
+| Embedding model | Recall@5 |
+| --------------- | -------- |
+| E5 (intfloat/e5-base)           | 1.00 |
+| BGE (BAAI/bge-base-en-v1.5)     | 1.00 |
+| GTE (thenlper/gte-base)         | 0.98 |
+
+Here all the three models looks very strong on this task, with E5 and BGE retrieving the correct article in the top-5 for every single question, and GTE missing only 2 out of 100. If we are treating this as a binomial proportion, GTE’s Recall@5 ≈ 0.98 has a rough 95% confidence interval of about [0.95, 1.0], so here the small difference between the 0.98 and 1.0 is probably not very meaningful. Overall, we observed that retrieval performance looks robust across embedding choices for this dataset. This results also tells us that the most answer failures later are not due to completely missing the right article, which is ithe most mportant for interpreting the RAG vs non-RAG results.
+
+The other part of the project we worked on is RAG vs non-RAG answer accuracy. We have compared the quality with and without RAG on a held out set of 10 HotpotQA validation questions.. For each question we have stored gold answer from HotpotQA, RAG answer which is question along with retrieved chunks given to LLM and non-RAG answer, which is giving just the question only to the same LLM.
+
+We then tagged each example with titles like rag_correct, no_rag_correct which is does the answer match the gold answer or not.
+ rag_error_type, no_rag_error_type with one of these ( R0 means correct, R3 means hallucination, and R4 means safe failure. 
+
+The overall results that we got out of these are :
+- The questions we have taken = 10
+- Retrieval hit: 10 / 10 (at least one supporting title retrieved every time)
+- RAG correct: 8 / 10
+- Non-RAG correct: 4 / 10
+
+here we have seen on this small set are RAG doubles the accuracy compared to using the LLM alone. If we treat this as a binomial accuracy estimate: we got RAG accuracy = 0.8 that is rough 95% CI ≈ [0.55, 1.0] and Non-RAG accuracy = 0.4 which is rough 95% CI ≈ [0.10, 0.70]. we observed that even though the sample size is small, the gap between 0.8 vs 0.4 is large enough to show that the RAG is very likely better than non-RAG on this style of question.
+
+Coming to the hallucination vs safe failure records, while looking at the error tags we saw a clear difference in the type of mistakes such as:
+RAG ANSWERS:
+- 8 / 10 were R0 (correct)
+- 2 / 10 were R4 (safe failure: model said the context did not contain the answer)
+- 0 / 10 were R3 (hallucinations)
+NON-RAG ANSWERS:
+- 4 / 10 were R0 (correct)
+- 6 / 10 were R3 (hallucinations)
+- 0 / 10 were safe failures
+
+here we have observed that with the RAG, we saw most failures became I don’t know from this context, instead of made up facts while without RAG the model usually produced confident but wrong answers. With all the retrieval results, the main conlcusion is Retrieval is strong that is supporting titles found 10/10 times, here RAG not only improves the accuracy 8/10 vs 4/1,  but also changes the failure mode from hallucinations to safer I don’t know answers.
 
 ## Error analysis
 
 For error analysis we have used a small held out data which is set of 10 HotpotQA validation questions. For each question we have stored gold answers from the HotpotQA, a RAG answer which is question plus retrieved chunks and the LLM and also we stored a non RAG answer which is question only into the same LLM. 
 We then ran a script over the csv to add and summarize:
 - retrieval_hit – whether at least one retrieved title matches a HotpotQA supporting title  
-- rag_correct, no_rag_correct – whether each answer matches the gold answer (using simple string checks plus spot-checking)  
+- rag_correct, no_rag_correct – whether each answer matches the gold answer  
 - rag_error_type, no_rag_error_type – coarse error tags (`R0` = correct, `R3` = hallucination, `R4` = safe failure like “I don’t know”)  
 
 The results we have got are :
