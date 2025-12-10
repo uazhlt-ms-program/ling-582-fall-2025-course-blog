@@ -98,7 +98,44 @@ _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/co
 
 ## Error analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
+For error analysis we have used a small held out data which is set of 10 HotpotQA validation questions. For each question we have stored gold answers from the HotpotQA, a RAG answer which is question plus retrieved chunks and the LLM and also we stored a non RAG answer which is question only into the same LLM. 
+We then ran a script over the csv to add and summarize:
+- retrieval_hit – whether at least one retrieved title matches a HotpotQA supporting title  
+- rag_correct, no_rag_correct – whether each answer matches the gold answer (using simple string checks plus spot-checking)  
+- rag_error_type, no_rag_error_type – coarse error tags (`R0` = correct, `R3` = hallucination, `R4` = safe failure like “I don’t know”)  
+
+The results we have got are :
+- Total questions: 10  
+- Retrieval hit:10 / 10  
+- RAG correct: 8 / 10  
+- Non-RAG correct: 4 / 10  
+
+So on this small set, we can see RAG roughly doubled the accuracy compared to when using the LLM without retrieval. The error types and patterns that we observed for each of the type are :
+For RAG answers we have observed that 8/10 were tagged as R0 which means correct,  2/10 were R4 which means safe failure where the model said that the context did not contain the answer  and there were no R3 hallucinations in the RAG answers. 
+
+Coming to Non-RAG answers, we have observed 4/10 were R0 (correct) and  6/10 were R3 (hallucinations), where the model confidently have produced wrong facts. This shows us a clear pattern that is when the model does not have any access to retrieved context, it is much more likely to hallucinate things instead of admitting uncertainty. With RAG, we observed most of the failures become “I don’t know from this context” instead of invented answers.
+
+for example lets consider a question from the data:  
+> What government position was held by the woman who portrayed Corliss Archer in the film *Kiss and Tell*?
+
+- Gold answer: Chief of Protocol  
+- RAG answer: says the context does not provide the government position and was tagged as a safe failure (R4)  
+- Non-RAG answer: says she was a U.S. Ambassador, was tagged as a hallucination (R3).  
+
+Both answers are incorrect here, but the RAG refuses to guess, while the non-RAG model did invent a plausible-sounding role.
+
+and one more example question is :
+> The arena where the Lewiston Maineiacs played their home games can seat how many people?
+
+- Gold answer: 3,677 seated  
+- RAG answer: “4,000 (3,677 seated)” , was  counted as correct (R0), since it contains the exact number from the context  
+- Non-RAG answer: “approximately 2,800 people”, this was tagged as hallucination (R3). 
+
+Here the RAG model copies the number from the retrieved text, but where as the non-RAG model just guesses a capacity.
+
+For the small held out data error analysis, we learned that Retrieval quality is strong as a supporting title was retrieved for all the 10 questions, RAG answers were more accurate overall such as 8/10 vs 4/10, Non-RAG errors were usually hallucinations, while RAG errors were mainly safe failures. 
+
+This whole analysis matches our main goal in the project that is not only measuring accuracy, but also understanding  the main idea of how the system fails with and without RAG.
 
 ## Reproducibility
 
