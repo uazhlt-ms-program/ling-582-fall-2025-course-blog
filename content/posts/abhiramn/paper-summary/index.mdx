@@ -1,7 +1,7 @@
 ---
 title: "TruthfulRAG: Resolving Factual-level Conflicts in Retrieval-Augmented Generation with Knowledge Graphs."
 slug: "/abhiramn/paper-summary"
-date: 2025-11-15
+date: 2025-12-10
 author: Abhiram Varma Nandimandalam
 description: "My incredible paper summary of TruthfulRAG"
 tags:
@@ -207,7 +207,7 @@ Describe the main innovation of the TruthfulRAG approach.
 
 LLM Answer
 
-The authors introduced a method to resolve factual-level conflicts in RAG systems using Knowledge Graphs (KGs). They compared their approach with methods like FaithfulRAG, KRE, COIECD, and standard RAG. Experiments were conducted on four datasets (FaithEval, MuSiQue, RealtimeQA, SQuAD) using multiple LLMs (GPT-4o-mini, Qwen2.5-7B-Instruct, Mistral-7B-Instruct). TruthfulRAG consistently achieved higher accuracy than baseline systems. The ablation study demonstrated that each module—KG construction, graph retrieval, and entropy-based conflict resolution—contributes meaningfully to the method’s performance. Removing any component significantly reduced accuracy and context precision. TruthfulRAG also demonstrated robustness across both conflicting and non-conflicting contexts. The authors further highlighted that improvements are statistically significant, indicating the reliability of the method. Overall, TruthfulRAG outperforms competing approaches and remains computationally efficient, with a moderate overhead that does not hinder practical deployment. The framework’s ability to systematically integrate external knowledge and resolve factual inconsistencies underscores its value in enhancing the trustworthiness and accuracy of RAG-generated content.
+The authors introduced a method to resolve factual-level conflicts in RAG systems using Knowledge Graphs (KGs). They compared their approach with methods like FaithfulRAG, KRE, COIECD, and standard RAG. Experiments were conducted on four datasets (FaithEval, MuSiQue, RealtimeQA, SQuAD) using multiple LLMs (GPT-4o-mini, Qwen2.5-7B-Instruct, Mistral-7B-Instruct). TruthfulRAG consistently achieved higher accuracy than baseline systems. The ablation study demonstrated that each module—KG construction, graph retrieval, and entropy-based conflict resolution contributes meaningfully to the method’s performance. Removing any component significantly reduced accuracy and context precision. TruthfulRAG also demonstrated robustness across both conflicting and non-conflicting contexts. The authors further highlighted that improvements are statistically significant, indicating the reliability of the method. Overall, TruthfulRAG outperforms competing approaches and remains computationally efficient, with a moderate overhead that does not hinder practical deployment. The framework’s ability to systematically integrate external knowledge and resolve factual inconsistencies underscores its value in enhancing the trustworthiness and accuracy of RAG-generated content.
 
 ```markdown
 Summarize the results of TruthfulRAG and how it compares with competing methods.
