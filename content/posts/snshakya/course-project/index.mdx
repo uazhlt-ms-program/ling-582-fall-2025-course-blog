@@ -145,7 +145,7 @@ Nepali:
 - LLaMA improves from 4.93% to 23.73% when moving from No-CoT to Minimal-CoT.
 - In both models, Standard-CoT provides no meaningful advantage over Minimal-CoT—and in LLaMA’s case, Minimal-CoT actually performs better.
 
-These improvements are especially notable in Nepali, where Standard-CoT tends to produce longer, less structured explanations and is more susceptible to hallucination or drift in reasoning (misleading rationales). Minimal-CoT appears to anchor the model to a concise reasoning path that is easier to maintain in low-resource languages.
+These improvements are especially notable in Nepali, where Standard-CoT tends to produce longer, less structured explanations and is more susceptible to hallucination or drift in reasoning. Minimal-CoT appears to anchor the model to a concise reasoning path that is easier to maintain in low-resource languages.
 
 <b> Across all four conditions (English/Nepali × Qwen/LLaMA): </b> 
 - Minimal-CoT achieves 95–115% of Standard-CoT’s accuracy while using only 68–81% of the token budget. In other words, Minimal-CoT is almost as accurate, or sometimes more accurate, while being consistently more efficient.
@@ -273,7 +273,7 @@ Example:
     "gold_numeric": "10",
     "output": "To solve this problem, I will first calculate the total cost of the rope Sarah sells to her friend. Since the rope is 20 meters long and her friend wants to buy it for $2 a meter, the total cost will be:\n\n20 meters x $2 per meter = $40\n\nSarah will earn $40 from selling the rope. She plans to use this money to buy a new rope that costs $1.5 a meter. To find the length of the new rope she can buy, I will divide the $40 she earned by the cost per meter of the new rope:\n\n$40 ÷ $1.5 per meter = 26.67 meters\n\nSince Sarah can't buy a fraction of a meter, I will round down to the nearest whole number to find the actual length of the new rope she can buy:\n\n26.67 meters → 26 meters\n\nThe cost of the new rope will be:\n\n26 meters x $1.5 per meter = $39\n\nSarah will spend $39 on the new rope, leaving her with:\n\n$40 (earned) - $39 (spent) = $1\n\nSo, Sarah will have $1 left over after buying the new rope.\n\n#### 1",
 
-The model does the math correctly but solves the wrong problem (provides misleading rationale). Instead of calculating the cost of replacing the same 20-meter rope, it tries to maximize how much new rope Sarah can buy, then subtracts that cost. This reasoning drift leads to the wrong final answer. 
+The model does the math correctly but solves the wrong problem. Instead of calculating the cost of replacing the same 20-meter rope, it tries to maximize how much new rope Sarah can buy, then subtracts that cost. This reasoning drift leads to the wrong final answer. 
 
 4. Paraphrase Loops
 
