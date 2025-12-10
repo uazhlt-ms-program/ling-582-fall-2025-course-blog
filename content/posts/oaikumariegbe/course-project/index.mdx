@@ -1,0 +1,128 @@
+---
+title: "Exploring the Effectiveness of Minimal COT Low-resource Settings"
+slug: "/oaikumariegbe/course-project"
+date: 2025-11-12
+author: Oghenevovwe Ikumariegbe
+description: "Evaluating whether Minimal-CoT can match Standard-CoT performance 
+while improving efficiency in low-resource languages like Nepali."
+tags:
+  - course project
+---
+
+<table>
+  <caption>
+    Course Project Info
+  </caption>
+<tbody>
+  <tr>
+    <th>Code Repository URL</th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-shreya-vovwe</td>
+  </tr>
+  <tr>
+    <th>Demo URL (optional)</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Team name</th>
+    <td>Shreya-Vovwe</td>
+  </tr>
+</tbody>
+</table>
+
+
+## Project description
+This project investigates whether Minimal Chain-of-Thought 
+(Minimal-CoT) prompts can achieve comparable reasoning 
+performance to the standard (“Let’s think step by step”) 
+CoT format in low-resource language settings (e.g., Nepali). 
+Chain-of-Thought (CoT) prompting is a technique 
+where models generate intermediate reasoning steps 
+before producing a final answer, 
+often improving performance on complex tasks 
+such as arithmetic, commonsense reasoning, 
+and logical inference. 
+In this project, 
+we examine three CoT styles: 
+No-CoT, where the model is prompted to answer directly with no reasoning steps; 
+Minimal-CoT, where the model is nudged with a short trigger such as “Let’s think briefly.”; 
+and Standard-CoT, which uses the full reasoning cue “Let’s think step-by-step.” 
+We evaluate these prompting strategies on tasks 
+like math-reasoning and commonsense question answering datasets 
+(e.g., GSM8K, Commonsense-QA) to analyze how much reasoning signal 
+is needed in low-resource languages. 
+We also analyze differences in accuracy, 
+token cost, efficiency, 
+and inference time across the three styles and languages.
+### Goals
+
+- Evaluate the effectiveness of Minimal CoT prompting in a low-resource language (Nepali).
+- Generate synthetic dataset for Nepali and validate via back translation.
+- Compare the three CoT prompting strategies (No CoT, Minimal CoT, Standard CoT) across English and Nepali.
+- Analyze efficiency differences across the different prompting styles in terms of accuracy, token usage, and inference time.
+- Perform an error analysis on the Minimal-CoT strategy.
+- Provide a reproducible experimental setup for studying the effect of CoT strategies in low-resource languages.
+### Timeline
+<table>
+  <thead>
+    <tr>
+      <th>Task</th>
+      <th>Date Range</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Data generation and Project Description write-up</td>
+      <td>11/10/25 – 11/18/25</td>
+    </tr>
+    <tr>
+      <td>Running experiments and Results section write-up</td>
+      <td>11/19/25 – 11/28/25</td>
+    </tr>
+    <tr>
+      <td>Error Analysis</td>
+      <td>11/29/25 – 12/02/25</td>
+    </tr>
+    <tr>
+      <td>Remaining sections write-up and Project wrap-up</td>
+      <td>12/03/25 – 12/06/25</td>
+    </tr>
+  </tbody>
+</table>
+
+## Summary of individual contributions
+<table>
+  <thead>
+  <tr>
+    <th>Team member</th>
+    <th>Role/contributions</th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>Shreya Nupur Shakya</b></th>
+    <td>Experiments; Error analyis; Write-up</td>
+  </tr>
+  <tr>
+    <th><b>Oghenevovwe Ikumariegbe</b></th>
+    <td>Synthetic data generation and back translation; Experiments; Write-up</td>
+  </tr>
+</tbody>
+</table>
+
+
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+## Future improvements
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_

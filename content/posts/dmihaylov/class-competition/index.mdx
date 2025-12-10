@@ -1,0 +1,73 @@
+---
+title: "Kaggle Class Competition Approach"
+slug: "/dmihaylov/class-competition"
+date: 2025-11-16
+author: dmihaylov
+description: "This is the summary of my approach to the Kaggle class competition and all other applicable information."
+tags:
+  - class competition
+---
+
+
+<table>
+  <caption>
+    Class Competition Info
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>Leaderboard score</b></th>
+    <td>0.48866</td>
+  </tr>
+  <tr>
+    <th><b>Leaderboard team name</b></th>
+    <td>Dimitri Mihaylov</td>
+  </tr>
+  <tr>
+    <th><b>Kaggle username</b></th>
+    <td>dimitrimihaylov</td>
+  </tr>
+  <tr>
+    <th><b>Code Repository URL</b></th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-dmihaylov1234</td>
+  </tr>
+</tbody>
+</table>
+
+
+## Task summary
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
+
+## Exploratory data analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+
+## Approach
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
+
+<p>Planned Approach: My class competition approach is to solve the verification task by checking whether two text excerpts were written by the same author. Each sample contains two passages separated by [SNIPPET], and I split them and then join them back together with a [SEP] token so they can be treated as one combined input. I use a character-level TF-IDF vectorizer (with 3-5 character n-grams) because it can capture writing-style patterns like punctuation, spelling habits, and phrasing without needing deep linguistic features. Those same TF-IDF vectors are fed into a logistic regression model with balanced class weights to handle label imbalance. I first test the model using a validation split, then retrain on all the training data before generating predictions for the test set. The whole pipeline stays reproducible and doesn’t rely on closed models or API's, which gives me a solid baseline that I can build on later with better features or transformer models. However, the option to go for a more complex approach is still an open one for me.</p>
+
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+
+## Future Improvements
+
+_Describe how you might best improve your approach_

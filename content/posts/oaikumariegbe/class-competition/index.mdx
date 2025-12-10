@@ -1,0 +1,120 @@
+---
+title: "An Hybrid Approach to Author Profiling"
+slug: "/oaikumariegbe/class-competition"
+date: 2025-11-16
+author: Oghenevovwe Ikumariegbe
+description: "My approach explores how to combine dense neural embeddings with sparse extracted stylistic features to capture an author's writing fingerprint."
+tags:
+  - class competition
+---
+
+
+<table>
+  <caption>
+    Class Competition Info
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>Leaderboard score</b></th>
+    <td>0.62</td>
+  </tr>
+  <tr>
+    <th><b>Leaderboard team name</b></th>
+    <td>Oghenevovwe Ikumariegbe</td>
+  </tr>
+  <tr>
+    <th><b>Kaggle username</b></th>
+    <td>abbyogv</td>
+  </tr>
+  <tr>
+    <th><b>Code Repository URL</b></th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-Abby-OGV</td>
+  </tr>
+</tbody>
+</table>
+
+
+## Task summary
+
+The task is to determine if two spans of texts are written by the same author. 
+
+## Exploratory data analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+
+## Approach
+This project explores a hybrid approach to 
+authorship profiling by combining dense neural embeddings 
+with linguistically motivated sparse features. 
+The goal is to capture both high-level semantic information and 
+fine-grained stylistic patterns that may distinguish one 
+author from another.
+The dense component is based on a BERT-style transformer. 
+Two text spans—separated in the data by a special token 
+([SNIPPET])—are encoded either as a single combined sequence 
+or as two independent sequences whose pooled representations 
+are passed to a classifier. 
+To improve robustness and reduce overfitting, 
+the training corpus is augmented with additional samples drawn 
+from the Gutenberg library. 
+Up to fifteen books per author 
+(from the top 100 based on a 30-day popularity window) 
+are mined. Then, spans are sampled under specific constraints, 
+such as minimum/maximum length, capitalization patterns, 
+the absence of certain keywords and statistical patterns of the
+original train set. 
+These constraints help ensure that the augmented examples 
+more closely resemble the 
+original train set.
+In parallel, the classifier model incorporates a set of 
+hand-engineered features designed to 
+reflect stylistic tendencies at the lexical, syntactic, 
+and structural levels. 
+These features include:
+
+* Type-to-token ratio
+
+* Stopword ratio
+
+* Average token length
+
+* Normalized counts of POS tags
+
+* Normalized counts of dependency tags
+
+* Frequencies of the top-k POS bigrams, capturing local transitions in part-of-speech sequences
+
+For each pair of spans, 
+the feature extraction code computes this vector 
+for both texts and appends the absolute difference between the two, 
+to capture a representation of their differences.
+
+By jointly leveraging dense semantic information 
+and interpretable syntactic/lexical indicators, 
+my approach aims to produce a more reliable model 
+for distinguishing authors based on their stylistic signatures.
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
+
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+
+## Future Improvements
+
+_Describe how you might best improve your approach_
