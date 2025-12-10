@@ -1,0 +1,99 @@
+---
+title: "Lexical Semantic Change"
+slug: "/joshdunlapc/course-project"
+date: 2025-11-17
+author: Josh Dunlap
+description: "My submission for the course project will be a comparison of static and dynamic embeddings for a specific measurement of cultural shifts in the concept of utopia"
+tags:
+  - course project
+---
+
+<table>
+  <caption>
+    Course Project Info
+  </caption>
+<tbody>
+  <tr>
+    <th>Code Repository URL</th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-lexical-semantic-change-researchers</td>
+  </tr>
+  <tr>
+    <th>Demo URL (optional)</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Team name</th>
+    <td>Lexical Semantic Change Researchers</td>
+  </tr>
+</tbody>
+</table>
+
+
+## Project description
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility).  Use subsections to organize components of the description._
+### Broader Context
+My higher level research goals are in the sub-field of Natural Language Processing and Computational Linguistics called “Lexical Semantic Change,” “Semantic Change Detection,” or “Diachronic Linguistics.”  The idea is studying how language use changes over time. This happens both as a natural consequence of the fact that languages are always evolving, but also for social/cultural/technological reasons (which I'm more interested in). 
+I'm working on the early stages of a research project right now where I'm trying to demonstrate that in the early 20th century the cultural perception of the idea of "utopia" was that it was something very futuristic, but my suspicion is that this has changed over time and now "utopia" is a pastoral, agrarian—even backward-looking—concept.
+I'm pursuing this from a number of different angles: literary analysis of utopian fiction from different times, social theory about the shifting cultural perception of utopianism, but also NLP! One thing I know I'll need is a way to analyze “utopia” and related concepts at distinct points in time. In order to ask, for example: “what are the differences between a word embedding for the word ‘utopia’ as it was used in the 1960s, as opposed to how it was used in the 2010s?”
+I had been focused on [this survey paper](https://arxiv.org/abs/1806.03537) from 2019 that explored how people had been using static word embedding models to explore language change over time. I had been having a hard time figuring out where to follow this thread, but it turns out (predictably) that a lot of the research moved on to using LLMs to explore language change over time. I found [another survey paper](https://dl.acm.org/doi/pdf/10.1145/3672393) from 2024 that seems to sum up a lot of the advances in the field in the intervening 5 years.
+A question I’m left with is: if perhaps *the* major benefit to using an LLM is to understand all the different ways that one word can hold multiple meanings (colexification: homonymy, polysemy) and to be able to parse these meanings out mathematically, *is this benefit relevant to my current project?* By and large there’s just the one meaning to utopia, at least compared to some of the examples used in that survey (e.g. “rock” like a stone vs “rock” like rock n roll). 
+### Task
+
+Compare the findings and suitability of employing static embeddings (as described in [these](https://arxiv.org/pdf/1605.09096) [two](https://aclanthology.org/D16-1229/) papers) for exploring diachronic change of “utopia” in contrast with dynamic embeddings (as described in [this paper](https://arxiv.org/pdf/2202.03612)).
+
+In many ways, then, the task here becomes a qualitative comparison of what each methodological approach—static embeddings on one hand, and dynamic or contextual embeddings on the other—actually affords for this specific research question about utopia. Because the word itself does not exhibit strong polysemy or colexification, the usual advertised advantage of LLM-based methods (that they can disentangle multiple distinct senses of a word) may not be the central factor. Instead, the comparison becomes more about their relative strengths in capturing subtle shifts in collocational patterns, connotations, and cultural framing. Static embeddings can provide a clear, interpretable picture of neighborhood changes across decades; dynamic embeddings might give more detailed insight into rhetorical or thematic patterns surrounding the word across individual contexts. The point of this proposal is not to decide in advance which is “better,” but to comparatively evaluate what each approach can or cannot reveal about a concept like utopia whose cultural meaning may shift even if its dictionary sense remains stable.
+Datasets. The ideal dataset for this project would be the Corpus of Historical American English (COHA), since it is explicitly designed for diachronic linguistic analysis, is balanced across genres, and has reliable decade-level metadata. In the event that I might not be able to access COHA, I intend to use the ProQuest Historical Newspapers Collections to which I have access through the U of A library—specifically The New York Times (1851–1936). This set is not as balanced as COHA, and it doesn't cover the decades I’m most interested in, but it have the advantage of rich cultural commentary in the format I hope to eventually work with (historical newspaper data). Finally, if neither of those proves feasible, I have a smaller, topic-specific, timestamped corpus downloaded locally that I can use as a fallback. It would limit the scope of the conclusions I can draw, but it would still allow me to test the two embedding approaches in a controlled way.
+
+### Timeline.
+Week of 11/17/2025: Confirm dataset access (COHA, ProQuest, or fallback) and prepare texts; set up basic preprocessing and time-slicing.
+
+
+Week of 11/24/2025: Run initial static embedding experiments across chosen time periods; generate preliminary neighbor lists and observe coarse semantic shifts.
+
+
+Week of 12/1/2025: Run dynamic/LLM-based embedding or contextual clustering experiments; compare findings qualitatively with the static results.
+
+Week of 12/7/2025 (deadline week): Synthesize results, write up comparison of methods, and finalize the argument about the feasibility of each approach for studying diachronic meaning change of “utopia.”
+
+## Summary of individual contributions
+<table>
+  <thead>
+  <tr>
+    <th>Team member</th>
+    <th>Role/contributions</th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>???</b></th>
+    <td>???</td>
+  </tr>
+  <tr>
+    <th><b>???</b></th>
+    <td>???</td>
+  </tr>
+  <tr>
+    <th><b>???</b></th>
+    <td>???</td>
+  </tr>
+</tbody>
+</table>
+
+
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+## Future improvements
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_

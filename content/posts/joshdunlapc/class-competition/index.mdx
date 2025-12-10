@@ -1,0 +1,83 @@
+---
+title: "Vanilla Machine Learning Methods: Welp, I never expected them to work that well anyway!"
+slug: "/joshdunlapc/class-competition"
+date: 2025-11-17
+author: Josh Dunlap
+description: "My approach can be summarized as implemting logistic regression, KNN, and decision tree classifiers"
+tags:
+  - class competition
+---
+
+
+<table>
+  <caption>
+    Class Competition Info
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>Leaderboard score</b></th>
+    <td>0.47570</td>
+  </tr>
+  <tr>
+    <th><b>Leaderboard team name</b></th>
+    <td>Josh Dunlap</td>
+  </tr>
+  <tr>
+    <th><b>Kaggle username</b></th>
+    <td>joshdunlapc</td>
+  </tr>
+  <tr>
+    <th><b>Code Repository URL</b></th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-jd3162</td>
+  </tr>
+</tbody>
+</table>
+
+
+## Task summary
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
+
+## Exploratory data analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+
+## Approach
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
+
+For my mid-semester course competition submissions, I noted that there had a been a suggestion that we could start from our course competition code from statistical NLP, and I combined that with the fact that I was just then in the process of completing an assignment in a data mining course that was about implementing some basic machine learning methods.
+
+I combined the vectorizer from my statistical NLP competition with the implementation of logistic regression (and later KNN, decision tree, and random forest) from my data mining course. I split the training set to give myself a development set and used the implementation of a confusion matrix I had just learned in data mining as well. 
+
+The results seemed to indicate that logistic regression was being fooled by the asymmetrical nature of the training data and classifying almost everything as negative. I (briefly) looked into methods for alleviating this problem (class_weight="balanced"), but this didn’t seem to work. I may look into oversampling the underrepresented class. 
+
+The approach that got the highest score was the decision tree classifier. Notably, it didn’t have the highest average f1 score with kfold cross validation, but it was the method that was the most likely to predict the positive class. 
+
+I’m not certain what my approach will be for the latter half of the course, but I think my time would probably be best used by implementing an entirely new approach rather than trying to improve some of these more vanilla methods. I think as I continue to work through the course modules I will try to implement each method for the class competition and see how it goes. 
+
+
+
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+
+## Future Improvements
+
+_Describe how you might best improve your approach_

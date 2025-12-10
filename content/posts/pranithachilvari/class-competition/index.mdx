@@ -1,0 +1,50 @@
+---
+title: "Class Competition – Initial Draft Summary (Data Minds)"
+slug: "/pranithachilvari/class-competition"
+date: 2025-11-24
+author: "Pranitha Chilvari"
+description: "Initial baseline solution using TF–IDF and Logistic Regression, developed through a Kaggle workflow for the authorship-matching task."
+tags:
+  - class competition
+---
+
+## Summary
+
+This competition focuses on identifying whether two text spans—combined using the `[SNIPPET]` delimiter—were written by the **same author (1)** or **different authors (0)**.  
+The task is modeled as a binary authorship-attribution problem.
+
+The dataset consists of:  
+- `train.csv` with labels,  
+- `test.csv` without labels, and  
+- `sample_submission.csv` for output formatting.
+
+Each example provides an ID and a merged text field containing two spans.
+
+---
+
+## Approach
+
+For the draft phase, our team (Data Minds) built a straightforward baseline system using a **Kaggle Notebook**.
+
+### Process:
+1. Uploaded `train.csv` and `test.csv` to Kaggle.  
+2. Loaded the files using pandas.  
+3. Represented text using **TF–IDF** features:  
+   - word n-grams (1–2)  
+   - character n-grams (3–5)  
+4. Trained a **Logistic Regression** model with class balancing.  
+5. Performed a small validation split to estimate Macro-F1.  
+6. Retrained the model on all available training data.  
+7. Generated predictions for the test set and saved them as `submission.csv`, which was then submitted to the leaderboard.
+
+This workflow produced our team’s initial valid submission.
+
+_See the full rubric: https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach_
+
+---
+
+## Results
+
+- **Leaderboard submission:** `DataMinds`  
+- Evaluation metric: Macro-F1  
+- All requirements for the initial draft have been completed.

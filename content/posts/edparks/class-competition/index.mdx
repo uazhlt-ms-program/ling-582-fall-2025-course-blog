@@ -1,0 +1,55 @@
+---
+title: "Ensemble Stylometry Modeling"
+slug: "/edparks/class-competition"
+date: 2025-11-13
+author: Ethan Parks
+description: "An ensemble modeling approach to an authorship attribution problem."
+tags:
+  - class competition
+---
+
+
+<table>
+  <caption>
+    Class Competition Info
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>Current Best Leaderboard Score</b></th>
+    <td>0.52291</td>
+  </tr>
+  <tr>
+    <th><b>Leaderboard Name</b></th>
+    <td>Ethan Parks</td>
+  </tr>
+  <tr>
+    <th><b>Kaggle Username</b></th>
+    <td>ethanparks</td>
+  </tr>
+  <tr>
+    <th><b>Code Repository URL</b></th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-edjpman.git</td>
+  </tr>
+</tbody>
+</table>
+
+
+## Mid-Semester Approach Summary
+
+My approach to the authorship identification task includes the use of an ensemble architecture with linear classification heads for each leg in the process. 
+
+More specifically the text is split by the “[SNIPPET]” token before preprocessing to allow the different texts to be evaluated in isolation. After splitting, each of the two texts are processed for their semantic and linguistic properties. Both are utilized to ensure as many stylometric features are extracted as possible for the modeling process. 
+
+The semantic properties are determined by passing the tokenized sequences of text through a pre-trained transformer encoder that returns a single output vector from the mean pooled token embeddings of each text snippet. Linguistic features are also derived from the same text snippets and include aspects such as unique words, punctuation frequency, and use of stop words, among others. The quantitative measures for each text snippet are stored in a single feature vector and passed through a Dense layer to project into a higher-dimensional vector space for improved representational capacity. 
+
+After processing, the elementwise difference between the semantic text vectors is used as input into a logistic classifier producing a set of class probabilities for the authorship. The same process is followed for the linguistic feature vectors producing a separate set of class probabilities. The predicted probabilities for the two separate models are then passed through a third logistic regression classifier to produce the final output probabilities for the positive and negative authorship attribution classes.
+
+The model training follows a shuffle-fold validation process to ensure that stable results are produced. This process takes inspiration from a k-fold validation strategy but instead randomly generates new train and dev sets from the entire dataset to fit a model a set number of times (i.e. shuffles). Given the limited nature of the train set, the shuffling allows for a more robust approach to error evaluation. 
+
+Once the correct hyper parameters are identified during the training and evaluation phase, a final training loop will be performed on the full training dataset with no splitting and the model weights saved. The test set is then processed and passed through the saved model to produce the class predictions.

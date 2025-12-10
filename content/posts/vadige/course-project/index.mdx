@@ -1,0 +1,201 @@
+---
+title: "Comparing Decoder-Only LLMs on Creative Text Generation"
+slug: "/vadige/course-project"
+date: 2025-11-16
+author: "Hari Chandana Vadige"
+description: "Final course project submission comparing open-source decoder-only language models for creative text generation."
+tags:
+  - course project
+  - language models
+  - decoder-only transformers
+---
+
+<table>
+  <caption>Course Project Info</caption>
+<tbody>
+  <tr>
+    <th>Code Repository URL</th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-pranitha-chandana</td>
+  </tr>
+  <tr>
+    <th>Demo URL (optional)</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Team Name</th>
+    <td>Pranitha–Chandana</td>
+  </tr>
+</tbody>
+</table>
+
+# Project Proposal
+
+This project compares three open-source decoder-only language models — **GPT-2**, **GPT-2-Medium**, and **GPT-Neo 1.3B** — on creative text generation tasks.  
+Our goal is to evaluate how well these models handle **narrative prompts, dialogue-style interactions, and simple factual questions**, while identifying patterns of hallucination, repetition, and coherence issues.
+
+The task aligns with Statistical NLP by focusing on **autoregressive model behavior**, generative stability, and qualitative differences across architectures.
+
+---
+
+# Project Description
+
+We evaluate three decoder-only transformer LLMs across a fixed set of **15 creative prompts**, including:
+
+- Story openings  
+- Dialogue continuations  
+- Instruction-following prompts  
+- Factual Q&A  
+
+### Novelty  
+Unlike benchmark-driven evaluations, this project emphasizes **creative behavior**, narrative flow, hallucination patterns, and conversational stability — areas where small and mid-sized LLMs differ significantly.
+
+### Motivation  
+Decoder-only LMs often behave unpredictably in free-form text generation.  
+Understanding their weaknesses (e.g., repetition, missing grounding, invented dialogue) helps characterize model limitations and guide future improvements.
+
+---
+
+# Summary of Individual Contributions
+
+<table>
+<thead>
+  <tr><th>Team Member</th><th>Contributions</th></tr>
+</thead>
+<tbody>
+  <tr>
+    <th><b>Pranitha</b></th>
+    <td>Ran GPT-2 and GPT-Neo generations, produced error analysis, wrote parts of results and methodology.</td>
+  </tr>
+  <tr>
+    <th><b>Chandana</b></th>
+    <td>Created prompt set, organized outputs, assisted with evaluation, contributed to discussion and final write-up.</td>
+  </tr>
+</tbody>
+</table>
+
+Both team members contributed equally to analysis, interpretation, and editing.
+
+---
+
+# Methodology
+
+### Dataset / Prompt Design
+We created a **15-prompt evaluation set** covering:
+- Creative writing  
+- Dialogue scenarios  
+- Factual queries  
+- Instruction following  
+
+### Models Evaluated
+- **GPT-2 (117M)**  
+- **GPT-2-Medium (345M)**  
+- **GPT-Neo 1.3B**  
+
+All models were run locally using HuggingFace `pipeline()` on CPU-only inference.
+
+### Generation Settings
+- `max_length = 200`  
+- `num_return_sequences = 1`  
+- `set_seed(42)` for reproducibility  
+
+### Evaluation Criteria
+Each model output was analyzed for:
+- Fluency  
+- Coherence  
+- Creativity  
+- Factual accuracy  
+- Hallucination  
+- Dialogue stability  
+- Repetition / degeneracy  
+
+---
+
+# Results
+
+We compared model behavior across all prompts.
+
+## **1. Creativity & Coherence**
+- **GPT-Neo 1.3B**: Most coherent narratives; better long-range consistency.  
+- **GPT-2-Medium**: Moderate coherence; better than GPT-2 but still unstable.  
+- **GPT-2**: Struggled with narrative flow; frequent off-topic digressions.
+
+## **2. Factuality**
+- All models hallucinated frequently.
+- **GPT-2** produced the most incorrect or unrelated answers.
+
+## **3. Dialogue Stability**
+- **GPT-Neo** maintained conversational structure best.  
+- **GPT-2** confused speaker roles and repeated lines.
+
+## Overall Performance Table
+
+| Model         | Creativity | Coherence | Factuality | Dialogue Stability | Repetition |
+|---------------|-----------|-----------|------------|--------------------|------------|
+| GPT-2         | Low       | Low       | Poor       | Poor               | High       |
+| GPT-2-Medium  | Medium    | Medium    | Poor       | Medium             | Medium     |
+| GPT-Neo 1.3B  | High      | High      | Moderate   | High               | Low        |
+
+---
+
+# Error Analysis
+
+We selected 3 representative failure cases.
+
+### **Error 1 — Hallucinated Dialogue (GPT-2)**
+**Prompt:**  
+*“User: I’ve been feeling overwhelmed with college lately. Assistant:”*
+
+GPT-2 invented multiple speakers, repeated phrases, and produced contradictory statements.
+
+**Issue:** No grounding; unstable conversational modeling.
+
+---
+
+### **Error 2 — Repetition Loop (GPT-2)**
+**Prompt:**  
+*“User: Imagine you are a time traveler from 2200. Introduce yourself.”*
+
+GPT-2 repeated the sentence **“I don’t understand that.”** more than 10 times.
+
+**Issue:** Classic degenerative repetition in small models.
+
+---
+
+### **Error 3 — Factual Hallucination (GPT-2)**
+**Prompt:**  
+*“Who wrote Pride and Prejudice?”*
+
+Instead of answering *Jane Austen*, GPT-2 generated unrelated dialogue about Boston.
+
+**Issue:** Missing factual recall and over-generation.
+
+These errors highlight the limitations of smaller decoder-only LLMs in narrative reasoning, factuality, and role stability.
+
+---
+
+# Reproducibility
+
+All code and data are provided in the team repository:
+
+**Repo:**  
+https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-pranitha-chandana
+
+### Requirements
+- Python 3.9 or 3.11  
+- `transformers`, `torch`, `huggingface_hub`  
+
+Install dependencies:
+```bash
+pip install transformers torch huggingface_hub
+```
+Future Improvements
+
+Run models on GPU to enable larger-scale testing
+
+Include larger models like LLaMA-2-Chat, Mistral-7B, and GPT-J
+
+Incorporate automatic metrics (perplexity, MAUVE, distinct-n)
+
+Add human creativity scoring surveys
+
+Experiment with fine-tuning on narrative datasets
