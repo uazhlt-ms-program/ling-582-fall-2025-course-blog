@@ -106,5 +106,18 @@ _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/co
 _If you'ved covered this in your code repository's README, you can simply link to that document with a note._
 
 ## Future improvements
+Although Minimal-CoT proves both effective and efficient for Nepali GSM8K, several focused improvements can strengthen multilingual reasoning performance.
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_
+1. Better handling of Nepali numerical expressions.
+Errors often stem from misinterpreting Nepali number words (e.g., आधा, डेढ) and mixed-script percentages. Future work could add lightweight numeric-normalization modules, targeted fine-tuning, or curated examples that teach models how these number words correspond to mathematical operations.
+
+2. Adaptive reasoning budgets.
+ Our results show that ~500–700 tokens are sufficient for peak Minimal-CoT performance. Instead of using a fixed cap, future systems could dynamically adjust reasoning length based on predicted uncertainty or question difficulty and allocating more reasoning only when needed.
+
+3. Higher-quality Nepali (low resource) datasets.
+While back-translation helps filter major issues, the machine-translated Nepali GSM8K still contains phrasing irregularities. Future work could incorporate a small set of human-authored Nepali reasoning problems or refined translations produced in collaboration with native speakers.
+
+4. Broader evaluation across models and tasks.
+Minimal-CoT should be tested on additional reasoning tasks (ARC, StrategyQA, MAWPS) and across more open-source models to determine whether the observed gains generalize beyond GSM8K-style arithmetic. We planned to test it across more models and datasets like Commonsense QA, but due to time constraints, we were unable to run experiments for them. We have shared the translated version of Commonsense QA on our github repo.
+Overall, these improvements aim to make Minimal-CoT even more reliable, interpretable, and broadly applicable across multilingual reasoning settings.
+
