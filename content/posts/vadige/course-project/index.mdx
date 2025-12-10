@@ -10,43 +10,143 @@ tags:
   - decoder-only transformers
 ---
 
-## Overview
 
-For my course project, our team of two will compare the capabilities of open-source decoder-only LLMs (GPT-2, GPT-NeoX, Llama-2-7B) on creative text generation tasks. We will use a shared prompt set and evaluate the models qualitatively.
+## Project Description
 
-## Goals
+In this project, we compare three open-source decoder-only LLMs—GPT-2, GPT-Neo 1.3B, and GPT-2-Medium—on creative text generation.  
+Our goal is to evaluate how well these models handle narrative prompts, general reasoning, and dialogue-style questions.
 
-- Compare fluency, coherence, creativity across models  
-- Identify strengths and weaknesses  
-- Observe hallucinations, repetition, and bias  
-- Create a small evaluation dataset and analysis
+**Novelty:**  
+Unlike typical model evaluations that focus on benchmarks, our project evaluates *creative* behavior, coherence, hallucination, and conversational stability using a small, controlled prompt set of 15 items.
 
-## Method
+**Motivation:**  
+Decoder-only transformers often behave very differently in free-form text generation tasks. Understanding these differences helps explain model strengths, hallucination tendencies, and limitations in narrative reasoning.
 
-1. Create a prompt set (12–15 prompts)  
-2. Generate outputs using hosted model demos  
-3. Keep generation settings consistent  
-4. Evaluate:
-   - Fluency  
-   - Coherence  
-   - Creativity  
-   - Factuality  
-   - Bias/toxicity  
-5. Organize side-by-side comparisons
+We also review related work in creativity evaluation for LLMs and discuss challenges such as hallucination, repetition, and lack of grounding.
 
-## Timeline (starting Nov 17)
 
-- **Nov 17–20:** Finalize prompts + model list  
-- **Nov 21–26:** Collect outputs from each model  
-- **Nov 27–Dec 2:** Evaluate outputs  
-- **Dec 3–Dec 6:** Compare results + write analysis  
-- **Dec 7–Dec 10:** Submit PR + finalize write-up
+## Methods
 
-## Repository Link
+### **Models Evaluated**
+- GPT-2 (117M)
+- GPT-2-Medium (345M)
+- GPT-Neo 1.3B
 
-https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-pranitha-chandana.git
+All models were run locally via HuggingFace `pipeline` using CPU-only inference due to hardware limits.
 
-## Team
+### **Prompt Set (15 items)**
+We used a fixed set of 15 prompts covering:
+- Creative story openings  
+- Dialogue-style Q&A  
+- Factual knowledge  
+- Instruction following  
 
-- **Chandana:** Prompt creation, analysis, writing  
-- **Pranitha:** Output collection, table creation, editing
+### **Generation Settings**
+- `max_length = 200`
+- `num_return_sequences = 1`
+- `set_seed(42)` for reproducibility
+
+### **Evaluation Criteria**
+We evaluated each output for:
+- Fluency  
+- Coherence  
+- Creativity  
+- Hallucination  
+- Repetition / degeneracy  
+- Dialogue correctness  
+- Factuality (for factual prompts)
+
+
+## Results
+
+### **1. Creativity & Coherence**
+- GPT-Neo produced the most coherent long-form narratives.
+- GPT-2 showed frequent repetition and unrelated digressions.
+- GPT-2-Medium improved over GPT-2 but still lacked consistency.
+
+### **2. Factuality**
+- All three models hallucinated factual answers.
+- GPT-2 often produced completely unrelated answers.
+
+### **3. Dialogue Stability**
+- GPT-2 frequently treated itself as multiple speakers.
+- GPT-Neo produced more stable assistant-style responses.
+
+### **Overall Trends**
+| Model | Creativity | Coherence | Factuality | Dialogue Stability | Repetition |
+|------|-----------|-----------|------------|---------------------|------------|
+| GPT-2 | Low | Low | Poor | Poor | High |
+| GPT-2-Medium | Medium | Medium | Poor | Medium | Medium |
+| GPT-Neo 1.3B | High | High | Moderate | High | Low |
+
+
+## Error Analysis
+
+We selected three representative failure cases.
+
+### **Error 1 — Hallucinated Dialogue (GPT-2)**  
+Prompt:  
+`"User: I’ve been feeling overwhelmed with college lately. Assistant:"`
+
+GPT-2 invented random campus-related dialogue, repeated phrases, and produced contradictory statements.
+
+**Issue:** No dialogue grounding; model cannot maintain consistent persona.
+
+---
+
+### **Error 2 — Repetition Loop (GPT-2)**  
+Prompt:  
+`"User: Imagine you are a time traveler from 2200. Introduce yourself."`
+
+GPT-2 repeatedly outputs:  
+“I don’t understand that.”  
+for 10–12 lines.
+
+**Issue:** Degenerative repetition, a common problem in small decoder models.
+
+---
+
+### **Error 3 — Factual Hallucination (GPT-2)**  
+Prompt:  
+`"Who wrote Pride and Prejudice?"`
+
+GPT-2 responded with unrelated dialogue about Boston and never answered "Jane Austen."
+
+**Issue:** Failure to retrieve basic factual knowledge.
+
+---
+
+These examples highlight limitations of small, ungrounded models in both knowledge tasks and dialogue consistency.
+
+
+## Limitations & Future Improvements
+
+### **Limitations**
+- CPU-only inference slowed experimentation.
+- Large models (LLaMA-2-7B, NeoX-20B) couldn’t be tested locally due to hardware & gated access.
+- No quantitative metric (e.g., creativity score, BLEU, ROUGE).
+
+### **Future Work**
+- Run evaluations on a GPU-based environment (Colab Pro / high-RAM machines).
+- Include larger models like LLaMA-2-Chat and Mistral-7B for comparison.
+- Add human evaluation surveys for creativity scoring.
+- Use automatic metrics (perplexity, MAUVE score).
+- Add fine-tuning on narrative datasets to test improvement.
+
+
+## Summary of Contributions
+
+- **Pranitha:** Ran GPT-2 and GPT-Neo generations, produced error analysis, wrote sections of results and methods.  
+- **Teammate:** Designed prompt set, organized outputs, assisted in evaluation, contributed to write-up and figures.
+
+Both members contributed equally to discussion, interpretation, and final editing.
+
+
+## Code & Data Repository
+
+All generation scripts and output files (`gpt2_outputs.json`, `gptneo_outputs.json`, `gpt2medium_outputs.json`) are available at:
+
+👉 **https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-pranitha-chandana**
+
+Instructions for running the scripts are in the repo README.
+
