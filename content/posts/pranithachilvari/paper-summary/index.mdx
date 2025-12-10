@@ -76,19 +76,19 @@ _Why did you select this paper?_
 <tbody>
   <tr>
     <th><b>LLM model</b></th>
-    <td>???</td>
+    <td>ChatGPT</td>
   </tr>
   <tr>
     <th><b>LLM model version</b></th>
-    <td>???</td>
+    <td>GPT-5.1 Thinking</td>
   </tr>
   <tr>
     <th><b>Model/service URL</b></th>
-    <td>???</td>
+    <td>https://chat.openai.com</td>
   </tr>
   <tr>
     <th><b>Why this model?</b></th>
-    <td>???</td>
+    <td>I chose this model because it explains technical ideas clearly and can rewrite difficult text into simple English.</td>
   </tr>
 </tbody>
 </table>
@@ -98,94 +98,117 @@ _Why did you select this paper?_
 
 _In the LLM's words, what is this paper about?_
 
+In the LLM’s words, this paper describes a new NLP framework called FLAIR. The framework makes it very easy to train strong NLP models using different kinds of embeddings. It introduces an idea called “stacked embeddings,” where you combine several embeddings to improve performance. The paper also shows that models built with FLAIR reach strong results on NER and POS tagging tasks.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Summarize the FLAIR paper (Akbik et al., 2019) in simple English. Explain the main idea and why it matters.
 ```
 
 #### What are the authors proposing?
 
+The authors propose a simple, unified framework that helps people run NLP tasks without writing complex code. Their key proposal is to let users combine multiple embeddings easily and train high-quality models with only a few lines of code.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Explain what the FLAIR authors are proposing in simple English.
 ```
 
 #### What is the motivation for the work?
 
+The motivation is that NLP tools were too complicated. Many frameworks required many steps, separate libraries, or custom code. This made experiments slow. The authors wanted a tool that works out of the box, supports many embeddings, and is easy enough for beginners while still powerful for experts.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Explain the motivation for creating FLAIR. Why was this tool needed?
 ```
 
 #### What is the approach or innovation?
 
+The innovation is stacked embeddings. FLAIR lets users mix embeddings like GloVe, ELMo, and BERT together. This improves performance because each embedding captures different types of information. FLAIR also standardizes training, dataset loading, and evaluation so everything is consistent.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Describe the approach of the FLAIR framework and what makes it innovative.
 ```
 
 #### What are the results and how do they compare with competing approaches?
 
+FLAIR achieves strong results on NER and POS tagging tasks. Its performance matches or exceeds many older frameworks. The key strength is that users can easily combine embeddings without writing complex code. Compared to previous tools, FLAIR is simpler but just as powerful.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Explain the FLAIR results and how they compare to older NLP frameworks.
 ```
 
 #### Is the comparison fair?
 
+Yes. The models were trained and evaluated on standard public datasets, which allows fair comparison with earlier models. The authors clearly describe their training setup and parameters.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Explain whether the comparisons made in the FLAIR paper are fair.
 ```
 
 #### What are the takeaways according to the authors?
 
+- Simple tools can still reach state-of-the-art performance.
+
+- Combining multiple embeddings improves results.
+
+- NLP frameworks should be easy to use and consistent.
+
 ##### Prompt
 
 ```markdown
-prompt here
+List the authors’ main takeaways from the FLAIR paper in simple English.
 ```
 
 #### What are the takeaways according to you?
 
+My takeaway is that FLAIR is a great tool for learning NLP because it hides unnecessary complexity. It is also useful for quick experiments, and stacked embeddings show how combining information improves performance.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Help me write my personal takeaways from the FLAIR paper in simple English.
 ```
 
 #### Would you use this?  If so, how/where would you use this?
 
-##### Prompt
-
-```markdown
-prompt here
-```
+Yes. I would use FLAIR for training simple NER or text classification models. I would also use it for testing different embeddings quickly or for creating baseline models in new projects.
 
 ##### Prompt
 
 ```markdown
-prompt here
+Explain how I could use FLAIR in my own NLP work. Give simple examples.
 ```
+
 
 #### What problems remain and what are the next steps?
 
+There are some limitations. FLAIR does not support newer large models like GPT. It has limited multilingual support. It also focuses mainly on sequence labeling tasks. Future work could add more languages, new transformer models, and support for more NLP tasks.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Describe the limitations of FLAIR and possible future improvements.
 ```
 
 ### Experience using the LLM
 
 _Describe your process for using the LLM.  How did the LLM perform?_
+
+I used the LLM to understand complex points in the paper and rewrite them in simple English. I asked the LLM to explain key ideas like stacked embeddings and the motivation for creating FLAIR. I then edited the answers to match my voice and understanding. The LLM helped me organize the summary clearly.
  
 #### Errors and limitations of the LLM 
 
 _Where did it fall short or make mistakes?_
+
+Sometimes the LLM added details that were not in the paper, so I had to check the original text. It also repeated some points or made them sound too formal, so I rewrote them to make the summary clearer. The LLM is helpful, but I needed to verify everything before using it.

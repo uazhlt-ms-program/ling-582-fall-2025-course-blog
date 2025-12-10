@@ -1,9 +1,9 @@
 ---
-title: "Kaggle Kompetition: An exercise in aimlessness"
+title: "Kaggle Kompetition"
 slug: "/1184776211/class-competition"
 date: 2025-11-12
 author: 1184776211
-description: "My approach can be summarized as a mindless dump into an unmotivated neural network that does not work."
+description: "An attempted neural classifier with a variety of different extracted features"
 tags:
   - class competition
 ---
@@ -21,7 +21,7 @@ tags:
 <tbody>
   <tr>
     <th><b>Leaderboard score</b></th>
-    <td>0.52969</td>
+    <td>0.5389</td>
   </tr>
   <tr>
     <th><b>Leaderboard team name</b></th>
@@ -33,7 +33,7 @@ tags:
   </tr>
   <tr>
     <th><b>Code Repository URL</b></th>
-    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-nelson-ryan</td>
+    <td><a href="https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-nelson-ryan">https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-nelson-ryan</a></td>
   </tr>
 </tbody>
 </table>
@@ -41,38 +41,18 @@ tags:
 
 ## Task summary
 
-- discussion of related tasks
-- challenges of task (with examples)
-- discussion of Some Obscure Thrown-in Acronym
+The task at hand is to create a model that can determine whether a given pair
+of text snippets were both written by the same author, i.e. whether each
+snippet in the pair shares authorship with the other.
 
-or just: description of task
+As a basis for training such a model, a set of 1,601 such pairs texts is labeled
+for this distinction, i.e. same-author (1) or not (0).
 
-Describe goal of task: determine whether two short text samples were written by
-the same author.  
-This goal, as stated, requires some interpretation;
-I have taken it to mean that, given a pair of texts upon which to make such a
-descision about authorship, the author or authors thereof may be heretofore
-unseen.
-Thus, the decision about authorship must be determined based solely on those
-texts, in a vaccum—aside, of course, from the training of other,
-similarly-isolated pairs.
-
-This interpretation is supported by the training set's absence of author
-identity information. This surely makes for a simpler approach; otherwise,
-the temptation would be to categorize authorship across the whole dataset
-rather than just by pairs.
-
-With the specific nature of the task determined, then,
-is is possible to approach the question of how to approach the task.
-
+The test set contains 899 pairs of text, unlabeled.
 
 ## Exploratory data analysis
 
-- additional analysis (ex. measures of diversity)
-- observations supported with example data points
-- dataset size (per class) 
-
-Dataset size:
+Dataset:
 ```python
 from pandas import DataFrame
 >>> df = read_csv("train.csv")
@@ -90,76 +70,172 @@ sourced from fiction.
 Such a glance also brings to mind a few possible
 distinguishing features to be used for the classification:
 
- - frequency of punctuation, by type
- - frequency of proper names
- - average/median sentence length
- - inflectional morphemes?
+ 1. frequency and type of punctuation
+ 1. frequency of proper names
+ 1. average/median sentence length
+ 1. average/median length of words
+ 1. morphological inflection
 
+The below pair (training ID 334), for instance, exemplifies most of these.
+The former contains longer words and sentences, different punctuation,
+i.e. a great many commas, versus the multiple quotations of the latter, which
+is also accompanied by proper names.
+
+<table>
+<caption>334</caption>
+<tr>
+<th>Author 1</th><th>Author 2</th>
+</tr>
+<tr>
+<td><i>
+"Through succeeding generations he piles up those resources which he possesses outside of himself, the tools of his hands, and the warehouses of knowledge for his brain, whether they be parchment manuscripts, printed book, or electronorecordographs. For the rest he is born today, as in ancient Greece, with a blank brain, and struggles through to his grave, with a more or less beclouded understanding, and with distinct limitations to what we used to call his ""think tank."" [...]
+</i></td>
+<td><i>
+""From the other side of the world,"" answered Rolla calmly. Instantly she noted that the twelve became greatly excited when Somat translated her statement. She decided to add to the scene. ""I have been away from my people for many days,"" and she held up one hand with the five fingers spread out, opening and closing them four times, to indicate twenty."
+</i></td>
+</tr>
+</table>
 
 
 ## Approach
 
-- approach highlights some novelty/creativity (purely subjective)
-- description of approach and motivation for use
+I chose to approach the task by creating a neural network to take, as input,
+an array of extracted features. This was largely motivated by my own level
+of confidence in implementing the model.
 
-Neural network because I'm comfortable enough with the implementation.
+In the spirit of providing a means to evaluate any given version of the
+model in terms of overfitting, I split the data into training and validation
+sets with a split of 90%/10%. Each model was tested against the validation set
+throughout training and loss recorded and plotted;
+in many cases, overfitting was clearly evident as validation loss
+rose as training loss lessened.
 
-The first pass was based on TF-IDF vectors.
+For the most promising loss patterns, the next measure of evaluation came from
+observing the model's predicted labels for the test sets.
+In most cases, models predicted all items as negative (0 label), so any
+number of positive predictions suggested Improvement
+(although not necessarily so, granted).
+
+### Features
+
+The question of which features to use as input in the neural network, however,
+was a matter of exploration.
+Features explored were:
+
+#### TF-IDF of tokens
+
+The first attempt at feature input, a spatial comparison of IF-IDF vectors,
+also proved to be the most successful—or perhaps the least unsuccessful.
+
 It is worth noting that TF-IDF, in representing word frequency, is more suitable
 for determining the topic of a document than in representing stylistic factors
 that are relevant to authorship. Thus, a high degree of success was not expected.
 
-Including the entire TF-IDF vector for each document
-(either by serializing them in the network input or by combining them into a
-product vector, which may conceivably amplify commonalities)
-extended computation-time substantially, but did little to improve performance
-versus using, as input, similarity metrics between the vectors
-(euclidian distance and cosine similarity).
-The model (with arbitrary tweaking of nodes and activation functions)
-consistently classified all test pairs as negative.
+A pytorch `TfidfVectorizer` was fit on the whole of the training data
+(admittedly, including the hold-out validation set may raise concerns),
+then used to generate a vector for each snippet individually.
 
-THe reduction in processing time by using just those two metrics, however,
-allowed for a much greater number of training epochs, which resulted in
-a reduction of loss that had previously appeared to have been minimized
-(I imagine that a higher learning rate could have acheived this, as well),
-which finally resulted in at least some of the test set getting positive
-classification—some perhaps even correctly.
+I compared the similarity of the TfIdf vectors of each snippet pair in terms
+of cosine similarity and euclidian distance, and used only these two data
+points.
+By contrast, including the entire TF-IDF vector for each document
+extended computation-time substantially, with little to no performance benefit.
 
+#### Other features
 
-The takeaway at this stage is that the neural network functions, even if with
-remarkably poor performance, and that more-appropriate features are needed.
+A myriad of other features were attempted:
 
+1. Mean/median sentence length  
+1. Mean/median word length  
+1. Token counts and bigrams
+1. POS counts and bigrams
+1. Punctuation counts
+1. DictVectorizer of Stanza's word-feature labels (grammatical categories)
+
+Expanding counts to 2-grams yielded no noticeable improvement in performance.
+
+In a manual process, concatenating various combinations of these features were
+not promising.
 
 ## Results
 
-- measure of robustness of approach (e.g. stratified k-fold cross validation) and/or statistical analysis
-- quantitative results on leaderboard noting delta with baseline
+The present form of my coded approach yields a score of .5372
+(this differs slightly from my highest score).
+This exceeds the baseline by a small amount; the driver therefor is discussed
+below:
 
 ## Error analysis
 
-- detailed error analysis on held-out data (characterization of error) with examples
-- some error analysis on held-out data
+Somewhat surprisingly, the published code (with set seed values) produces zero
+positive labels in the validation set. However, this is only surprising insofar
+as positive true labels should be in that set. By contrast, true values are
+indeed expected in the test set.
+
+The real takeaway, it it seems to me, is that tf-idf vectors, by
+serving to highlight uniquely-used words, are good at identifying snippets
+taken from the same work—if the snippets in question use words that are in
+common and (relatively) to that work.
+
+As an example, consider the following from the test set:
+
+<table>
+<caption>2459</caption>
+<tr>
+<th>Author 1</th><th>Author 2</th>
+</tr>
+<tr>
+<td><i>
+"[...] The importance of having speedways in which to confine aerenoids,
+travelling at the terrific velocity of one hundred miles a minute,
+[...] in fact a most important adjunct to the operation of an aerenoid. [...]"
+</i></td>
+<td><i>
+"[...] realized that in this slow travelling aerenoid my chances of covering
+the five miles in time were but slight, [...]"
+</i></td>
+</tr>
+</table>
+
+The term *aerenoid* is surely a word created for a fictional work, and thus
+is exceedingly likely never to appear in any other work, much less any selected
+for this task. Particular names would also serve similarly.
 
 ## Reproducibility
 
-_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+# \#TODO
 
-- containerized build with clear step-by-step instructions for reproducing leaderboard numbers
-- clear step-by-step instructions for installing dependencies and reproducing leaderboard numbers
-
+Dockerfile and instructions
 
 ## Future Improvements
 
-_Describe how you might best improve your approach_
+The question remains, of course, of the unremarkable effect of the various
+feature attempted.
 
+One major limitation is that I have treated all snippets as bags-of-words
+(or bags of bigrams, in some cases). Style may intuitively be considered as
+something that is stretched out, so to speak, across a broader scope than a word
+or two. While the chosen features were in the spirit of this, they evidently did
+not capture this.
+As such, a model that is sensitive to patterns over time—such as  Recurrent
+Neural Network—may be preferable in that regard.
+
+Further room for improvement, I feel, is in the fact that raw counts may be
+unreliable if not normalized for the context (i.e. the length of the snippet)
+in which they appear.
 
 ## Leaderboard result
 
-- leaderboard submission exceeds the baseline
-- post specifies the name of submission on leaderboard
-- post includes score of leaderboard submission
+<table>
+<caption>Submission</caption>
+<tr>
+<th>Name</th><th>Score</th><th>Message</th>
+</tr>
+<tr>
+<td>Ryan L Nelson</td>
+<td>.53893</td>
+<td>echo4</td>
+</tr>
+</table>
 
-## Link to code repo
-- post includes a link to the code repo
-- the code repo is not empty
-- the repo uses the required assignment template (i.e. it is owned by the appropriate github org)
+## [Link to code repo](https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-nelson-ryan)
+

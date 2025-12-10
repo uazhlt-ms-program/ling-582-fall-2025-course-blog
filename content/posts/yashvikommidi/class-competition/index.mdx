@@ -1,9 +1,9 @@
 ---
 title: "My approach to the class-wide shared task using DistilBERT"
 slug: "/yashvikommidi/class-competition"
-date: 2025-11-16
+date: 2025-12-09
 author: Yashvi Kommidi
-description: "My approach is solving the class-wide shared task using DistilBERT and getting the best model saved "
+description: "My approach is solving the class-wide shared task using DistilBERT and cross validation and getting the best model saved "
 tags:
   - class competition
 ---
@@ -22,7 +22,7 @@ tags:
 <tbody>
   <tr>
     <th><b>Leaderboard score</b></th>
-    <td>0.53836</td>
+    <td>0.58707</td>
   </tr>
   <tr>
     <th><b>Leaderboard team name</b></th>
@@ -39,54 +39,190 @@ tags:
 </tbody>
 </table>
 
-## Descritpion 
-
-Here I have split the dataset into 85/15 as training and validation sets while maintaining the class balance, and then converting into numerical tokens that the DistilBERT can process. 
-To handle the class imbalance, I have done computing the class weights, to make the model pay more attention to the minority class during training, Here I have used the DistilBERT, a lightweight transformer. 
-The model I have built fine tunes a pre-trained DistilBERT model for 5 epochs using AdamW optimizer with learning rate scheduling, which automatically tracks and saves the best- performing model based on the macro F1-score. 
-At the end, after training, it loads the best saved model with highest F1score and uses it to generate predictions on test data.
-
-##Approach
-
-I have tried using BERT, but the runtime was higher and my system was not handling at this moment, so I have choosen DistilBERT as its smaller and faster than BERT while maintaining the strong performance. 
-
-To handle the severe class imbalance, like 78% different author and 22% of same author, I have computed balanced class weights and applied the weighted cross-entropy loss during training. 
-
-I have tried to train with multiple number of epochs, some had higher F1scores when I used only 2 epochs and some had higher F1scores when I used 5 epochs with different seed numbers. 
-
-I did trial and error with epochs, seed numbers and also the percentages of the split of data. 
-
-The model was trained with AdamW optimizer. The latest approach and the submission I did got highest F1score of 0.5842, but a lower kaggle score 0.52684 and the previous submission which I noted down here in the script has 0.5713 F1 score but a higher Kaggle score of 0.53836 where I have used 5 epochs.
-
-
-
 
 ## Task summary
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
+The goal of this project, which is part of the Kaggle class-wide shared task, is Authorship Verification. The input for each example is a single string in the TEXT column that contains two spans of English text separated by the special token [SNIPPET]. This is a binary classification task where we need to determine if both spans were written by the same author or by different authors. The provided training data (train.csv) consists of 1,601 records. 
+
+The train.csv file contains three columns: 
+
+-> ID  - a unique identifier
+
+-> TEXT, which is the concatenated text spans with [SNIPPET] in the middle and 
+
+-> LABEL,- which is 0 or 1
+
+whereas the test.csv file has the same structure, but it doesn’t have labels.
+
+The labels are binary: 0 (Different Authors) and 1 (Same Authors). We need to create a test.csv file with predictions for the unlabelled test set, which is evaluated on Kaggle using the Macro F1 score to weight performance on both classes equally. 
+
+### Challenges:
+
+A few areas of this task are specifically challenging, primarily due to class imbalance. The training labels are highly imbalanced, with roughly 77% being class 0 (Different Author) and only 22% being class 1 (Same Author). Without techniques like class weighting or sampling, the model might easily learn to predict 0 most of the time and barely learn the Same Author class at all.
+
+One more challenging part was that there can be a chance of two different authors writing about a similar topic in a similar style, and the same author can also change their style across different works. For example, during the narration text can be different and in dialogues, it can be different, so the model needs to pay more attention to the writing styles, not only the topic of the keywords present in the text.
+
+For example, some of the texts are extremely short or noisy, which can make verification difficult. 
+
+-> ID 892 contains fragmented dialogue: "cried Penrod. “ I HAVEN'T?”... “WHAT IS IT?” Mrs. Gelbraith echoed..."  
+
+-> ID 1055 is similarly sparse: "Number 52. Captain Laurent Deligne... Died at Ahaggar..."
+
+### Related work:
+
+While learning more about the authorship verification for this task, I came across a few related works on digital stylometry and shared tasks such as PAN (Pattern Analysis) authorship verification. These works also generally focus on comparing the writing style rather than just topic, and many recent systems use pre-trained transformers such as BERT-like models for this purpose. My approach follows the same general idea at a smaller scale, that is, I fine-tune a DistilBERT classifier on the class-imbalanced training data and optimise it for macro F1.
+
+
+
+
 
 ## Exploratory data analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+
+I performed exploratory data analysis as a part of the project where I found that the training file train.csv has 1601 records and the testing file test.csv has 899 records. As we discussed before, the label distribution in the training set is clearly imbalanced because there are 1245 records of class 0 which is different authors and 356 records of class 1 which is same authors. 
+
+to sanity check the data, i have looked at examples for each class from the records: 
+Class 0 example (ID 0):
+When his speaker remained silent Dirrul assumed he had been understood. He began to feel the pull of Vininese gravity, found himself in trouble with his ship. He tried to keep the disabled cargo carrier relatively stationary, so that the Vininese repair ships could locate him. With only one power tu
+
+Class 1 example (ID 7):
+gasped Robbins, and without a word he turned and fled, leaving the Nice Girl transfixed with astonishment and staring after him with a frown on her pretty brow.  “What does he mean by such conduct?” she asked herself. But Robbins disappeared from the gathering throng in the large room of the hotel, 
+
+These examples show that the texts I got are narrative and generally fairly long, and that both  the classes records can look similar at the surface level, so the model has to rely on subtle stylistic patterns rather than obvious keywords.
+
+Later, I computed the character length of each text as a part of simple diversity measure and I got these results:
+
+Text length statistics (in characters):
+count    1601.000000
+mean     1047.688320
+std       546.447522
+min       164.000000
+25%       688.000000
+50%       920.000000
+75%      1243.000000
+max      5491.000000
+
+
+and 
+Text length statistics per class:
+  Class 0:
+    mean: 1047.7, std: 527.1, min: 237, max: 5491
+  Class 1:
+    mean: 1047.6, std: 610.1, min: 164, max: 3988
+
+This has given a clear picture that there is strong skew towards class 0 and a mix of shorter and longer texts, which motivated using class weights and settings like MAX_LEN = 256 for DistilBERT.
+
 
 ## Approach
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
+For this task, when i was just getting started I used logistic regression, then later switched to BERT model, but runtime was too heavy for my setup, so I have choosen DistilBERT which is smaller and faster while still giving me the strong performance. I tokenized the concatenated text with [SNIPPET] inside using DistilBertTokenizer, and truncate to `MAX_LEN = 256 and then feed the resulting input_ids and the attention mask into the DistilBertForSequenceClassification with two output labels.
+
+As the label distribution is highly imbalanced which was around 78% of class 0 vs 22% class 1, So I computed balanced class weights using compute_class_weight and then passed these into a weighted cross entropy loss. Which encouraged the model not to ignore the minority class in the dataset.
+
+For the training I have used AdamW optimizer with learning rate 2e-5, Batch size of 16 and 3 epochs per fold. I have used get_linear_schedule_with_warmup for learning rate schedule. 
+
+After this approach, I tried to improve my results with multiple openly available models like BERT, but the performance never improved in a good amount. So to make the model more robust, I have used stratified 5-fold cross-validation, which is for each fold, I have trained a fresh DistilBERT model on 4/5 of the data and then evaluate on the remaining 1/5 data. For the test set, I have averaged the predicted probabilities across all the 5 folds before taking the final class label. This combination of class-weighted loss and also the 5-fold averaging has worked for me, which was a simple way to handle the strong class imbalance and also reduce the variance. 
+
+I even tried to do 10 fold cross validation, but 5-fold was performing the best for this data.
+
+
+
 
 ## Results
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
+Using the final working best version of my stratified 5-fold DistilBERT code, 
+the best validation macro F1 for each fold was: 
+
+Fold 1: 0.6061 
+
+Fold 2: 0.5901 
+
+Fold 3: 0.5677 
+
+Fold 4: 0.5656 
+
+Fold 5: 0.5605 
+
+The average validation macro F1 score across the folds is about 0.578, with only small variation between the folds, which made me think that this approach is reasonably robust. 
+
+On the Kaggle leaderboard, with the latest working version of my code for 5-fold DistilBERT which I am confident about, the best submission achieved a macro F1 of 0.58707. 
+
+The provided baseline system score is 0.50261, so the difference in the leaderboard score is about 0.08446. 
+
+Leaderboard score: 0.58707 
+baseline score: 0.50261 
+difference : 0.08446. 
+
+When I was doing trial and error with multiple models, I even achieved a higher score than I mentioned above, but the score that I got with the current code is which I am mostly confident about is what I am considering as my final code. 
+
+So I am mentioning this as my best submission so far. Across multiple runs, the average validation macro F1 was around 0.57–0.58, with small variation between folds even with the same code.
+
+The F1 scores did changed when I was adding error analysis, I believe other parts of the code was not changed at all, but it was changed, so I preferred the previous run which got me above results as my best submission and writing the report on it only, and even the submission in kaggle was the previous run and also I mentioned both the codes like before and after error analysis.
+
 
 ## Error analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+For error analysis, I have looked at the held-out validation data splits from my 5-fold cross validation.  After completing the each fold, I saved all the misclassified validation examples into a error_analysis.csv file, which contains 532 errors in total with ID, TEXT, LABEL, pred , text_len and fold. 
+
+Most of the errors seen are cases where the true label is 0 which is different authors, but the model predicts 1 which is same authors, 328 records are 0→1 and 204 examples are 1→0. This suggests that the model sometimes overestimates Same Authors, which may be a side effect of using the class weights to compensate for the strong class-0 imbalance.
+
+Considering specific examples like 
+1. Short/fragmented text, 0→1 error (ID 1055, true 0, predicted 1, length 244)
+record which is like : Number 52. Captain Laurent Deligne. Born at Paris, J...ght on the prisoner. "Thelma!" he gasped. The Russian smiled.
+
+2. Long dense narrative, 0→1 error (ID 1066, true 0, predicted 1, length 5491):
+record which is like : "We are in this very like him, who having need of fire... whom the sage says ‘Who shall find her?’ has fallen to my lot."
+
+In both the short and long cases, the two snippets within 'TEXT' can look very similar on the surface like narrative, descriptive and using similar vocabulary even though they were actually from different authors. I think I have also saw the opposite type of error for class 1, where the same author changes style a lot between the two snippets, for example one more narrative and the other more dialogue and the model predicts 0. 
+
+Finally the main error patterns that I noticed are short or noisy texts do not provide much stylistic signal,  Different authors with very similar narrative styles leads to 0→1  mistakes and same author with noticeable style shifts leading to 1→0 mistakes.
+
+These observations generally suggests that the future improvements could include models that would compare the two spans more directly and adding additional regularization or augmentation to  handle short and borderline examples in a better way.
+
+
 
 ## Reproducibility
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
-_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+I have added all the data I have used, and also the code I have written as a part of my project in the repository. 
+
+These are the steps I have taken while working in google colab with T4 GPU runtime ( If you have colab pro version, I have used L4 GPU for faster way)
+
+Step 1:
+clone the repository
+git clone https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-yashvikommidii
+
+Then go into the project using:
+cd ling-582-fall-2025-class-competition-code-yashvikommidii
+
+Download the data from the data folder:
+train.csv
+test.csv
+
+Download the notebook from the code folder, and open the notebook using the google colab
+and then upload the training and testing data into the colab
+
+and then start running each cell
+You will get the same results as I got.
+
+Now, after running the whole code, then submission.csv and error_analysis.csv files will be created. So download the submission.csv file for the kaggle competition.
+
+Upload the file into kaggle to get the similar leaderboard results of what I got. 
+
+and also will be uploading clear steps in the Readme file in the repo https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-yashvikommidii
+
+
 
 
 ## Future Improvements
 
 _Describe how you might best improve your approach_
+
+In the future, I would like to improve this approach in a few simple ways, which can increase the model efficiency and also can be a better approach than the present one, such as:
+
+1. I plan on trying a few more hyperparameter settings, such as changing the seed number, trying on different numbers of epochs, learning rates, and batch sizes in a more systematic way instead of only trial and error.
+
+2. I feel the size of the dataset is very small, and there is a lot of imbalance in the data, so I plan to find more data that will be useful for this problem, so that the model can see more records of both same-author and different-author pairs.
+
+3. I want to work on reducing overfitting if I face it in the future, by following different steps, like early stopping function or trying different regularization settings, so the model does not just memorize the training data.
+
+4. I want to use larger transformer models and check how the results differ from the present one. Due to my system limitations, I have tried to maximize my system's availability. But if I get resources, I would like to work with more models. 
