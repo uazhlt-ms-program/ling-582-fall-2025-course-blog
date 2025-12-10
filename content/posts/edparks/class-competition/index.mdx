@@ -22,7 +22,7 @@ tags:
 <tbody>
   <tr>
     <th><b>Current Best Leaderboard Score</b></th>
-    <td>0.52291</td>
+    <td>0.57646</td>
   </tr>
   <tr>
     <th><b>Leaderboard Name</b></th>
@@ -34,7 +34,7 @@ tags:
   </tr>
   <tr>
     <th><b>Code Repository URL</b></th>
-    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-edjpman.git</td>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-edjpman</td>
   </tr>
 </tbody>
 </table>
@@ -139,43 +139,43 @@ Lastly, comparing the distribution of stylometry similarity scores between the t
 
 The following individual features were developed to be included into the stylometric vector representation of the snippets. They include various quantitative linguistic and textual measures and are detailed in terms of their diversity:
 
-- Punctuation Ratio: The punctuation ratio is heavily right skewed but does display a moderate amount of diversity. The feature may be beneficial for only a slight increase in predictive power as both positive and negative classes are likely to have similar scores.
+- ***Punctuation Ratio***: The punctuation ratio is heavily right skewed but does display a moderate amount of diversity. The feature may be beneficial for only a slight increase in predictive power as both positive and negative classes are likely to have similar scores.
 
 ![Alt text](./distr_punc_ratio.png)
 
-- Numerical Digit Ratio: Almost no diversity exists for the feature in the training dataset indicating that the use of digits in the text are relatively rare and not likely to be predictive in a meaningful way.
+- ***Numerical Digit Ratio***: Almost no diversity exists for the feature in the training dataset indicating that the use of digits in the text are relatively rare and not likely to be predictive in a meaningful way.
 
 ![Alt text](./distr_digit_ratio.png)
 
-- Upper-case Letter Ratio: Almost no diversity exists for the feature in the training dataset indicating that the use of uppercase letters in the text are relatively rare and not likely to be predictive in a meaningful way.
+- ***Upper-case Letter Ratio***: Almost no diversity exists for the feature in the training dataset indicating that the use of uppercase letters in the text are relatively rare and not likely to be predictive in a meaningful way.
 
 ![Alt text](./distr_upper_ratio.png)
 
-- Stopword Ratio: The stopword ratio is approximately normally distributed and displays a moderate amount of diversity. The feature may be beneficial only for a slight increase in predictive power as both positive and negative classes are likely to have similar scores.
+- ***Stopword Ratio***: The stopword ratio is approximately normally distributed and displays a moderate amount of diversity. The feature may be beneficial only for a slight increase in predictive power as both positive and negative classes are likely to have similar scores.
 
 ![Alt text](./distr_sw_ratio.png)
 
-- Comma-to-Period Ratio: Very little diversity exists for the feature in the training dataset indicating that the use of longer complex sentences in the text are relatively rare and not likely to be predictive in a meaningful way.
+- ***Comma-to-Period Ratio***: Very little diversity exists for the feature in the training dataset indicating that the use of longer complex sentences in the text are relatively rare and not likely to be predictive in a meaningful way.
 
 ![Alt text](./distr_cpr.png)
 
-- Average Word Length: The measure of average word length is approximately normally distributed and displays a moderate amount of diversity. The feature may be beneficial only for a slight increase in predictive power as both positive and negative classes are likely to have similar scores.
+- ***Average Word Length***: The measure of average word length is approximately normally distributed and displays a moderate amount of diversity. The feature may be beneficial only for a slight increase in predictive power as both positive and negative classes are likely to have similar scores.
 
 ![Alt text](./distr_awl.png)
 
-- Mean Sentence Length: The measure of mean sentence length is heavily right skewed but does display a moderate amount of diversity. The feature may be beneficial for only a slight increase in predictive power as both positive and negative classes are likely to have similar scores.
+- ***Mean Sentence Length***:: The measure of mean sentence length is heavily right skewed but does display a moderate amount of diversity. The feature may be beneficial for only a slight increase in predictive power as both positive and negative classes are likely to have similar scores.
 
 ![Alt text](./distr_slm.png)
 
-- Sentence Length Variance: Almost no diversity exists for the feature in the training dataset indicating that the text follows a high degree of uniformity and is not likely to be predictive in a meaningful way.
+- ***Sentence Length Variance***: Almost no diversity exists for the feature in the training dataset indicating that the text follows a high degree of uniformity and is not likely to be predictive in a meaningful way.
 
 ![Alt text](./distr_slv.png)
 
-- Lexical Diversity: The measure of lexical diversity is approximately normally distributed but displays very little diversity. As a result, the feature is not likely to be predictive in a meaningful way.
+- ***Lexical Diversity***: The measure of lexical diversity is approximately normally distributed but displays very little diversity. As a result, the feature is not likely to be predictive in a meaningful way.
 
 ![Alt text](./distr_lex_div.png)
 
-- Verbosity: The measure of verbosity is heavily left skewed but does display a moderate amount of diversity. The feature may be beneficial for only a slight increase in predictive power as both positive and negative classes are likely to have similar scores.
+- ***Verbosity***: The measure of verbosity is heavily left skewed but does display a moderate amount of diversity. The feature may be beneficial for only a slight increase in predictive power as both positive and negative classes are likely to have similar scores.
 
 ![Alt text](./distr_verb.png)
 
@@ -187,7 +187,7 @@ To better understand the strength of the derived linguistic features, a point bi
 
 Across all derived stylistic features the correlation coefficients are close to 0 with p-values above typical significance thresholds (e.g. p < 0.05). This points toward no features having a strong and reliable linear relationship with the outcome labels, and often a weak effect size given the small correlation coefficients. This reinforces the need for further feature development, or more complex non-linear approaches to modeling the features.
 
-| feature              | pbs        | p_val    |
+| Feature              | PBS        | P-Val    |
 |----------------------|------------|----------|
 | punct_ratio          | -0.044094  | 0.077765 |
 | digit_ratio          | -0.014349  | 0.566144 |
@@ -306,6 +306,8 @@ During the training of the model, the preprocessed and contrasted embeddings for
 
 The general performance of the model directly reflects the trends identified in the exploratory data analysis indicating little signal in the current representation of the data. Poor performance of the model does not necessarily imply poor architecture or data that is impossible to model, but rather points towards additional development required for more rich input features.
 
+During the training process different hyperparameters were modified to observe the resulting performance across the shuffles. This included adjusting the regularization, number of iterations, class weighting, intermediate model strength, and logistic regression solver. Overall a high number of iterations such as 1,000, strong regularization through an L2 penalty and a coefficient penalty of 0.1, weight scaling inversely proportional to class frequencies, and the Saga solver produce the best results.
+
 Across a multi-training regime of 15 separate shuffles, the meta ensemble model obtained an average F1 score, precision and recall of 43.9%, 32.7%, and 66.5% on the trainset and 41.1%, 30.4%, and 63.7% on a hold-out dataset. On the hold-out data 95% confidence intervals for the F1 score were provided to assess the potential variance in the model results. The mean of the lower and upper bounds across the five training regimes was 32.8% and 48.7%. 
 
 An average F1 score of 41.1% indicates the model is no better than guessing at random without further feature development or data supplementation given the limited size of the training set. The guessing of the model is exemplified by the imbalance between the precision and recall. A low mean recall indicates that a small portion of the snippet pairs the model thought were positive actually were, whereas the high recall suggests the model found most of the positive examples because of its propensity to assign a positive class to pairs. On average the model trained for the competition fell into the high recall category at 63.7%.
@@ -386,32 +388,52 @@ An example of label noise and matching authorship (i.e. false negative) can be f
 
 #### Reproducibility
 
-To reproduce the results of the competition there are two methods that can be used. Any modern device with over 8GB of RAM could theoretically run the model given the size of the dataset. However, it is recommended that additional computing resources be available if needed.
+To reproduce the results of the competition there are two methods that can be used. Any modern device with 8GB of RAM or more could theoretically run the model given the size of the dataset. However, it is recommended that additional computing resources be available if needed.
 
-The first method is to build the Docker image of the repo which offers the most stable reproducibility. Please first clone and mount the repo, then execute the build command. To execute the dummy file that ensures all aspects of the repo are working correctly please use the “docker run” command listed below and in the repo readme file. Otherwise, a fully working notebook exists that can be interacted with to recreate the results. 
+The first method is to build the Docker image which encapsulates all dependencies, ensuring the most stable reproducibility. Please first clone and mount the repo, then execute the Docker build command. 
 
 ```
 git clone https://github.com/githubuser/repo-name.git
 
 cd repo-name
 
-docker build -t hybridStylo
-
-docker run hybridStylo
+docker build -t hybridstylo .
 ```
 
-As an alternative, the contents of the working notebook can successfully be run in a Google Colab environment for free resources on very low compute devices. First the user's personal drive and folder location for the repo will be mounted to the notebook. Next the repo can be cloned through a personal access token generated on the user's Github account. Finally the repo is mounted to the notebook and the same contents can be run in the environment. 
+To test if the entire file and its components are working properly, first open an internal shell and execute the following commands for the “dummy_run” file.
+
+```
+docker run -it hybridstylo:latest /bin/bash
+
+python -m src.test.dummy_run
+
+exit #To exit the internal shell
+```
+
+To produce the exact results that are highlighted in the project description, open the contents of the repo in a local or cloud based IDE and navigate to the “02_modeling.ipynb” notebook. Each cell can be executed in chronological order to obtain the same performance. Please note that **exact-matching** predictions and training results may not occur due to the randomness in how the training and testing data is shuffled.
+
+As an alternative, the contents of the working notebook can successfully be run in a Google Colab environment for free resources across very low compute devices. First the user's personal drive and folder location for the repo will be mounted to the notebook. 
 
 ```
 from google.colab import drive
 drive.mount('/content/drive')
 
 %cd /content/drive/MyDrive/LING 582/Class Competition/
+```
 
+Next the repo can be cloned through a personal access token generated on the user's Github account. 
+
+```
 token = "tokenhere"
-repo_url = f"https://{token}@github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-edjpman.git"
 
+repo_url = f"https://{token}@github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-edjpman.git"
+```
+
+Finally the repo is mounted to the notebook and the same contents can be run in the environment. Please note that periodic memory clearing may be necessary to run using the Colab CPU to not exceed memory limits.
+
+```
 !git clone $repo_url
+
 %cd ling-582-fall-2025-class-competition-code-edjpman
 ```
 
@@ -420,8 +442,15 @@ repo_url = f"https://{token}@github.com/uazhlt-ms-program/ling-582-fall-2025-cla
 
 #### Leaderboard Result
 
-The leaderboard position of my post can be found under the alias “Ethan Parks” with a current best score on the development set of 57.6% which exceeds the weighted random baseline of 50.3%. This is an improvement on the results obtained during the model training and likely indicates more positive class examples existing in the official competition development set.
+The leaderboard position of my post can be found under the alias “Ethan Parks” with a current best score on the test set of 57.6% which exceeds the weighted random baseline of 50.3%. This is an improvement on the results obtained during the model training and likely indicates more positive class examples existing in the official competition development set.
 
+
+<br />
+
+
+#### Code Repository
+
+The repository containing the code for this project can be found at https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-edjpman. The repository will additionally include all the examples and instructions to recreate the results achieved.
 
 <br />
 

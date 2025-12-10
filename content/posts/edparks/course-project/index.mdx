@@ -51,15 +51,15 @@ tags:
 #### Project Overview
 
 
-##### Modeling Overview
+##### Modeling Architecture
 
-In this experiment, statistical natural language processing methodologies were modified for their application outside of text based tasks. More specifically a lightweight approach was proposed in which time series data is tokenized into local “geometric” tokens of a broader context window. The application of the model is applied to an arrhythmia dataset in which heartbeats are classified based on their structure.
+In this experiment, statistical natural language processing methodologies were modified for their application outside of text based tasks. More specifically a lightweight approach was proposed in which time series data is tokenized into local “geometric” embeddings of a broader context window. The application of the model is applied to an arrhythmia dataset in which heartbeats are classified based on their structure.
 
-Architectural design choices of the model loosely follow that of other pre-trained transformer architectures such as that of BERT (Devlin et al. 2018), with modifications for novel inclusions to boost the performance of model and process data that may have less inherent semantic information than text. A fully “geometric” variation of the model is proposed for a later capstone project in which data inputs are tokenized based on larger sparse matrices. This version was not implemented due to time constraints of the course.
+Architectural design choices of the model loosely follow that of other pre-trained transformer architectures such as that of BERT (Devlin et al. 2018), with modifications for novel inclusions to boost the performance of model and process data that may have less inherent semantic information than text. A fully “geometric” variation of the model is proposed for a later capstone project in which data inputs are tokenized into larger sparse matrices. This version was not implemented due to time constraints of the course.
 
-In the first stage of the process the model takes inspiration from the tokenization of text as learnable vectors that are passed through an encoder. Framing a time series like a sequence of words, the tokenization process begins by capturing the local structure into local context windows of a single heartbeat sequence. Each of the local context windows are then initialized into their token form by passing through a dense layer and being formed into batches of BxLxD; B individual heartbeat context windows, L local context windows, and D dimensions of the tokens. 
+In the first stage of the process the model takes inspiration from the tokenization of text as learnable vectors that are passed through an encoder. Framing a time series like a sequence of words, the tokenization process begins by capturing the local structure into local context windows of a single heartbeat sequence. Each of the local context windows are then initialized into their embedding form by passing through a dense layer and being formed into batches of BxLxD; B individual heartbeat context windows, L local context windows, and D dimensions of the embeddings. 
 
-Given that transformer encoders do not inherently know sequential relationships, models such as BERT have shown that learnable position vectors significantly improve the models ability to understand relationships across tokens. The same process is followed for the geometric transformer in which a learnable position tokens of a shape 1xLxD are elementwise added to the local context tokens for each heartbeat in the batch. 
+Given that transformer encoders do not inherently know sequential relationships, models such as BERT have shown that learnable position vectors significantly improve the models ability to understand relationships across embeddings. The same process is followed for the geometric transformer in which a learnable position embeddings of a shape 1xLxD are elementwise added to the local context embeddings for each heartbeat in the batch. 
 
 The resulting positionally aware embeddings pass through a small vanilla transformer encoder in which the outputs of shape BxLxD are converted to BxD by obtaining a single vector representation through a variant of mean pooling across all local context embeddings for each heartbeat. 
 
@@ -78,7 +78,7 @@ One of the most common approaches to modeling medical sequential data is through
 
 Despite the success, the convolutional networks for human vitals data is largely reliant on learning aspects of pixel formation on an image that requires many dense representations of the image which is not only computationally intensive but can miss unique subtleties to the sequence during the creation of the latent features. 
 
-Representing the sequence as a geometric token to be used in a transformer architecture improves many of the aforementioned challenges. Instead of requiring numerous high quality image representations of each tiny fluctuation of the sequence, the transformer architecture directly leverages the geometry with its relation to others in a sequence to identify both local and global structure in a more nuanced manner. 
+Representing the sequence as a geometric embedding to be used in a transformer architecture improves many of the aforementioned challenges. Instead of requiring numerous high quality image representations of each tiny fluctuation of the sequence, the transformer architecture directly leverages the geometry with its relation to others in a sequence to identify both local and global structure in a more nuanced manner. 
 
 This alternative approach represents a novel take on how geometric structure is typically modeled using deep learning based approaches. The approach has the potential to produce similarly strong performance while being practically flexible to scenarios that require longer training context windows, implementations where images are not possible to be captured in an efficient manner, and where general learned representations may be important as a foundation for domain specific tasks. 
 
@@ -145,9 +145,9 @@ The efforts made in this implementation are solely made by myself, Ethan Parks. 
 
 ##### Design Limitations and Enhancements
 
-The architecture designed for the process takes a novel approach to leveraging statistical language processes by representing “geometric” interpretations of sequential data as tokens. While the approach has the potential for improvements in how sequential data can be represented, the time constraints of the course significantly reduce the current capacity of the process. 
+The architecture designed for the process takes a novel approach to leveraging statistical language processes by representing “geometric” interpretations of sequential data as embeddings. While the approach has the potential for improvements in how sequential data can be represented, the time constraints of the course significantly reduce the current capacity of the process. 
 
-In a more complete version two specific aspects can be expanded to improve the data processing and the application of architecture. First, the geometric interpretation of the tokens can become more concrete than simply a stride across a sequence. This was a basic implementation due to time constraints but could be enhanced by representing the sequence of tokens through a sparse matrix representation of the trend shapes. These individual shapes can then be tokenized and given “semantic” meaning by their probabilistic occurrence together within a larger context window. 
+In a more complete version two specific aspects can be expanded to improve the data processing and the application of architecture. First, the geometric interpretation of the embeddings can become more concrete than simply a stride across a sequence. This was a basic implementation due to time constraints but could be enhanced by representing the sequence of embeddings through a sparse matrix representation of the trend shapes. These individual shapes can then be tokenized and given “semantic” meaning by their probabilistic occurrence together within a larger context window. 
 
 Another critical addition to improve the application of the geometric representation is a fusion process with other embedding types. While the geometric embeddings may be predictive in a sequence they likely do not capture all nuances of the series. A second parallel encoder could be added that creates embeddings for alternative measures such as context windows of scale, magnitude, and distance among others that can then be fused with the geometric embeddings to create more sequentially nuanced representations of the data. 
 
@@ -184,7 +184,7 @@ Looking deeper into each of the classes, the proportions of each represented in 
 
 Given there are over 30,000 different examples of heartbeats each with their own geometric subtleties, individually reviewing the beats from the held out development set is challenging for determining the exact reasoning behind the error produced by the model. Instead a class based analysis is more effective for contrasting areas the model struggled in versus those it performed well on. Future work can include attention mapping to the sequences for the regions the model places the highest weight on. 
 
-By nature the training dataset is imbalanced with most heartbeats attributed to the normal category in Class 0 (N=142,075, 82.5%). The arrhythmic beats of Classes 1-4 comprise 2.6%, 6.7%, 0.7%, and 7.4% of the training dataset respectively. Across the dataset, the highest rates of error produced exist in the sparse classes with Class-3 observing a 96.9% error rate as compared to the most common class (Class-0) with an error rate of 0.9%. 
+By nature the training dataset is imbalanced with most heartbeats attributed to the normal category in Class 0 (N=142,075; 82.5%). The arrhythmic beats of Classes 1-4 comprise 2.6%, 6.7%, 0.7%, and 7.4% of the training dataset respectively. Across the dataset, the highest rates of error produced exist in the sparse classes with Class-3 observing a 96.9% error rate as compared to the most common class (Class-0) with an error rate of 0.9%. 
 
 ![Alt text](./err_by_class2.png)
 
@@ -212,32 +212,52 @@ Alternatively, when assessing the cases where the model selected the wrong predi
 
 #### Reproducibility
 
-To reproduce the results of the competition there are two methods that can be used. A modern device with over 16GB is absolutely necessary to train the model on the entire dataset of nearly 200,000 heartbeats.
+To reproduce the results of the competition there are two methods that can be used. A modern device with over 16GB of RAM is necessary to train the model on the entire dataset of nearly 200,000 heartbeats.
 
-The first method is to build the Docker image of the repo which offers the most stable reproducibility. Please first clone and mount the repo, then execute the build command. To execute the entire file please use the “docker run” command in which you will obtain the results. Otherwise, a fully working notebook exists that can be interacted with to recreate the results. 
+The first method is to build the Docker image which encapsulates all dependencies, ensuring the most stable reproducibility. Please first clone and mount the repo, then execute the Docker build command. 
 
 ```
 git clone https://github.com/githubuser/repo-name.git
 
 cd repo-name
 
-docker build -t geomTransformer
-
-docker run geomTransformer
+docker build -t geomtransformer .
 ```
 
-As an alternative, the contents of the working notebook can successfully be run in a Google Colab environment for free resources across very low compute devices. First the user's personal drive and folder location for the repo will be mounted to the notebook. Next the repo can be cloned through a personal access token generated on the user's Github account. Finally the repo is mounted to the notebook and the same contents can be run in the environment. Please note that the memory clearing cells are necessary to run using the Colab CPU to not exceed memory limits.
+To test if the entire file and its components are working properly, first open an internal shell and execute the following commands for the “dummy_run” file. Please note, if the run fails try one more time as the random assignment of target features may have produced too few for a certain category. 
+
+```
+docker run -it geomtransformer:latest /bin/bash
+
+python -m src.test.dummy_run
+
+exit #To exit the internal shell
+```
+
+To produce the exact results that are highlighted in the project description, open the contents of the repo in a local or cloud based IDE and navigate to the “02_modeling.ipynb” notebook. Each cell can be executed in chronological order to obtain the same performance. Please note that **exact-matching** predictions and training results may not occur due to the randomness in how the training and testing data is shuffled.
+
+As an alternative, the contents of the working notebook can successfully be run in a Google Colab environment for free resources across very low compute devices. First the user's personal drive and folder location for the repo will be mounted to the notebook. 
 
 ```
 from google.colab import drive
 drive.mount('/content/drive')
 
 %cd /content/drive/MyDrive/LING 582/Class Project/
+```
 
+Next the repo can be cloned through a personal access token generated on the user's Github account. 
+
+```
 token = "tokenhere"
-repo_url = f"https://{token}@github.com/uazhlt-ms-program/ling-582-fall-2025-class-project-code-edjpman.git"
 
+repo_url = f"https://{token}@github.com/uazhlt-ms-program/ling-582-fall-2025-class-project-code-edjpman.git"
+```
+
+Finally the repo is mounted to the notebook and the same contents can be run in the environment. Please note that periodic memory clearing may be necessary to run using the Colab CPU to not exceed memory limits.
+
+```
 !git clone $repo_url
+
 %cd ling-582-fall-2025-class-project-code-edjpman
 ```
 
@@ -245,11 +265,11 @@ repo_url = f"https://{token}@github.com/uazhlt-ms-program/ling-582-fall-2025-cla
 
 #### Code Repository
 
-The repository containing the code for this implementation can be found at https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-sesame-street-neural-linguists once the course is complete, the code will be migrated over to a new repository at https://github.com/edjpman. The repository will additionally include all the examples and instructions to recreate the results achieved.
+The repository containing the code for this project can be found at https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-sesame-street-neural-linguists once the course is complete, the code will be migrated over to a new repository at https://github.com/edjpman. The repository will additionally include all the examples and instructions to recreate the results achieved.
 
 <br />
 
-#### Citations
+#### Additional Citations
 
 Che, C., Zhang, P., Zhu, M., Qu, Y., & Jin, B. (2021). Constrained transformer network for ECG signal processing and arrhythmia classification. BMC medical informatics and decision making, 21(1), 184. https://doi.org/10.1186/s12911-021-01546-2
 

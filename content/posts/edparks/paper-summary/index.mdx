@@ -9,6 +9,8 @@ tags:
 ---
 
 
+## Citation
+
 <table>
   <caption>
     Citation summary
@@ -47,6 +49,41 @@ tags:
 </tbody>
 </table>
 
+<br />
+
+## LLM
+
+<table>
+  <caption>
+    LLM Model Summary
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>LLM Model</b></th>
+    <td>HuggingFace SmolLM3-3B</td>
+  </tr>
+  <tr>
+    <th><b>LLM Model Version</b></th>
+    <td>Version 3 - Commit ID: a07cc9a</td>
+  </tr>
+  <tr>
+    <th><b>Model/Service URL</b></th>
+    <td>https://huggingface.co/HuggingFaceTB/SmolLM3-3B</td>
+  </tr>
+  <tr>
+    <th><b>Why This Model?</b></th>
+    <td>SmolLM3 offers a balance of performance and efficiency, with advanced features such as reasoning.</td>
+  </tr>
+</tbody>
+</table>
+
+<br />
 
 ## Paper Questions
 
@@ -54,6 +91,8 @@ tags:
 <br />
 
 #### What LLM did you select (model and version) and why?
+
+<br />
 
 For the project I selected the HuggingFace SmolLM3-3B for the paper task over similar sized models such as Qwen2.5-3B, or larger models such as Llama 3.2 or Google's Gemma. The biggest reason for selecting the model was the balance it has between performance and efficiency along with its easy integration into the HuggingChat platform to provide prompts. 
 
@@ -75,9 +114,12 @@ Some of the initial concerns I had for the model are detailed below:
 
 
 <br />
+<br />
 
 
 #### What are the authors proposing?
+
+<br />
 
 ##### AI Question
 
@@ -85,6 +127,7 @@ Some of the initial concerns I had for the model are detailed below:
 Based on the copy of the machine learning paper included in this chat can you simply describe in a few sentences what the authors are proposing? Please don’t just regurgitate the abstract, but rather describe the novel concepts of the authors' experiments.
 ```
 
+<br />
 
 ##### AI Response
 
@@ -113,7 +156,7 @@ Based on the copy of the machine learning paper included in this chat can you si
 >
 > The authors demonstrate that PatchTST outperforms traditional Transformer models in multivariate time series forecasting, especially on large datasets. Their approach combines patching and channel independence to retain semantic information, reduce complexity, and enable effective learning from longer sequences, making it a robust and efficient foundation model for future work.
 
-
+<br />
 
 ##### Human Response
 
@@ -121,21 +164,26 @@ In the paper the authors propose a custom rendition of a transformer encoder mod
 
 Conceptually the idea was noted to be an extension of deep learning based forecasting developments that have more recently been developed. These include the use of standard feed-forward networks, convolutional networks, and other transformer based methods. Despite these models realizing promising results for the application of deep learning in the field, they have been equally matched by more simple linear models (Zeng et al., 2022). 
 
-The author notes that aspects of the transformer model such as the attention mechanism and the way data is represented in tokens presents many opportunities to make new breakthroughs in forecasting performance that cannot be achieved with linear models. They specifically propose two new approaches utilizing transformers for forecasting through methods called patching and channel independence. 
+The authors note that aspects of the transformer model such as the attention mechanism and the way data is represented in tokens presents many opportunities to make new breakthroughs in forecasting performance that cannot be achieved with linear models. They specifically propose two new approaches utilizing transformers for forecasting through methods called patching and channel independence. 
 
 Patching involves creating local context embeddings from the larger sequences that mimics the tokenization phase, and channel independence involves processing multi-variate sequences independently versus a standard channel mixing process. Additionally, the use of language model-like pre-training processes such as token masking was proposed by the authors as a method for richer interpretations of general time series signals to boost the performance of downstream tasks. 
 
 
 <br />
+<br />
 
 
 #### What is the motivation for the work?
+
+<br />
 
 ##### AI Question
 
 ```markdown
 Based on the copy of the machine learning paper included in this chat can you simply describe in a few sentences what the motivation is for the authors’ work in this paper? Please help me specifically understand how similar types of previous experiments were inspiration for the methods the authors proposed and why.
 ```
+
+<br />
 
 ##### AI Response
 
@@ -164,6 +212,7 @@ Based on the copy of the machine learning paper included in this chat can you si
 > **Why These Approaches?**  
 > The authors' work is driven by the need to **scale Transformers for time series forecasting** while **avoiding overfitting** and **maintaining computational feasibility**. Traditional Transformer models struggle with long sequences due to their inherent design, which is compounded by the lack of labeled data in many time series tasks. By combining patching, channel independence, downsampling, and self-supervised learning, they create a more efficient and adaptable framework that outperforms existing methods. This approach bridges the gap between the Transformers' strengths in sequence modeling and their limitations in temporal data, making it a viable solution for long-term forecasting and foundation models in time series analysis.
 
+<br />
 
 ##### Human Response
 
@@ -171,21 +220,26 @@ The authors of the paper highlighted motivations for the specific model architec
 
 It was distinctly noted in the paper that deep learning methods have considerable promise in their ability to forecast but currently lack the edge in performance that gives any incentive for their practical use over less complex linear models. Especially among transformer based solutions to forecasting, deep learning implementations require substantially more skill, time, cost, and data to properly develop a strong model.
 
-Another critical motivation noted by the author is the complexity that traditional forecasting methods fail to model properly. Most time series sequences are not univariate by nature, but given data and modeling limitations the multiple influencing factors rarely are able to be completely captured for a forecast. The prospects of deep learning to better account for these multi-variate scenarios is a direct motivation for components in the proposed architecture.
+Another critical motivation noted by the authors is the complexity that traditional forecasting methods fail to model properly. Most time series sequences are not univariate by nature, but given data and modeling limitations the multiple influencing factors rarely are able to be completely captured for a forecast. The prospects of deep learning to better account for these multi-variate scenarios is a direct motivation for components in the proposed architecture.
 
 A final key motivation for the work is the natural ability of transformers to self discover patterns given the way data is tokenized and can attend to one another in a broader sequence. While this has been explored in other transformer based forecasting variants, the methods by which the data is preprocessed remains an active area of research. 
 
 
 <br />
+<br />
 
 
 #### What are the results and how do they compare with competing approaches?
+
+<br />
 
 ##### AI Question
 
 ```markdown
 Based on the copy of the machine learning paper included in this chat can you simply describe in a few sentences what the results are for the authors’ novel approach and how they compare to the others tested? Please include the high-level summary results the authors noted in the paper and yourself summary any key resulting takeaways from the performance tables that are included in the report.
 ```
+
+<br />
 
 ##### AI Response
 
@@ -214,6 +268,7 @@ Based on the copy of the machine learning paper included in this chat can you si
 >
 > In summary, PatchTST's combination of patching, channel independence, and downsampling enables Transformers to handle long-term dependencies efficiently, making it a superior choice for time series forecasting and a promising foundation model for future work.
 
+<br />
 
 ##### Human Response
 
@@ -228,14 +283,19 @@ Given the PatchTST model is built off a transformer core architecture, the perfo
 Additionally, an ablation study was conducted to determine the usefulness of the patching and channel independence mechanisms in terms of improving the forecasting ability of PatchTST. The results of the ablation study experiments were compared to the performance of the FEDformer model which was considered the most SotA transformer approach. The ablation study highlighted that the combination of the patching and channel independence mechanism are required for the model to achieve world class results. When combined, the PatchTST model outperformed FEDformer at every forecast length across every dataset.
 
 <br />
+<br />
 
 #### Are the comparisons fair?
+
+<br />
 
 ##### AI Question
 
 ```markdown
 Based on the copy of the machine learning paper included in this chat and given what you are trained on, can you simply describe in a few sentences whether the comparisons of the authors’ PatchTST model to those in the results table are fair? If the reasons are not fair please simply explain why and what change could make it a more fair comparison.
 ```
+
+<br />
 
 ##### AI Response
 
@@ -259,26 +319,32 @@ Based on the copy of the machine learning paper included in this chat and given 
 >
 > By addressing these issues, the comparisons would be more **apples-to-apples**, allowing for a more accurate assessment of PatchTST's performance relative to a standardized set of baselines.
 
+<br />
 
 ##### Human Response
 
 Without intimately knowing the details of all comparison models, datasets, and nuances of the evaluation tasks that do not exist in the paper, it is hard to give a definitive answer as to whether the comparisons are completely fair. However, based on the descriptions of how the experiments were designed and why, the authors present strong evidence to justify that the comparisons made are fair. 
 
-More specifically in terms of models, the author implemented comparable deep learning based forecasting methods that are task appropriate unless otherwise stated. For example, in general forecasting scenarios the author compared the PatchTST model with general transformer architectures such as FEDformer and Informer, whereas unsupervised learning task transfer experiments leveraged models that perform stronger in those areas for comparison (i.e. BTSF and TS2Vec). The only non-transformer model utilized for general task evaluation was the DLinear model, which was clearly noted by the author as being included due to its documented performance against other complex deep learning forecasting methods. 
+More specifically in terms of models, the authors implemented comparable deep learning based forecasting methods that are task appropriate unless otherwise stated. In general, forecasting scenarios the authors compared the PatchTST model with general transformer architectures such as FEDformer and Informer, whereas unsupervised learning task transfer experiments leveraged models that perform stronger in those areas for comparison (i.e. BTSF and TS2Vec). The only non-transformer model utilized for general task evaluation was the DLinear model, which was clearly noted by the authors as being included due to its documented performance against other complex deep learning forecasting methods. 
 
 To ensure the evaluation measures were fair the authors did a thorough evaluation combining different forecast lengths from 96 to 720 steps, dataset domains from weather to traffic patterns, methods of training from end-to-end fine-tuning to standard supervised learning, and alternative measures of error such as mean square error and mean absolute error. The combination of these were likely selected to highlight the raw power of the PatchTST model along with ensuring the authors did not cherry pick results. 
 
 Lastly the authors performed a detailed ablation study on the newly proposed features that are a part of the PatchTST framework to provide additional support for the robustness of each feature. The comparable results of PatchTST to that of FEDformer without the patching and channel independence features highlight a prime example of the fairness while still allowing space to showcase the effectiveness of the new features. 
 
 <br />
+<br />
 
 #### What are the takeaways according to the authors?
+
+<br />
 
 ##### AI Question
 
 ```markdown
 Based on the copy of the machine learning paper included in this chat can you simply describe in a few sentences what takeaways the authors want the readers to take from it? Please don’t just regurgitate the conclusions but rather leverage any points the authors make across the entire paper. 
 ```
+
+<br />
 
 ##### AI Response
 
@@ -302,6 +368,7 @@ Based on the copy of the machine learning paper included in this chat can you si
 >
 > In summary, the authors want readers to understand that their PatchTST model is a transformative approach that overcomes Transformer limitations in time series forecasting by combining patching and channel independence, making it a foundational model for future work in this field.
 
+<br />
 
 ##### Human Response
 
@@ -314,8 +381,11 @@ Channel independence on the other hand is designed to take multivariate patches 
 Furthermore, the authors note the potential of self-supervised learning methods for more complex downstream applications. Despite supervised implementations of the training process achieving strong performance, the ability of the model to leverage representation learning methods enhances the broader performance and opens the approach to many future areas of experimentation.
 
 <br />
+<br />
 
 #### What are the takeaways according to you?
+
+<br />
 
 ##### Human Response
 
@@ -328,8 +398,11 @@ A final aspect that is important for future time series experimentation is the s
 Various time series on the other hand rarely have the same underlying meaning hence the surprising results in the ability to transfer knowledge from one domain to another. This opens the possibilities for how time series analyses can be approached to incorporate foundational structure with series specific patterns.
 
 <br />
+<br />
 
 #### Would you use this? If so, how/where would you use this?
+
+<br />
 
 ##### Human Response
 
@@ -342,14 +415,19 @@ More specifically, the domains I would apply this model to would include, climat
 Additionally, the prospect of being able to pre-train the model opens many more forecasting opportunities where data may be considerably limited. For example, a restaurant chain may have daily sales data across all its locations. The model could be pre-trained on these various sequences for general patterns and then fine-tuned on a smaller dataset from a new location to obtain the strongest sales forecast possible. 
 
 <br />
+<br />
 
 #### What problems remain and what are the next steps?
+
+<br />
 
 ##### AI Question
 
 ```markdown
 Based on the copy of the machine learning paper included in this chat can you simply describe in a few sentences what the key problems that remain are in terms of applying the transformer architecture to non-text scenarios and time series forecasting with deep learning models? Please explain in a fashion of how the authors’ approach did not cover the area but was noted by the authors as a future area of work that is needed.
 ```
+
+<br />
 
 ##### AI Response
 
@@ -371,6 +449,7 @@ Based on the copy of the machine learning paper included in this chat can you si
 >
 > These issues highlight the need for **transformer-specific attention and attentional architectures** for time series, as well as **holistic approaches** to temporal coherence and cross-channel interactions, which the authors see as critical for future advancements in the field.
 
+<br />
 
 ##### Human Response
 
@@ -383,8 +462,11 @@ As mentioned, transformer models are also much more complex and computationally 
 Finally, the authors' adaptation of language model like pre-training processes displayed signs of performance improvement but not to the same extent as experienced for text based language tasks. These processes are critical for the broader success of a language based transformer model but may not produce the same leap in terms of general forecasting performance, with basic supervised learning approaches still producing impressive results. Focusing on the improvement of these concepts has substantial potential for increasing the overall performance of transformer based time series models in a broad spectrum of domains with much less available data.
 
 <br />
+<br />
 
 #### What issues and limitations did you encounter while using the LLM to assist with your paper summary?
+
+<br />
 
 ##### Human Response
 
@@ -395,8 +477,9 @@ The first issue was less about the model and more about the HuggingChat platform
 Aside from the more platform specific issue, the only challenges faced with the model were largely around the framing of its answers to my questions. The answers themselves were of high quality but often overly verbose and lengthy when much less could be used. Despite prompts to keep the response to only a few sentences, the model often opted to create a multi-bullet output in which each bullet was a sentence or two. This format was helpful for gathering the individual components of the paper, but not in a very concise format that may be easier to grasp the general concepts with. 
 
 <br />
+<br />
 
-#### Citations
+#### Additional Citations
 
 Bakouch, E., Ben Allal, L., Lozhkov, A., Tazi, N., Tunstall, L., Patiño, C. M., Beeching, E., Roucher, A., Reedi, A. J., Gallouédec, Q., Rasul, K., Habib, N., Fourrier, C., Kydlicek, H., Penedo, G., Larcher, H., Morlon, M., Srivastav, V., Lochner, J., Nguyen, X.-S., Raffel, C., von Werra, L., & Wolf, T. (2025). SmolLM3: Smol, multilingual, long-context reasoner. Hugging Face.
 https://huggingface.co/blog/smollm3
