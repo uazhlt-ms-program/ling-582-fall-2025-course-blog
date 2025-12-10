@@ -1,7 +1,7 @@
 ---
 title: Summary of "Investigating the Linguistic Fingerprint of GPT-4o in  Arabic-to-English Translation Using Stylometry"
 slug: "/gquinones/paper-summary"
-date: 2025-11-15
+date: 2025-12-10
 author: Gabriela Quiñones González
 description: "An investiagtion on AI generated text using Stylometry."
 tags:
@@ -60,7 +60,6 @@ This paper seeks to find out if a translation done with an AI system like GPT-4o
 ## Motivation
 
 _Why did you select this paper?_
-< !-- NOTE: don't use an LLM to generate this! 🙃 -->
 
 This paper was selected because it aligns with my own personal interest on Stylometry. I’m always open to learn more about the different ways that Stylometry can be used. Seeing how this paper used it to identify if a text was translated by humans or by AI piqued my interest. Also, this paper explores just how well Open AI’s GPT-4o is for translating texts from one language to another, which I was very curious to learn more about. I wanted to learn if GPT 4o would do an adequate translation and how it would compare to a translation done by experts in the field. 
 
@@ -79,11 +78,11 @@ This paper was selected because it aligns with my own personal interest on Stylo
 <tbody>
   <tr>
     <th><b>LLM model</b></th>
-    <td>???</td>
+    <td> JAN UI </td>
   </tr>
   <tr>
     <th><b>LLM model version</b></th>
-    <td>???</td>
+    <td>Jan-V1-4B-GGUF (Q8_0)</td>
   </tr>
   <tr>
     <th><b>Model/service URL</b></th>
@@ -91,7 +90,7 @@ This paper was selected because it aligns with my own personal interest on Stylo
   </tr>
   <tr>
     <th><b>Why this model?</b></th>
-    <td>???</td>
+    <td>I selected the Jan-V1-4B-GGUF model is because when I was installing JAN UI, the instructions recomended this model specifically. The reason why I chose the Jan-V1-4B-GGUF Q8_0 version was because it was the recomended version if you had the RAM and space for it, which I did. </td>
   </tr>
 </tbody>
 </table>
@@ -104,91 +103,152 @@ _In the LLM's words, what is this paper about?_
 ##### Prompt
 
 ```markdown
-prompt here
+I have uploaded this article on Stylometry. Could you give me a brief description of what this research article is about?
 ```
+
+The research article titled *"Investigating the Linguistic Fingerprint of GPT-4o in Arabic-to-English Translation Using Stylometry"* by Maysaa Banat (2024) examines how stylometry—a statistical analysis of linguistic features—can be applied to detect and analyze machine-generated Arabic-to-English translations produced by GPT-4o. Published in the *Journal of Translation and Language Studies*, the study explores the linguistic patterns in these translations to identify their machine origin, assess their structural characteristics, and address ethical implications of AI-generated content. The author emphasizes that while stylometry provides strong indicators for machine text identification, it cannot definitively prove authorship. The research contributes to improving tools for distinguishing AI-generated translations from human-written ones in multilingual contexts.
 
 #### What are the authors proposing?
 
 ##### Prompt
 
 ```markdown
-prompt here
+What are the authors of this paper proposing?
 ```
+The authors propose several key initiatives to advance stylometry in AI-generated translation detection. Specifically, they suggest:  
+1. Developing and refining authorship detection algorithms tailored to identify machine-generated Arabic-to-English translations.  
+2. Exploring domain-specific stylistic features (e.g., in legal, medical, or literary contexts) to improve identification of AI-generated texts in niche fields.  
+3. Conducting cross-model comparisons to deepen understanding of stylometric patterns across different large language models.  
+4. Investigating the ethical implications of stylometric analysis for AI-generated content, particularly as such content becomes more prevalent.  
+
+These proposals aim to enhance tools for distinguishing machine-generated translations from human-written ones while addressing practical and ethical challenges in multilingual AI applications.
 
 #### What is the motivation for the work?
 
 ##### Prompt
 
 ```markdown
-prompt here
+What was the motivation to create this study?
 ```
+The motivation for this study stems from the growing prevalence of machine-generated content, particularly in cross-lingual translation contexts. The authors note that as AI-generated Arabic-to-English translations become increasingly common, there is a critical need to develop reliable methods to detect and analyze their linguistic characteristics. By applying stylometry—a statistical analysis of linguistic features—to GPT-4o's translation outputs, the research aims to uncover distinguishable "linguistic fingerprints" that can help identify machine-generated texts. This addresses practical challenges in fields like academic integrity, content authentication, and ethical AI deployment, where differentiating AI-generated translations from human-written ones is essential. The study also responds to the limitations of existing tools, which often lack specificity for multilingual AI outputs.
 
 #### What is the approach or innovation?
 
 ##### Prompt
 
 ```markdown
-prompt here
+In this article, what is the approach or the innovation?
 ```
+The innovation in this study lies in its application of advanced stylometric metrics—specifically, **Herdan’s C** (a measure of lexical diversity) and **syntactic frequency analysis**—to identify distinctive linguistic patterns in GPT-4o-generated Arabic-to-English translations. Unlike previous work, the authors:  
+1. **Adapted Herdan’s C** to handle texts of varying lengths, enabling robust cross-chapter comparisons.  
+2. **Combined lexical and syntactic analysis** (e.g., examining noun phrases, determiners, and verb dependencies via Table 2) to uncover nuanced "stylistic fingerprints" of AI-generated translations.  
+3. **Focused on multilingual translation outputs** (Arabic-to-English), addressing gaps in existing stylometry tools that rarely account for cross-lingual AI generation.  
+
+This approach provides a data-driven framework to detect machine-generated translations by quantifying deviations in lexical diversity, structural consistency, and syntactic tendencies compared to human-authored texts.
 
 #### What are the results and how do they compare with competing approaches?
 
 ##### Prompt
 
 ```markdown
-prompt here
+What are the results of this research and how do they compare with any competing approaches that exist?
 ```
+The study's key results show that GPT-4o-generated Arabic-to-English translations exhibit **moderate lexical diversity and syntactic complexity**, with notable variations across chapters in readability, sentence structure, and named entity distribution. For example, certain chapters display higher linguistic variability (e.g., richer noun phrases), while others show simpler patterns consistent with machine-generated text. These findings reveal identifiable "stylistic fingerprints" that distinguish GPT-4o output from human-written translations.
+
+In comparison to competing approaches, the research addresses a critical gap in existing stylometry tools: most prior work focuses on monolingual texts or English-language outputs, rather than multilingual AI translations. By adapting metrics like Herdan’s C for cross-lingual analysis and combining lexical/syntactic features (e.g., verb dependencies and noun phrase frequency), this study offers a more nuanced framework for detecting machine-generated translations than previous methods, which often rely on single-dimensional metrics like stopword ratios or readability scores. The work thus provides a more robust and context-aware solution for identifying AI-generated content in translation tasks.
 
 #### Is the comparison fair?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Do you think the comparison made between the two approaches is fair?
 ```
+The comparison in the article appears to be fair and well-justified. The study explicitly highlights a key gap in existing stylometry research: most prior work focuses on *monolingual texts* or *English-language outputs*, rather than multilingual AI translations (specifically Arabic-to-English). By framing their approach as a direct response to this limitation—through cross-lingual adaptation of metrics like Herdan’s C and syntactic analysis—the authors provide a clear, contextually relevant contrast to competing methods. They acknowledge that while other approaches (e.g., single-dimensional metrics like stopword ratios) exist, their framework addresses nuanced challenges in multilingual AI translation detection that previous tools fail to handle. This targeted comparison strengthens the validity of their claims and demonstrates thoughtful engagement with the field’s existing limitations.
 
 #### What are the takeaways according to the authors?
 
 ##### Prompt
 
 ```markdown
-prompt here
+According to the author, what are the takeaways of this study?
 ```
+The authors’ key takeaways from this study are:  
+1. **Stylometric analysis** (specifically Herdan’s C and syntactic metrics) reliably identifies distinctive linguistic patterns in GPT-4o-generated Arabic-to-English translations.  
+2. These patterns enable differentiation from human-written translations, validating the potential of stylometry for AI-generated content detection in multilingual contexts.  
+3. **Multilingual adaptation** of stylometric tools is critical, as existing methods lack specificity for cross-lingual AI outputs like Arabic-to-English translations.  
+4. Future work must prioritize domain-specific and cross-model comparisons to refine detection frameworks and address ethical implications of AI-generated translations.
 
 #### What are the takeaways according to you?
 
 ##### Prompt
 
 ```markdown
-prompt here
+According to you then, what are the takeaways?
 ```
+Based on my analysis of the study, the key takeaways I would highlight are:  
+1. **Stylometry is a powerful tool** for identifying machine-generated Arabic-to-English translations, with measurable linguistic patterns (e.g., lexical diversity and syntactic structures) that distinguish AI output from human writing.  
+2. **Cross-lingual adaptation** of stylometric metrics is essential—existing methods often fail in multilingual contexts, making this research critical for real-world applications like academic integrity checks or content verification.  
+3. **Practical gaps remain**, emphasizing the need for domain-specific refinements (e.g., in legal or technical translations) and ethical safeguards to avoid mislabeling AI content.  
+4. **Future work must prioritize scalability and transparency**, ensuring stylometric tools can evolve alongside rapidly changing AI models and language use cases.  
+
+These insights stress that while the approach shows promise, its success hinges on contextual customization and ethical implementation.
 
 #### Would you use this?  If so, how/where would you use this?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Would you use the information learned in this paper? If so, how/where would you use this? 
 ```
+Yes, I would apply insights from this paper in the following ways:
 
-##### Prompt
+1. **Academic integrity platforms**: To develop or enhance tools that detect AI-generated translations in student assignments (e.g., Arabic-to-English academic texts), ensuring fair evaluation and accountability.  
+2. **Multilingual content moderation**: For platforms like social media or news sites to identify AI-generated translations that may spread misinformation or low-quality content, by flagging deviations in linguistic patterns.  
+3. **Translation quality auditing**: To benchmark AI translation services (e.g., for Arabic-English outputs), using stylometric metrics like Herdan’s C to quantify consistency and identify areas needing improvement in domain-specific translations.  
 
-```markdown
-prompt here
-```
+The approach would prioritize scalability and ethical transparency, ensuring these tools are used responsibly to support human-AI collaboration rather than replacement.
 
 #### What problems remain and what are the next steps?
 
 ##### Prompt
 
 ```markdown
-prompt here
+What problems remain and what are the next steps?
 ```
+**Problems that persist**:  
+1. **Domain-specific gaps**: Current stylometric tools lack precision for niche translation domains (e.g., legal, medical Arabic).  
+2. **Model-specific biases**: GPT-4o’s linguistic patterns may not generalize to other AI models or languages.  
+3. **Ethical implementation risks**: Overreliance on stylometry could lead to false positives in human content classification.  
+
+**Proposed next steps**:  
+1. **Expand to multilingual datasets**: Create standardized benchmarks for Arabic-to-English translations across diverse domains.  
+2. **Cross-model validation**: Systematically compare stylometric metrics across models (e.g., GPT-4o vs. Llama 3) to identify universal vs. model-specific fingerprints.  
+3. **Ethical frameworks**: Develop transparent protocols for deploying stylometry tools in high-stakes contexts (e.g., academic publishing) to minimize harm from mislabeling.  
+
+These steps aim to address scalability, accuracy, and real-world applicability while prioritizing fairness and human-centered design.
 
 ### Experience using the LLM
 
 _Describe your process for using the LLM.  How did the LLM perform?_
+
+At first, I had a hard time getting to use Jan, since it took a while downloading on my system and on top of that, I had to wait a very long time to download the model Jan-V1-4B-GGUF (Q8_0). But once that got taken care of, it was quite straightforward to use. The downloaded model worked very well with Jan and my computer system. It quickly accepted the article and divided it in “chunks” for easier analysis. It answered all of the questions I asked it. But, when I asked the question: “What was the motivation to create this study” I received an error message from Jan, stating:
+```
+{
+API request failed with status 400: {"error":{"code":400,"message":"the request exceeds the available context size, try increasing it","type":"exceed_context_size_error","n_prompt_tokens":12707,"n_ctx":8192}} 
+}
+```
+I reran the question and received a response, so it must have limited it scope to lesser “chunks” from the article. 
+This “conversation” had a strict limit of tokens, which was something that I was always watching out when asking my questions. But, thankfully, I was able to complete the task within the limits. 
+
  
 #### Errors and limitations of the LLM 
 
 _Where did it fall short or make mistakes?_
+I noticed that when I prompted to tell me what the LLM thought (or its option) about a certain topic, it would give me the same response as when I asked the author’s perspective. Such as, when I asked what it were the takeaways from this paper, it gave me the same response as when I asked what the author’s takeaways were, just written differently. I also noticed that the LLM seems to focus a lot on the fact that this study used Herdan’s C to prepossess the data. When in reality, the study used both Herdan’s C and Type-Token Ratio (TTR) to process this data. While the study did find that Herdan’s C was the more robust system, it also stated that the combination of both systems were necessary for this study. Also, it got the proposed next steps wrong, the article mentions that future plans are: 
+1.	***Deepening Stylometric Analysis*** - such incorporating other stylistic analyses. 
+2.	***Cross Model Comparison*** – Using other AI models (like GPT-3, GPT4o, ChatGPT) to analyze those results. 
+3.	***Domain-Specific Stylometry*** – Using texts that focus on specific areas, like law or medicine for example. 
+4.	***Improving Authorship Detection Algorithms*** - This would include “developing and  refining authorship detection algorithms that specifically target machine generated content.”
+Jan only gets one right, which is the second one, the rest seems like suggestions that the system has come up with.
+

@@ -1,62 +1,191 @@
 ---
-title: "Evaluating Open-Source Decoder-Only Language Models on Text Generation Tasks"
+title: "Comparing Decoder-Only Language Models for Creative Text Generation"
 slug: "/pranithachilvari/course-project"
-date: 2025-11-16
+date: 2025-12-09
 author: "Pranitha Chilvari"
-description: "Proposal for my course project comparing decoder-only LLMs on controlled text generation."
+description: "Final project submission evaluating open-source decoder-only LLMs on creative text generation tasks."
 tags:
   - course project
   - language models
   - decoder-only transformers
 ---
 
-## Introduction
+<table>
+  <caption>Course Project Info</caption>
+<tbody>
+  <tr>
+    <th>Code Repository URL</th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-pranitha-chandana</td>
+  </tr>
+  <tr>
+    <th>Demo URL (optional)</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Team Name</th>
+    <td>Pranitha–Chandana</td>
+  </tr>
+</tbody>
+</table>
 
-For my course project, our two-person team will conduct a structured comparison of several *open-source decoder-only large language models*.  
-We plan to examine how models such as *GPT-2, **GPT-NeoX, and **Llama-2-7B-Chat* behave when given the same text generation prompts.  
-Our focus is on qualitative differences in output quality, rather than training new models.
+# Project Proposal
 
-## Project Objectives
+Our project investigates how different open-source decoder-only language models behave when generating creative text. We focus on three models — **GPT-2**, **GPT-2-Medium**, and **GPT-Neo 1.3B** — and analyze how each one performs across a consistent set of short prompts, ranging from story beginnings to conversational turns.
 
-Our project has four main goals:
+This work fits within Statistical NLP because it examines generative model behavior, coherence patterns, and the qualitative characteristics of autoregressive text generation.
 
-- Evaluate how different decoder-only architectures handle creative text continuation.  
-- Compare models based on fluency, coherence, creativity, and factual reliability.  
-- Identify recurring patterns such as hallucinations, repetition, or stylistic tendencies.  
-- Produce an organized set of prompts + generated outputs for analysis.
+---
 
-This work aligns with statistical NLP by exploring model behavior through controlled prompting and systematic comparison.
+# Project Description
 
-## Planned Approach
+The core objective is to compare how the three selected models respond to **15 creative and dialogue-based prompts**. These prompts include:
 
-We will follow a simple and repeatable process:
+- Opening lines for fictional stories  
+- User–assistant dialogue continuations  
+- Basic knowledge questions  
+- Instruction-following scenarios  
 
-1. *Build a set of 12–15 prompts*, including narrative openings, conversational turns, and factual questions.  
-2. *Query each model* using consistent generation settings like temperature, max tokens, etc.  
-3. *Collect and organize outputs* in a structured format for side-by-side comparison.  
-4. *Evaluate each output* along several qualitative dimensions:
-   - Grammar and fluency  
-   - Logical flow  
-   - Creativity or richness  
-   - Accuracy  
-   - Presence of bias or toxicity  
-5. *Write a comparative analysis* highlighting strengths and weaknesses across models.
+### Novelty  
+Rather than evaluating the models using standardized benchmarks, we assess their **creative intuition, narrative flow, and generative reliability**. This allows us to observe subtle differences in hallucination, repetition, and stylistic behavior.
 
-## Timeline (Starting November 17)
+### Motivation  
+Decoder-only transformer models vary widely in fluency and factual grounding. Understanding how they differ on short-form generative tasks provides insight into their limitations, especially for creative or user-facing applications.
 
-- *Nov 17–20:* Create the prompt set, finalize model selection  
-- *Nov 21–26:* Run all prompts through each model and save outputs  
-- *Nov 27–Dec 2:* Perform qualitative evaluation of model responses  
-- *Dec 3–Dec 6:* Draft comparison tables and write analysis  
-- *Dec 7–Dec 10:* Complete write-up and open PR for course blog submission
+---
 
-## Project Repository
+# Summary of Individual Contributions
 
-We will upload prompts, outputs, and analysis materials to a shared GitHub Classroom repository.
+<table>
+<thead>
+  <tr><th>Team Member</th><th>Contributions</th></tr>
+</thead>
+<tbody>
+  <tr>
+    <th><b>Pranitha</b></th>
+    <td>Executed GPT-2 and GPT-Neo generations, compiled error examples, wrote parts of methods and results.</td>
+  </tr>
+  <tr>
+    <th><b>Chandana</b></th>
+    <td>Designed prompt set, organized outputs, supported evaluation, contributed to interpretation and write-up.</td>
+  </tr>
+</tbody>
+</table>
 
-https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-pranitha-chandana.git 
+Both members participated fully in discussion, model comparison, and editing.
 
-## Team Members & Contributions
+---
 
-- *Chandana:* Designing the prompt set, organizing model outputs, writing the main analysis section  
-- *Pranitha:* Running prompts through each model, assembling evaluation tables, assisting with the final write-up
+# Methodology
+
+### Prompt Set  
+We constructed a set of 15 prompts that cover several categories:
+- Creative writing  
+- Dialogue-style Q&A  
+- Factual recall  
+- Instruction following  
+
+### Models Studied
+- **GPT-2 (117M parameters)**  
+- **GPT-2-Medium (345M)**  
+- **GPT-Neo 1.3B**  
+
+All experiments were performed locally using HuggingFace pipelines on CPU.
+
+### Generation Parameters
+- `max_length = 200`  
+- `num_return_sequences = 1`  
+- `set_seed(42)` for consistent outputs  
+
+### Evaluation  
+All model responses were judged along:
+- Creativity  
+- Fluency  
+- Logical flow  
+- Factual correctness  
+- Degree of hallucination  
+- Consistency in dialogue  
+- Repetitive or degenerate patterns  
+
+---
+
+# Results
+
+## **1. Creativity & Narrative Quality**
+- **GPT-Neo 1.3B** produced the most coherent and engaging long-form outputs.  
+- **GPT-2-Medium** showed moderate improvement over GPT-2.  
+- **GPT-2** struggled to stay on topic and often introduced unrelated ideas.
+
+## **2. Factual Reliability**
+- All models occasionally produced incorrect answers.  
+- GPT-2 had the lowest factual accuracy.
+
+## **3. Conversational Behavior**
+- GPT-Neo handled conversational cues more effectively.  
+- GPT-2 frequently mixed roles, repeated dialogue, or invented speakers.
+
+### Summary Table
+
+| Model         | Creativity | Coherence | Factuality | Dialogue Stability | Repetition |
+|---------------|-----------|-----------|------------|--------------------|------------|
+| GPT-2         | Low       | Low       | Poor       | Poor               | High       |
+| GPT-2-Medium  | Medium    | Medium    | Poor       | Medium             | Medium     |
+| GPT-Neo 1.3B  | High      | High      | Moderate   | High               | Low        |
+
+---
+
+# Error Analysis
+
+Three examples illustrate the common failure modes.
+
+### **Error 1 — GPT-2 Creates Imaginary Dialogue**
+**Prompt:**  
+*“User: I’ve been feeling overwhelmed with college lately. Assistant:”*
+
+GPT-2 responded with unrelated chatter and repeated statements, showing difficulty maintaining a stable assistant persona.
+
+---
+
+### **Error 2 — Repetitive Degeneration**
+**Prompt:**  
+*“User: Imagine you are a time traveler from 2200. Introduce yourself.”*
+
+GPT-2 generated the phrase *“I don’t understand that”* repeatedly, a common failure mode for smaller autoregressive models.
+
+---
+
+### **Error 3 — Incorrect Factual Answer**
+**Prompt:**  
+*“Who wrote Pride and Prejudice?”*
+
+GPT-2 never mentioned *Jane Austen* and instead produced irrelevant narrative text.
+
+These examples highlight limitations in grounding, memory, and repetition control.
+
+---
+
+# Reproducibility
+
+All resources, code, and data used in this project are available in our repository:
+
+**Repository:**  
+https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-pranitha-chandana
+
+### Requirements
+- Python 3.9 or 3.11  
+- `transformers`, `torch`, `huggingface_hub`  
+
+Install dependencies:
+```bash
+pip install transformers torch huggingface_hub
+```
+# Future Improvements
+
+Running larger models (e.g., LLaMA-2-Chat, Mistral-7B) on GPU environments
+
+Adding automatic evaluation metrics such as MAUVE or perplexity
+
+Collecting human ratings for narrative creativity
+
+Exploring small-scale fine-tuning on story corpora
+
+Expanding prompt diversity to include multi-turn dialogue
