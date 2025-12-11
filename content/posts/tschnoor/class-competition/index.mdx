@@ -133,6 +133,8 @@ My approach for the class competition is to engineer a set of (more or less) int
 
 ### Features
 
+_One decision that I made early on was to take the absolute difference between features. By this I mean that I didn't want TEXT1 - TEXT2 to yield a different value than TEXT2 - TEXT1. I think this is logical, as the difference between two texts does not change with their spatial arrangement. Thus I did not need to "flip" the dataset and calculate features again._   
+
 - Length Difference: The difference between the number of words in Text A and Text B.
   - This feature is the naive difference in number of words between the two texts. This feature is not very useful in its current state, because we are not provided the method by which the texts were extracted for use in the dataset. I plan to improve this feature by extracting the number of words per sentence instead. This would give an idea of the average length of the sentences written by the author, which may be a characteristic that could be useful for differentiating authors.
 - Number of Common Words: The number of words between the texts that are the same
@@ -160,6 +162,7 @@ The training procedure consisted of 10-fold cross validation on held out data. T
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
 
 **My highest leaderboard score:** 0.53273
+
 **Delta:** +0.03012
 
 |   FOLD |   PRECISION_POS |   PRECISION_NEG |   RECALL_POS |   RECALL_NEG |   F1_POS |   F1_NEG |
@@ -181,12 +184,19 @@ _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/cl
 
 The results of my 10-fold cross validation show that F1 holds pretty steady in the mid-to-high 80s for both negative and positive datapoints. This table also shows that negative precision is lower than positive precision and positive recall is lower than negative recall. Read: we're getting lots of false negatives.
 
+To confirm that this is where our main problem lies, here is a confusion matrix:
+
+<div style="display:flex; align-items:center;">
+  <img src="confusion_matrix_fold_10.png" style="width:50%; margin-left:auto; margin-right:auto;"></img>
+</div>
+
+The top left and bottom right boxes hold the highest occurences, which is good! But there are certainly more occurences in the bottom-left (false negatives) than the top-right (false positives).
 ## Reproducibility
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
 _If you'ved covered this in your code repository's README, you can simply link to that document with a note._
 
-Steps for reproducing my results can be found in my code repository's README [here](https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-tschnoor).
+Steps for reproducing my results can be found in my code repository's README [here](https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-tschnoor). Everything is containerized to make it easy.
 
 ## Future Improvements
 

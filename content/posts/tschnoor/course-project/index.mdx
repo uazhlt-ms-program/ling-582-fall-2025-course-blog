@@ -33,7 +33,6 @@ tags:
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility).  Use subsections to organize components of the description._
 
-## Present study
 ### Overview
 This project aims to make a neural network electrocorticography (ECoG) formant decoder. ECoG signals are obtained by implanting hundreds of small electrodes deep within the brain to record electrical activity. This methodology has the potential to be useful in a variety of practical applications, particularly as a brain-computer interface. One area of interest is in restoring speech communication by decoding ECoG signals and using the decoded features to reconstruct an acoustic signal. Artificial neural networks are the current standard for ECoG decoding.
 
@@ -45,7 +44,12 @@ The specific aim of the project is to create a neural network ECoG decoder that 
 </div>
 
 ### Related work and the state of the art
-The gold standard of speech restoration is real-time decoding and reconstruction so that a speech neuroprosthesis can be used to communicate in a naturalistic way. The data used in this project come from a study by [Chen et al. (2024)](https://doi.org/10.1038/s42256-024-00824-8) that represents one of the most recent innovations in the field. The data are constituted by ECoG signals that were recorded while participants spoke sentences aloud. The study aimed to create a real-time speech neuroprosthesis that could restore speech communication for people with severe motor impairments. Their methodology involved training two neural networks with different purposes. The first was an ECoG -> Speech features decoder. The next network was a speech auto encoder that reconstructed an acoustic signal from the decoded speech features. The present project focuses on the first of these two networks, though I certainly grew to appreciate the necessity of the second (see section "Challenges of the task"). 
+The gold standard of speech restoration is real-time decoding and reconstruction so that a speech neuroprosthesis can be used to communicate in a naturalistic way. The data used in this project come from a study by [Chen et al. (2024)](https://doi.org/10.1038/s42256-024-00824-8) that represents one of the most recent innovations in the field. The data are constituted by ECoG signals, audio recordings, and some derived features of the audio (e.g., formant tracks) that were all collected while the participants spoke words aloud. The study aimed to create a real-time speech neuroprosthesis that could restore speech communication for people with severe motor impairments. Their methodology involved training two neural networks with different purposes. The first was an ECoG -> Speech features decoder. The next network was a speech auto encoder that reconstructed an acoustic signal from the decoded speech features. The present project focuses on the first of these two networks, though I certainly grew to appreciate the necessity of the second (see section "Challenges of the task"). 
+
+<div style="display:flex; align-items:center; flex-direction: column">
+  <img src="https://github.com/flinkerlab/neural_speech_decoding/raw/main/fig/fig1.png" style="width:50%; margin-left: auto; margin-right: auto;"></img>
+  <p>An overview of the Chen et al. study.</p>
+</div>
 
 ### Novelty and motivation
 
@@ -62,6 +66,29 @@ This is a highly challenging task that is unlikely to be performant in a condens
 Neurosignal decoding is an inherently difficult task because it is noisy. There is no guarantee that a particular electrode channel or region of electrode channels correspond to any particular feature. Signals can be complicated by a distracted participant, a participant error, faulty electrode, or interference from other equipment.
 
 Perhaps the most significant challenge (and it is one that I didn't know about until I had started this project) is that the formant tracks provided by the authors are extremely innacurate. At first I assumed that, because the authors experienced such success with their system, the formant tracks--which are used as input parameters to their own speech synthesizer--must be quite accurate. However, I failed to account for just how much the network could compensate for formant tracking errors. The "black box" nature of their system means that it is difficult to say how much information their synthesizer even gleans from the formant parameters. It may simply rely on the other, more accurate parameters to synthesize speech. The beauty of the two-network system is that the speech synthesis network can learn to compensate for inconsistencies in provided parameters. It accomplishes this by comparing its output to the natural recording directly, through Short-Time Objective Intelligibility loss.
+
+**A note about why I didn't proceed with the plan to make a vowel classifier**
+
+In my original proposal, I proposed a project that centered around making a vowel classifier with ECoG inputs. However, I soon realized that I did not have enough examples of each vowel (<100 each) to train a good model. The project I went with also didn't really work, so I am sort of second-guessing changing course. Regardless, I felt like I should explain myself.
+
+### Procedure
+
+Here is a list of things that I did as I tried to make this project work:
+- I varied the window and step size
+  - I tried variations with 64 samples per window down to 32 samples per window (they use 64 in the reference paper)
+  - I tried different step sizes from 1 to window_size/2
+- I varied the architecture
+  - I tried with the architecture presented in the paper
+  - I tried with a simplified architecture (~30% of layers removed)
+  - I tried with different numbers of channels in the convolutional layers
+  - Overall, simpler seemed to be better, which makes sense given the amount of overfitting you are about to see in the next section
+- I tried modeling the formant values as time series rather than a stationary target
+  - This involved swapping the dense layers at the end with more convolutions that reduced the size down to the desired 2 x 1
+  - This didn't seem to help at the time, but I should try this again in combination with some of the other changes I made.
+- I made sure to normalize and center the formant values around zero. This places most of the data between -1 and 1
+  - I didn't try using the raw formant values, but I imagine that would have made things worse
+
+_Note: There is no residual block layer built in to Flux.jl, which is the main machine learning library in Julia. I wrote my own but based it heavily on [this implementation](https://github.com/pxl-th/ResNet.jl) by Anton Smirnov. The main difference being that his is meant for 2D image data, while mine is adjusted to work with 3D "video" data. 
 
 <!-- ## Archive (from draft assignment)
 _*Note that some aspects of the project changed since I wrote this._
@@ -179,14 +206,14 @@ An important part of preventing the scope of this project from ballooning is my 
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
 
-Below are the results of my best training run. The training loss, logged every 10 batches can be seen on the left, while the validation loss by epoch on a 20% holdout set is shown on the right. These show that the loss never drops below ~0.9. That is high considering that it is MSE. 
+Below are the results of my best training run. The training loss, logged every 10 batches can be seen on the left, while the validation loss by epoch on a 20% holdout set is shown on the right. These show that the loss never drops below ~0.9. That is high considering that it is plots show RMSE. 
 
 <div style="display:flex; align-items:center; flex-direction: row">
   <img src="2025-12-06-shorterwin_resnet_mlp-epochloss-1.png" style="width:50%; margin-left: auto; margin-right: auto;"></img>
   <img src="2025-12-06-shorterwin_resnet_mlp-valloss-1.png" style="width:50%; margin-left: auto; margin-right: auto;"></img>
 </div>
 
-Unfortunately, upon further evaluation, it is obvious that the model has simply learned to predict the mean:
+Unfortunately, upon closer evaluation, it is obvious that the model has simply learned to predict the mean:
 <div style="display:flex; align-items:center; flex-direction: column">
   <img src="scatterplot.png" style="width:50%; margin-left: auto; margin-right: auto;"></img>
 </div>
@@ -196,7 +223,7 @@ Unfortunately, upon further evaluation, it is obvious that the model has simply 
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
 
-I did some limited error analysis to confirm that the model learned to predict the mean.
+Error analysis gets a little awkward now that we know the model is just guessing ~0 every time. Even still, I'm going to go through the motions. Here are some error measurements on the first formant, for example.
 
 ```Julia-repl
 julia> mae  = mean(abs.(y_true .- y_pred))
@@ -207,15 +234,14 @@ julia> rmse = sqrt(mean((y_true .- y_pred).^2))
 
 julia> mape = mean(abs.((y_true .- y_pred) ./ y_true)) * 100
 229.95062746555342
-
-julia> 
-
-julia> println("MAE: $mae, RMSE: $rmse, MAPE: $mape%")
-MAE: 0.5873926876750887, RMSE: 0.9436236172835178, MAPE: 229.95062746555342%
 ```
+
+Because we have two timeseries to compare, it makes sense to look at the residuals between them. This plot just shows that the residuals are largely unchanging. The spikes occur when we get outliers from bad formant tracks.
+
 <div style="display:flex; align-items:center; flex-direction: column">
   <img src="residuals.png" style="width:50%; margin-left: auto; margin-right: auto;"></img>
 </div>
+
 ## Reproducibility
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility)_
@@ -227,6 +253,6 @@ I have containerized my code. To reproduce my results, follow the instructions i
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_
 
-Ultimately, this project did not work. The system is severely limited by the inaccuracy of the formant values on which it was trained. In addition, a 2 x 1 (two formant values per window) representation of the speech process may not be descriptive enough for this sort of task. As seems to so often be the case, I also think I was limited by the amount of data I had to work with. Even though I could extract thousands of windows to train the model, many of these windows were similar to one another (sliding windows with a step size of one, for example) and may have starved the system of real diversity. 
+Ultimately, this project did not work. The system is severely limited by the inaccuracy of the formant values on which it was trained. In addition, a 2 x 1 (two formant values per window) representation of the speech process may not be descriptive enough for this sort of task. As seems to so often be the case, I also think I was limited by the amount of data I had to work with. Even though I could extract thousands of windows to train the model, many of these windows were similar to one another (sliding windows with a step size of one, for example) and may have starved the system of real diversity. I can also now see that drastically reducing the dimensionality of the speech representation from many features to only two AND keeping the complexity of the model high was a bad call. I did reduce this complexity in later runs, but obviously there is more work to be done.
 
-These limitations could be improved upon. Formant tracks could be manually corrected or automatically extracted through more robust means. I also think that a more rich representation of the speech signal would aid training (e.g., if the rest of the parameters for the waveguide model could be used as our "y"). Although I did test some of these parameter changes, it would also be interesting to do a more comprehensive evaluation of optimal window sizes, step sizes for sliding windows, feature channels in the convolutional layers, etc. Unfortunately, unless the authors of the source paper begin to feel more generous, it is unlikely I will obtain more of this already rare data. However, there are many things I could do to refine the data that I do have access to. Or, one next step could be devising my own speech autoencoder, but using acoustic waveguide parameters.
+These limitations could be improved upon. Formant tracks could be manually corrected or automatically extracted through more robust means. I also think that a more rich representation of the speech signal would aid training (e.g., if the rest of the parameters for the waveguide model could be used as our "y"). Although I did test some of these parameter changes, it would also be interesting to do a more comprehensive evaluation of optimal window sizes, step sizes for sliding windows, feature channels in the convolutional layers, etc. More specifically, my best results came from simplifying the model, so I'd like to do this more and record the results. Unfortunately, unless the authors of the source paper begin to feel more generous, it is unlikely I will obtain more of this already rare data. However, there are many things I could do to refine the data that I do have access to. Or, one next step could be devising my own speech autoencoder, but using acoustic waveguide parameters.
