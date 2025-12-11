@@ -22,7 +22,7 @@ tags:
 <tbody>
   <tr>
     <th><b>Leaderboard score</b></th>
-    <td>0.434</td>
+    <td>0.60193</td>
   </tr>
   <tr>
     <th><b>Leaderboard team name</b></th>
@@ -39,7 +39,7 @@ tags:
 </tbody>
 </table>
 
-## Further Improvement Plans
+## Further Improvement Plans After the 1st Model Try Out
 After building the baseline system, I found that relying only on TF-IDF cosine similarity is too limiting for an authorship-identification task.
 The current model mainly captures topic similarity rather than writing style, which explains the low Macro F1 score.
 To improve the model in a practical and incremental way, I will focus on three concrete enhancement steps:
@@ -56,30 +56,131 @@ I will try using sentence-transformer models to encode each text snippet. The el
 
 ## Task summary
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
+This is an authorship identification task.
+Each example contains a single string with two snippets concatenated by the special token [SNIPPET]. After splitting on this token, we obtain:
 
+first_text: the first snippet
+
+second_text: the second snippet
+
+The goal is to predict whether the two snippets were written by the same author (LABEL = 1) or by different authors (LABEL = 0). The official evaluation metric is Macro F1, which gives equal weight to both classes and penalizes models that are biased toward one label.
+
+The training set contains about 1.6k pairs, and the test set contains about 0.9k pairs without labels. Because the dataset is relatively small, I focused on simple but interpretable models, careful feature design, and validation to avoid overfitting.
 ## Exploratory data analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+I started by splitting the raw TEXT field on the token [SNIPPET] into first_text and second_text. I checked that almost all rows contain exactly one [SNIPPET], and for the few that do not, I treated the whole string as first_text and left second_text empty.
+
+Some simple EDA steps:
+
+Label distribution
+I inspected the counts of LABEL = 0 vs LABEL = 1. The two classes are reasonably balanced, so Macro F1 is a suitable metric and I do not have to deal with extreme class imbalance.
+
+Length of snippets
+I looked at the number of tokens in each snippet. The distribution is quite skewed:
+
+Many snippets are short (one or two sentences).
+Some snippets are much longer paragraphs.
+
+This suggests that both topic similarity and writing style could matter.
+
+By reading a few pairs manually, I found out:
+Some positive pairs are clearly the same author, with similar sentence rhythm and punctuation habits.
+Some negative pairs still talk about similar topics but feel stylistically different.
+This confirmed that a model relying only on topic similarity (e.g., TF-IDF cosine) would be too limited, and that adding stylistic and embedding-based features might help.
 
 ## Approach
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
+I built the system in three main stages, gradually increasing model capacity and feature richness.
+
+#Model 1 – TF-IDF cosine + Logistic Regression (baseline)
+
+I first split each TEXT on [SNIPPET] into first_text and second_text.
+I fit a single TF-IDF vectorizer (max 5000 features, English stopwords) on all snippets from train and test, then computed the cosine similarity between the TF-IDF vectors of the two snippets.
+This single value (tfidf_sim) was used as the only feature for a Logistic Regression classifier (80/20 train–validation split), evaluated with Macro F1.
+This baseline mainly measures topic similarity.
+
+#Model 2 – DistilBERT fine-tuning
+
+Next, I fine-tuned distilbert-base-uncased on the paired snippets.
+Using the Hugging Face datasets and Trainer APIs, I tokenized (first_text, second_text) pairs (max length 256), added a classification head, and trained with learning rate 2e-5, batch size 8, and 4 epochs, using 20% of the data as validation.
+Then I continued training on the full training set and used the model to predict test labels.
+This model directly learns from the raw tokens and captures richer semantics than TF-IDF, but is also more sensitive to the small dataset size.
+
+#Model 3 – Style features + SBERT + Logistic Regression (final model)
+
+The final model combines simple hand-crafted style features with SBERT-based similarity, then uses a Logistic Regression classifier.
+
+For each pair, I computed differences in:
+
+ - lexical diversity (type–token ratio)
+
+ - sentence length statistics
+
+ - punctuation usage (commas, semicolons, colons, dashes)
+
+ - average word length and long-word ratio
+
+ - frequencies of common function words
+
+ - quote usage and character length
+
+I then added three SBERT features by encoding both snippets with all-MiniLM-L6-v2 and computing cosine similarity, L1 distance, and L2 distance between the two embeddings.
+All these features were concatenated and fed into a StandardScaler + LogisticRegression pipeline, with a simple 80/20 train–validation split for tuning and then retraining on the full training set.
+
+
 
 ## Results
+Below is a summary of the main models I tried.
+| Model                           | Features                         | Classifier              | Val Macro F1 (≈) | Leaderboard Macro F1 |
+| ------------------------------- | -------------------------------- | ----------------------- | ---------------- | -------------------- |
+| Model 1 – TF-IDF cosine         | 1D TF-IDF cosine similarity      | LogisticRegression      | ~0.45            | ~0.40                |
+| Model 2 – DistilBERT            | Raw tokenized text pairs         | DistilBERT + classifier | ~0.50            | ~0.50                |
+| Model 3 – Style + SBERT (final) | Style diffs + SBERT cosine/L1/L2 | LogisticRegression      | ~0.65            | ~0.60                |
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
+Key observations:
+
+The baseline TF-IDF model already does slightly better than random but is limited by its single scalar feature.
+
+The DistilBERT model improves modeling capacity, but with a small dataset it does not clearly outperform the simple baseline.
+
+The style + SBERT + Logistic Regression model shows the biggest jump on validation (~0.65 Macro F1)
 
 ## Error analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+I did a small manual error analysis by inspecting pairs that the final model classified incorrectly (based on the validation set):
+
+Topic vs style confusion: Some negative pairs (different authors) talk about very similar topics (e.g., same event or concept).
+The model sometimes predicts them as positive because both semantic and surface patterns are similar.
+This indicates that my features still put a lot of weight on content similarity.
+
+Very short snippets: When one or both snippets are extremely short (e.g., a single short sentence), all of the following become unstable:
+TF-IDF cosine, Stylistic features (sentence length, punctuation counts, function word ratios) and SBERT embeddings.
+
+The model makes more mistakes in these cases because it has very little signal to work with.
 
 ## Reproducibility
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
-_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+_All code used for this competition is stored in my course GitHub repository:
 
+https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-DQYisHangry
+
+To reproduce my results:
+
+#Environment#
+
+Python environment with the following main libraries:
+
+pandas, numpy
+
+scikit-learn
+
+datasets
+
+transformers
+
+sentence-transformers
+
+Data: Place train.csv and test.csv in the expected working directory.
 
 ## Future Improvements
-
-_Describe how you might best improve your approach_
+For future work, I see a few clear directions to improve this approach. First, instead of relying on a single 80/20 split, I would like to switch to stratified K-fold cross-validation so that the validation results are more stable, and possibly average predictions across folds to reduce variance. Second, I only used SBERT through cosine and distance-based features; a more advanced extension would be to combine SBERT pair features with the DistilBERT [CLS] representation and train a small MLP on top, so the model can learn how to weight style-based and deep features jointly. Finally, I would like to explore richer stylistic signals, such as part-of-speech tag ratios, character n-grams, and more detailed punctuation patterns (for example, ellipses, exclamation marks, or dashes), which are often helpful for authorship attribution tasks.

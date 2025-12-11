@@ -22,7 +22,7 @@ tags:
 <tbody>
   <tr>
     <th><b>Leaderboard score</b></th>
-    <td>0.44804</td>
+    <td>0.50947</td>
   </tr>
   <tr>
     <th><b>Leaderboard name</b></th>
@@ -44,17 +44,26 @@ tags:
 
 The objective of this competition is to determine if two spans of text are written by the same author or not. Author identification is not provided and spans are delimited by [SNIPPET].
 
+Author profiling and authoship indentification is a notoriously difficult task in NLP. Lingustic features, including syntactical and lexical, can be used to analyze an author's style and patterns, but are often not sufficient.
+
+This task is further made challenging by a small dataset with huge variation in text span and sentence lengths. Additionally, there is an imbalance in the training data, with far more examples of differing authors (1,245 labels of 0) than examples of the same author (356 labels of 1.)
+
 ## Exploratory data analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+The dataset has 899 rows and a header. The header categories for test.csv are 'ID' and 'TEXT', while train.csv has an additional header 'LABEL'. The texts are delimited by '[SNIPPET]' and each span of text on either side of '[SNIPPET]' is by 1 of 2 authors, either the same author or different ones. The 'LABEL' column in train.csv has either a 0 or 1; 0 for different authors, 1 for the same author.
+
+The spans vary greatly in length (even as short as 1 letter), as do the sentences within the spans. Space and space/ship travel seem to be recurring themes, suggesting there is an overlap in topics and vocabulary. For examples, there are several instances of "Mars", "ship", and "orbit".
 
 ## Approach
 
-I am using an ensemble approach with spaCy for stylometry feature extraction, scikit-learn for vectorizing the features and comparing the cosine similarity of the spans based on these features, and BERT. For my first submission, I am just starting with spaCy and scikit-learn before implementing BERT.  
+I used an ensemble approach with:
+* spaCy for stylometry feature extraction
+* scikit-learn for vectorizing the features, comparing the cosine similarity of the spans based on these features, Gradient Boost classifer (stylometry), Random Forest classifer (modernBERT), and error analysis
+* modernBERT as a transformer-based text encoder to produce contextual embeddings of each writing sample
 
-The test is preprocessed by splitting on [SNIPPET] so that each span can be evaluated separately.
+For my first submission, I started with just spaCy and scikit-learn before implementing BERT.  
 
-The features I am selecting for are:  
+I started by identifying several stylometric features, including (but not limited to):
 * average word length
 * lexical richness
 * average sentence length
@@ -64,24 +73,65 @@ The features I am selecting for are:
 * capitalization ratio
 * digit frequency
 
-These are linguistic features that can often identify an author's writing style. They are far from comprehensive, however, and styles can overlap too much for this to be the best method of identifying authorship, which is reflected in my below-baseline accuracy score.
+These are linguistic features that can often identify an author's writing style. They are far from comprehensive, however, and styles can overlap too much for this to be the best method of identifying authorship.
 
-Next, I will work on implementing BERT. 
+To supplement the stylometric features, I used modernBERT to generate a high-quality, deep semantic representation of each text snippet so the model can detect stylistic patterns that distinguish authors.
+
+Both methods use machine-learning classifiers to learn patterns from the features. I selected Gradient Boost for the stylometric features because it is better for achieving high accuracy while capturing complex relationsips in data, such as non-linear interactions between unusual punctuation and short sentences. I chose Random Forest for modernBERT because it is better for detecting broad patterns and highlighting which stylometric features are the most important. Random Forest is also better for avoiding overfitting.
+
+Both methods also use k-fold cross-validation. I used 5-folds due to the small dataset size.
+
+Both methods are combined in an ensemble approach, with the weights determined by the best macro F1 scores. Ensemble approaches typically yield better results than using just one method.
 
 ## Results
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
+* **Leaderboard score**: 0.50947
+* **Baseline**: 0.50261
+* **Delta**: 0.00686
 
 ## Error analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+**OOF sample size**: 1601
+**Positive samples**: 356
+**Negative samples**: 1245
+
+**Model Performance on Validation Set**:
+**Stylometry**: AUC=0.575, F1=0.440, Acc=0.778
+**ModernBERT**: AUC=0.601, F1=0.437, Acc=0.778
+**Ensemble**: AUC=0.578, F1=0.507, Acc=0.760
+
+**Stylometry Error Analysis**:
+Total errors: 356
+False Positives: 1
+False Negatives: 355
+
+**ModernBERT Error Analysis**:
+Total errors: 356
+False Positives: 0
+False Negatives: 356
+
+**Ensemble Error Analysis**:
+Total errors: 384
+False Positives: 63
+False Negatives: 321
+
+*Run error analysis code block in Jupyter notebook for more metrics.*
 
 ## Reproducibility
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
-_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+The code is contained in a Jupyter notebook with all the necessary installations and imports for convenient reproducibility. Additionally, the train and test datasets are included in the GitHub repo.
 
+To reproduce my results:
+* Clone the GitHub repo at the link above
+* Follow the instructions in the Jupytet notebook to replace the dataset file path with the path on your PC 
+* Run all cells in order 
+* The results will be output to a CSV file in the repo directory
 
 ## Future Improvements
 
-_Describe how you might best improve your approach_
+To further improve this ensemble model's accuracy, I would recommend:
+* Augmenting the dataset
+* Increase the number of stylometry features to at least 100
+* Optimize hyperparameter tuning for Random Forest
+* Further fine tuning of modernBERT including more training epochs and batch size changes
+* Determining which stylometric features are the most useful/important

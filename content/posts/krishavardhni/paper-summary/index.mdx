@@ -40,7 +40,7 @@ with Embedding Fine-Tuning and RAG. https://arxiv.org/pdf/2511.08245. Presented 
   </tr>
   <tr>
     <td><b>Venue</b></td>
-    <td>???</td>
+    <td>PAKDD (Pacific-Asia Conference on Knowledge Discovery and Data Mining)</td>
   </tr>
   <tr>
     <td><b>Paper URL</b></td>
@@ -94,23 +94,28 @@ for the kind of analysis we’re supposed to do in this assignment.
 <tbody>
   <tr>
     <th><b>LLM model</b></th>
-    <td>???</td>
+    <td>Llama</td>
   </tr>
   <tr>
     <th><b>LLM model version</b></th>
-    <td>???</td>
+    <td>LlaMa-13B</td>
   </tr>
   <tr>
     <th><b>Model/service URL</b></th>
-    <td>???</td>
+    <td>https://huggingface.co/meta-llama/Llama-2-13b</td>
   </tr>
   <tr>
     <th><b>Why this model?</b></th>
-    <td>???</td>
+    <td>The description for this model said that it is designed for complex, long-context tasks and can read long, technical documents and produce clear, structured explanations and can outperform many similar models in reasoning, which is especially useful for research analysis.</td>
   </tr>
 </tbody>
 </table>
 
+##### System Prompt
+
+```markdown
+You are an expert researcher in Natural Language Processing and Deep Learning. Read the paper I have attached and answer the questions given accordingly.
+```
 
 #### Description (LLM)
 
@@ -119,91 +124,310 @@ _In the LLM's words, what is this paper about?_
 ##### Prompt
 
 ```markdown
-prompt here
+Here is a research paper based on Natural Language Processing. Summarize clearly what the paper is about.
 ```
+
+The paper proposes a novel approach to Natural Language to SQL (NL-to-SQL) tasks, which involves translating natural language queries into SQL expressions. The authors introduce an Error Correction framework based on Prompt Tuning with embedding fine-tuning and Retrieval-Augmented Generation (RAG).
+
+The framework, called Error Correction through Prompt Tuning (ECPT), aims to address the limitations of Large Language Models (LLMs) in generating accurate SQL queries. ECPT consists of three steps:
+
+Diagnose: LLMs identify error types using a Diagnosis Prompt.
+Write Prescription: The LLM generates instructions on correcting the errors via the Prescription Prompt.
+Apply Treatment: The Treatment Prompt generates the corrected SQL with instructions.
+The authors evaluate their approach on the Spider development set and achieve a significant 12% accuracy improvement over existing baselines. The proposed method has far-reaching implications, offering a powerful tool for diverse users, particularly in decision-making roles, and sets a new benchmark for future research and development in NL-to-SQL.
+
+The paper focuses on improving the accuracy of NL-to-SQL tasks by integrating error correction with prompt tuning, embedding fine-tuning, and RAG.
 
 #### What are the authors proposing?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Based on the paper provided, explain what the authors are proposing. Describe the key idea, method, or system they introduce.
 ```
+The authors propose a novel approach to Natural Language to SQL (NL-to-SQL) tasks, addressing the critical need for accurate translation of natural language questions into SQL expressions. The key idea is to integrate error correction with prompt tuning, embedding fine-tuning, and Retrieval-Augmented Generation (RAG) to improve the performance of Large Language Models (LLMs).
+
+Key Components:
+
+Error Correction: A three-step approach, inspired by medical diagnosis processes, to diagnose and correct errors in generated SQL queries: Diagnose, Write Prescription, and Apply Treatment.
+Prompt Tuning: Utilizing prompt tuning with embedding fine-tuning and RAG to enhance the performance of LLMs.
+Embedding Fine-Tuning: Fine-tuning a Sentence Transformer model with a customized error correction dataset to improve the retrieval process.
+Method/ System:
+
+The proposed system, called Error Correction through Prompt Tuning (ECPT), takes a natural language query and generates a SQL query using an LLM. It then diagnoses and corrects errors in the generated SQL query using the three-step approach. The system leverages external knowledge bases to refine its outputs and provides a more accurate translation of natural language questions into SQL expressions.
+
+Key Contributions:
+
+A novel framework that integrates error correction with prompt tuning, embedding fine-tuning, and RAG for NL-to-SQL tasks.
+A three-step approach for error correction, inspired by medical diagnosis processes.
+A fine-tuned Sentence Transformer model for improved retrieval.
+The authors' approach has shown promising results, achieving a 12% accuracy improvement over existing baselines, and has far-reaching implications for data access and management.
+
 
 #### What is the motivation for the work?
 
 ##### Prompt
 
 ```markdown
-prompt here
+From the paper, explain the motivation behind the work: what problem or limitation are the authors trying to address, and why is it important?
 ```
+
+The authors aim to address the crucial need for efficient and accurate translation of natural language queries into SQL expressions in various settings. They highlight that despite advancements in natural language interfaces, accurately translating natural language queries into SQL expressions remains a significant challenge.
+
+The motivation behind the work stems from the limitations of Large Language Models (LLMs) in a zero-shot scenario, where they struggle with knowledge of enterprise-scaled data lakes. The authors note that LLMs can craft queries from basic table descriptions but often miss crucial value information, leading to inaccuracies.
+
+The problem the authors are trying to address is that existing NL-to-SQL approaches often rely on few-shot learning or fine-tuning, which can be limited by the quality and quantity of examples. Additionally, Retrieval-Augmented Generation (RAG) approaches can mitigate these limitations but are complex to optimize.
+
+The authors emphasize that accurate NL-to-SQL translation is essential for various applications, such as natural language interfaces, data access, and decision-making. The proposed framework aims to revolutionize data access and handling in contemporary data-driven environments by providing a more accurate and efficient approach to NL-to-SQL translation
+
 
 #### What is the approach or innovation?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Describe the approach, method, or innovation introduced by the authors. Explain how it works and what makes it novel compared to previous methods or how it improves upon prior approaches.
 ```
+The authors introduce an innovative approach called Error Correction through Prompt Tuning (ECPT) for Natural Language to SQL (NL-to-SQL) tasks. This approach integrates error correction with prompt tuning, embedding fine-tuning, and Retrieval-Augmented Generation (RAG).
+
+Approach:
+ECPT consists of three steps:
+
+Diagnose: Large Language Models (LLMs) identify error types using a Diagnosis Prompt.
+Write Prescription: The LLM generates instructions on correcting the errors via the Prescription Prompt.
+Apply Treatment: The Treatment Prompt generates the corrected SQL with instructions.
+Method:
+The authors fine-tune a Sentence Transformer model with a customized error correction dataset to improve retrieval processes. They use Retrieval-Augmented Generation (RAG) to enhance LLMs by retrieving facts from external knowledge bases.
+
+Innovation:
+What makes ECPT novel is its integration of error correction with prompt tuning and RAG. Unlike prior approaches that focus on simple query translation, ECPT intelligently diagnoses and corrects errors, leveraging external knowledge bases to refine its outputs.
+
+Improvements:
+Compared to previous methods, ECPT improves upon prior approaches in several ways:
+
+Error Correction: ECPT addresses the crucial need for accurate translation of natural language queries into SQL expressions by correcting errors.
+RAG: The use of RAG enhances LLMs by retrieving facts from external knowledge bases, providing access to the most current and accurate information.
+Prompt Tuning: ECPT's prompt tuning approach allows for more efficient and effective error correction compared to traditional fine-tuning methods.
+Evaluation:
+The authors evaluate ECPT on the Spider development set, achieving a significant 12% accuracy improvement over existing baselines. This demonstrates the effectiveness of ECPT in improving the accuracy of NL-to-SQL tasks.
+
 
 #### What are the results and how do they compare with competing approaches?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Explain in detail the results presented in the paper. Include key metrics and describe how the proposed approach performs relative to competing or baseline methods.
 ```
+The paper presents a comprehensive evaluation of the proposed Error Correction through Prompt Tuning (ECPT) approach for Natural Language to SQL (NL-to-SQL) tasks. The authors evaluate ECPT on the Spider development set and compare its performance to baseline methods.
+
+Key Metrics:
+
+Execution Accuracy: The primary metric used to evaluate the performance of NL-to-SQL models. It measures the accuracy of the generated SQL queries in executing correctly.
+Correction Accuracy: Measures the accuracy of correcting errors in SQL queries.
+Hit Rate: Measures the number of successful fixes divided by the total number of trials.
+Results:
+
+Execution Accuracy: The proposed ECPT approach achieves a significant 12% gain in execution accuracy compared to the baseline method, GPT3.5-turbo with a generic self-correction prompt and no RAG. The execution accuracy of ECPT with GPT4-turbo and embedding fine-tuning is 88.08%.
+Correction Accuracy: The correction accuracy of ECPT with GPT4-turbo and embedding fine-tuning is 50.20%.
+Hit Rate: The hit rate of ECPT with GPT4-turbo and embedding fine-tuning is 23.01%.
+Comparison to Baseline Methods:
+
+GPT3.5-turbo: ECPT with GPT3.5-turbo and embedding fine-tuning outperforms the baseline method, achieving an execution accuracy of 79.46%.
+GPT4-turbo: ECPT with GPT4-turbo and embedding fine-tuning achieves an execution accuracy of 88.08%, outperforming the baseline method.
+Din-SQL: The authors compare ECPT to Din-SQL, a state-of-the-art method for NL-to-SQL tasks. ECPT achieves a higher execution accuracy than Din-SQL (74.2%).
+Ablation Study:
+
+The authors perform an ablation study to evaluate the effectiveness of different components of ECPT:
+
+Embedding Fine-Tuning: Embedding fine-tuning improves error correction, with a 1% and 3% increase in execution accuracy for GPT3.5-turbo and GPT4-turbo, respectively.
+Diagnostic Prompt: The diagnostic prompt with a new error case alongside each error type improves performance.
+Cost Usage:
+
+The authors analyze the cost-effectiveness of accuracy improvements in three key experiments:
+
+Token Usage: The total cost of ECPT with GPT4-turbo and embedding fine-tuning is $20.23.
+Accuracy Gain per Dollar Spent: The accuracy gain per dollar spent compared to the baseline is 0.52%, 0.59%, and 0.38% for each experiment.
+Overall, the proposed ECPT approach demonstrates significant improvements in execution accuracy, correction accuracy, and hit rate compared to baseline methods. The ablation study and cost usage analysis provide insights into the effectiveness of different components of ECPT and its cost-effectiveness.
+
 
 #### Is the comparison fair?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Evaluate whether the experimental comparison in the paper appears fair. Consider baselines, dataset selection, evaluation methods, and whether the authors control any factors. Is the evaluation setup unbiased and consistent?
 ```
+The experimental comparison in the paper appears to be fair and well-designed. Here's a breakdown of the evaluation setup:
+
+Baselines:
+
+The authors compare their approach, Error Correction through Prompt Tuning (ECPT), to a generic self-correction prompt with no Retrieval-Augmented Generation (RAG) and no embedding fine-tuning. This provides a clear baseline for evaluating the effectiveness of ECPT.
+The authors also compare ECPT to Din-SQL, a state-of-the-art method for NL-to-SQL tasks.
+Dataset Selection:
+
+The authors use the Spider development set, a widely used benchmark for NL-to-SQL tasks. This ensures that the evaluation is conducted on a standard dataset.
+Evaluation Methods:
+
+The authors use execution accuracy as the primary evaluation metric, which is a common metric for NL-to-SQL tasks.
+The authors also report correction accuracy and hit rate, providing a more comprehensive evaluation of ECPT.
+Control of Factors:
+
+The authors control for the LLM architecture by evaluating ECPT with two different LLMs: GPT3.5-turbo and GPT4-turbo.
+The authors also evaluate the impact of embedding fine-tuning and RAG on ECPT's performance.
+Unbiased and Consistent Evaluation Setup:
+
+The evaluation setup appears to be unbiased, as the authors use a standard dataset and evaluation metrics.
+The authors provide a clear description of the experimental setup, making it easy to reproduce the results.
+However, there are some potential limitations:
+
+Limited Baselines: The authors only compare ECPT to a few baselines. Evaluating ECPT against more baselines, including other state-of-the-art methods, could provide a more comprehensive evaluation.
+Hyperparameter Tuning: The authors do not mention hyperparameter tuning for the baselines or ECPT. This could potentially impact the results.
+Evaluation on Other Datasets: The authors only evaluate ECPT on the Spider development set. Evaluating ECPT on other datasets could provide a more comprehensive evaluation of its performance.
+Overall, the experimental comparison in the paper appears to be fair and well-designed. However, there are some potential limitations that could be addressed in future work.
+
 
 #### What are the takeaways according to the authors?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Explain the main takeaways or conclusions the authors claim in the paper. Focus on what they believe their contribution shows.
 ```
+The authors of the paper claim that their proposed approach, Error Correction through Prompt Tuning (ECPT), makes significant contributions to the field of Natural Language to SQL (NL-to-SQL) tasks. The main takeaways or conclusions they claim are:
+
+Improved Accuracy: ECPT achieves a significant 12% accuracy improvement over existing baselines, demonstrating its effectiveness in translating natural language queries into SQL expressions.
+Error Correction: ECPT's error correction mechanism, inspired by medical diagnosis processes, effectively diagnoses and corrects errors in SQL queries, leading to improved accuracy.
+Retrieval-Augmented Generation (RAG): The use of RAG in ECPT enhances the model's ability to retrieve relevant information from external knowledge bases, leading to improved performance.
+Prompt Tuning: ECPT's prompt tuning approach allows for efficient and effective error correction, outperforming traditional fine-tuning methods.
+The authors believe that their contribution shows:
+
+Advancements in NL-to-SQL: ECPT represents a significant advancement in NL-to-SQL tasks, offering a more accurate and efficient approach to translating natural language queries into SQL expressions.
+Practical Applications: ECPT has practical applications in various domains, including data access, decision-making, and natural language interfaces.
+Future Research Directions: The authors suggest that their work sets a new benchmark for future research and development in NL-to-SQL, highlighting the importance of error correction and RAG in improving model performance.
+Overall, the authors claim that their proposed approach, ECPT, offers a novel and effective solution for NL-to-SQL tasks, with significant improvements in accuracy and practical applications.
+
 
 #### What are the takeaways according to you?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Provide your own interpretation of the key takeaways based on the paper. Include strengths, weaknesses, and your judgment of the contribution’s significance.
 ```
+Based on the paper, here are my own interpretations of the key takeaways, strengths, weaknesses, and significance of the contribution:
+
+Key Takeaways:
+
+Effective Error Correction: The proposed Error Correction through Prompt Tuning (ECPT) approach demonstrates effective error correction in SQL queries, leading to improved accuracy in NL-to-SQL tasks.
+Improved Accuracy: ECPT achieves a significant 12% accuracy improvement over existing baselines, indicating its potential to improve the performance of NL-to-SQL models.
+Retrieval-Augmented Generation (RAG): The use of RAG in ECPT enhances the model's ability to retrieve relevant information from external knowledge bases, leading to improved performance.
+Strengths:
+
+Novel Approach: ECPT presents a novel approach to error correction in NL-to-SQL tasks, combining prompt tuning, embedding fine-tuning, and RAG.
+Effective Evaluation: The authors provide a comprehensive evaluation of ECPT, including ablation studies and comparisons to state-of-the-art baselines.
+Practical Applications: ECPT has practical applications in various domains, including data access, decision-making, and natural language interfaces.
+Weaknesses:
+
+Limited Baselines: The authors only compare ECPT to a few baselines, which may not be exhaustive.
+Hyperparameter Tuning: The authors do not mention hyperparameter tuning for the baselines or ECPT, which could potentially impact the results.
+Evaluation on Other Datasets: The authors only evaluate ECPT on the Spider development set, which may not be representative of other datasets.
+Significance:
+
+Advancements in NL-to-SQL: ECPT represents a significant advancement in NL-to-SQL tasks, offering a more accurate and efficient approach to translating natural language queries into SQL expressions.
+Impact on Practical Applications: ECPT's improved accuracy and effectiveness have significant implications for practical applications, such as data access, decision-making, and natural language interfaces.
+Future Research Directions: The authors' work sets a new benchmark for future research and development in NL-to-SQL, highlighting the importance of error correction and RAG in improving model performance.
+Judgment:
+
+Overall, I believe that the authors have made a significant contribution to the field of NL-to-SQL tasks. ECPT presents a novel and effective approach to error correction, and its improved accuracy and effectiveness have practical implications. However, further evaluation on other datasets and baselines is necessary to fully validate the performance of ECPT.
+
 
 #### Would you use this?  If so, how/where would you use this?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Being an Natural Language Processing researcher yourself, evaluate whether the proposed method would be useful in practice. Describe potential applications, scenarios where you would use it, or reasons you might not use it.
 ```
+As a Natural Language Processing researcher, I believe that the proposed Error Correction through Prompt Tuning (ECPT) method has the potential to be useful in practice. Here are some potential applications, scenarios where I would use it, and reasons I might not use it:
 
-##### Prompt
+Potential Applications:
 
-```markdown
-prompt here
-```
+Data Access and Management: ECPT can be used to improve the accuracy of natural language queries to databases, making it easier for users to access and manage data.
+Virtual Assistants: ECPT can be integrated into virtual assistants, such as chatbots or voice assistants, to improve their ability to understand and respond to user queries.
+Data Analysis and Science: ECPT can be used in data analysis and science applications, such as data exploration, data visualization, and data mining.
+Scenarios where I would use it:
+
+Complex Queries: I would use ECPT in scenarios where users need to execute complex queries, such as multi-step queries or queries with multiple joins.
+Domain-Specific Applications: I would use ECPT in domain-specific applications, such as medical or financial applications, where the accuracy of queries is critical.
+Large-Scale Data: I would use ECPT in scenarios where large-scale data is involved, and the accuracy of queries is crucial.
+Reasons I might not use it:
+
+Limited Domain Knowledge: I might not use ECPT in scenarios where the domain knowledge is limited or not well-defined.
+Highly Specialized Queries: I might not use ECPT in scenarios where highly specialized queries are required, such as queries that require expert knowledge or specific domain-specific terminology.
+Real-Time Applications: I might not use ECPT in real-time applications, such as applications that require immediate responses, as the method may introduce additional latency.
+Practical Considerations:
+
+Training Data: The quality and quantity of training data will significantly impact the performance of ECPT.
+Computational Resources: ECPT requires significant computational resources, including GPU acceleration and large amounts of memory.
+Integration with Existing Systems: ECPT needs to be integrated with existing systems, which can be time-consuming and require significant development effort.
+In conclusion, ECPT has the potential to be a useful method in practice, particularly in scenarios where accuracy and efficiency are critical. However, its adoption will depend on various factors, including the quality of training data, computational resources, and integration with existing systems.
 
 #### What problems remain and what are the next steps?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Identify remaining limitations or open problems mentioned in the paper or implied by the research. Suggest reasonable next steps for future work.
 ```
+The paper mentions several limitations and open problems, including:
+
+Remaining Limitations:
+
+Human-in-the-Loop Approaches: The authors suggest that integrating human-in-the-loop approaches could address the challenge of verifying generated queries with ground-truth SQL queries.
+Automatic Error Type Initialization: The authors mention that manual error type initialization can be automated using LLM agents.
+Resource-Intensive RAG: The authors note that RAG-based prompt tuning remains resource-intensive due to the nature of the decomposed error correction process.
+Open Problems:
+
+Improving Few-Shot Learning: The authors suggest that improving few-shot learning approaches could reduce the need for large amounts of labeled data.
+Developing More Effective Prompts: The authors mention that developing more effective prompts could improve the performance of ECPT.
+Evaluating ECPT on Other Datasets: The authors suggest that evaluating ECPT on other datasets could provide a more comprehensive evaluation of its performance.
+Reasonable Next Steps:
+
+Integrating Human-in-the-Loop Approaches: Future work could focus on integrating human-in-the-loop approaches to improve the accuracy of generated queries.
+Automating Error Type Initialization: Future work could focus on automating error type initialization using LLM agents.
+Improving RAG Efficiency: Future work could focus on improving the efficiency of RAG-based prompt tuning, such as by developing more efficient algorithms or using knowledge distillation.
+Evaluating ECPT on Other Tasks: Future work could evaluate ECPT on other tasks, such as text-to-SQL or SQL query generation.
+Developing More Effective Prompts: Future work could focus on developing more effective prompts for ECPT, such as by using reinforcement learning or meta-learning.
+Long-Term Research Directions:
+
+Developing More Accurate and Efficient NL-to-SQL Models: Long-term research directions could focus on developing more accurate and efficient NL-to-SQL models that can handle complex queries and large-scale data.
+Improving the Interpretability of NL-to-SQL Models: Long-term research directions could focus on improving the interpretability of NL-to-SQL models, such as by developing more transparent and explainable models.
+Developing More Effective Evaluation Metrics: Long-term research directions could focus on developing more effective evaluation metrics for NL-to-SQL tasks, such as metrics that capture the accuracy, efficiency, and interpretability of models.
+
 
 ### Experience using the LLM
 
-_Describe your process for using the LLM.  How did the LLM perform?_
+My process for using the LLM - Llama Scout 4 was interactive, I provided the full research paper and then asked it the given set of questions by giving it prompts slightly modified with the hope of getting better more specific responses that are not off track.
+I gave it prompts asking about the summary, motivation, results, limitations and such. For each question the LLM generated a paragraph level that restated the contributions of the paper.
+Overall, the LLM performed consistently and reasonably well. It produced clear and coherent summaries and explanations that aligned with the paper's idea. For example it did identify the paper proposes ECPT pipeline which was inspired by the medical diagnosis treatment process and was supported by RAG and embedding fine tuning.
+I felt the LLM was good at rephrasing the paper's ideas in a comprehensive language. It was good to extract and understand the major concept of the paper as it was able to answer all the questions asked. Another important thing it acheived was it was able to maintain consistency across all the questions, showing it could keep track of the paper's
+core contributions and could keep referncing back to it while giving its answers. 
+
+Overall, I would say the LLM was helpful for getting an overall high level quick summary of the paper.
  
 #### Errors and limitations of the LLM 
 
-_Where did it fall short or make mistakes?_
+Although the LLM's responses were generally accurate I could notice quite a lot of limitations.
+Firstly, some of the responses contained generic statements that were not explicitly mentioned in the paper. 
+Secondly, It had the tendency to repeat several of the answers, reused the same wording or repeated the previously stated facts across all the answers, This was a major downside that I felt. It suggests that the model was providing surface level reformulations instead of deeper, question specific insights.
+Next, Although the LLM captured the major results I felt it sometimes wasn't clear of the distinction between the metrics. I felt like it lacked precision when interpreting the experimental details, for example, It often stated that RAG provides the current up to date information which improves this pipeline. 
+According to the paper RAG is applied in error cases to correct them by retrieving documents of old queries which can aid as feedback in correcting the current SQL queries. It has nothing to do with factual knowledge retrieval. I felt like it didnt give any details about the detailed workflow of the pipeline, like it didnt
+include any information about how the queries where classified based on the error types and what where the inputs given to the LLM model. It mainly only gave information of the 3 high level pipeline steps.
+I feel like it didnt analyse or read the different diagrams and the tables in the paper which actually had a lot of information regading the workflows and core mechanism of the pipeline which is very important to understand.
+It also had images and tables that dealt with the finetuning and performance metrics, none of which it seemed to have reffered.
+The model also missed out on a lot of small yet important details of the workflow, one such is that the ECPT’s Treatment step retries up to three times until success or that the framework depends critically on having ground-truth SQL available, which limits deployment. These omissions show that the LLM can miss deeper implications unless 
+explicitly guided. Lastly, in the question about the limitations of this approach and if it would be useful, the model gave pretty generic responses such as the paper used limited baselines or that they needed to try on more datasets. These responses were not wrong but perhaps it could have also included limitations which are not generic and also had 
+more direct relevance to the paper itself. One of the limitation I noticed was that each experiment consumes arouns 2M prompt tokens and 100k completion tokens which is pretty large for a dataset of this size. Hence ECPT might be computationally expensive because each SQL correction involves multiple LLM calls and long prompts containing table descriptions, 
+retrieved cases, and error information. This limitation was never mentioned by the LLM, when I would have expected it to notice such a thing.
+

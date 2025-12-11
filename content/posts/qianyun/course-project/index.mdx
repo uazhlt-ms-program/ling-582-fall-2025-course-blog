@@ -70,18 +70,69 @@ The goals for my course project are:
 </table>
 
 ## Results
+I fine-tuned BLIP for three epochs on a dataset of ~6,000 chart images paired with heuristic trend-based captions.
+The model converged quickly, and training remained stable throughout all epochs.| Epoch | Training Loss | Validation Loss |
+| ----- | ------------- | --------------- |
+| 1     | 0.4193        | 0.1517          |
+| 2     | 0.1404        | 0.1393          |
+| 3     | 0.1369        | 0.1352          |
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
+After fine-tuning BLIP for three epochs on my chart-caption dataset, the model showed clear and steady improvement. The loss dropped quickly in the first epoch, which makes sense because the captions follow only four basic patterns (“upward,” “downward,” “volatile,” and “mild fluctuation”). By the second epoch, both the training and validation loss had already reached a stable range.
+
+Interestingly, the validation loss stayed close to the training loss for all three epochs, which suggests the model was not overfitting. The third epoch still improved the loss a little bit, but not as much as the first two, so the gains were diminishing. In earlier tests where I trained for five epochs, the validation loss actually started to go back up, so stopping at three epochs turned out to be a good choice.
+
+Overall, the model learned to generate short and accurate trend descriptions, and the outputs generally match the direction or volatility shown in the charts.
+
+
 
 ## Error analysis
+Because the captions in this project follow only four fixed templates, the model did not show many clear errors during my small-scale evaluation. I only tested on a small sample of validation images, so it is possible that some mistakes simply did not show up in this limited set.
+With such a small sample, the analysis is not strong enough to claim that the model performs perfectly.
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
+Still, a few types of charts could cause potential errors:
+
+Borderline cases:
+Some charts are almost flat but still move slightly, making it hard to decide between “mild fluctuation” and “high volatility.”
+
+Very weak trends:
+When the percentage change is tiny, the chart can look ambiguous even if it technically qualifies as “upward” or “downward,” so the model might lean the wrong way.
 
 ## Reproducibility
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility)_
-_If you've covered this in your code repository's README, you can simply link to that document with a note._
+This project can be fully reproduced by setting up a similar environment and using the same dataset and preprocessing steps.
+
+Environment
+Python version: 3.10+
+
+Required packages:
+transformers
+torch
+torchvision
+pillow
+pandas
+numpy
+matplotlib
+scikit-learn
+
+Dataset
+
+The base dataset comes from Kaggle: https://www.kaggle.com/datasets/khushipitroda/stock-market-historical-data-of-top-10-companies
+
+The original dataset contains daily stock prices (Open, High, Low, Close, Volume) for ten companies.
+
+
+Chart and Caption Generation:
+
+For this project, I extracted a subset of the Kaggle dataset and created my own multimodal training data:
+
+I wrote a helper script chart_generator.py to generate 15-day sliding-window line charts, save each chart as a PNG image, and compute a simple heuristic caption (e.g., “strong upward trend,” “high volatility”).
+
+The resulting dataset is stored in my GitHub repository as Coursedata.csv, which includes two columns:
+
+image — the file path of each generated chart
+
+caption — the automatically assigned description
+
 
 ## Future improvements
-
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_
+There are a few simple ways this project could be improved in the future. First, the captions could be made more detailed instead of using only four templates, which would give the model a richer learning signal. Second, experimenting with larger models like BLIP-2 or other vision-language architectures might help capture chart patterns more accurately. It would also be useful to refine the labeling rule, since the current heuristic sometimes produces borderline or ambiguous cases. Finally, evaluating the model on a larger and more carefully checked test set would give a clearer picture of its strengths and weaknesses.
