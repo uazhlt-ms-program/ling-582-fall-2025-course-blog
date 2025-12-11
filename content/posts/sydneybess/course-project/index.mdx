@@ -176,6 +176,21 @@ To test, I wrote a script that, as mentioned in finetuning, used the original mo
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
 
+First, I wanted to see how the model did with just base-printed and no special training or adding of special tokens. I have more about how the model actually performed in the error analysis, but here is a sample of a baseline model.
+
+![Real 1](./images/real_01.png)
+Actual Transcription:
+kuḿ xuxʷiýä guɫqaqi' tstcs
+
+OCR Prediction:
+KUN XUX 11/8, SUBGAGI TOTOS
+
+[Levenshtein Distance](https://planetcalc.com/1721/): 26 character edits 
+[CER](https://taylorarchibald.com/cer/): 50.00% which is less than random which is good.
+[WER](https://taylorarchibald.com/cer/): 125%
+
+You'll see the comparison soon, but now let's talk about the results of the model.
+
 I kept track of the Character Error Rate and Word Error Rate throughout training. When I first started this endeavor, I was getting horrible CER, and upon deep diving on the internet, I found that downgrading Transformers works - and it worked for me!
 
 [I’m going to be completely honest here. I used TensorBoard, but the graphs didn’t look as pretty, and I only know the basics of matplotlib, so I asked Gemini to generate the graphs from my data. I did go through and verify all the data]
@@ -208,6 +223,7 @@ _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/co
 ### Testing on Synthetic data early
 This did better than the fine-tuned model.
 To test, I wrote a testing script and ran it on various ground-truths (where the words were trained into the model, but not the images).
+For this I used the final checkpoint in the model, because it seemed to have more accurate results then what was saved for lowest C.E.R.
 #### Ground truths with all words being seen before
 --- 
 Ground Truths 1(notable features: blurry and background noise)
@@ -219,18 +235,29 @@ OCR Prediction:
 kuḿ xuxʷiýä guɫqaqi' tuptca
 
 [Levenshtein Distance](https://planetcalc.com/1721/): 3 character edits 
-[CER](https://taylorarchibald.com/cer/): 10.71% which is less than random which is good.
+[CER](https://taylorarchibald.com/cer/): 10.71%
 [WER](https://taylorarchibald.com/cer/): 25%
 
 ![Differences](./images/real_1_result.png)
-While it isn’t as low a CER as the model said, it isn’t too bad. As we’ll see, it tends to interpret s as either c’s, s’s, or u’s.
+While it isn’t as low a CER as the model said, it isn’t too bad. As we’ll see, it tends to interpret s as either c’s, s’s, or u’s. The word error rate makes sense because even in training the model, it was higher than C.E.R because it's harder to ace words (especially long ones) than it is to get most characters right.
+
+Compared to the baseline prediction I mentioned in the previous section, having a model that can process the special characters does wonders for the character error rate.
+
+The delta for this is:
+| Metric | Baseline | New Model | Delta (New - Base) |
+|--------|----------|-----------|----------------|
+| **Levenshtein Distance** | 26 edits | 3 edits | **-23 edits** |
+| **CER** | 50.00% | 10.71% | **-39.29%** |
+| **WER** | 125% | 25% | **-100%** |
+
+
  ---
 Ground truth 2 (Notable features: As seen, this is a much bolder text and with a lot of static.):
 
 ![Real 2](./images/real_03.png)
 
 Actual Transcription:
-tcil:dju'sɛnts kuḿ tćaḿ äya'a guĺ:nt'a'q́ʷsus. täto
+tcil:dju'sɛnts kuḿ tćaḿ äya'a guĺ:nt'a'q́ʷsus. tätc
 
 
 OCR Prediction:
@@ -239,9 +266,11 @@ ta'xʷä'q́u'usɛntɛ hɔɫ tśaḿ äya'ʀ guĺu'a q́ʷsus. lä'a
 [Levenshtein Distance](https://planetcalc.com/1721/): 24 character edits 
 [CER](https://taylorarchibald.com/cer/): 42% 
 [WER](https://taylorarchibald.com/cer/): 116% 
-![Differences](./images/results.png)
+![Differences](./images/new_3_reference.png)
 
-The ‘dj’ pattern is very rare, probably occurring only once or twice, which is why it couldn’t be predicted. Again, it confuses s’s and c’s. It also splits the second-to-last word.
+The ‘dj’ pattern is very rare, probably occurring only once or twice, which is why it couldn’t be predicted. Again, it confuses s’s and c’s.
+
+Another difference is how thick and uneven the font is compared to the other samples, and thus it does poorer. This suggests the state of the image matters.
 
 ---
 
@@ -258,7 +287,7 @@ hɔi uttćänp äa. x̥ʷi'pɛlä'xʷa. hɔi. uɫtmi'l. ä. sm:yi'w
 
 [Levenshtein Distance](https://planetcalc.com/1721/): 25 character edits 
 [CER](https://taylorarchibald.com/cer/): 35.29% which is less than random which is good.
-[WER](https://taylorarchibald.com/cer/): 62% Not good at all.
+[WER](https://taylorarchibald.com/cer/): 62% Not that good.
 ![Differences](./images/results_02.png)
 
 Again, on the longer words, it did worse, especially when they weren’t seen before.  It also added periods where there was static. Because ä are so frequent in the words, I have a feeling that is why it tends to get them so often.
@@ -285,6 +314,8 @@ While I had remarked it did well with ä’s, it seems here it added too many a
 ##### Working with the finetunes
 These are tests on the same images from the above section, with unseen words.
 
+Finetuning Example 1
+
 ![Test 1](./images/testing_02.png)
 Actual Transcription:
 hɔi uɫśä'sp ɫa x̥a'lx̥aläxʷs. hɔi uĺtswi'' ɫä sm:yi'w
@@ -297,17 +328,37 @@ äst'ɛnts. ɫa 'ä'tpɛn. hɔi uɫta'a'tśä'x̥ʷ
 
 ![Differences](./images/real_fine.png)
 
-For this, it seemed to completely miss words at the beginning and end, and to mess up most words in between.
+
+For this, it seemed to completely miss words at the beginning and end, and to mess up most words in between. The words it did generate are words found in the generated words and ground truth words, so it can't do any inference on new words (let alone even some concrete words)
+
+---
+Fine tuning Example 2
+
+![Test 2](./images/testing_03.png)
+Actual Transcription:
+hɔitsɛn. hɔi a' tsqä'ᵃ̈. hɔi xʷi'' xʷä tciya'ʀäts(ɛn)
+
+OCR Prediction:
+hɔi tci''ɫ tc:ci'pɛnts. kuḿ ɫa sm:yi'w. hɔi
+
+[Levenshtein Distance](https://planetcalc.com/1721/): 42 character edits 
+[CER](https://taylorarchibald.com/cer/): 76.60% 
+[WER](https://taylorarchibald.com/cer/):87.50%
+
+![Differences](./images/finetune_3.png)
+
+Here it gets the correct length of the sentence, but misses most words completely, with a 76% C.E.R (which is technically better then the model gave)
 Maybe it is the small number of training sources (79 annotated images) or poorly chosen training arguments. I’m not quite sure.
+---
 
-
+Once trained and the special tokens are added it does pretty well. It does have more errors though on longer words, and words that are completely unseen. There are a few character's like 's' that is misread, or because of the amount of a's in the dataset, a's are filled in for characters that are tough to tell apart (as if it is default).
 
 ## Reproducibility
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility)_
 _If you'ved covered this in your code repository's README, you can simply link to that document with a note._
 
-[README.md](https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-indigenous-language-ocr/blob/main/README.md) I demonstrated reproducibility and set up file seeds.
+[README.md](https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-indigenous-language-ocr/blob/main/README.md) I demonstrated reproducibility and set up file seeds, along with how to run the model.
 I didn’t include specific versions besides Transformers because when I attempted to add them based on the pip list and reproduce it, I got errors. So I let the magic of pip handle it.
 
 ## Future improvements
