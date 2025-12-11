@@ -1,0 +1,241 @@
+---
+title: "Kaggle Kompetition"
+slug: "/1184776211/class-competition"
+date: 2025-11-12
+author: 1184776211
+description: "An attempted neural classifier with a variety of different extracted features"
+tags:
+  - class competition
+---
+
+<table>
+  <caption>
+    Class Competition Info
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>Leaderboard score</b></th>
+    <td>0.5389</td>
+  </tr>
+  <tr>
+    <th><b>Leaderboard team name</b></th>
+    <td>Ryan L Nelson</td>
+  </tr>
+  <tr>
+    <th><b>Kaggle username</b></th>
+    <td>ryanlnelson</td>
+  </tr>
+  <tr>
+    <th><b>Code Repository URL</b></th>
+    <td><a href="https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-nelson-ryan">https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-nelson-ryan</a></td>
+  </tr>
+</tbody>
+</table>
+
+
+## Task summary
+
+The task at hand is to create a model that can determine whether a given pair
+of text snippets were both written by the same author, i.e. whether each
+snippet in the pair shares authorship with the other.
+
+As a basis for training such a model, a set of 1,601 such pairs texts is labeled
+for this distinction, i.e. same-author (1) or not (0).
+
+The test set contains 899 pairs of text, unlabeled.
+
+## Exploratory data analysis
+
+Dataset:
+```python
+from pandas import DataFrame
+>>> df = read_csv("train.csv")
+>>> df.groupby("LABEL").count()
+         ID  TEXT
+LABEL            
+0      1245  1245
+1       356   356
+```
+Observation: Positive classification (that is, where each text is same-author)
+accounts for roughly 28% of the dataset.
+
+A quick glance at some of the examples suggest that they are predominantly
+sourced from fiction.
+Such a glance also brings to mind a few possible
+distinguishing features to be used for the classification:
+
+ 1. frequency and type of punctuation
+ 1. frequency of proper names
+ 1. average/median sentence length
+ 1. average/median length of words
+ 1. morphological inflection
+
+The below pair (training ID 334), for instance, exemplifies most of these.
+The former contains longer words and sentences, different punctuation,
+i.e. a great many commas, versus the multiple quotations of the latter, which
+is also accompanied by proper names.
+
+<table>
+<caption>334</caption>
+<tr>
+<th>Author 1</th><th>Author 2</th>
+</tr>
+<tr>
+<td><i>
+"Through succeeding generations he piles up those resources which he possesses outside of himself, the tools of his hands, and the warehouses of knowledge for his brain, whether they be parchment manuscripts, printed book, or electronorecordographs. For the rest he is born today, as in ancient Greece, with a blank brain, and struggles through to his grave, with a more or less beclouded understanding, and with distinct limitations to what we used to call his ""think tank."" [...]
+</i></td>
+<td><i>
+""From the other side of the world,"" answered Rolla calmly. Instantly she noted that the twelve became greatly excited when Somat translated her statement. She decided to add to the scene. ""I have been away from my people for many days,"" and she held up one hand with the five fingers spread out, opening and closing them four times, to indicate twenty."
+</i></td>
+</tr>
+</table>
+
+
+## Approach
+
+I chose to approach the task by creating a neural network to take, as input,
+an array of extracted features. This was largely motivated by my own level
+of confidence in implementing the model.
+
+In the spirit of providing a means to evaluate any given version of the
+model in terms of overfitting, I split the data into training and validation
+sets with a split of 90%/10%. Each model was tested against the validation set
+throughout training and loss recorded and plotted;
+in many cases, overfitting was clearly evident as validation loss
+rose as training loss lessened.
+
+For the most promising loss patterns, the next measure of evaluation came from
+observing the model's predicted labels for the test sets.
+In most cases, models predicted all items as negative (0 label), so any
+number of positive predictions suggested Improvement
+(although not necessarily so, granted).
+
+### Features
+
+The question of which features to use as input in the neural network, however,
+was a matter of exploration.
+Features explored were:
+
+#### TF-IDF of tokens
+
+The first attempt at feature input, a spatial comparison of IF-IDF vectors,
+also proved to be the most successful—or perhaps the least unsuccessful.
+
+It is worth noting that TF-IDF, in representing word frequency, is more suitable
+for determining the topic of a document than in representing stylistic factors
+that are relevant to authorship. Thus, a high degree of success was not expected.
+
+A pytorch `TfidfVectorizer` was fit on the whole of the training data
+(admittedly, including the hold-out validation set may raise concerns),
+then used to generate a vector for each snippet individually.
+
+I compared the similarity of the TfIdf vectors of each snippet pair in terms
+of cosine similarity and euclidian distance, and used only these two data
+points.
+By contrast, including the entire TF-IDF vector for each document
+extended computation-time substantially, with little to no performance benefit.
+
+#### Other features
+
+A myriad of other features were attempted:
+
+1. Mean/median sentence length  
+1. Mean/median word length  
+1. Token counts and bigrams
+1. POS counts and bigrams
+1. Punctuation counts
+1. DictVectorizer of Stanza's word-feature labels (grammatical categories)
+
+Expanding counts to 2-grams yielded no noticeable improvement in performance.
+
+In a manual process, concatenating various combinations of these features were
+not promising.
+
+## Results
+
+The present form of my coded approach yields a score of .5372
+(this differs slightly from my highest score).
+This exceeds the baseline by a small amount; the driver therefor is discussed
+below:
+
+## Error analysis
+
+Somewhat surprisingly, the published code (with set seed values) produces zero
+positive labels in the validation set. However, this is only surprising insofar
+as positive true labels should be in that set. By contrast, true values are
+indeed expected in the test set.
+
+The real takeaway, it it seems to me, is that tf-idf vectors, by
+serving to highlight uniquely-used words, are good at identifying snippets
+taken from the same work—if the snippets in question use words that are in
+common and (relatively) to that work.
+
+As an example, consider the following from the test set:
+
+<table>
+<caption>2459</caption>
+<tr>
+<th>Author 1</th><th>Author 2</th>
+</tr>
+<tr>
+<td><i>
+"[...] The importance of having speedways in which to confine aerenoids,
+travelling at the terrific velocity of one hundred miles a minute,
+[...] in fact a most important adjunct to the operation of an aerenoid. [...]"
+</i></td>
+<td><i>
+"[...] realized that in this slow travelling aerenoid my chances of covering
+the five miles in time were but slight, [...]"
+</i></td>
+</tr>
+</table>
+
+The term *aerenoid* is surely a word created for a fictional work, and thus
+is exceedingly likely never to appear in any other work, much less any selected
+for this task. Particular names would also serve similarly.
+
+## Reproducibility
+
+# \#TODO
+
+Dockerfile and instructions
+
+## Future Improvements
+
+The question remains, of course, of the unremarkable effect of the various
+feature attempted.
+
+One major limitation is that I have treated all snippets as bags-of-words
+(or bags of bigrams, in some cases). Style may intuitively be considered as
+something that is stretched out, so to speak, across a broader scope than a word
+or two. While the chosen features were in the spirit of this, they evidently did
+not capture this.
+As such, a model that is sensitive to patterns over time—such as  Recurrent
+Neural Network—may be preferable in that regard.
+
+Further room for improvement, I feel, is in the fact that raw counts may be
+unreliable if not normalized for the context (i.e. the length of the snippet)
+in which they appear.
+
+## Leaderboard result
+
+<table>
+<caption>Submission</caption>
+<tr>
+<th>Name</th><th>Score</th><th>Message</th>
+</tr>
+<tr>
+<td>Ryan L Nelson</td>
+<td>.53893</td>
+<td>echo4</td>
+</tr>
+</table>
+
+## [Link to code repo](https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-nelson-ryan)
+

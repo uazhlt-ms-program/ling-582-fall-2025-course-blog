@@ -1,0 +1,345 @@
+---
+title: "Article on OCR for Indigenous Languages"
+slug: "/sydneybess/paper-summary"
+date: 2025-12-10
+author: Sydney B
+description: "A LLM and Human analysis of an article"
+tags:
+  - paper summary
+---
+
+
+## Citation
+
+_Shadya Sanchez Carrera, Roberto Zariquiey, and Arturo Oncevay. 2024. Unlocking Knowledge with OCR-Driven Document Digitization for Peruvian Indigenous Languages. In Proceedings of the 4th Workshop on Natural Language Processing for Indigenous Languages of the Americas (AmericasNLP 2024), pages 103–111, Mexico City, Mexico. Association for Computational Linguistics._
+
+<table>
+  <caption>
+    Citation summary
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <td><b>Paper</b></td>
+    <td>"Unlocking Knowledge with OCR-Driven Document Digitization for Peruvian Indigenous Languages"</td>
+  </tr>
+  <tr>
+    <td><b>Authors</b></td>
+    <td>Shadya Sanchez Carrera, Roberto Zariquiey, Arturo Oncevay</td>
+  </tr>
+  <tr>
+    <td><b>Year published</b></td>
+    <td>2024</td>
+  </tr>
+  <tr>
+    <td><b>Venue</b></td>
+    <td>AmericasNLP 2024</td>
+  </tr>
+  <tr>
+    <td><b>Paper URL</b></td>
+    <td>https://aclanthology.org/2024.americasnlp-1.11/</td>
+  </tr>
+  <tr>
+    <td><b>Code URL</b></td>
+    <td>???</td>
+  </tr>
+</tbody>
+</table>
+
+## Description
+
+This paper is about the use of Optical Character Recognition(OCR) on indigenous languages of the Americas. OCR is the process of extracting text (essentially digitizing it) from an image, or in this case, scanned typed PDFs. Most language resources for Indigenous low-resource languages come from handwritten fieldnotes or older books that taught the language, which have no digital copies. But it takes a long time to go through and type in everything from the books; many people don't have the time.
+
+
+This is why the article discusses using OCR and training the model on limited annotated or even synthetic data. They selected PDFS from four indigenous languages of South America: Asháninka, Shipibo-Konibo, Yanesha, and Yine. Their data consisted of 454 scanned pages from 89 books, totaling 3,900 tokens, along with tables and graphs, both typed and handwritten. Next, they annotated the data (adding the typed words). Next, they preprocessed the PDFs using software to remove noise such as scanned marks, stains, and page numbers.
+
+
+Then comes the OCR process; the article specifically discusses two popular OCR models, Google Vision and Tesseract.  They ran these models in Latin script and used Character Error Rate (CER) and Word Error Rate (WER) as metrics to evaluate model performance.
+
+
+The different models had strengths and weaknesses: Google Vision didn't do a good job of maintaining the correct order and format of multicolumn text, while Tesseract did. On the other hand, Tesseract had more character insertions (e.g., mistaking one unique character for two common characters) than Google Vision. Other issues included word boundary issues (adding spaces where there shouldn't be, or treating single spaces as new paragraphs), which predominantly affected Google Vision.
+
+
+Now that the basic OCR was complete, they returned to manually correcting data and fed it into sequence-to-sequence models to reduce errors. These included Denorm, Ensemble, and Single Source.
+
+
+The results were overall better, with significantly improved accuracy on diacritics, though a few characters were deleted or inserted.
+
+## Motivation
+
+I'm currently working with the Coeur d'Alene tribe doing OCR on things like workbooks or dictionaries that aren't digitized (scanned PDFs.) My team and I are using Tesseract and I was looking for an article about Tesseract and OCR on indigenous languages
+< !-- NOTE: don't use an LLM to generate this! 🙃 -->
+
+## LLM
+
+<table>
+  <caption>
+    LLM model summary
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>LLM model</b></th>
+    <td>JanAI</td>
+  </tr>
+  <tr>
+    <th><b>LLM model version</b></th>
+    <td>menlo/jan-v1-4b</td>
+  </tr>
+  <tr>
+    <th><b>Model/service URL</b></th>
+    <td>https://www.jan.ai/docs/desktop</td>
+  </tr>
+  <tr>
+    <th><b>Why this model?</b></th>
+    <td>It seemed simple enough to install</td>
+  </tr>
+</tbody>
+</table>
+
+
+#### Description (LLM)
+
+_In the LLM's words, what is this paper about?_
+
+This paper, presented at the 4th Workshop on Natural Language Processing for Indigenous Languages of the Americas (AmericasNLP 2024), focuses on using OCR (Optical Character Recognition)-driven document digitization to preserve and make accessible knowledge in Peruvian Indigenous Languages. The authors propose a method to convert physical documents (e.g., manuscripts, books) into digital text, which can then be used for language revitalization, academic research, and cultural preservation. The work addresses challenges in digitizing languages that are endangered, by leveraging OCR to unlock linguistic resources previously locked in physical form. The project emphasizes practical applications for communities and researchers working with Peruvian Indigenous Languages.
+
+(Note: The paper was published in 2024, though the current date is December 3, 2025—this indicates it was presented at the AmericasNLP 2024 workshop held earlier in 2024.)
+##### Prompt
+
+```markdown
+What is this paper about? Shadya Sanchez Carrera, Roberto Zariquiey, and Arturo Oncevay. 2024. Unlocking Knowledge with OCR-Driven Document Digitization for Peruvian Indigenous Languages. In Proceedings of the 4th Workshop on Natural Language Processing for Indigenous Languages of the Americas (AmericasNLP 2024), pages 103–111, Mexico City, Mexico. Association for Computational Linguistics.
+```
+
+#### What are the authors proposing?
+Here's a concise yet precise explanation of the authors' proposals and technological work from the paper:
+
+Core Proposal: The authors propose an OCR-driven framework to systematically digitize and make accessible physical documents (e.g., manuscripts, books, oral history records) in Peruvian Indigenous Languages—languages often written in non-Latin scripts or with endangered orthographies—to preserve cultural knowledge and enable linguistic research. This addresses critical gaps in digital resources for these languages.
+
+Technology & Work Specifics:
+
+Custom OCR Pipeline: They developed a tailored OCR workflow using open-source tools like Tesseract 5 (with Python/PyTesseract integration) to process documents in multiple Peruvian Indigenous scripts (e.g., Quechua, Aymara, Shipibo). Key adaptations included:
+Training Tesseract with language-specific datasets (e.g., pre-scan images of handwritten texts) to improve recognition of unique characters, diacritics, and scripts.
+Implementing post-processing rules (e.g., linguistic validation) to correct OCR errors specific to Indigenous languages (e.g., handling verb conjugations, tonal markers).
+Community-Centric Digitization: The work involves collaborating with Peruvian Indigenous communities to:
+Identify and prioritize high-value documents (e.g., agricultural knowledge texts, medicinal plant guides).
+Use community linguists to annotate OCR outputs, ensuring accuracy and cultural relevance.
+Output & Impact: The framework produces digitized, searchable text corpora (e.g., in JSON/HTML formats) for:
+Language revitalization (e.g., teaching materials).
+Academic research (e.g., corpus linguistics studies).
+Cross-platform access (e.g., via web interfaces for researchers/communities).
+In essence, they move beyond generic OCR by embedding linguistic expertise and community partnership into the digitization pipeline to unlock actionable digital resources for endangered Peruvian Indigenous Languages.
+
+(Note: This summary aligns with the paper’s focus on practical, ethical implementation—no tools were needed to generate this response, as it’s based on published knowledge of the work.)
+##### Prompt
+
+```markdown
+Briefly but thoroughly explain what the author’s are proposing. Also be specific about the technology proposals and work
+```
+
+#### What is the motivation for the work?
+The authors' motivation stems from urgent linguistic and cultural preservation needs in Peru, specifically:
+
+Language Endangerment: Peruvian Indigenous languages (e.g., Quechua, Aymara, Shipibo) are highly endangered, with many spoken by fewer than 1,000 people. Without digital archives, centuries of knowledge (e.g., agricultural practices, medicinal plant guides, oral histories) risk permanent loss.
+Lack of Digital Resources: Existing digital corpora for these languages are scarce, fragmented, or inaccessible due to historical biases in digitization (e.g., tools designed for Latin scripts or dominant languages). This hinders research, education, and community language revitalization.
+Ethical Imperative for Community-Centered Preservation: The authors emphasize that digitization must actively involve Indigenous communities—not just extract data. They aim to empower communities by:
+Prioritizing documents relevant to their cultural knowledge.
+Ensuring digitized outputs are usable by communities (e.g., for teaching, local archives).
+Addressing historical erasure by making Indigenous knowledge accessible in its original script.
+In short, their work is driven by the need to prevent the irreversible loss of linguistic and cultural knowledge through collaborative, technologically enabled digitization—framing it as a tool for justice, resilience, and self-determination of Indigenous communities in Peru.
+
+(Note: This is based on the paper’s explicit statements in the introduction and background sections, which align with broader academic discussions on decolonizing digital linguistics.)
+##### Prompt
+
+```markdown
+What is the author’s motivation for the work?
+```
+
+#### What is the approach or innovation?
+Based on the paper Unlocking Knowledge with OCR-Driven Document Digitization for Peruvian Indigenous Languages, the authors describe two key components in their OCR workflow—not two distinct tools, but a core OCR engine paired with a customized post-processing pipeline for Indigenous languages:
+
+1. The Two Components
+
+Component	Tool/Technology	Purpose
+Primary OCR Engine	Tesseract 5 (with PyTesseract Python bindings)	Initial character recognition from scanned documents in Peruvian Indigenous scripts (e.g., Quechua, Shipibo)
+Custom Post-Processing	Linguistically adapted rules + community validation (e.g., spaCy for syntactic checks)	Correcting OCR errors specific to Indigenous languages (e.g., diacritics, verb conjugations)
+2. OCR Process Steps (Concise & Thorough)
+
+Preprocessing: Documents are scanned and cleaned (e.g., removing noise, adjusting contrast) to optimize Tesseract input.
+Tesseract OCR Run: Tesseract processes the cleaned images to output initial text in the document’s script (e.g., Latinized Quechua).
+Custom Post-Processing:
+Linguistic validation: Rules (e.g., regex patterns for Indigenous verb tenses, tonal markers) flag high-confidence errors.
+Community correction: Native language speakers review and fix errors in real-time—this step is critical for accuracy in endangered languages.
+Output: Final digitized texts are saved as searchable JSON/HTML files (e.g., for web archives or language learning apps).
+Why This Matters for Peruvian Indigenous Languages
+
+Tesseract alone fails on non-Latin scripts (e.g., Quechua’s k’ay characters) without training data. The authors trained it on community-sourced scans of existing texts.
+Post-processing ensures usability: Without community involvement, OCR errors would misrepresent linguistic nuances (e.g., a misread verb tense could alter cultural knowledge).
+This approach turns OCR from a technical task into a collaborative preservation tool—directly addressing the authors’ motivation for community-centered digitization.
+
+##### Prompt
+
+```markdown
+The article talks about two OCR tools, what are they and what were the steps of the OCR process. Be concise but thorough
+```
+
+#### What are the results and how do they compare with competing approaches?
+
+Here’s a precise, quote-driven summary with numerical results and comparative analysis from the paper (based on Unlocking Knowledge with OCR-Driven Document Digitization for Peruvian Indigenous Languages, AmericasNLP 2024):
+
+Results Quote:
+"Our pipeline reduced character error rates (CER) by 28.7% compared to baseline Tesseract 5 on Quechua manuscripts (from 42.0% to 31.3%), with 100% of community-validated outputs achieving linguistic coherence."
+
+Competing Approach Comparison Quote:
+"Commercial OCR tools like Adobe Scan exhibited a 71.2% CER on Quechua texts—22.5 percentage points higher than our method—while generic Tesseract 5 without linguistic post-processing showed 42.0% CER."
+
+Quantitative Comparison Table (from paper’s evaluation):
+
+Approach	CER on Quechua Texts	Community-Validation Efficiency
+This Work (Tesseract + community post-processing)	31.3%	100% linguistically coherent
+Baseline Tesseract 5	42.0%	28.7% higher errors
+Adobe Scan (commercial)	71.2%	40% manual review required
+Key Insight: The authors explicitly state their method outperforms competitors by integrating community linguists into the error-correction loop, reducing manual review effort by 65% while achieving near-perfect linguistic accuracy for scripts like Quechua—critical for languages where a single OCR error could misrepresent cultural knowledge.
+
+(Source: These results and comparisons are distilled from the paper’s empirical evaluation section, page 106–107 of the AmericasNLP 2024 proceedings.)
+##### Prompt
+
+```markdown
+Using quotes and numbers, say what are the results and also mention how they compare with competing approaches
+```
+
+#### Is the comparison fair?
+Here's a concise yet thorough response to your question:
+
+The comparison in the paper is fair for its stated scope because:
+
+The paper explicitly did not test Google Cloud Vision OCR—it only benchmarked against Tesseract 5 (baseline) and Adobe Scan (commercial tool). The authors clarify in their methodology that they prioritized tools relevant to community digitization workflows (not exhaustive commercial comparisons).
+All metrics were applied consistently to the same Quechua manuscripts, using identical evaluation criteria (e.g., CER, community validation efficiency).
+Contextual fairness: Competitors like Adobe Scan naturally underperform on Indigenous scripts (71.2% CER vs. 31.3% for their method), which the paper attributes to their lack of linguistic adaptation—not inherent unfairness in the comparison.
+Why it’s not "unfair": The paper’s goal was not to claim superiority over all OCR tools, but to demonstrate a community-integrated approach that solves real gaps in Indigenous language digitization (e.g., reducing manual correction by 65%). The omission of Google OCR is methodologically transparent and aligned with their focus on practical, ethical implementation for Peruvian communities—not a comprehensive tool benchmark.
+
+💡 In short: The comparison is fair within the paper’s context—it’s rigorous, transparent, and directly relevant to their mission. Google OCR’s absence isn’t a flaw but a deliberate scope limitation.
+
+(Source: AmericasNLP 2024 Proceedings, p. 107)
+##### Prompt
+
+```markdown
+Is the comparison of their OCR work with Tesseract + Google OCR and competition OCR work fair? Make the response concise but thorough
+```
+
+#### What are the takeaways according to the authors?
+According to the authors' own words in the paper:
+
+"Our work demonstrates that embedding community linguists in the OCR error-correction loop achieves 100% linguistic coherence with minimal manual intervention—critical for preserving nuanced knowledge in endangered Indigenous languages. This approach outperforms generic OCR tools by reducing character errors by 28.7% and manual review effort by 65%."
+
+(Source: AmericasNLP 2024 Proceedings, conclusion section)
+##### Prompt
+
+```markdown
+Concisely tell me what are the takeways according to the author’s - not you
+```
+
+#### What are the takeaways according to you?
+
+Here are the takeaways from my perspective (based strictly on the paper’s content and implications):
+
+Community integration is the critical differentiator: The work proves that active collaboration with Indigenous communities during OCR error correction—not just using technical tools—drives real-world accuracy and cultural relevance.
+Quantifiable impact: Their method reduces OCR errors by 28.7% and manual review by 65% compared to standard approaches, making digitization feasible for endangered languages without sacrificing linguistic precision.
+Ethical scalability: This framework turns "community involvement" from a theoretical ideal into a practical, measurable process—addressing historical gaps where digitization often excluded or misrepresented Indigenous knowledge.
+(No quotes or external sources added—these are distilled conclusions from the paper’s findings and design choices.)
+##### Prompt
+
+```markdown
+What are the takeaways according to you?
+```
+
+#### Would you use this?  If so, how/where would you use this?
+
+
+Would I use this OCR approach for other Indigenous languages?
+Yes—absolutely, with critical adaptations. The framework is designed to be scalable to any Indigenous language through:
+
+Language-specific training data (e.g., scanning community texts in Aymara, Maori, or Cherokee scripts),
+Collaborative validation with native speakers to address script-specific errors (e.g., tonal markers in languages like Yoruba or Khoisan languages).
+How else would I apply this?
+Beyond digitizing manuscripts, I’d deploy it in:
+
+Mobile field tools: Scanning documents in remote communities via smartphone OCR (e.g., for oral history records in the Amazon),
+Language preservation apps: Turning digitized texts into interactive learning resources (e.g., Quechua verb conjugations via apps),
+Policy advocacy: Providing digitized evidence to governments for language rights—e.g., using OCR to map endangered language use in indigenous land rights cases.
+Why it works elsewhere: The core innovation—community-led error correction—is universally relevant for any endangered language where linguistic nuance matters. This isn’t just a technical fix; it’s a model for ethical, participatory knowledge preservation.
+
+(No external tools needed—this is a direct extrapolation of the paper’s principles.)
+##### Prompt
+
+```markdown
+Would you use this type of OCR on other indigenous languages? How else would you apply this? Be concise but thorough
+```
+
+##### Prompt
+
+```markdown
+prompt here
+```
+
+#### What problems remain and what are the next steps?
+Based on the Conclusions and Future Work section of the paper (Unlocking Knowledge with OCR-Driven Document Digitization for Peruvian Indigenous Languages, AmericasNLP 2024):
+
+🚧 Problems Remain (as stated by authors):
+
+Scalability across languages: The current pipeline requires language-specific training data and community collaboration—challenging to generalize to all Indigenous languages due to limited existing resources.
+Sustained community engagement: Maintaining long-term partnerships with communities post-digitization to ensure ongoing validation and use of materials (e.g., avoiding "digital abandonment").
+Technical limitations for non-Latin scripts: While improved for Quechua/Shipibo, complex scripts (e.g., tonal or logographic systems) still require specialized adaptations.
+🔄 Next Steps (explicitly proposed by authors):
+
+Expand to more Indigenous languages: Deploying the framework to Aymara, Moche, and other Peruvian languages using community-sourced materials.
+Build a community validation toolkit: Creating open-source guidelines and templates to help communities independently verify OCR outputs.
+Integrate with language preservation platforms: Partnering with initiatives like Digital Indigenous Languages to embed digitized texts into language learning apps or archives.
+💡 Key quote from authors:
+"We aim to move beyond a single language project by developing modular, community-adaptive workflows that can be rapidly deployed across the Americas—prioritizing ethical scalability over technical perfection."
+(Source: AmericasNLP 2024, p. 110)
+
+This shows the authors frame next steps as practical, community-driven extensions of their current work—not theoretical idealism.
+
+##### Prompt
+
+```markdown
+What problems remain and what are the next steps according to the author’s (specifically look in the Conclusions and future work section)
+```
+
+### Experience using the LLM
+
+_Describe your process for using the LLM.  How did the LLM perform?_
+
+So I did two versions of this. The first one I didn't make concise, as the rubric said, so I ended up redoing it. I want to share a bit about my first round.
+Firstly, I just told it to tell me about this article, and I sent a link. It ended up summarizing a completely different article, which is when I realized that the base URL I copied could refer to other articles. That was when I exactly mentioned the name and authors of the article, and it got on track... sort of.
+The first time around, I just asked the assignment questions almost verbatim, and it didn't do so well!
+Okay, onto the time when I mentioned the article's name and authors.
+
+Its responses were thorough and well structured (gotta say, I love organizing things with emojis), and it provided good summaries (in terms of what it generated, not the actual text) in tables and bullet points. 
+I had to be pretty specific with questions after what I learned the first time. For example, I specifically asked it to name the two specific OCR software used instead of just 'what approaches' because the first time it rambled on about other stuff - here it gave me two things, the first Tesseract, which was correct, but then Adobe's OCR, which was wrong, the other method it discussed was Google Vision OCR. When I challenged it later on, it said the article never mentioned Google Vision OCR, which is false.
+
+
+#### Errors and limitations of the LLM 
+
+It made....quite a few mistakes. Some are more detrimental than others. For example, it kept saying the article was a study in the Quechua language, but nowhere in the article does it mention Quechua; it mentions four other languages, none of which the AI mentioned. Other things it hallucinated include all the quotes and numbers it gives, along with, as mentioned, the consistent mention of Adobe's OCR and the refusal to acknowledge Google Vision OCR (i.e., in "Is this Comparison Fair"). Also, in the category, the article specifically mentions others' OCR work, but it does not necessarily pick up on that; it does, however, share the author's goal of using this pipeline as a process, not a superior one. Luckily, it got the fact that it used Tesseract version 5 correct.
+
+I thought maybe Adobe had some Quecha OCR, which is why it pivoted to that, but upon research, it doesn't seem so. My thought is Quecha is a well-known Peruvian Indigenous language, so maybe when it didn't recognize the four it mentioned, it defaulted to that, which is one limitation.
+
+
+At the end of each response, it would inform me that it only used sources from the article and did not extrapolate any other information, which is obviously false.
+
+
+However, aside from those technical hallucinations, it is generally understood the point of the article, both the motivation and the process used (i.e., taking into account the pre- and post-processing of the data, which the article mentions in detail, even if it failed to capture the technical details). The numbers it gave somewhat correspond with the trends, like how things were better once post-processed, though it was humans who did the post-processing, not correction models, and it did not achieve 100% efficiency. 
+
+In conclusion, it understood the point of the article but messed up on almost every technicality, some of which were critical to the proper analysis. 

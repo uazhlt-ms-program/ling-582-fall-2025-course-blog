@@ -1,0 +1,112 @@
+---
+title: "Multi-perspective Alignment for Increasing Naturalness in Neural Machine Translation"
+slug: "/pamelaangulo164/paper-summary"
+author: "pamelaangulo164"
+date: 2025-11-16
+description: "Paper summary proposal"
+tags:
+  - paper summary
+---
+
+## Paper Summary Proposal
+
+### Citation
+
+Lai, H., Ploeger, E., van Noord, R., & Toral, A. (2025).  
+Multi-perspective Alignment for Increasing Naturalness in Neural Machine Translation.  
+In *Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)*, pp. 28071–28084. Association for Computational Linguistics.
+
+- ACL Anthology ID: `2025.acl-long.1361`  
+
+
+<table>
+  <caption>
+    Citation summary
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <td><b>Paper</b></td>
+    <td>Multi-perspective Alignment for Increasing Naturalness in Neural Machine Translation</td>
+  </tr>
+  <tr>
+    <td><b>Authors</b></td>
+    <td>Huiyuan Lai, Esther Ploeger, Rik van Noord, Antonio Toral</td>
+  </tr>
+  <tr>
+    <td><b>Year published</b></td>
+    <td>2025</td>
+  </tr>
+  <tr>
+    <td><b>Venue</b></td>
+    <td>Proceedings of the 63rd Annual Meeting of the Association for Computational Linguistics (ACL 2025), Long Papers</td>
+  </tr>
+  <tr>
+    <td><b>Paper URL</b></td>
+    <td>https://aclanthology.org/2025.acl-long-1361</td>
+  </tr>
+  <tr>
+    <td><b>Code URL</b></td>
+    <td>https://github.com/laihuiyuan/alignment4naturalness</td>
+  </tr>
+</tbody>
+</table>
+
+## Description
+
+In my own words, this paper is about making neural machine translation outputs sound more like natural target-language text, without losing accuracy. The authors start from an English-to-Dutch literary MT system and fine-tune it using a reward-learning framework inspired by reinforcement learning.
+
+They build several translationese classifiers that distinguish original Dutch, human translations, and machine translations, and they also use COMET as a content-preservation metric. During fine-tuning, the model is rewarded when a translation is both natural according to the classifiers and faithful according to COMET. The main result is that their aligned systems produce translations that are more lexically rich and human-like while maintaining, and sometimes slightly improving, standard MT quality metrics compared to strong baselines like tagging, automatic post-editing, and reranking.
+
+## Motivation
+
+I selected this paper because it combines neural machine translation with ideas from alignment and reinforcement learning, which are central to modern statistical NLP and LLMs. The problem it tackles is very practical: current MT systems often produce fluent but stylistically flat output that has recognizable “translationese” properties, especially in literary domains.
+
+I am also interested in how to formally model the trade-off between faithfulness to the source text and naturalness in the target language. This paper offers a concrete framework for that trade-off by combining content-based rewards (COMET) with naturalness-oriented classifiers and shows how to tune the balance between them. That makes it a good fit for thinking about both MT and broader alignment questions in this course.
+
+## LLM
+
+<table>
+  <caption>
+    LLM model summary
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>LLM model</b></th>
+    <td>???</td>
+  </tr>
+  <tr>
+    <th><b>LLM model version</b></th>
+    <td>???</td>
+  </tr>
+  <tr>
+    <th><b>Model/service URL</b></th>
+    <td>???</td>
+  </tr>
+  <tr>
+    <th><b>Why this model?</b></th>
+    <td>???</td>
+  </tr>
+</tbody>
+</table>
+
+
+#### Description (LLM)
+
+In the LLM's words, what is this paper about?
+
+##### Prompt
+
+```markdown
+prompt here

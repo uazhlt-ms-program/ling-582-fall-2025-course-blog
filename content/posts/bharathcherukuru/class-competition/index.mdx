@@ -1,0 +1,350 @@
+---
+title: "Improved Authorship Attribution - Enhanced feature engineering and modeling approach"
+slug: "/bharathcherukuru/class-competition"
+date: 2025-12-10
+author: bharathcherukuru
+description: "I extracted features from each text pair, trained multiple models, combined them into an ensemble, tuned the threshold, and used the optimized ensemble to make the final predictions."
+tags:
+  - class competition
+---
+
+
+<table>
+  <caption>
+    Class Competition Info
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>Leaderboard score</b></th>
+    <td>0.56582</td>
+  </tr>
+  <tr>
+    <th><b>Leaderboard team name</b></th>
+    <td>Bharathch7</td>
+  </tr>
+  <tr>
+    <th><b>Kaggle username</b></th>
+    <td>bharathch7</td>
+  </tr>
+  <tr>
+    <th><b>Code Repository URL</b></th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-Bharath-ch40</td>
+  </tr>
+</tbody>
+</table>
+
+## Description
+My approach can be summarized as follows, I split each pair of text snippets, extracted detailed stylometric and n-gram features, compared the two snippets using difference-based metrics, trained three different models (Logistic Regression, Random Forest, and Gradient Boosting), combined them with a weighted ensemble, tuned the decision threshold based on cross-validation macro F1, and finally used this optimized ensemble to generate the test predictions submitted to Kaggle.
+
+The overall goal was to build a strong feature-based system that does not rely on large transformer models, but instead tries to capture stylistic similarity between two spans using carefully engineered features and a classical ML ensemble.
+
+## Task summary
+The shared task is an authorship verification problem framed as a binary classification task. For each row in the dataset:
+
+- The 'TEXT' column contains two snippets of English text, concatenated with a special token [SNIPPET] in the middle.
+- The goal is to decide whether both snippets were written by the same author or by the different authors.
+
+The training file 'train.csv' contains:
+
+    'ID' : a unique identifier for each example  
+    'TEXT': the concatenated text span 'snippet1 [SNIPPET] snippet2'
+    'LABEL' : the gold label  
+    '0' = Different Authors  
+    '1' = Same Author  
+
+The test file 'test.csv' has the same structure but no labels. We must train a model on train.csv, then output predictions for test.csv as submission.csv with the columns:
+
+    ID
+    LABEL (our predicted label either 0 or 1)
+
+The competition is evaluated using macro F1 on Kaggle. Macro F1 computes the F1 score separately for each class (Different Authors vs Same Author) and then averages them. This metric is especially sensitive to class imbalance, and it punishes a model that ignores the minority class, even if its overall accuracy looks decent.
+
+
+## Exploratory data analysis
+
+Before building features and models, I conducted basic EDA to understand the data distribution and check for the possible issues.
+
+### Dataset size & label distribution :
+
+From 'train.csv' and 'test.csv':
+
+- Training set: 1601 records, 3 columns (ID, TEXT, LABEL)  
+- Test set: 899 records, 2 columns (ID, TEXT)
+
+The label distribution in the training data is:
+
+- Class 0 (Different Authors): 1245 examples  
+- Class 1 (Same Author): 356 examples  
+
+This means only about 22% of examples are Same Author:
+
+- Class balance (mean(LABEL)): 0.222
+
+So the dataset is heavily imbalanced in favor of class 0. A naive model that always predicts 0 would already get high accuracy, but a bad macro F1, because F1 for class 1 would be 0.
+
+### Simple example to check :
+
+To make sure the data looked sensible, I inspected a few random examples from both classes:
+
+- For class 0 (Different Authors), the two snippets in 'TEXT' often belong to similar genres, but they are clearly from different contexts or books.
+- For class 1 (Same Author), both snippets usually have very similar narrative voice, punctuation habits and although topics can differ.
+
+Takeaway:
+
+- On the surface, both classes often look very similar (same genre, similar vocabulary).
+- Therefore, the model must rely on subtle stylistic cues, not only obvious topic words.
+
+### Text length analysis :
+
+I computed a simple length measure for each row: the number of characters in `TEXT`:
+
+- Count: 1601  
+- Mean length: roughly around 1000 characters  
+- Standard deviation: around 546 characters  
+- Minimum length: nearly 164  
+- Maximum length: 5500 approx
+
+Both class 0 and class 1 have a mix of shorter and longer texts, and their length distributions are broadly similar. So length by itself is not a strong signal of the label, but it is still useful as part of a larger feature set.
+
+### Missing values and duplicates :
+
+I checked for:
+
+- Missing values in all columns : none were present.  
+- Duplicate IDs : none found.  
+- Potential duplicate '(TEXT, LABEL)' pairs : none
+
+So the dataset looks clean and ready for modeling.
+
+### Summary of EDA :
+
+1. Strong class imbalance: 1245 vs 356 - need to think about class-balanced modeling or at least threshold tuning.  
+2. Texts are mostly narrative and fairly long, which is good for stylometric analysis.  
+3. Both classes look very similar on the surface, we must exploit stylometric similarity between the two snippets rather than just topic words.  
+4. Data quality is good: no missing labels, no duplicates also.
+
+## Approach
+
+My system is a feature-based authorship verification model. Instead of using big neural networks, I try to capture how similar two snippets are in terms of writing style and then train classical ML models on those features.
+
+The approach has four main parts:
+
+1. Split the pair into two snippets
+   Each example has one 'TEXT' field like:
+   'snippet1 [SNIPPET] snippet2'  
+   I split on '[SNIPPET]' to get:
+   - 's1' = first snippet  
+   - 's2' = second snippet  
+   These are the two pieces of text whose authorship relationship I want to predict.
+
+2. Extract stylometric features for each snippet
+   For each snippet separately, I compute a set of style features, for example:
+   - Length features: number of characters, number of words, average word length  
+   - Sentence features: number of sentences, average sentence length  
+   - Readability scores 
+   - Lexical diversity: number of unique words, type–token ratio  
+   - Stopword ratio: proportion of stopwords  
+   - Punctuation usage: how often commas, periods, question marks, etc. are used  
+   - POS ratios: proportion of nouns, verbs, adjectives, and adverbs  
+
+   The idea is that these capture an author’s writing style, not just the topic.
+
+3. Compare the two snippets with difference-based features
+   Once I have feature sets for 's1' and 's2', I turn them into comparison features that measure how similar the two snippets are. For each numeric feature, I compute things like:
+   - The absolute difference between snippet 1 and snippet 2  
+   - A ratio of snippet 1 vs snippet 2
+   - A relative difference (difference divided by their sum)  
+
+   If the two snippets come from the same author, these comparison values should often be small.  
+   If they are from different authors, the differences tend to be larger.  
+
+   Doing this for all stylometric features gives me a dense feature table for both train and test sets.
+
+4. Add TF-IDF n-gram features on the combined text 
+   In addition to stylometric features, I also add TF-IDF features from the combined text. I include:
+   - Character 3-grams and 4-grams  
+   - Word unigrams and bigrams  
+
+   These capture local patterns like frequent character sequences, punctuation patterns, and common word combinations.  
+   Finally, I concatenate:
+   - All stylometric comparison features, and  
+   - All TF-IDF features  
+   to get the final feature representation 'X_train' and 'X_test'.
+
+5. Train three classical ML models with class balancing
+   On these features, I train three different models:
+   - Random Forest
+   - Gradient Boosting
+   - Logistic Regression
+
+   Because class 1 (Same Authors) is much smaller than class 0, I use class_weight="balanced" so that the models do not ignore the minority class.
+
+   I evaluate each model using 3-fold cross-validation, using 'macro F1' as the main metric. This gives:
+   - Cross-validated predictions for each training example  
+   - A macro F1 score for each model ('rf_f1', 'gb_f1', 'lr_f1')
+
+   After that, I fit each model once more on all of the training data to use for making predictions on the test set.
+
+6. Build a weighted ensemble and tune the decision threshold
+   Instead of picking a single best model, I combine all three using a weighted ensemble:
+
+   - For each test example, I get the predicted probability of class 1 from each model.  
+   - I compute a weight for each model based on its cross-validated macro F1 (better models get larger weights).  
+   - I take a weighted average of the three probabilities to get an overall ensemble probability for class 1.
+
+   By default, a probability ≥ 0.5 would be mapped to label 1. However, because the dataset is imbalanced and we care about macro F1, 0.5 is not necessarily the best cutoff.  
+   So I:
+   - Sweep thresholds between about 0.25 and 0.75  
+   - Compute macro F1 on the training data for each threshold  
+   - Choose the best threshold
+
+   Using this optimized threshold with the weighted ensemble gives me the predictions for 'submission_improved_optimized.csv', which achieved my final Kaggle score of 0.56582.
+## Results
+
+### Cross-validated model performance
+
+Using 3-fold cross-validation on the training data, I saw this general pattern:
+
+- Logistic Regression was the best single model, with the highest macro F1.
+- Gradient Boosting did reasonably well and added useful variety to the ensemble.
+- Random Forest was less reliable. Even with class_weight="balanced", it sometimes leaned too hard toward predicting class 0.
+
+In one earlier run, Random Forest essentially predicted only class 0, with a confusion matrix like:
+        [[1245 0]
+        [356 0]]
+
+This gives macro F1 = 0 for the positive class and showed me that accuracy alone is not enough. I needed to focus on macro F1 and class imbalance.
+
+### Ensemble performance
+
+The weighted ensemble (using F1-based weights) usually did better than any single model. It works well because it:
+
+- Uses Logistic Regression as a strong linear baseline.
+- Adds non-linear behavior from Random Forest and Gradient Boosting.
+- Applies a tuned decision threshold chosen specifically to improve macro F1.
+
+### Kaggle leaderboard
+
+On the Kaggle leaderboard:
+
+- My best submission ('submission_improved_optimized.csv') achieved:  
+  - Macro F1: 0.56582
+
+- The provided baseline system achieved:  
+  - Macro F1: 0.50261
+
+So my final approach improves over the baseline by about:
+
+- 0.56582 − 0.50261 = 0.063 macro F1 points.
+
+### Progress from first version to final version
+
+At the beginning of the project, my system was only getting about 0.52 macro F1.  
+After I:
+
+- did more EDA to understand the class imbalance and text lengths,  
+- added better stylometric features and comparison features,  
+- used cross-validation more carefully,  
+- built a weighted ensemble, and  
+- tuned the decision threshold instead of just using 0.5,
+
+my score improved from around 0.52 to about 0.566 macro F1 on the leaderboard.  
+Given the small, imbalanced dataset and the fact that I use only classical ML models (no transformers), I consider this a strong result.      
+## Error analysis
+
+For error analysis, I looked at the training data using the 3-fold cross-validation predictions. For each example, I checked whether the model was correct or wrong, and then I read some of the mistakes to see what was going on.
+
+I found three main types of errors:
+
+False positives (0 - 1):
+The true label is Different Authors, but the model predicts Same Authors.
+This often happens when both snippets are long stories with very similar style and vocabulary. They look so similar that the model can easily think they were written by the same person.
+
+False negatives (1 - 0):
+The true label is Same Authors, but the model predicts Different Authors.
+This usually happens when the same author writes in very different styles across the two snippets, for example one is mostly narration and the other is mostly dialogue, or when one snippet is much shorter. Then the style features look more different than they really are.
+
+Short or noisy texts:
+When one or both snippets are very short or messy, the style features are not very reliable. A few words or punctuation marks can change the scores a lot, so the model makes more random-looking mistakes.
+When I checked errors by text length, very short texts had the highest error rate, medium-length texts were easiest, and very long texts could still be tricky when two different authors wrote in a very similar narrative style.
+Overall, the model is pretty good at capturing style, but it has trouble with:
+    - pairs where different authors look extremely similar,
+    - pairs where the same author changes style a lot, and
+    - very short or noisy snippets.
+
+These are the kinds of cases I would want to handle better in future work.
+
+## Reproducibility
+
+I have added all the data I have used, and also the code I have written as a part of my project in the repository. 
+
+These are the steps I have taken while working in google colab with  runtime ( If you have colab pro version, I have used v5e-1 TPU for better performance)
+
+Step 1:
+clone the repository
+git clone https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-Bharath-ch40.git
+
+Then go into the project using:
+cd ling-582-fall-2025-class-competition-code-Bharath-ch40
+
+Download the data from the data folder:
+train.csv
+test.csv
+
+Download the notebook from the repo, and open the notebook using the google colab
+and then upload the training and testing data into the colab
+
+and then now start running the each cell
+You will get the same results as I got while I runned.
+
+After running the whole notebook, you will get the submission files, for example:
+
+  - submission_improved.csv
+
+  - submission_improved_optimized.csv (the one I used for my best Kaggle score)
+
+Then upload the file into the kaggle competition submissions to get the leaderboard results similar to what I got.
+
+## Future Improvements
+
+In the future, there are several ways I would like to improve this approach:
+
+1.  Tune hyperparameters more carefully
+  In this project, I mostly picked model settings by trial and error. Next time, 
+  I would use tools like GridSearchCV or RandomizedSearchCV to search over many options (for example, different depths and numbers of trees for Random Forest and Gradient Boosting, and different C values for Logistic Regression), using macro F1 as the target.
+
+2.  Handle class imbalance better
+  Right now I use class weights and a tuned threshold. In the future, I could:
+
+    - Try over-sampling the minority class (e.g., SMOTE).
+
+    - Try under-sampling the majority class.
+
+    - Experiment with loss functions that directly punish mistakes on the minority class more strongly.
+
+3.  Reduce and improve the feature space
+  I use a lot of features (stylometric + TF-IDF), which makes the feature space very large. I would like to:
+
+    - Do feature selection to remove features that do not help much.
+
+    - Use dimensionality reduction (such as Truncated SVD) on the TF-IDF part to get a smaller, more compact representation.
+
+4.  Use better pairwise modeling
+  Right now I just compare features with differences and ratios. In the future, I could:
+
+    - Learn vector embeddings for each snippet and use a model that directly compares the two embeddings (e.g., a Siamese network or another similarity model).
+
+5.  Try light-weight transformer models
+  My current system is purely classical ML. As a next step, I would like to:
+
+    - Use a small transformer (like DistilBERT) to get embeddings for each snippet.
+
+    - Combine those embeddings with my existing feature-based ensemble, and compare the results.
+
+Overall, my current system shows that a feature-based ensemble can work well for authorship verification, but I believe it can get even better with more careful tuning, better handling of difficult cases (especially short and style-changing texts), and possibly adding lightweight neural models.

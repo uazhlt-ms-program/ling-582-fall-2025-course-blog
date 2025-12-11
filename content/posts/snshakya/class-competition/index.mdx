@@ -1,9 +1,9 @@
 ---
-title: "EXAMPLE: My clever approach to the class-wide shared task"
+title: "Linear SVM Approach for Class Competition"
 slug: "/snshakya/class-competition"
-date: 2025-10-31
+date: 2025-11-15
 author: Shreya Nupur Shakya
-description: "TBD"
+description: "Using Feature Engineering + SVM to Detect Same Authors"
 tags:
   - class competition
 ---
@@ -22,11 +22,11 @@ tags:
 <tbody>
   <tr>
     <th><b>Leaderboard score</b></th>
-    <td>???</td>
+    <td>63.39</td>
   </tr>
   <tr>
     <th><b>Leaderboard team name</b></th>
-    <td>???</td>
+    <td>Shreya Nupur Shakya</td>
   </tr>
   <tr>
     <th><b>Kaggle username</b></th>
@@ -34,7 +34,7 @@ tags:
   </tr>
   <tr>
     <th><b>Code Repository URL</b></th>
-    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-???</td>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-ShakyaSN</td>
   </tr>
 </tbody>
 </table>
@@ -42,30 +42,74 @@ tags:
 
 ## Task summary
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
+This competition focuses on authorship verification, where the goal is to determine whether two text excerpts were written by the same author (1) or by different authors (0). The training set contains 1,601 examples, with a highly imbalanced label distribution (1,245 negatives vs. 356 positives). Each example consists of a literary passage spanning genres such as fiction, dialogue, and essays, making stylistic modeling central to the task.
+
+Authorship verification is closely related to authorship attribution and stylometry, which study how linguistic patterns identify writers. Unlike attribution, this task requires pairwise comparison rather than multi-class classification. The challenge lies in the data itself: excerpts by the same author often differ greatly in topic, tone, or genre, while texts by different authors may appear deceptively similar. For example, two political essays by different writers may share vocabulary and rhetorical structure, while two passages by the same author may show minimal lexical overlap.
+
+State-of-the-art authorship verification systems typically rely on contrastive learning, transformer-based encoders, or character-level CNNs to capture stylistic fingerprints. 
+
+I have tried to use feature engineering and designing representations that capture both lexical and stylistic similarity to solve the problem.
 
 ## Exploratory data analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+The training set contains **1,601 examples**, with a strongly imbalanced label distribution:
+- **Label 0 (different authors): 1,245 (77.76%)**
+- **Label 1 (same author): 356 (22.24%)**
+
+Text length is highly variable, ranging from 25 to 1036 tokens** (mean ≈ 186, median ≈ 163). Type–token ratio (TTR) is generally high (mean ≈ 0.74), and punctuation and stopword ratios are fairly stable across the corpus (punctuation ≈ 4.3% of characters, stopwords ≈ 34% of tokens). Per-class averages for token length, TTR, punctuation, and stopword ratios are nearly identical for labels 0 and 1, suggesting that **very coarse statistics do not strongly separate the classes**, and that more detailed stylometric and lexical-similarity features are needed. The most frequent tokens are common function words (e.g., *the, and, of, to*), plus a special marker `SNIPPET` that appears in all rows.
+
+Analysis code is shared in the code repository.
+
 
 ## Approach
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
+I started with a simple logistic regression model using only character TF-IDF cosine similarity. To improve performance, I added word TF-IDF similarity, Jaccard token overlap, and a set of writing features (token length, type–token ratio, punctuation ratio, etc.), encoded as pairwise absolute differences and ratios. This achieved ~0.59. I then replaced logistic regression with a Linear SVM . This feature-engineered SVM approach achieved a  higher macro-F1 (~0.63) on Kaggle.
 
 ## Results
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
+I performed 5-fold stratified cross-validation on the training data. In each fold, the system:
 
-## Error analysis
+1. Extracts character-level and word-level TF–IDF features.
+2. Builds stylometric statistics for each span.
+3. Trains a Linear SVM with `class_weight="balanced"`.
+4. Calibrates probabilities using 3-fold internal cross-validation.
+5. Tunes a decision threshold over the positive probability space to maximize macro-F1.
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+
+<b> Leaderboard Result </b>
+
+- **Team name:** Shreya Nupur Shakya  
+- **Kaggle username:** shreyanupurs  
+- **Final competition score:** 63.39
+
+## Error Analysis
+
+I analyzed 392 misclassified examples from the held-out validation predictions produced via 5-fold cross-validation. The code is shared in the github repository. Some clear patterns emerged:
+
+1. **Same author, different genre (False Negatives).**  
+   When authors shift between narrative modes (e.g., light dialogue vs. heavy description), the model often fails to recognize shared authorship.  
+   *Example:* ID 727 pairs casual conversational prose with somber descriptive writing, yielding very low predicted similarity (prob=0.16).
+
+2. **Different authors, similar narrative patterns (False Positives).**  
+   Many FPs involve authors writing in comparable adventure or survival genres with similar pacing and emotional structure.  
+   *Example:* ID 133 contains two unrelated first-person survival scenes, causing the SVM to overestimate similarity (prob=0.44).
+
+3. **Very short excerpts (<40 tokens).**  
+   Short spans lack sufficient stylistic information, leading to both FP and FN errors.  
+   *Example:* ID 905 contains two extremely short dialogue fragments, giving an unreliable probability estimate (prob=0.25).
+
+4. **Formulaic or repetitive structures.**  
+   Repeated dialogue patterns (“he said… she said…”), predictable sentence structures, or shared punctuation habits cause the model to confuse authors with similar surface style.
+
+Overall, most errors arise when **surface similarity masks deeper authorial differences**, or when **authorial variation masks similarity**. This indicates that richer semantic or discourse-level features could improve performance.
+
 
 ## Reproducibility
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
-_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
-
+It is documented in the README file.
 
 ## Future Improvements
 
-_Describe how you might best improve your approach_
+To improve the model further, I would explore features that go beyond surface similarity. Many errors arose because TF-IDF and simple stylometric cues struggle with very short excerpts or pairs that share genre conventions. Incorporating sentence - level embeddings could probably help the model capture deeper semantic and stylistic patterns.
+
+Additionally, an ensemble that combines the current Linear SVM with a neural similarity model may reduce both false positives (similar genre, different authors) and false negatives (same author, different writing styles). Finally, adding hard negative examples during training pairs that look stylistically similar but come from different authors could make the classifier more robust.

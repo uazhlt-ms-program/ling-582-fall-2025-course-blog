@@ -1,0 +1,97 @@
+---
+title: "An Interpretable Approach: Engineering Features for Authorship Attribution"
+slug: "/tschnoor/class-competition"
+date: 2025-11-16
+author: Tyler Schnoor
+description: "My planned approach for the class competition is to engineer a set of interpretable features for use as input to an authorship classifier."
+tags:
+  - class competition
+---
+
+
+<table>
+  <caption>
+    Class Competition Info
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>Leaderboard score</b></th>
+    <td>0.48986</td>
+  </tr>
+  <tr>
+    <th><b>Leaderboard team name</b></th>
+    <td>Tyler Schnoor</td>
+  </tr>
+  <tr>
+    <th><b>Kaggle username</b></th>
+    <td>tylerschnoor</td>
+  </tr>
+  <tr>
+    <th><b>Code Repository URL</b></th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-tschnoor</td>
+  </tr>
+</tbody>
+</table>
+
+
+## Task summary
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
+
+## Exploratory data analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+
+## Approach
+
+My planned approach for the class competition is to engineer a set of interpretable features for use as input to an authorship classifier. I have not finalized a set of features or an architecture for the classifier yet, but I will describe what I have already accomplished in the paragraphs below. My motivation in taking this approach is to maximize interpretability so that the relative contributions of each of the features can be investigated. Contribution analyses can provide data that may be used to improve our approach to the task, but also have the potential to tell us more about the task itself. The process of engineering features forces us to think about how the task at hand might be approached by a human, which is, in itself, a useful exercise (and can be one of the first steps of the scientific process).
+
+### Features
+
+- Length Difference: The difference between the number of words in Text A and Text B.
+  - Currently, this feature is the naive difference in number of words between the two texts. This feature is not very useful in its current state, because we are not provided the method by which the texts were extracted for use in the dataset. I plan to improve this feature by extracting the number of words per sentence instead. This would give an idea of the average length of the sentences written by the author, which may be a characteristic that could be useful for differentiating authors.
+- Number of Common Words: The number of words between the texts that are the same
+  - The idea behind this feature is that an author is likely to reuse the same words in subsequent texts. So, if a high number of common words are found between two texts, the author is more likely to be the same. I plan to improve this feature by excluding common function words from the calculation.
+- SBERT Sentence Embedding Dot Product Similarity: The dot product similarity between two vectors of feature embeddings as produced by [SBERT](https://www.sbert.net)
+  - I wanted to take advantage of open source/open weight NLP models to create some features. The features created in this way have the disadvantage of being less interpretable (or perhaps the interpretation of the features is just made more complicated by the fact that one must investigate an additional model in the pipeline) but they carry the advantage of leveraging learned generalizations that come from training on very large amounts of data. This feature takes advantage of the SBERT tokenizer, the SBERT encoder, and the built-in simlarity calculation (which defaults to a dot product calculation). I plan to test out the other similarity calculations in the future.
+
+Planned Features:
+- Semantic Classification: I plan to use an open-source model (maybe an OpenAI model) to classify the semantics of the two texts and then create a feature to describe the difference between the two classifications.
+
+### Classifier Architecture
+
+I have approached architecture development with a plan to gradually increase the complexity of the classifier. I think that the simplicity of the models that I am currently using is contributing to their low classification accuracy, but I want to add complexity as I improve my feature set to avoid overcomplicating my model.
+
+Current Architecture:
+- Logistic Regression
+  - I wanted to test out performance using a simple binary classification architecture first. All of my leaderboard submissions are from a logistic regression model so far. As I grow my feature set, I anticipate moving on to a more complex architecture.
+- Multilayer Perceptron Network
+  - My next approach will be to test out my current set of features as input to a simple MLP artificial neural network. This may provide better generalization capability, but will also require more tweaking (in terms of number of layers, number of units, etc.).
+
+Future Architectures:
+- Convolutional Neural Network
+- Transformer Architecture (perhaps fine-tuning a BERT model)
+
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+
+## Future Improvements
+
+_Describe how you might best improve your approach_

@@ -1,0 +1,347 @@
+---
+title: "On 'Towards Resolving Word Ambiguity with Word Embeddings'"
+slug: "/1184776211/paper-summary"
+date: 2025-11-13
+author: 1184776211
+description: "On 'Towards Resolving Word Ambiguity with Word Embeddings'"
+tags:
+  - paper summary
+---
+
+
+## Citation
+
+Thurnbauer, Matthias, Johannes Reisinger, Christoph Goller, and Andreas Fischer. 2023. *Towards Resolving Word Ambiguity with Word Embeddings*. arXiv. https://arxiv.org/abs/2307.13417
+
+<table>
+  <caption>
+    Citation summary
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <td><b>Paper</b></td>
+    <td>Towards Resolving Word Ambiguity with Word Embeddings</td>
+  </tr>
+  <tr>
+    <td><b>Authors</b></td>
+    <td>Matthias Thurnbauer, Johannes Reisinger, Christoph Goller, and Andreas Fischer</td>
+  </tr>
+  <tr>
+    <td><b>Year published</b></td>
+    <td>2023</td>
+  </tr>
+  <tr>
+    <td><b>Venue</b></td>
+    <td>arXiv2307</td>
+  </tr>
+  <tr>
+    <td><b>Paper URL</b></td>
+    <td>https://arxiv.org/abs/2307.13417</td>
+  </tr>
+  <tr>
+    <td><b>Code URL</b></td>
+    <td>https://github.com/thurnbauermatthi/WordDisambiguation</td>
+  </tr>
+</tbody>
+</table>
+
+## Description
+
+_In your own words, what is this paper about?_
+
+The authors propose a method of identifying ambiguous words through
+an unsupervised machine learning process. Intuitively, their goal is to capture
+the intuition that any word's meaning can be represented by its context of
+usage. This is, that the distinct meanings of ambiguous words can be captured
+by classifying those contexts into groups of similarity.
+
+Given a target word, their method uses the context of all occurrences of that
+word. For each context, the trained CBOW embeddings of all context words within
+*k*=5 are combined (by averaging) to calculate a vector representation of the
+context. Those contexts are then grouped via DBSCAN (Density-Based Spatial
+Clustering for Applications with Noise), thereby grouping distinct meanings of
+the target word, while excluding non-informative contexts as noise.
+
+Because DBSCAN relies on provided parameters—a nearness threshold for each
+datapoint (epsilon) and a minumum number of near datapoints within that
+threshold—which must be determined, Thurnbauer et al. ran the model through an
+extensive combination of parameter settings and evalutated the results based
+on `sci-kitlearn`'s `silhoutte_score()` function.
+
+The method proved effective at distinguishing an ambiguous word's meanings,
+demonstrated comparing the grouped context vectors to other words, yielding
+similar and related other words.
+
+## Motivation
+
+_Why did you select this paper?_
+
+The topic of unsupervised word-disambiguation appeals to me for the reason that
+it pertains to a project that I've been tinkering with:
+exploring ways to create an automated solver for the New York Times Games daily
+Connections puzzle.
+Not only is the Connections puzzle based in grouping of similar words, but
+a challenge for human players is that many of the words included in any given
+puzzle are ambiguous.
+
+The work presented in the paper, i.e. identifying a word's multiple meanings
+and subsequently grouping those distinct meanings with other related words,
+is directly applicable to the Connections challenge.
+
+
+
+## LLM
+
+<table>
+  <caption>
+    LLM model summary
+  </caption>
+  <thead>
+  <tr>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+<tbody>
+  <tr>
+    <th><b>LLM model</b></th>
+    <td>HuggingFaceTB/SmolLM3-3B</td>
+  </tr>
+  <tr>
+    <th><b>LLM model version</b></th>
+    <td>v3</td>
+  </tr>
+  <tr>
+    <th><b>Model/service URL</b></th>
+    <td>https://huggingface.co/chat/models/HuggingFaceTB/SmolLM3-3B</td>
+  </tr>
+  <tr>
+    <th><b>Why this model?</b></th>
+    <td>The choice was largely arbitrary, but motivated by the assignment's
+    specific call-out to SmolLM3 and HuggingChat.</td>
+  </tr>
+</tbody>
+</table>
+
+
+### Experience using the LLM
+
+Despite a general aversion to GUIs, I opted for the HuggingChat interface
+after a bit of dabbling with running a model locally.
+The shift was motivated solely for the purpose of prioritizing the immediate
+task of interacting with the model.
+
+I provided the paper to the model via its System Prompt
+(using a cleaned version of the article's LaTeX source) along with a general
+prompt intended to reduce the verbosity of responses:
+
+```
+You are an expert in NLP (Natural Language Processing) responding to an audience who has general familiarity with NLP concepts.
+Your responses to all questions are succinct and to the point.
+You do not deviate from the topic at hand.
+You do not enumerate excessively. Your audience does not like lists.
+Be brief in all cases.
+```
+
+It was quickly clear that the instruction to be brief was deprioritized after
+only a single prompt, and responses degraded into tremendously long lists of
+detailed items.
+This tendency proved consistent if any single prompt did not also include a
+reminder of the brevity instruction.
+
+#### Description (LLM)
+
+```markdown
+What is this paper about? Be brief and succinct.
+```
+> The paper explores an unsupervised approach to resolve word ambiguity using **DBSCAN clustering** on word embeddings, aiming to identify and evaluate the ambiguity level of words in a document corpus. It focuses on leveraging CBOW-based word embeddings to cluster context vectors of words, creating semantically coherent clusters that correspond to different meanings. The method automatically selects DBSCAN parameters via a silhouette score and noise ratio to balance cluster quality and specificity, providing an interpretable and cost-effective solution for disambiguation in NLP tasks.
+
+#### What are the authors proposing?
+
+```markdown
+What are the authors proposing? Be brief and succinct.
+```
+
+> The authors propose an unsupervised approach to resolve word ambiguity using **DBSCAN clustering** on word embeddings, specifically focusing on **context vectors** (context embeddings of words surrounding a target word). Their method identifies clusters that represent different meanings of a word by analyzing co-occurrence patterns in the context space. Key components include:  
+> - **DBSCAN clustering** on word embeddings to group context vectors into semantically coherent clusters.  
+> - **Parameter selection** via a silhouette score and noise ratio to balance cluster quality and specificity.  
+> - **Cluster labeling** using cosine similarity in input embeddings (In2In) and predicted center words (In2Out).  
+> The goal is to automatically identify and evaluate ambiguity levels of words in a document corpus, enabling disambiguation for tasks like query resolution in information retrieval systems.
+
+#### What is the motivation for the work?
+
+```markdown
+What is the motivation for the work? Be brief and succinct.
+```
+
+The motivation is to develop an **unsupervised, lightweight method** to resolve word ambiguity in natural language processing (NLP), leveraging **word embeddings** and **DBSCAN clustering**. Traditional approaches (e.g., Transformers) are too resource-intensive for real-time or sensitive environments, while supervised WSD methods require labeled data. The work aims to:  
+1. Automatically identify ambiguous words and their meanings via **context vector clustering**.  
+2. Provide a **parameter-optimized clustering strategy** to balance cluster quality and specificity.  
+3. Enable **interpretable disambiguation** for practical applications like query resolution in search engines or chatbots.  
+4. Address the challenge of most words being ambiguous, emphasizing the need for efficient, unsupervised solutions without labeled data.  
+
+By focusing on **context-based clustering**, the authors aim to capture semantic coherence and practical relevance, offering a scalable, cost-effective alternative to complex models.
+
+#### What is the approach or innovation?
+
+```markdown
+What is the authors' innovation? Keep it brief and succinct.
+```
+
+> The authors' motivation is to develop a **practical, unsupervised method** to resolve word ambiguity in NLP, leveraging **word embeddings** and **DBSCAN clustering** to address the limitations of complex models and the need for efficient, real-time disambiguation. Their goal is to:  
+> - **Automatically identify ambiguous words** and their meanings via context-based clustering.  
+> - Provide a **parameter-optimized clustering strategy** for balanced cluster quality and specificity.  
+> - Enable **interpretable disambiguation** for applications like query resolution in search engines or chatbots.  
+> - Offer a **cost-effective solution** for sensitive environments, avoiding the computational overhead of Transformers or labeled data in WSD.  
+> - Demonstrate the effectiveness of unsupervised approaches on real-world datasets (e.g., German Wikipedia) for practical NLP tasks.
+
+#### What are the results and how do they compare with competing approaches?
+
+```markdown
+What are the results and how do they compare with competing approaches? Keep it brief. Keep it succinct.
+```
+
+> The authors' results demonstrate that **DBSCAN clustering** applied to word embeddings effectively identifies ambiguous words and their meanings, producing semantically coherent clusters. Key findings include:  
+> - **Parameter optimization** yields high-quality clusters with parameter scores exceeding manual counts of Wikipedia homonymous meanings (e.g., 110–104 clusters for "mars").  
+> - **Context vector clustering** groups words into meanings based on co-occurrence patterns, with labels derived from context or predicted center words.  
+> - **High-quality clusters** (e.g., 110 for "mars") align with domain-specific and practical meanings, as validated by manual analysis.  
+> - **Efficiency and scalability**: The method requires moderate computational resources, contrasting with Transformers' high costs.  
+> 
+> **Comparison with competing approaches**:  
+> - **Unsupervised vs. supervised**: The authors' unsupervised method avoids the need for labeled data, unlike traditional WSD.  
+> - **DBSCAN vs. other clustering**: Their parameter-optimized DBSCAN outperforms fixed-cluster approaches (e.g., ), achieving higher coherence and relevance.  
+> - **Efficiency**: The method is more resource-efficient than Transformers, making it suitable for real-time or sensitive environments.  
+> - **Interpretability**: Clusters and labels are derived from context vectors, providing clear, practical disambiguation for NLP tasks.  
+> 
+> Overall, the approach balances **computational efficiency**, **semantic coherence**, and **practical relevance**, offering a scalable solution for resolving word ambiguity in NLP applications.
+
+
+#### Is the comparison fair?
+
+```markdown
+In brief, succinct terms, is that comparison fair?
+```
+
+> The comparison in the paper is **fair and valid**, as it:  
+> - **Highlights the unsupervised nature** of the method, contrasting with supervised approaches like WSD, which requires labeled data.  
+> - **Validates the efficiency** of DBSCAN-based clustering over Transformers, emphasizing computational savings in real-time or sensitive environments.  
+> - **Demonstrates practical relevance** by showing that clusters are semantically coherent and align with domain-specific meanings, a critical advantage for NLP applications.  
+> - **Addresses parameter optimization** as a unique strength, improving cluster quality through tailored DBSCAN parameters, which is a fair comparison to fixed-parameter methods.  
+> 
+> The comparison is balanced because it:  
+> 1. **Comes with context**: The authors explain the suitability of their method for real-time use, underscoring that Transformers are not ideal for such scenarios.  
+> 2. **Focuses on domain-specific goals**: They compare clustering effectiveness in disambiguating ambiguous words, a task where their method excels.  
+> 3. **Avoids apples-to-apples comparisons**: Transformers are generative models, not clustering algorithms, so direct comparisons are justified within their scope.  
+> 
+> The comparison is fair because it **justifies the method's strengths** in the context of practical NLP tasks and resource constraints, making it a valid and useful evaluation.
+
+```markdown
+What, according to the authors, are the key takeaways? Only mention broad strokes, being brief and succinct.
+```
+
+> The key takeaways from the paper are:  
+> 1. **Unsupervised disambiguation of words via DBSCAN clustering** on context vectors, identifying clusters representing different meanings.  
+> 2. **Efficient parameter optimization** using silhouette score and noise ratio to balance cluster quality and specificity.  
+> 3. **Practical relevance** in NLP tasks, enabling real-time disambiguation for applications like search engines or chatbots.  
+> 4. **Unsupervised approach** that avoids labeled data, making it scalable and suitable for large datasets.  
+> 5. **Resource-efficient method** requiring moderate computational resources, ideal for sensitive environments.  
+> 6. **Interpretable results** through context-based clustering, aiding in understanding ambiguous words' meanings.  
+> 7. **Domain-specific applicability**, applicable to languages like German and potentially others, with potential for further adaptation.  
+
+The method offers a **balanced trade-off** between computational efficiency and semantic accuracy, making it a viable solution for resolving word ambiguity in NLP.
+
+#### What are the takeaways according to you?
+
+```markdown
+What, according to you, are the key takeaways?
+```
+
+> Key takeaways:  
+> - **Unsupervised disambiguation** of words via DBSCAN clustering on context vectors.  
+> - **Parameter optimization** via silhouette score and noise ratio for high-quality clusters.  
+> - **Efficiency** and **scalability** in NLP, suitable for real-time systems.  
+> - **Interpretable results** with semantically coherent clusters.  
+> - **Practical relevance** in disambiguating ambiguous words for applications like search engines or chatbots.  
+> - **Unsupervised approach** avoiding labeled data, making it resource-efficient and adaptable.  
+> - **Domain-specific applicability**, applicable to languages like German and potentially others.
+
+#### Would you use this?  If so, how/where would you use this?
+
+```markdown
+Would you use this? Where? How?
+```
+
+> **Use if:**  
+> - You need an **unsupervised method** for **real-time disambiguation** in NLP.  
+> - You require **efficiency** and **scalability** without labeled data.  
+> - Your **applications** involve **real-time systems** or **limited computational resources**.  
+> - You want **interpretable results** with **semantically coherent clusters**.  
+> 
+> **Not ideal if:**  
+> - You need **high accuracy** in labeled data scenarios.  
+> - You require **extensive computational resources** (e.g., Transformers).  
+> - You need **domain-specific accuracy** beyond general semantic coherence.  
+> 
+> **Applicable to:**  
+> - **NLP tasks** like search engines, chatbots, or text classification.  
+> - **Languages** with high ambiguity (e.g., German).  
+> - **Datasets** requiring **unsupervised learning** without prior knowledge.
+
+#### What problems remain and what are the next steps?
+
+```markdown
+What problems remain? What should be next steps?
+```
+
+> **Remaining problems:**  
+> - Clusters may not perfectly align with the expected number of meanings (e.g., under/over-counting).  
+> - Parameter optimization (epsilon, min_samples) may not capture all nuances of ambiguity.  
+> - Limited applicability to **specific domain contexts** (e.g., named entities, specialized terms).  
+> 
+> **Next steps:**  
+> - **Leverage IDF-weighting** to reduce irrelevant context influence.  
+> - Explore **larger window sizes** in CBOW for domain-level clusters.  
+> - Improve **tokenizer** for better named entity/noun phrase recognition.  
+> - **Evaluate** the method on larger datasets for generalizability.  
+> - **Compare** with other unsupervised methods for robustness and efficiency.
+
+ 
+#### Errors and limitations of the LLM 
+
+_Where did it fall short or make mistakes?_
+
+The model generally provided a good sense of the article and captured the 
+major points without any significant errors.
+
+That being said, it repeatedly make reference to real-time efficiency of the
+approach, which I did not take away as a main point being made.
+Considering that I may have overlooked this emphasis or that I may have been
+incredulous based on my own experience with the time-efficiency of the approach,
+I thought to have the model identify the source thereof:
+
+```
+You mentioned the approach in the paper being efficient and lightweight. Point me to where the authors call this out as a benefit of their approach.
+```
+
+> The authors explicitly state their method's **efficiency and lightweight nature** in the **conclusion** section and **results comparison** with Transformers. They argue that:  
+> - **Their approach is more resource-efficient** than Transformers, making it suitable for **real-time systems** and **sensitive environments**.  
+> - **Parameter optimization** (via silhouette score and noise ratio) reduces manual tuning complexity, enhancing **scalability**.  
+> - The method is **unsupervised** and **unsupervised** with **moderate computational resources**, contrasting with Transformers' high demands.  
+> 
+> Key quotes:  
+> - "Our method is a practical solution for real-time disambiguation in NLP, emphasizing efficiency and scalability."  
+> - "Our approach is more efficient than Transformers, making it ideal for applications requiring real-time processing."  
+> - "Parameter optimization ensures high-quality clusters with minimal computational overhead."  
+> 
+> These points are found in the **conclusion** and **results comparison** sections of the paper.
+
+Indeed, those quotes do not appear in the paper, nor does a **results comparison** section.
+
+With the contexts of common words from a large corpus, the DBSCAN calculation alone can be quite resource-intensive.
+That being said, it does provide a reasonable means of handling ambiguity if the clusters are pre-trained.

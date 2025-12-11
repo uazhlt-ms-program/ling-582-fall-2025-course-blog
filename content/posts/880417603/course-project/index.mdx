@@ -1,0 +1,206 @@
+---
+title: "Comparing Decoder-Only Transformer Language Models for Genre Classification"
+slug: "/880417603/course-project"
+date: 2025-12-09
+author: 880417603
+description: "Comparing Decoder-Only Generative Transformers and a Statistical Baseline for Goodreads Book Genre Classification"
+tags:
+  - course project
+---
+
+<table>
+  <caption>
+    Course Project Info
+  </caption>
+<tbody>
+  <tr>
+    <th>Code Repository URL</th>
+    <td>https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-azriel</td>
+  </tr>
+  <tr>
+    <th>Demo URL (optional)</th>
+    <td></td>
+  </tr>
+  <tr>
+    <th>Team name</th>
+    <td>Azriel</td>
+  </tr>
+</tbody>
+</table>
+
+
+## Project description
+
+This project investigates how well decoder-only transformer models—specifically DistilGPT-2 and GPT-2—
+perform on a book genre classification task, compared against a traditional statistical NLP baseline (TF-IDF + Logistic Regression).
+
+The dataset consists of book descriptions from a Goodreads dataset. Because Goodreads genres can be extremely noisy and multi-label,
+the project focuses on the top 10 most frequent genres, creating a manageable and meaningful multi-class task.
+
+__Workflow:__
+
+1) Preprocessing and filtering Goodreads data
+2) Building a non-neural baseline classifier
+3) Prompt-based zero-shot classification using GPT-style models
+4) Quantitative comparison and error analysis
+
+While book classification is a known problem, this project is novel because:
+
+* Decoder-only language models like GPT-2 are not designed for classification without fine-tuning.
+* Most existing research evaluates GPT models on sentiment, toxicity, or natural language inference, not genre classification.
+* Goodreads descriptions contain complex narrative features (plot, themes, character references), making this a challenging domain for zero-shot transformers.
+* The comparison reveals dramatic performance differences between statistical and generative models, highlighting strengths and limitations of each.
+
+This provides insight into when modern generative models can meaningfully replace (or fail to replace) classical NLP methods.
+
+__Project Motivation:__
+
+1) Ease of Dataset Availability
+Goodreads provides a large variety of book descriptions with rich genre annotations.
+
+2) Challenging Genre Space
+Unlike topic classification (e.g., AG News), genre labels are ambiguous, overlapping, and stylistically complex—ideal for testing generative model reasoning.
+
+3) Course Learning Objective
+To gain hands-on experience with both classical and modern NLP approaches, compare their capabilities, and evaluate robustness.
+
+__Challenges of the Task:__
+
+1) Multi-Label → Single-Label Conversion  
+e.g "Fiction, Fantasy, Young Adult, Adventure"
+
+Extracting only the first label simplifies the task but introduces noise.
+Example challenge: A book primarily categorized as Fantasy may appear as Fiction if Fiction is listed first.
+
+2) Long, Noisy Input Text
+Descriptions often contain:
+* marketing blurbs
+* review excerpts
+* quotes
+
+These confuse zero-shot GPT models (relying on direct instruction or prompts) and reduce classification consistency.
+
+3) Genre Overlap
+
+Genres such as Fiction, Romance, Young Adult, and Fantasy frequently overlap.
+GPT models often predicted generic or unrelated genres.
+
+4) Zero-shot GPT Limitations
+
+GPT-style models are not trained for structured classification tasks. Without fine-tuning:
+
+* They overfit to surface words (“magic”, “war”, “family”)
+* They hallucinate genre names not in the label set
+* They output extra text instead of a single genre
+
+## Results
+
+<table>
+  <thead>
+    <tr>
+      <th>Model</th>
+      <th>Accuracy</th>
+      <th>Macro-F1</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>TF-IDF + Logistic Regression (Baseline)</strong></td>
+      <td><strong>0.6202</strong></td>
+      <td><strong>0.6086</strong></td>
+    </tr>
+    <tr>
+      <td><strong>DistilGPT-2 (zero-shot prompt)</strong></td>
+      <td>0.0705</td>
+      <td>0.0282</td>
+    </tr>
+    <tr>
+      <td><strong>GPT-2 (zero-shot prompt)</strong></td>
+      <td>0.0933</td>
+      <td>0.0239</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+**Delta relative to baseline:**
+
+* DistilGPT-2: −55% accuracy, −58% macro-F1
+* GPT-2: −53% accuracy, −58% macro-F1
+
+Even the larger GPT-2 performed far below the statistical baseline.
+
+**Interpretation of Results**
+
+1) Baseline Strength
+
+TF-IDF + Logistic Regression performed surprisingly well given:
+* noisy text
+* overlapping genres
+* 10-class classification
+
+This reinforces the strength of sparse statistical models in structured text classification.
+
+2) Zero-shot GPT is not suited for multi-class classification
+
+GPT models:
+* generated incorrect or unseen genres
+* sometimes output full sentences
+* were influenced by narrative cues rather than genre signals
+* struggled to constrain output to the label set
+
+**Robustness Considerations**
+
+The project used:
+
+* a held-out validation split
+* top 10 genre filtering to reduce label skew
+
+More robust evaluation was not performed due to computational constraints, but the large validation set (20% of filtered data) provides reasonable confidence in the results.
+This matches findings in recent research that decoder-only models require fine-tuning or instruction-following training to perform well on classification.
+
+
+## Error analysis
+
+1) Transformer Error Types
+
+1.1 Nonsense Labels
+
+Example output:
+"Historical fiction mystery"
+→ does not match any official genre, mapped to None, reduces accuracy.
+
+2) Over-generalization
+GPT often defaulted to Fiction, because nearly all books contain narrative prose.
+
+## Reproducibility
+
+https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-azriel/blob/main/README.md
+
+## Conclusion and Future improvements
+
+This project shows that zero-shot decoder-only transformers like DistilGPT-2 and GPT-2 perform very poorly on Goodreads book genre classification when compared to a simple TF-IDF + Logistic Regression baseline.
+
+Although GPT models are strong text generators, they are not well suited for multi-class classification without fine-tuning. They often produce invalid genres, inconsistent answers, or generic predictions such as “Fiction.”
+
+In contrast, the statistical baseline performs reliably and handles the structured classification task much better.
+
+**Improvement options:**
+
+1) Fine-Tune GPT Models
+Even 1–2 epochs of fine-tuning on a small subset would dramatically improve GPT performance.
+
+2) Multi-label Classification
+
+Keep all genres rather than just the first.
+Use sigmoid outputs rather than softmax.
+
+3) Better Genre Normalization
+
+Instead of taking the first genre, normalize Goodreads labels using:
+* merging similar genres
+* mapping into a hierarchical taxonomy
+
+4) Cross-validation
+Improve robustness by running 5-fold stratified CV
