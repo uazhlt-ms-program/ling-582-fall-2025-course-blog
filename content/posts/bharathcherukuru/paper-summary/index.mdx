@@ -1,7 +1,7 @@
 ---
 title: "EXAMPLE: My Paper Summary"
 slug: "/bharathcherukuru/paper-summary"
-date: 2023-11-15
+date: 2025-12-09
 author: Bharath Cherukuru
 description: "This paper is about 'Stance Reasoner: Zero-Shot Stance Detection on Social Media with Explicit Reasoning'"
 tags:
@@ -28,9 +28,9 @@ tags:
     address = "Torino, Italia",
     publisher = "ELRA and ICCL",
     url = "https://aclanthology.org/2024.lrec-main.1326/",
-    pages = "15257--15272",
-    abstract = "Social media platforms are rich sources of opinionated content. Stance detection allows the automatic extraction of users' opinions on various topics from such content. We focus on zero-shot stance detection, where the model{'}s success relies on (a) having knowledge about the target topic; and (b) learning general reasoning strategies that can be employed for new topics. We present Stance Reasoner, an approach to zero-shot stance detection on social media that leverages explicit reasoning over background knowledge to guide the model{'}s inference about the document{'}s stance on a target. Specifically, our method uses a pre-trained language model as a source of world knowledge, with the chain-of-thought in-context learning approach to generate intermediate reasoning steps. Stance Reasoner outperforms the current state-of-the-art models on 3 Twitter datasets, including fully supervised models. It can better generalize across targets, while at the same time providing explicit and interpretable explanations for its predictions."
+    pages = "15257--15272"
 }
+
 <table>
   <caption>
     Citation summary
@@ -64,20 +64,22 @@ tags:
   </tr>
   <tr>
     <td><b>Code URL</b></td>
-    <td>https://github.com/acl-org/acl-anthology.git</td>
+    <td>https://github.com/maksym-taranukhin/stance_reasoner</td>
   </tr>
 </tbody>
 </table>
 
 ## Description
 
-This paper describes a technique known as Stance Reasoner, which seeks to understand people's views in social media communications, specifically whether they are neutral, in favor of, or against an issue.   The approach is zero-shot, which implies it can handle novel topics without any training examples, as opposed to relying on large labeled datasets.   The fundamental idea is to explain why a post takes a specific perspective utilizing a reasoning process within a language model.   The authors test this strategy on a number of Twitter datasets and show how explicit reasoning enhances and clarifies the model's predictions.
+This paper describes a technique known as Stance Reasoner, which seeks to understand people's views in social media communications, specifically whether they are neutral, in favor of, or against an issue.The approach is zero-shot, which implies it can handle novel topics without any training examples, as opposed to relying on large labeled datasets.   The fundamental idea is to explain why a post takes a specific perspective utilizing a reasoning process within a language model.   The authors test this strategy on a number of Twitter datasets and show how explicit reasoning enhances and clarifies the model's predictions.
 
 ## Motivation
 
-This work presents a technique called Stance Reasoner, which aims to comprehend people's ideas in social media messages, particularly whether they are neutral, in favour of, or against an issue. 
-The method operates in a zeroshot manner, which means it can handle novel subjects without any training examples, as opposed to depending on massive labelled datasets. 
-The main concept is to explain why a post takes a certain position by using a reasoning process within a language model.  Using a variety of Twitter datasets, the authors evaluate this approach and demonstrate how explicit reasoning improves and clarifies the model's predictions.
+I chose this paper because it combines three things I’m really interested in social media, models that work on the new topics without training, and LLMs that can “show their work” when they reason.
+First, social media is full of short, opinionated posts. Being able to tell if a post is for, against, or neutral about a topic is useful for understanding public opinion, spotting misinformation, and studying online conflict. I wanted to see how current NLP methods handle this kind of real, messy data from Twitter.
+Second, I like zero-shot methods, where a model can deal with new topics it has never seen during training. This feels closer to real-world use than models that depend on large labeled datasets for every new topic.
+Finally, this paper uses chain-of-thought reasoning and self-consistency the same kinds of prompting tricks I use when working with LLMs. I was curious to see how researchers apply these ideas in a more systematic way: how they design the prompts, how they judge the reasoning, and whether this actually improves results.
+Overall, I picked this paper because it matches how I already like to use LLMs and gives me a concrete, research-based example of using reasoning-style prompting for a real NLP task.
 
 ## LLM
 
@@ -94,19 +96,20 @@ The main concept is to explain why a post takes a certain position by using a re
 <tbody>
   <tr>
     <th><b>LLM model</b></th>
-    <td>???</td>
+    <td>HuggingFaceTB/SmolLM3-3B</td>
   </tr>
   <tr>
     <th><b>LLM model version</b></th>
-    <td>???</td>
+    <td>SmolL3-3B</td>
   </tr>
   <tr>
     <th><b>Model/service URL</b></th>
-    <td>???</td>
+    <td>https://huggingface.co/HuggingFaceTB/SmolLM3-3B</td>
   </tr>
   <tr>
     <th><b>Why this model?</b></th>
-    <td>???</td>
+    <td>I selected the SmolLM3-3B model because its 3B parameters provide a good balance of efficiency and reasoning ability, making it fast, easy to use on HuggingChat, and effective for summarization and analysis.</td>
+
   </tr>
 </tbody>
 </table>
@@ -119,91 +122,349 @@ _In the LLM's words, what is this paper about?_
 ##### Prompt
 
 ```markdown
-prompt here
+go through the attached paper in detail and provide the information what is paper about in simple terms.
 ```
+This paper introduces a method to automatically detect the **stance** of social media posts toward a specific topic without prior training data on that topic. The challenge is that the model must generalize to new targets it hasn't seen before. The authors solve this by using a **pre-trained language model (PLM)** as a source of background knowledge and a **chain-of-thought (CoT)** reasoning approach to generate intermediate steps. This helps the model explain its predictions and improve accuracy. The method also uses **self-consistency** to handle variability in model outputs and is designed to work across diverse domains and targets. The key idea is that the model can learn to reason about new topics using general knowledge and reasoning strategies, making it more adaptable for real-world applications like identifying false information or detecting biases in social media.
 
 #### What are the authors proposing?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Based on the paper explain what the authors are proposing in simple, clear terms
 ```
+**The Authors' Proposal in Simple Terms**  
+The paper introduces a way for computers to automatically determine if a social media post is saying something positive, negative, or neutral about a topic. The twist is that the computer doesn't need to be trained on that specific topic beforehand. Instead, it uses:  
 
+1. **General Knowledge**: A super-smart language model (like a "background knowledge" source) that already knows a lot about the world.  
+2. **Chain-of-Thought Reasoning**: The computer thinks step-by-step, like: "The post says the person is bad at managing, so the stance is against them."  
+3. **Self-Consistency**: It runs the model multiple times and picks the most common answer to reduce random errors.  
+
+This approach allows the computer to predict the stance of new topics it hasn't seen before, making it more adaptable and useful for tasks like identifying fake news or understanding public opinion. The result is a model that's better at generalizing and provides clear explanations for its decisions.
 #### What is the motivation for the work?
 
 ##### Prompt
 
 ```markdown
-prompt here
+From the paper clearly state the motivation for their work
 ```
+Motivation for the Paper's Work
+**Motivation for the Paper's Work**  
+The authors' motivation stems from the challenge of **zero-shot stance detection**, where models must predict the stance of a text on an unseen target without prior training data on that target. Traditional supervised approaches (e.g., fine-tuning on specific targets) fail to generalize effectively, as they overfit to target-specific features. Additionally, using external knowledge bases (KBs) to improve generalization can be incomplete, sparse, or irrelevant for new targets.  
 
+The authors aim to address these limitations by proposing a **zero-shot stance detection framework** that leverages a **pre-trained language model (PLM)** as a source of background knowledge and employs the **chain-of-thought (CoT)** reasoning approach. This method enables the model to generalize across diverse targets and domains while providing **explicit and interpretable explanations** for its predictions. The motivation is to:  
+1. **Develop a robust and generalizable model** that can predict stances on new targets without extensive training.  
+2. **Provide transparent decision-making** through step-by-step reasoning chains, enabling users to understand and debug the model's predictions.  
+3. **Enhance the model's accuracy** by using self-consistency (multiple completions and majority voting) to mitigate model variability.  
+4. **Improve the usability** of zero-shot stance detection for applications in social media, where clarity and transparency are critical.  
+
+By combining PLM-based background knowledge with explicit reasoning, the authors seek to create a method that can handle the complexities of social media texts and adapt to new topics efficiently, without compromising on accuracy or interpretability.
 #### What is the approach or innovation?
 
 ##### Prompt
 
 ```markdown
-prompt here
-```
+explain the key approach or innovation introduced by the authors in simple, clear terms.
 
+```
+**Key Innovation in the Paper**  
+The authors introduce a **zero-shot stance detection method** for social media that combines three core components to achieve robust generalization and transparency:  
+
+1. **Pre-Trained Language Model (PLM) as Background Knowledge**:  
+   - Uses a PLM to provide general knowledge about the world, which the model can draw upon to infer the stance of new targets.  
+
+2. **Chain-of-Thought (CoT) Reasoning**:  
+   - The model generates intermediate steps (e.g., "The author implies the person is bad at managing, so the stance is against them") to guide its prediction. This ensures the prediction is grounded in both context and background knowledge.  
+
+3. **Self-Consistency**:  
+   - Generates multiple completions of the same text and takes the majority vote to reduce variability in model outputs, improving reliability.  
+
+**Combined Effect**:  
+This approach allows the model to predict stances on **unseen targets** without prior training on those targets, leveraging general knowledge and explicit reasoning. It is designed to be **transparent**, **interpretable**, and **generalizable**, making it suitable for social media where the model must adapt to new topics quickly and accurately. The innovation lies in integrating these components to create a method that is both effective and explainable.
 #### What are the results and how do they compare with competing approaches?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Describe how the proposed method performs and how it compares to other approaches in the experiments.
 ```
+**Performance and Comparison of the Proposed Method**  
+The authors' method, **Stance Reasoner**, demonstrates significant performance in zero-shot stance detection on social media. Key findings from the experiments include:  
+
+1. **High Accuracy and Generalization**:  
+   - Achieves **state-of-the-art performance** on the SemEval 2016 task 6a dataset, scoring 72.6 on LLaMA 65B, outperforming supervised baselines (e.g., BERT-GCN, TOAD) by 20–30 F1 points.  
+   - Demonstrates **robust generalization** across diverse social media datasets (political, corporate, public health), including unseen targets and domains.  
+
+2. **Self-Consistency and Model Robustness**:  
+   - Uses **self-consistency** (multiple completions and majority voting) to improve accuracy, reducing variability in model outputs.  
+   - Achieves **substantial performance improvements** compared to models using a single completion (e.g., 73.7 vs. 71.2 for LLaMA 65B).  
+
+3. **Interpretable Explanations**:  
+   - Provides **clear reasoning chains** and **confidence scores**, enabling users to understand and debug predictions.  
+   - Example: Identifies a tweet labeled "neutral" by annotators but predicted as "favor" by the model, highlighting the method's ability to detect annotation inconsistencies.  
+
+4. **Outperformance of Baselines**:  
+   - Outperforms **unsupervised baselines** (e.g., Vicuna 13B, LLaMA 65B) in zero-shot settings.  
+   - Demonstrates **superior performance** compared to supervised baselines, particularly in generalization to new targets.  
+   - Few-shot CoT approaches (e.g., Vicuna 13B) show better performance than zero-shot methods, but the authors' approach remains competitive.  
+
+5. **Cross-Domain Adaptability**:  
+   - Achieves **consistent performance** across different social media datasets, including those with varying target domains and sizes.  
+   - Demonstrates **generalization to unseen targets** without fine-tuning, leveraging PLM-based background knowledge.  
+
+6. **Annotation Error Detection**:  
+   - Uses **confidence scores** to identify **annotation errors** and **ambiguous contexts**, enhancing the method's practical utility.  
+
+**Comparison to Other Approaches**:  
+- **Supervised Baselines**: Overfit to specific targets, leading to poor generalization.  
+- **Unsupervised Baselines**: Show improvements over zero-shot methods but lag behind the authors' approach in generalization.  
+- **Few-Shot CoT**: Outperforms zero-shot methods in some cases but is less effective in generalizing across domains.  
+- **Self-Consistency**: A key innovation in the authors' method, as it mitigates model variability and improves accuracy.  
+
+**Limitations and Considerations**:  
+- **Model Dependency**: Relies on PLM knowledge, which may degrade for new topics.  
+- **Domain Specificity**: Designed for social media texts; extensions to longer formats (e.g., blog posts) are needed.  
+- **Ethical Implications**: Potential amplification of social issues if not used responsibly.  
+
+**Conclusion**:  
+Stance Reasoner offers a **robust, generalizable, and interpretable framework** for zero-shot stance detection on social media. Its use of PLM-based background knowledge, CoT reasoning, and self-consistency enables the model to predict stances on new targets effectively. The method's performance across diverse datasets and its ability to detect annotation errors make it a promising solution for applications like social media content analysis, where transparency and generalization are critical.
 
 #### Is the comparison fair?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Go through the paper carefully and explain whether the comparison between the proposed method and the competing approaches is fair
 ```
+**Fairness in the Comparison Between Proposed Method and Competing Approaches**  
+The comparison between the proposed method (Stance Reasoner) and competing approaches in the paper is **fair** under the following conditions:  
+
+1. **Consistent Dataset and Task Setup**:  
+   - The authors evaluate Stance Reasoner on the **same datasets** (SemEval 2016, WT-WT, COVID-19) as the baselines, ensuring a direct comparison across the same domain and task scope.  
+   - The datasets are preprocessed uniformly (e.g., removing #SemST hashtag), aligning with standard stance detection practices.  
+
+2. **Transparent Baseline Selection**:  
+   - The baselines (supervised models like BERT-GCN, TOAD; unsupervised methods like Zero-Shot, Few-Shot CoT; and few-shot CoT) are explicitly mentioned as state-of-the-art approaches in the field.  
+   - The authors provide clear explanations for how they generated prompts for the baselines (e.g., using LLaMA 65B for paraphrasing task descriptions).  
+
+3. **Consistent Evaluation Metrics**:  
+   - The **macro-F1score** is used consistently across all comparisons, ensuring a fair evaluation of performance across targets.  
+   - The authors compare the proposed method to baselines that use the same evaluation metrics (e.g., against/favor/none labels).  
+
+4. **Self-Consistency and Generalization**:  
+   - The proposed method incorporates **self-consistency** (multiple completions and majority voting) to improve accuracy. The baselines, however, do not explicitly mention using self-consistency, which could be a disadvantage. The authors acknowledge this and highlight the benefits of their approach, making the comparison fair within the context of the evaluation framework.  
+   - The diversity of reasoning strategies in the proposed method's in-context examples (e.g., sarcasm, rhetorical questions) is a key differentiator. The baselines, by contrast, may lack such examples, which could explain the gap in performance.  
+
+5. **Model and Dataset Consistency**:  
+   - The proposed method uses **LLaMA 65B** and **Vicuna 13B** as PLMs, while the baselines use different models (e.g., BERT, Vicuna 13B). The comparison is valid as it explores the effectiveness of different models in zero-shot settings.  
+   - The datasets are evaluated in a **leave-one-target-out setup**, a standard approach for zero-shot tasks, ensuring the comparison is fair across targets.  
+
+6. **Transparency and Interpretability**:  
+   - The proposed method is designed to provide **interpretable explanations** (reasoning chains and confidence scores), which is not explicitly required of the baselines. This transparency is a strength of the proposed method, but the comparison is fair as it evaluates the baselines' performance without requiring such explanations.  
+
+7. **Handling of Annotation Errors**:  
+   - The proposed method uses confidence scores to identify **annotation errors**, which is a practical application. The baselines, however, do not address this aspect explicitly, but the authors highlight the method's ability to detect inconsistencies, which is a valid strength.  
+
+**Limitations in the Comparison**:  
+- The baselines do not use **self-consistency** or **in-context examples with reasoning chains**, which are central to the proposed method.  
+- The comparison does not account for the **diversity of reasoning strategies** in the proposed method's examples, which could enhance generalization.  
+- The evaluation does not include **longer texts** (e.g., blog posts) or **rhetorical devices** (sarcasm, rhetorical questions), which are beyond the scope of the datasets used.  
+
+**Conclusion**:  
+The comparison is **fair** within the context of the paper's experimental setup and the baselines' design. The authors clearly outline the methods and results, and the evaluation metrics are consistent. The proposed method's use of self-consistency and diverse in-context examples is a key innovation that justifies its performance over baselines. However, the comparison is limited by the baselines' lack of self-consistency and the use of shorter, simpler datasets. Overall, the comparison is valid for the stated goals and provides a clear picture of the proposed method's advantages and challenges.
 
 #### What are the takeaways according to the authors?
 
 ##### Prompt
 
 ```markdown
-prompt here
+According to the authors what are the key takeaways?
 ```
+**Key Takeaways from the Authors**  
+The authors of the paper highlight several critical insights and innovations in their approach to zero-shot stance detection on social media:  
+
+1. **Zero-Shot Stance Detection via PLM and CoT**:  
+   - The method leverages a **pre-trained language model (PLM)** as a knowledge source and employs the **chain-of-thought (CoT)** reasoning strategy to generate intermediate steps. This approach enables the model to predict stances on unseen targets by reasoning over both context and background knowledge.  
+
+2. **Self-Consistency for Robustness**:  
+   - The use of **self-consistency** (multiple completions and majority voting) significantly improves the model's accuracy and generalization. This technique mitigates the variability inherent in large language models, enhancing reliability in zero-shot settings.  
+
+3. **Diverse Reasoning Strategies for Generalization**:  
+   - Inclusion of **diverse reasoning strategies** (e.g., sarcasm, rhetorical questions) in in-context examples enhances the model's ability to generalize across domains and targets. This diversity ensures the model can adapt to a wide range of social media contexts.  
+
+4. **Annotation Error Detection**:  
+   - The method uses **confidence scores** to identify **annotation errors** in datasets. For example, a tweet labeled "neutral" by annotators but predicted as "favor" by the model with high confidence highlights the model's ability to detect inconsistencies.  
+
+5. **Robustness Across Social Media Domains**:  
+   - The authors demonstrate the method's effectiveness on **social media datasets** (political, corporate, public health), showcasing its ability to generalize across diverse domains.  
+
+6. **Interpretable and Transparent Predictions**:  
+   - The model provides **explicit reasoning chains** and **confidence scores**, enabling users to understand and debug predictions. This transparency is critical for applications like social media content analysis.  
+
+7. **Outperformance of Supervised and Unsupervised Baselines**:  
+   - Stance Reasoner achieves **state-of-the-art performance** on datasets like SemEval 2016, WT-WT, and COVID-19, outperforming supervised baselines (e.g., BERT-GCN) and unsupervised methods (e.g., Vicuna 13B).  
+
+8. **Fixed Prompt Structure and In-Context Examples**:  
+   - The method uses a **fixed prompt structure** and **in-context examples** to guide the model consistently. This ensures the model uses the same reasoning patterns across targets, improving generalization.  
+
+9. **Handling of Social Media Texts**:  
+   - The method is designed for **social media texts**, which are often short and noisy. This is a limitation noted by the authors but underscores the method's practical applicability.  
+
+10. **Application in Identifying Annotation Errors**:  
+    - The ability to detect **annotation errors** via confidence scores and reasoning chains is a practical application of the method, enhancing its utility for improving dataset accuracy.  
+
+**Conclusion**:  
+The authors emphasize that Stance Reasoner is a **robust, generalizable, and transparent framework** for zero-shot stance detection on social media. Its use of PLM-based background knowledge, CoT reasoning, and self-consistency makes it effective in predicting stances on new targets, while its ability to detect annotation errors and provide interpretable explanations positions it as a valuable tool for NLP and social media analysis.
 
 #### What are the takeaways according to you?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Now what are the key takeaways according to you? not the authors
 ```
+**Key Takeaways**  
+The paper's key takeaways, as interpreted from the content, are:  
+
+1. **Zero-Shot Stance Detection**: A method that predicts the stance of a text on a target without prior training on that target, relying on general knowledge and reasoning strategies.  
+2. **Use of Pre-Trained Language Models (PLMs)**: Leverages a PLM as a background knowledge source to provide context and understanding beyond the target.  
+3. **Chain-of-Thought (CoT) Reasoning**: Generates intermediate steps to guide predictions, ensuring logical alignment with the target and context.  
+4. **Self-Consistency Strategy**: Uses multiple completions and majority voting to reduce variability in model outputs, improving reliability.  
+5. **Diverse Reasoning Examples**: Includes a variety of reasoning strategies (e.g., sarcasm, rhetorical questions) in examples, enhancing generalization across domains and targets.  
+6. **Annotation Error Detection**: Identifies annotation errors via confidence scores and reasoning chains, a practical application of the method.  
+7. **Comparative Performance**: Outperforms supervised and unsupervised baselines in zero-shot settings, especially in generalization to new targets.  
+8. **Robustness Across Domains**: Demonstrates effectiveness on datasets like political, corporate, and public health topics, showing generalizability.  
+9. **Interpretable Explanations**: Provides clear reasoning chains and confidence scores, aiding in understanding and debugging predictions.  
+10. **Handling of Social Media Texts**: Designed for short, noisy social media texts, showcasing adaptability to the platform's characteristics.  
+11. **Application in Identifying Errors**: Detects annotation inconsistencies, improving dataset accuracy.  
+12. **Generalization to New Targets**: Predicts stances on unseen targets without fine-tuning, a key strength in zero-shot scenarios.  
+13. **Fixed Prompt Structure and Consistency**: Uses a structured prompt to maintain consistency in reasoning patterns across targets.  
+14. **Interpretable and Transparent Predictions**: Offers clear explanations for predictions, critical for applications requiring model transparency.  
+15. **Limitations**: Relies on PLM knowledge and may struggle with very short or ambiguous texts.  
+
+These takeaways highlight the method's strengths in generalization, transparency, and practical applications, while acknowledging its limitations in specific contexts.
 
 #### Would you use this?  If so, how/where would you use this?
 
 ##### Prompt
 
 ```markdown
-prompt here
+would you use the proposed method? If yes, explain how and where you would use it. Answer clearly and in simple terms.
 ```
+**When and How to Use Stance Reasoner**  
+I would use **Stance Reasoner** for zero-shot stance detection in scenarios where the model needs to predict stances on unseen targets without prior training. Here's how:  
 
-##### Prompt
+1. **Detecting Sentiment on New Topics**:  
+   - Use the method to analyze a social media post about a political figure, a new product, or any topic not seen during training. It will generate reasoning steps and predict the stance (e.g., "negative" if the post criticizes the figure).  
 
-```markdown
-prompt here
-```
+2. **Improving Dataset Accuracy**:  
+   - Evaluate annotations in a dataset by comparing the model's predictions (via confidence scores and reasoning chains) to the actual annotations. This helps identify errors or inconsistencies.  
+
+3. **Real-Time Sentiment Analysis**:  
+   - Monitor social media for sentiment on new topics (e.g., a viral hashtag or trending topic) and use Stance Reasoner to predict the stance. The explanations will help in understanding public opinion quickly.  
+
+4. **Academic Research**:  
+   - Use the method to analyze public sentiment on new topics (e.g., a new policy) in a dataset, providing insights into societal views without prior training.  
+
+5. **Identifying Fake News**:  
+   - Detect the stance of a post on a new topic that could be misinformation. The model's predictions and explanations help in evaluating the validity of claims.  
+
+**When Not to Use It**:  
+- **Longer Texts**: The method is designed for short social media texts. For longer formats like blog posts, the model might struggle with ambiguous contexts or lack of background knowledge on the target.  
+
+- **Very New Topics**: If the target is extremely niche or not well-represented in the PLM, the model's predictions might be less accurate.  
+
+**Key Benefits**:  
+- **Transparency**: Provides clear reasoning steps and confidence scores, aiding in debugging and understanding predictions.  
+- **Generalization**: Works across diverse targets and domains, including political, corporate, and public health topics.  
+- **Annotation Error Detection**: Identifies inconsistencies in annotations, improving dataset quality.  
+- **Robustness**: Handles noisy or ambiguous social media texts effectively.  
+
+**Use Cases**:  
+- **Social Media Monitoring**: Detecting sentiment on new topics in real-time.  
+- **Dataset Evaluation**: Improving the accuracy of annotations.  
+- **Academic Research**: Analyzing public sentiment on new topics.  
+- **Educational Applications**: Teaching students to analyze social media for sentiment without prior training.  
+
+In summary, Stance Reasoner is ideal for scenarios where the model must predict stances on unseen targets, especially in social media contexts where transparency and accuracy are critical. It's particularly useful for real-time analysis, annotation error detection, and academic research.
 
 #### What problems remain and what are the next steps?
 
 ##### Prompt
 
 ```markdown
-prompt here
+explain what problems still remain in the authors’ approach and what future work or next steps they propose. Give the answer in clear terms.
 ```
+**Key Problems in the Authors' Approach**  
+The Stance Reasoner method faces the following challenges:  
+
+1. **Limited Generalization to New or Niche Topics**:  
+   - Relies on a pre-trained language model (PLM), which may not have sufficient information on very new or niche topics, leading to poor accuracy in predicting stances on such topics.  
+
+2. **Inability to Handle Longer Texts**:  
+   - Designed for short social media texts. Longer texts (e.g., blog posts) may require more complex reasoning and background knowledge not fully represented in the PLM.  
+
+3. **Handling Rhetorical Devices**:  
+   - Struggles with devices like sarcasm, rhetorical questions, and ambiguous statements, which are common in social media but require nuanced understanding of context and tone.  
+
+4. **Ambiguous Contexts**:  
+   - Some tweets lack clear context, leading to low confidence predictions and ambiguous stance determination.  
+
+5. **Ethical Considerations**:  
+   - While explanations are clear, they may not always be fully transparent, especially when the model is not very confident. This could lead to misinterpretations or amplify social issues if not used responsibly.  
+
+**Proposed Next Steps**  
+To address these challenges, the authors propose the following:  
+
+1. **Enhance Rhetorical Device Handling**:  
+   - Develop strategies to better detect and interpret rhetorical devices in social media posts.  
+
+2. **Adapt to Longer Texts**:  
+   - Refine the method to handle longer texts by refining reasoning steps to account for complex contexts.  
+
+3. **Improve Transparency**:  
+   - Enhance the clarity and structure of reasoning chains to provide more understandable explanations, especially when confidence is low.  
+
+4. **Ethical Guidelines**:  
+   - Create guidelines for responsible use to mitigate amplification of social issues.  
+
+5. **Test on Longer Texts**:  
+   - Evaluate the method on longer texts (e.g., blog posts) to assess generalization and performance.  
+
+6. **Address Ambiguous Targets**:  
+   - Develop strategies to handle targets with unclear or multiple interpretations.  
+
+7. **Model Explainability**:  
+   - Refine the reasoning process to provide clearer, more structured explanations for predictions.  
+
+8. **Model Efficiency**:  
+   - Optimize the method for smaller models or reduce computational overhead.  
+
+9. **Handling Ambiguous Contexts**:  
+   - Improve the model's ability to interpret ambiguous tweets without additional context.  
+
+10. **Ethical Considerations**:  
+    - Ensure the method is used ethically, especially in contexts where amplification of social issues could be harmful.  
+
+These steps aim to make the method more versatile, reliable, and transparent, addressing its current limitations while expanding its applicability across diverse social media contexts.
+
+By addressing these challenges, the authors aim to further improve the robustness, generalization, and transparency of their zero-shot stance detection method, making it more versatile and effective for real-world applications.
 
 ### Experience using the LLM
 
 _Describe your process for using the LLM.  How did the LLM perform?_
+
+The LLM did a great job at first it provided precise summaries, understandable explanations, and assistance in arranging the main ideas in plain language.
+
+But as I asked additional questions, the LLM began to have some hallucinations. It included information that wasn't really in the report, like particular recommendations for future research or assertions regarding rhetorical devices, dataset restrictions, and ethics that the authors never specifically addressed. By comparing the LLM's responses with the paper's actual text, I was able to identify these problems and make manual corrections.
+
+Overall, the LLM was quite useful for organizing, simplifying, and rewriting information; nevertheless, I still had to verify the data on my own to prevent false or hallucinated claims.
  
 #### Errors and limitations of the LLM 
 
 _Where did it fall short or make mistakes?_
+
+The LLM made a few mistakes while I was using it:
+First, it sometimes added information that wasn’t actually in the paper, which means it hallucinated certain points. I had to double-check the answers to catch these errors.
+
+Second, after around 6–7 questions in the same conversation, the model seemed to lose track of earlier context. Its memory felt limited, and some answers became inconsistent or repetitive.
