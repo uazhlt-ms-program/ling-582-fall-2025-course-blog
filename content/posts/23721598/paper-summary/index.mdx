@@ -64,11 +64,7 @@ I selected this paper because:
 - This paper proposes a novel use of LLMs to generate semantic training data and train a smaller, more reliable model.
 - As a recent NeurIPS 2025 accepted paper, the work is high-quality and solid.
 
-< !-- NOTE: don't use an LLM to generate this! 🙃 -->
-
 ---
-
-(To be completed in final submission.)
 
 ## LLM
 
@@ -85,19 +81,19 @@ I selected this paper because:
 <tbody>
   <tr>
     <th><b>LLM model</b></th>
-    <td>???</td>
+    <td>SmolLM3-3B</td>
   </tr>
   <tr>
     <th><b>LLM model version</b></th>
-    <td>???</td>
+    <td>3</td>
   </tr>
   <tr>
     <th><b>Model/service URL</b></th>
-    <td>???</td>
+    <td>https://huggingface.co/HuggingFaceTB/SmolLM3-3B</td>
   </tr>
   <tr>
     <th><b>Why this model?</b></th>
-    <td>???</td>
+    <td>I selected SmolLM3-3B because it is an efficient open-weight model, and I think it is capable enough to understand and summarize technical papers.</td>
   </tr>
 </tbody>
 </table>
@@ -110,91 +106,378 @@ _In the LLM's words, what is this paper about?_
 ##### Prompt
 
 ```markdown
-prompt here
+You are an expert research assistant specializing in NLP. I am reading a paper titled "A Semantic Parsing Framework for End-to-End Time Normalization". Please help me understand it by answering the following question clearly and concisely:
+
+Q1: What is this paper about?
 ```
+
+The paper introduces a novel approach to end-to-end time normalization, a task of converting natural language temporal expressions into machine-readable formats, such as ISO-TimeML. Traditional methods using ISO-TimeML struggle with complex constructs like multi-span, event-relative, or compositional expressions. The authors propose a framework called SCATE (Semantic Compositional Annotation of Temporal Expressions), which represents temporal semantics through symbolic and compositional operators (e.g., Union, Intersection) to handle more expressive temporal constructs. Leveraging large language models (LLMs) like GPT-4 and Claude, the paper develops a data augmentation pipeline to generate high-quality annotated data. This data is used to train smaller, locally deployable models, which achieve strong performance on time normalization tasks. The work demonstrates that end-to-end SCATE code generation using LLMs outperforms conventional methods and enables practical, accurate, and interpretable time normalization solutions.
 
 #### What are the authors proposing?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Q2: What are the authors proposing?
 ```
+
+1. The authors are proposing a **novel, end-to-end approach to time normalization** that addresses the limitations of traditional frameworks like ISO-TimeML. Specifically, they:
+
+   1. **Introduce the SCATE framework** (Semantic Compositional Annotation of Temporal Expressions), a compositional and symbolic system for representing complex temporal expressions. This framework allows for the precise encoding of multi-span, event-relative, and compositional temporal constructs that ISO-TimeML cannot handle.
+
+   2. **Frame time normalization as a code generation task**, enabling LLMs to generate executable SCATE code from natural language inputs. This code is then executed to produce timeline-anchored intervals, ensuring deterministic and interpretable results.
+
+   3. **Develop a data augmentation pipeline** using LLMs to synthesize large-scale annotated datasets. By leveraging LLMs to generate code blocks for temporal expressions, the authors create more diverse and comprehensive training data than existing datasets.
+
+   4. **Train smaller, locally deployable models** on the augmented data to achieve competitive performance. These models (≤1B parameters) are designed for practical use in real-world applications, such as information retrieval, question answering, and clinical decision-making.
+
+   5. **Demonstrate the effectiveness of their approach** by showing that small models trained on augmented data outperform even their LLM parents, enabling accurate, scalable, and interpretable time normalization solutions. The proposal emphasizes the synergy between SCATE's semantic expressivity and LLMs' code generation capabilities, making it a practical solution for complex temporal reasoning tasks.
 
 #### What is the motivation for the work?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Q3: What is the motivation for the work?
 ```
+
+The motivation for this work is to **address the limitations of traditional time normalization methods** and develop a more expressive, accurate, and practical solution for converting natural language temporal expressions into machine-readable formats. Specifically:
+
+1. **Addressing Expressivity Gaps**: Traditional systems based on ISO-TimeML struggle with complex temporal expressions (e.g., multi-span, event-relative, and compositional constructs). The authors propose SCATE (Semantic Compositional Annotation of Temporal Expressions), a framework that uses symbolic and compositional operators to represent these expressions with greater flexibility and precision.
+
+2. **End-to-End Approach**: They advocate for an **end-to-end solution**, eliminating the need for complex pipelines that identify temporal expressions and then normalize them. Instead, LLMs are used to generate executable SCATE code, ensuring deterministic and interpretable results.
+
+3. **Data Augmentation for Scalability**: The authors propose generating large-scale annotated datasets using LLMs, which enables training smaller, deployable models (≤1B parameters) that are more practical for real-world applications. This addresses the challenge of limited annotated data for SCATE-based systems.
+
+4. **Interpretable and Executable Code**: By generating SCATE code, the authors ensure that the normalization process is **interpretable** and **executable**, allowing for validation and debugging. This is critical for applications requiring transparency, such as healthcare or finance.
+
+5. **Practical Deployment**: The goal is to create a solution that is **scalable, interpretable, and deployable** in resource-constrained environments. The use of LLMs for data augmentation and training smaller models aligns with the need for efficient, real-time solutions in domains like information retrieval and clinical decision-making.
+
+6. **Enabling Downstream Applications**: The work aims to improve the accuracy and effectiveness of downstream applications (e.g., literature study, question answering) by providing robust time normalization capabilities, which are foundational for temporal reasoning in these domains.
+
+In essence, the motivation is to **overcome the expressivity and complexity limitations of existing frameworks** while creating a **scalable, interpretable, and practical solution** for time normalization, leveraging LLMs and SCATE to meet the demands of modern, real-world applications.
 
 #### What is the approach or innovation?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Q4: What is the approach or innovation?
 ```
+
+The **approach** and **innovation** in this work are centered on **end-to-end time normalization** using the **Semantic Compositional Annotation of Temporal Expressions (SCATE)** framework, combined with large language models (LLMs) to generate executable code and data augmentation. Key components include:
+
+1. **SCATE Framework as a Code Generation Task**:
+   - **Innovation**: SCATE is reimagined as a compositional and symbolic framework for representing temporal expressions. It allows for the precise encoding of complex constructs (multi-span, event-relative, compositional) that traditional frameworks like ISO-TimeML cannot handle.
+   - **Implementation**: SCATE concepts (e.g., intervals, periods, operators) are implemented as executable Python objects. This enables deterministic, interpretable code generation and execution.
+
+2. **LLM-Driven Data Augmentation**:
+   - **Innovation**: LLMs are used to generate large-scale annotated datasets of SCATE code. This is achieved through prompts that detail the SCATE framework's semantics, allowing LLMs to generate syntactically and semantically valid code.
+   - **Impact**: This approach surpasses existing annotated datasets, providing a more diverse and comprehensive training corpus for SCATE-based models.
+
+3. **End-to-End Code Generation**:
+   - **Innovation**: The system is designed to directly generate SCATE code from natural language inputs, eliminating the need for intermediate steps (e.g., expression identification and normalization).
+   - **Execution**: The generated code is executed to produce normalized time intervals, ensuring accuracy and transparency.
+
+4. **Training Smaller, Deployable Models**:
+   - **Innovation**: Fine-tuning smaller models (≤1B parameters) on the augmented data demonstrates that practical, real-world solutions are feasible. This aligns with the need for scalable, resource-efficient systems in domains like healthcare or finance.
+
+5. **Interpretable and Executable Code**:
+   - **Innovation**: The SCATE code is not just generated but **executable**, enabling validation and debugging. This is critical for applications requiring transparency and correctness (e.g., scheduling, event analysis).
+
+6. **Synergy of SCATE and LLMs**:
+   - **Innovation**: The work highlights the synergy between SCATE's semantic expressivity and LLMs' code generation capabilities. This combination enables a **scalable, interpretable, and practical solution** for time normalization.
+
+**Key Takeaway**: The innovation lies in **leveraging LLMs to generate executable SCATE code**, which combines the expressiveness of SCATE with the code generation capabilities of LLMs. This approach addresses the limitations of traditional methods by enabling end-to-end, data-driven, and interpretable time normalization.
 
 #### What are the results and how do they compare with competing approaches?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Q5: What are the results and how do they compare with competing approaches?
 ```
+
+The **results** of the paper demonstrate the effectiveness of their approach to time normalization, particularly when combining large language models (LLMs) with the SCATE framework. Key findings include:
+
+1. **Model Performance on Training Set**:
+   - **Average Accuracy**: 0.62
+   - **F1 Score**: 0.62
+   - **Top-performing Model**: Claude 3.7 Sonnet (0.69 accuracy, 0.66 F1) and Gemini 2.5 Pro (0.50 accuracy, 0.56 F1) showed strong performance, with Claude 3.7 leading.
+   - **Comparison to Baselines**: The approach outperforms direct time interval generation (0.38–0.38) and a few-shot prompt method (0.38–0.38), highlighting the value of SCATE code generation.
+
+2. **Data Augmentation Results**:
+   - **Qwen2.5-0.5B + CC-News + Training Set**: Achieved 0.59 average accuracy and 0.59 F1, surpassing the original training set alone (0.01).
+   - **Claude 3.7 + SCATE Prompt**: 0.49 average accuracy and 0.56 F1, demonstrating the utility of SCATE prompts in improving model performance.
+   - **GPT 4.1 + SCATE Prompt**: 0.51 average accuracy and 0.51 F1, consistent with the SCATE-based approach.
+
+3. **Error Analysis**:
+   - **Primary Issues**: Missed temporal expressions (70%), boundary errors (10%), and structural/granularity errors (5%).
+   - **Insights**: Highlights the need for improved span recognition and precise operator selection, suggesting potential avenues for future improvement.
+
+4. **Test Set Comparison**:
+   - **Best-performing Model**: Claude 3.7 + SCATE prompt achieved 0.49 average accuracy and 0.56 F1 on the test set.
+   - **Comparison to Competing Approaches**: Outperformed Qwen2.5-0.5B + CC-News + Training Set (0.59) by 10 points in average accuracy and F1 score, demonstrating the effectiveness of the SCATE code generation approach.
+
+5. **Practical Deployment**:
+   - **Smaller Models**: Fine-tuned models (≤1B parameters) trained on augmented data achieved 0.59 average accuracy on the test set, showing that practical, deployable solutions are feasible.
+   - **Error Rate**: The Qwen2.5-0.5B + CC-News + Training Set model had a 10% error rate in span recognition, indicating room for improvement in model training and data augmentation.
+
+**Comparison to Competing Approaches**:
+- **Direct Interval Generation**: The paper's approach significantly outperforms direct interval generation (0.38–0.38) in accuracy and F1 score.
+- **Few-Shot Prompting**: The SCATE-based approach (Claude 3.7 + SCATE prompt) is competitive with the few-shot prompt method (0.38–0.38) but slightly behind in performance.
+- **Code-Based Approaches**: The use of SCATE code generation as a chain-of-thought approach is novel and provides a structured, executable framework, which is not commonly seen in existing work.
+- **Traditional Methods**: The paper's approach surpasses traditional ISO-TimeML-based systems, which struggle with complex temporal expressions.
+
+**Key Takeaway**: The results confirm that the SCATE code generation approach, combined with LLMs for data augmentation, is a viable and competitive method for time normalization. While not the absolute best-performing model, it outperforms baselines and demonstrates the potential for scalable, interpretable, and deployable solutions in the field.
 
 #### Is the comparison fair?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Q6: Is the comparison fair?
 ```
+
+The **fairness** of the comparison in the paper hinges on the **specific task and methodology** used in each comparison. Here's a structured analysis:
+
+1. **Task Alignment**:
+   - **SCATE Code Generation**: The paper's approach explicitly targets the task of generating **executable SCATE code** from natural language inputs. This task is distinct from traditional time interval generation or few-shot prompting.
+   - **Few-Shot Prompting**: Directly generates **time intervals** without specifying a structured format. The comparison assumes that the few-shot method's outputs are valid time intervals, which is a different task than code generation.
+   - **Qwen2.5-0.5B**: Trained on general-purpose data (CC-News) and evaluated on time normalization. The comparison assumes that the Qwen2.5 model is capable of generating structured code, which it is not explicitly designed for.
+
+2. **Methodology**:
+   - **SCATE Prompting**: The SCATE approach uses a **structured prompt** that guides the LLM to generate code following the SCATE framework's semantics. This ensures that the outputs are **syntactically and semantically valid** SCATE code.
+   - **Few-Shot Prompting**: The few-shot method prompts the LLM to generate time intervals without specifying a code format. The outputs are **unstructured** and require manual validation.
+   - **Qwen2.5-0.5B**: Trained on general-purpose data and evaluated on a **single task** (time normalization). The comparison assumes that the model can generalize to the SCATE task, which is not guaranteed.
+
+3. **Bias and Assumptions**:
+   - **LLM Bias**: The comparison assumes that the same LLM (e.g., Claude 3.7) is used for all methods, which is valid if the LLM is fine-tuned for the specific task. However, the SCATE approach may leverage the LLM's code generation capabilities more effectively.
+   - **Data Bias**: The SCATE code dataset is more structured and domain-specific, while the few-shot and Qwen2.5 models are trained on general-purpose data. This creates a **methodological bias** in favor of the SCATE approach.
+
+4. **Results**:
+   - The SCATE approach consistently outperforms direct time interval generation and the few-shot prompt method, which is a valid demonstration of its effectiveness.
+   - The comparison to Qwen2.5-0.5B + CC-News + Training Set shows that the SCATE method is more effective when combined with structured data, but the Qwen2.5 model's performance is lower due to its general-purpose design.
+
+**Conclusion**: The comparison is **fair in the context of the specific task and methodology** used. The SCATE approach is evaluated on its ability to generate **executable code** that can be executed to produce normalized time intervals, which is a novel and challenging task. The comparison assumes that the few-shot and Qwen2.5 models are capable of generating structured code, which they are not explicitly designed for. However, the results show that the SCATE approach is superior in terms of accuracy and F1 score when applied to the specific task of code generation. The comparison is **not fair** in the sense that it assumes the Qwen2.5 model can generalize to the SCATE task, which is not guaranteed. Nevertheless, the results are valid within the constraints of the comparison and highlight the SCATE approach's advantages.
 
 #### What are the takeaways according to the authors?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Q7: What are the takeaways according to the authors?
 ```
+
+According to the authors of the paper, the **takeaways** are:
+
+1. **End-to-End Code Generation for Time Normalization**: Their approach demonstrates that **end-to-end code generation** using the SCATE framework is a viable and effective method for time normalization. This allows for the precise encoding of complex temporal expressions and the generation of **executable code** that can be executed to produce normalized time intervals.
+
+2. **LLM-Driven Data Augmentation**: The use of large language models (LLMs) to generate **structured and annotated SCATE code** through prompts is a key innovation. This method creates a **larger, more diverse dataset** for training smaller models, which is critical for achieving high performance in resource-constrained environments.
+
+3. **Practical Deployment of Small Models**: The authors show that **small, deployable models** (≤1B parameters) can be trained on the augmented data and achieve strong performance on time normalization tasks. This is a significant advantage over relying on large models for inference, making the approach suitable for practical applications.
+
+4. **Interpretable and Executable Results**: The SCATE code generation approach ensures that the normalized time intervals are **interpretable and executable**, enabling validation and debugging. This is crucial for applications where transparency is essential (e.g., healthcare, finance).
+
+5. **Synergy of SCATE and LLMs**: The authors highlight the **synergy between SCATE's semantic expressivity and LLMs' code generation capabilities**, which allows for a **scalable, interpretable, and practical solution**. The SCATE framework's compositional semantics and LLMs' code generation capabilities work together to overcome the limitations of traditional frameworks like ISO-TimeML.
+
+6. **Challenges and Future Directions**:
+   - **Span Recognition**: The main errors in their current system are **span recognition** and **boundary errors**, suggesting that future work should focus on improving the ability to identify and extract temporal expressions from text.
+   - **Operator Selection**: The authors note that **operator selection** (e.g., distinguishing between Next and After operators) is a recurring issue, indicating the need for more sophisticated reasoning mechanisms.
+
+7. **Practical Applications**: The authors emphasize that their approach is designed to meet the needs of **practical, real-world applications** where time normalization is critical. The use of smaller models and the ability to generate interpretable code make the system ideal for deployment in environments with limited computational resources.
+
+8. **State-of-the-Art Comparison**: The paper's results show that the SCATE code generation approach outperforms traditional methods and some existing approaches (e.g., Qwen2.5-0.5B with CC-News), demonstrating its competitive value in the field.
+
+**Summary**: The authors conclude that their approach is a significant advancement in time normalization, enabling scalable, interpretable, and practical solutions through the combination of SCATE's semantic expressivity and LLMs' code generation. They highlight the importance of structured data augmentation and the need for future research to address span recognition and operator selection challenges.
 
 #### What are the takeaways according to you?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Q8: What are the takeaways according to you?
 ```
+
+Based on the paper, here are the **takeaways** for understanding the methodology and implications:
+
+1. **Novel Framework for Time Normalization**: The SCATE framework is a **compositional and symbolic system** for representing temporal expressions, which allows for the precise encoding of complex temporal constructs (e.g., multi-span, event-relative, compositional). This framework is a significant advancement over traditional methods like ISO-TimeML, which lack expressivity.
+
+2. **End-to-End Code Generation**: Time normalization is framed as a **code generation task**, where LLMs are used to generate **executable SCATE code** from natural language inputs. This approach ensures that the results are **interpretable and deterministic**, enabling validation and debugging.
+
+3. **LLM-Driven Data Augmentation**: The use of LLMs to generate large-scale annotated datasets through structured prompts is a **key innovation**. This method creates a **more diverse and comprehensive training corpus**, which is essential for improving model performance and generalization.
+
+4. **Practical Deployment of Small Models**: The authors demonstrate that **small, deployable models** (≤1B parameters) can be trained on the augmented data and achieve strong performance, making the approach **scalable and maintainable** in resource-constrained environments.
+
+5. **Interpretable and Executable Results**: The SCATE code generation approach ensures that the normalized time intervals are **interpretable** and **executable**, which is critical for applications where transparency and validation are necessary (e.g., healthcare, finance).
+
+6. **Synergy of SCATE and LLMs**: The combination of SCATE's semantic expressivity and LLMs' code generation capabilities enables a **scalable, interpretable, and practical solution**. This synergy addresses the limitations of traditional methods and opens new possibilities for temporal reasoning.
+
+7. **Challenges and Future Directions**: The authors highlight **span recognition** and **operator selection** as primary challenges. Improving these areas will be crucial for further advancing the methodology.
+
+8. **Practical Applications**: The approach is designed for **real-world applications** where time normalization is critical. The use of smaller models and the ability to generate interpretable code make it ideal for domains like healthcare, finance, and information retrieval.
+
+9. **Comparative Advantage**: The SCATE-based approach outperforms traditional methods and some existing approaches (e.g., Qwen2.5-0.5B with CC-News) in terms of accuracy and F1 score, demonstrating its **competitive value** in the field.
+
+10. **Interpretability and Transparency**: The SCATE framework's code generation enables **transparent temporal reasoning**, which is essential for applications requiring accountability and explainability.
+
+**Summary**: The paper presents a **practical, scalable, and interpretable solution** for time normalization by combining the SCATE framework with LLMs for data augmentation and code generation. The key takeaways are the effectiveness of the SCATE framework, the practicality of using LLMs for data augmentation, and the importance of code generation for interpretable results. Future work should focus on addressing span recognition and operator selection challenges to further improve the methodology.
 
 #### Would you use this?  If so, how/where would you use this?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Q9: Would you use this?  If so, how/where would you use this?
 ```
 
-##### Prompt
+Based on the paper's methodology and its implications, I would **recommend using this approach in scenarios where temporal reasoning is critical and interpretability is paramount**. Here's a breakdown of how I would apply this method and the specific contexts where it would be most beneficial:
 
-```markdown
-prompt here
-```
+### **When to Use This Method**:
+1. **Critical Temporal Applications**:
+   - **Healthcare**: For scheduling surgeries, monitoring patient events, or tracking medication timing, where precise and deterministic execution is essential.
+   - **Legal/Regulatory**: For extracting and normalizing temporal expressions in legal documents, contracts, or court filings where accuracy and clarity are non-negotiable.
+   - **Event Analysis**: For event analysis in finance, logistics, or environmental monitoring, where temporal sequences must be accurately captured.
+
+2. **Interpretable and Executable Results**:
+   - Use it when **interpretable outputs** are required, such as in **explainable AI** or **explainable decision-making** systems, where the reasoning process behind the temporal intervals must be transparent.
+   - In **research or development**, where the method can be used to **validate and refine temporal reasoning algorithms** by generating executable code for verification.
+
+3. **Scalable and Deployable Systems**:
+   - For **real-world deployments** where **small, resource-constrained models** are necessary (e.g., IoT devices, edge computing platforms), the authors' approach of fine-tuning small models on augmented data is ideal.
+   - In **automated systems** like **traffic management** or **supply chain logistics**, where temporal expressions are used to optimize schedules or resource allocation.
+
+4. **Complex Temporal Expressions**:
+   - Use it when dealing with **complex temporal expressions** (e.g., multi-span, event-relative, compositional), such as in **academic research** or **cross-domain applications** where traditional methods fail.
+
+### **How I Would Use This**:
+1. **Data Augmentation with LLMs**:
+   - Use LLMs (e.g., GPT, Claude) to generate annotated datasets of SCATE code. This would involve creating a large corpus of **structured temporal data** that can be used to train smaller models.
+   - Example: Prompt LLMs to generate SCATE code for temporal expressions from a corpus of text, then validate the code to ensure it's syntactically and semantically correct.
+
+2. **Training Smaller Models**:
+   - Fine-tune small models (≤1B parameters) on the augmented data to achieve competitive performance. This would be particularly useful in **resource-constrained environments** like edge computing or IoT devices.
+
+3. **Integration into Existing Pipelines**:
+   - Use the SCATE code generation approach as a **final step** in a temporal reasoning pipeline. For example, in **question answering** or **information retrieval**, the code can be executed to verify the correctness of the time intervals.
+
+4. **Debugging and Verification**:
+   - The executable SCATE code allows for **debugging and validation** of the temporal reasoning process. This is critical in **critical applications** where errors can have significant consequences.
+
+5. **Research and Development**:
+   - Use the method to **validate and refine temporal reasoning algorithms** by generating executable code for testing and evaluation.
+
+### **Limitations to Consider**:
+- **Span Recognition Challenges**: The paper notes that span recognition (identifying temporal spans in text) is a recurring issue. This may require additional research to improve the accuracy of temporal span extraction.
+- **Operator Selection**: Distinguishing between operators like **Next** and **After** is a challenge. Future work may involve more sophisticated operator selection mechanisms.
+- **Infrastructure Requirements**: The method requires access to **large LLMs** for data augmentation and the ability to **execute SCATE code**, which may not be feasible in all environments.
+
+### **Conclusion**:
+This approach is **highly suitable for applications requiring precise, interpretable, and executable temporal reasoning**, particularly in domains like healthcare, finance, or legal. The combination of SCATE's expressive framework and LLMs' code generation capabilities makes it a **viable solution** for improving the accuracy and transparency of temporal analysis. However, it requires careful attention to **span recognition** and **operator selection** to ensure reliability.
 
 #### What problems remain and what are the next steps?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Q10: What problems remain and what are the next steps?
 ```
+
+### **Remaining Problems and Next Steps**:
+
+#### **Current Challenges**:
+1. **Span Recognition**:
+   - **Issue**: The model often fails to accurately identify temporal spans in the input text.
+   - **Impact**: Leads to incorrect SCATE code generation, affecting the precision of normalized time intervals.
+   - **Next Steps**:
+     - **Integrate more robust NLP models** that specialize in temporal span extraction.
+     - **Add contextual features** (e.g., time units, event types) to improve span recognition.
+     - **Train on annotated span datasets** with diverse temporal expressions.
+
+2. **Boundary Errors**:
+   - **Issue**: Generated SCATE code may have incorrect start and end points for temporal spans.
+   - **Impact**: Reduces the accuracy of normalized intervals.
+   - **Next Steps**:
+     - **Enhance temporal span extraction algorithms** to better capture precise temporal boundaries.
+     - **Use more sophisticated boundary detection techniques**, such as contextual analysis or temporal alignment methods.
+
+3. **Operator Selection**:
+   - **Issue**: Difficulty distinguishing between operators like `Next` and `After`.
+   - **Impact**: Leads to incorrect operator selection, affecting the semantic correctness of the generated code.
+   - **Next Steps**:
+     - **Expand the training data** with examples of different operator usages and their semantic differences.
+     - **Develop operator selection models** using techniques like **rule-based systems** or **deep learning** to improve operator selection accuracy.
+
+4. **Granularity Handling**:
+   - **Issue**: The model may downsample or upsample time units, leading to loss of precision.
+   - **Impact**: Affects the accuracy of normalized intervals for specific temporal expressions.
+   - **Next Steps**:
+     - **Train on higher-precision data** (e.g., ISO 8601 format) to preserve granularity.
+     - **Implement granular time unit recognition** (e.g., seconds, minutes) to handle fine-grained temporal expressions.
+
+5. **Interpretability of SCATE Code**:
+   - **Issue**: While the code is executable, it may not be fully interpretable for non-technical users.
+   - **Impact**: Limits usability in applications requiring human-understandable results.
+   - **Next Steps**:
+     - **Integrate **attention mechanisms or **representation learning** to explain the reasoning behind SCATE code generation.
+     - **Develop a **visualization tool to represent SCATE code in a human-readable format.
+
+6. **Cross-Lingual and Multilingual Support**:
+   - **Issue**: The SCATE framework is currently limited to English.
+   - **Impact**: Reduces applicability in multilingual or cross-lingual scenarios.
+   - **Next Steps**:
+     - **Adapt the SCATE framework** to handle different language structures and temporal expressions.
+     - **Use cross-lingual training** with diverse datasets to improve multilingual support.
+
+7. **Deployment Challenges**:
+   - **Issue**: Small models trained on augmented data may not be robust enough for real-world deployment.
+   - **Impact**: Limits the practicality of the approach.
+   - **Next Steps**:
+     - **Optimize small models** for inference speed and robustness.
+     - **Develop **deployment strategies for edge devices or resource-constrained systems.
+
+8. **Error Analysis and Debugging**:
+   - **Issue**: Ongoing analysis of errors (span recognition, boundary errors, etc.) is necessary to refine the training process.
+   - **Next Steps**:
+     - **Continuously analyze error patterns** to identify recurring issues.
+     - **Implement **debugging mechanisms in the SCATE framework to trace errors and improve model performance.
+
+9. **Integration with Existing Systems**:
+   - **Issue**: The approach may not be easily integrated into existing machine learning pipelines.
+   - **Impact**: Reduces the practicality of the solution.
+   - **Next Steps**:
+     - **Develop **APIs or **interfaces** to integrate the SCATE-based time normalization with existing systems.
+     - **Explore **middleware solutions that can connect SCATE-generated code with downstream applications.
+
+10. **Future Research Directions**:
+    - **Model Improvement**: Explore **deep learning architectures** (e.g., Transformers) for better temporal reasoning.
+    - **Data Augmentation**: Use **reinforcement learning** or **generative adversarial networks (GANs)** to generate more diverse and realistic temporal datasets.
+    - **Cross-Lingual Support**: Extend the SCATE framework to handle **multilingual and cross-lingual temporal expressions**.
+    - **Deployment Optimization**: Investigate **edge computing** or **IoT device**-specific optimizations for small models.
+
+### **Conclusion**:
+The paper highlights significant challenges in temporal expression recognition and code generation. Addressing these through targeted research, data augmentation, and model improvements will be crucial for advancing the SCATE-based time normalization approach. By refining the framework to handle complex temporal expressions, improving interpretability, and extending its applicability to multilingual contexts, the method can become a robust solution for diverse applications.
+
+---
 
 ### Experience using the LLM
 
 _Describe your process for using the LLM.  How did the LLM perform?_
 
+In this assignment, I used an LLM to help me understand the paper *A Semantic Parsing Framework for End-to-End Time Normalization*. I designed a prompt that assigned the model the role of an expert research assistant in natural language processing and asked questions step by step. 
+
+Overall, the LLM performed much better than I expected and showed a strong ability to maintain coherent and continuous understanding. It summarized the research goal of the paper in precise language and easy to understand: modeling time normalization as an end-to-end code generation problem within the SCATE framework. It also provided well-structured, and accurate explanations for key aspects such as the research motivation, methodological innovations, data augmentation strategies, and small model training. This was especially helpful for me in quickly building a high-level understanding of the paper as a whole.
+
+In addition, when asked whether the comparison was fair, it offered a critical analysis by pointing out differences in task settings, data sources, and output formats across the compared methods. For more analytical questions such as practical applicability and future research directions, the LLM also gave very insightful answers. For example, it suggested applying this method to time-sensitive event analysis in demanding real-world scenarios such as healthcare, legal and regulatory settings, finance, logistics, and environmental monitoring. This reflects the LLM can well undertand the underlying concept or value about the paper.
+
+In summary, the LLM was highly effective in assisting me with understanding the paper’s structure, core ideas and method. It accelerated my comprehension of the paper and provided clear guidance throughout the reading process. It also provided valuable insights about potential future research directions.
+
 #### Errors and limitations of the LLM 
 
 _Where did it fall short or make mistakes?_
+
+The LLM’s reliability dropped when it came to explaining numerical experimental results. While it could correctly summarize the general trends, such as SCATE performing better than direct interval generation and small models outperforming LLMs when trained with augmented data, it often became vague about the exact F1 scores, the strict conditions under which different models were compared, and whether the evaluation settings were consistent.
+
+Moreover, the LLM only repeated the numbers shown in the result tables without clearly showing that it understood what those numbers actually meant. Since the paper includes results from multiple models, experimental settings, and evaluation metrics, this kind of surface-level summary can easily hide the real performance differences and the actual scope of the conclusions.
+
+In summary, the LLM still has significant limitations in quantitative reasoning. It excels at conceptual understanding but struggles with precise numerical details, complex comparative analysis, and verification of statistical claims. These limitations suggest that LLMs are best used for understanding methodology or concepts, but numerical results and experimental claims should still be verified independently. 
