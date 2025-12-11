@@ -3,8 +3,8 @@ title: "My approach to the class competition"
 slug: "/krishavardhni/class-competition"
 date: 2025-11-10
 author: Krisha Vardhni
-description: "My approach first splits each text into two spans and extracts features, along with TF-IDF word and character n-gram similarities 
-(cosine and Euclidean), which are used to train Logistic Regression and XGBoost models."
+description: "My approach first splits each text into two spans and extracts features, along with TF-IDF word and character n-gram similarities and I also used Sentence Transformer 
+embeddings to capture both writing habits and deeper meaning. These combined features are then fed into an XGBoost model to predict whether the two texts were written by the same author."
 tags:
   - class competition
 ---
@@ -23,7 +23,7 @@ tags:
 <tbody>
   <tr>
     <th><b>Leaderboard score</b></th>
-    <td>0.57775</td>
+    <td>0.61293</td>
   </tr>
   <tr>
     <th><b>Leaderboard team name</b></th>
@@ -43,38 +43,85 @@ tags:
 
 ## Task summary
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
+This task invloves authorship verification, where the model must determine whether 2 English text spans which are seperated by [SNIPPET] delimiter were written by the same author or not.
+Each row consists consistsof a pair of texts in the 'TEXT' column and the goal is to assign a label 0 if its different author and label 1 if its by the same author. The training set contains 1601 
+labeled examples, while the test set has 899 unlabeled examples. The evaluation metric is macro F1, so we need balanced performance across both classes without being biased by class frequency.
+
+Authorship verification is very simialr to tasks like digital stylometry, author profiling and plagiarism detection. This pairwise verification makes us build a model which must learn learn relative style consistency instead of absolute author signatures.
+There are many challenges that comes with this task for example, an author's writing style can change depending on the topic, genre or intended audience. Which means that 2 texts by the same author can still appear very different on the surface. 
+Meanwhile, texts by different authors may look similar if they share domain-specific vocabulary or structure. Short or noisy text spans reduce available stylistic signals. These factors make simple lexical similarity insufficient, hence requiring us to combine multiple different features for the prediction.
+
+Some of the state of the art approaches in authorship verification combine stylometric analysis, character/word n-gram modeling, and deep neural embeddings. Modern systems often leverage transformer-based architectures, such as Sentence Transformers or multilingual BERT variants, to capture both 
+semantic closeness and stylistic tendencies. These methods are frequently used with similarity metrics, ensemble classifiers, or pairwise models trained specifically for verification tasks.
+An overiview of the approach I specifically used for this task is: I integrated stylometric features, character/word n-gram models, and transformer-based embeddings and finally fed all the feature types to an XGBoost classifier.
 
 ## Exploratory data analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+Dataset Overview and Class Distribution:
+The training dataset contains 1601 samples, each consisting of two text spans joined by a [SNIPPET] delimiter and a binary label indicating whether both spans were written by the same author. The class distribution is highly imbalanced:
+Label 0 indicating different authors had 1245 samples (77.76%) and Label 1 indicating same author had 356 samples (22.24%). The strong class imbalance requires using macro F1 as the evaluation metric, since accuracy alone would unfairly favor the majority class.
+
+Sample Data Points:
+The Dataset contains long narrative type excerpts from story books.
+Label 1 (same author) pairs tend to have consistent narrative voice, continuity of pacing, and similar vocabulary choices.
+Label 0 (different authors) pairs typically shift abruptly in topic, style. It shifts from a narritive story to something technical.
+
+Text Length Analysis:
+Word counts vary widely across samples. Most examples fall between 150–200 total words, but the tail extends past 800 words, indicating highly variable writing contexts.
+ Visualizing Text A vs. Text B lengths shows that both labels heavily overlap, confirming that text length alone is not a strong indicator of authorship. However, 
+ extremely mismatched span lengths appear more frequently in label 0 samples.
+
+Diversity Measures:
+Vocabulary diversity (Type–Token Ratio) for both spans remains consistently around 0.7, indicating rich but stable vocabulary across the dataset. This suggests that 
+simple lexical diversity is not discriminative and supports the need for deeper stylistic and semantic features. Length difference also highlights structural diversity: large 
+discrepancies between spans tend to correspond to label 0, while more balanced spans appear in label 1.
+
+Based on this I can say a challenge in this dataset is that writing style can vary a lot even within the same author, especially when the topic or pacing changes. 
+At the same time, different authors sometimes use similar vocabulary or narrative structure, which makes the task harder. The heavy class imbalance also means the model must 
+avoid always predicting label 0.
 
 ## Approach
 
-Draft approach:
-My approach to the problem was I split the text into 2 spans using the [SNIPPET] delimiter
-and then I extracted few features which would help with similarity matching like punctuation usage, stopword ratios, vocabulary overlap. I then computed the TF-IDF word and 
-characters n-gram representations using this I computed the cosine similarity and euclidean distance
-for both a and b span texts. These TF-IDF values are given as inputs to my machine learning models. I experimented with Logistic Regression and XGBoost models.
-For the final submission I plan on enhancing this classification by using deep learning models like LSTM and transformer based architectures. If needed also use hyperparameter tuning."
+My approach combines different types of features to capture both the surface writing style and the deeper meaning of the two text spans. I first extracted stylometric features such as word lengths, punctuation usage, type–token ratio, stopword ratio, and vocabulary overlap. 
+These features help capture habits that writers usually repeat across their texts. I also calculated TF-IDF word and character n-gram similarities to detect patterns in phrasing and structure.
+To capture meaning and more subtle stylistic cues, I used SentenceTransformer embeddings (all-MiniLM-L6-v2) and computed semantic similarity between the two spans. All of these features are then combined and fed into an XGBoost classifier, and I tuned the model using RandomizedSearchCV with macro F1 as the scoring metric.
 
+A creative part of my approach is mixing several different types of features like, stylometric, TF-IDF, and transformer based semantic similarity instead of relying on just one method. This hybrid design allows the model to look at writing from multiple angles: how the text is structured, how it is phrased, and how it sounds in meaning. 
+By combining these signals, the model can detect authorship patterns more effectively than using only deep embeddings or only lexical features.
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
 
 ## Results
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
+The baseline system provided for the task achieved a macro F1 score of 0.50261. My final submission reached a score of 0.61293, giving a performance improvement of +0.11032 macro F1 
+over the baseline. This gain shows that combining stylometric, TF-IDF, and semantic similarity features with XGBoost provides a stronger approach than the simple baseline model.
+
+To measure the robustness of my approach, I used RandomizedSearchCV with 3-fold cross-validation and macro F1 as the scoring metric. Across all sampled hyperparameter configurations, 
+the average cross-validated macro F1 score was 0.63336, with a very small standard deviation of 0.00496, indicating that the model’s performance was stable across different splits of 
+the data.
 
 ## Error analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+To understand where the model struggles, I analyzed its predictions on the held-out validation set using the tuned threshold of 0.45. The classification report shows that the model performs very well on label 0 (different authors) with a recall of 0.96 and an F1 of 0.90, but recall for label 1 (same author) drops to 0.37. This indicates that most of the errors come from misclassifying same-author pairs as different authors. The confusion matrix supports this pattern, showing many false negatives for label 1.
+False negative errors (same author predicted different) occur when the two spans written by the same author differ strongly in topic, pacing, or tone. For example, one span may contain fast, dialogue-heavy writing while the other is slower and descriptive. Even though the writing comes from the same person, the surface style shifts enough that the model treats them as unrelated. This explains the low recall for label 1.
+False Positives errors (different authors predicted same) occur when different-author pairs share similar narrative structure or vocabulary. For instance, two authors may both use short sentences or repeated descriptive phrases typical of fiction writing. The TF-IDF similarity and semantic embeddings capture these overlaps, which leads the model to predict “same author” even when the texts come from different writers.
+
 
 ## Reproducibility
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
-_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+To ensure that my results can be reproduced easily, following are the instructions for setting up the environment, preparing the dataset and running the script. All random seeds in the code are fixed (random_state = 42), and the workflow is fully deterministic, allowing anyone to reproduce the leaderboard score of 0.61293.
+Firstly, Install all the required dependencies using the following command: "pip install numpy pandas scikit-learn xgboost sentence-transformers nltk scipy matplotlib seaborn"
+Then we need to download the necessary NLTK tokenizers using "import nltk -> nltk.download("punkt") -> nltk.download("stopwords")" run these one after the other.
+And then make sure you have your train and test daasets in a simialr file structure path as the one mentioned or else ensure you change the file paths before running the code.
+Now if you run the notebook you should be able to reproduce the same submission file that achieved the leaderboard score.
 
 
 ## Future Improvements
 
-_Describe how you might best improve your approach_
+There are several ways the approach could be improved in future work. One limitation of the current model is that it relies mainly on handcrafted feature groups and a single 
+classifier. Performance could be improved by using a pairwise model such as a Siamese network or a transformer fine-tuned directly on text pairs, which would allow the system to 
+learn authorial style differences more end-to-end. Another direction is using data augmentation, such as splitting long spans into multiple segments or paraphrasing sentences to 
+improve robustness.
+
+The model also struggles when one span is very short, so adding minimum-length filtering or specialized short-text embeddings could help. Additional stylometric features such as 
+POS tag patterns, sentence-level rhythm, or syntactic complexity may also provide more author-specific signals. Finally, ensembling multiple models (e.g., XGBoost + a neural model) 
+could help reduce variance and improve overall macro F1 performance on both classes.
