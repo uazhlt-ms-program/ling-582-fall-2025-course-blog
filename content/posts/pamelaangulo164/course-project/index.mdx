@@ -9,7 +9,7 @@ tags:
 ---
 <table>
   <caption>
-    For this project, I will investigate how well an open-source decoder-only transformer language model performs at an EN-SPA MT task compared to a supervised neural MT baseline.
+    For this project, I investigate how well an open-source decoder-only transformer language model performs at an EN-SPA MT task compared to a supervised neural MT baseline.
   </caption>
 <tbody>
   <tr>
@@ -21,8 +21,8 @@ tags:
     <td></td>
   </tr>
   <tr>
-    <th>Pamela Angulo Martinez</th>
-    <td></td>
+    <th>Team member</th>
+    <td>Pamela Angulo Martinez</td>
   </tr>
 </tbody>
 </table>
@@ -89,6 +89,9 @@ State-of-the-art EN–ES MT systems typically:
 By contrast, decoder-only LMs are usually not explicitly optimized for a specific language pair; they rely on large-scale pretraining and careful prompting. At sufficient scale, they can perform surprisingly well on translation tasks, but this is less documented for smaller models and specific domains such as UN text. This project positions a pre-trained supervised MT baseline and a smaller decoder-only LM against each other on a controlled subset of UN v1.0.
 
 ---
+## Summary of individual contributions
+<table> <thead> <tr> <th>Team member</th> <th>Role/contributions</th> </tr> </thead> <tbody> <tr> <th>Pamela Angulo Martinez</th> <td> Designed the project comparing a supervised EN–ES MT baseline to decoder-only transformer LMs using UN v1.0 data. Implemented scripts to convert the UN dev/test sets into CSV format and to sample manageable evaluation subsets. Set up and ran the supervised MT baseline and decoder-only models, including prompt design, decoding configuration, and metric computation (BLEU, chrF). Performed the robustness experiments and conducted both quantitative and qualitative error analyses, focusing on morphology, tense/aspect, pronouns, and named entities. Generated tables and figures for the results, wrote the blog-style summary (project description, methods, results, limitations, and future work), and documented all steps needed to reproduce the experiments. </td> </tr> </tbody> </table> 
+---
 
 ## Methods
 
@@ -108,9 +111,9 @@ The project uses the UN Parallel Corpus v1.0 dev/test sets for English–Spanish
 
 For computational reasons, I evaluate on a random subset of the test set:
 
-- Sampled subset size: [N_test_subset] sentences.
+- Sampled subset size: 500 sentences.
 - Sampling: uniform random sample from the full 4,000-sentence test set with a fixed random seed.
-- Final evaluation CSV: `data/test_en_es_subset.csv` with columns:
+- Final evaluation CSV: `data/test_en_es_500.csv` with columns:
   - `src`: English source sentences.
   - `tgt`: Spanish reference translations.
 
@@ -139,7 +142,7 @@ The script `run_supervised_mt.py`:
 
 The primary decoder-only model is a smaller GPT-style LM:
 
-- Model: `[MODEL_NAME_1]` (e.g., `bigscience/bloom-560m`).
+- Model: `bigscience/bloom-560m`.
 - Architecture: decoder-only Transformer.
 - Usage mode: prompted translation, without parallel fine-tuning.
 
@@ -150,10 +153,11 @@ Translate the following English sentence into Spanish.
 
 English: {src}
 Spanish: 
-- Decoding:
-- Max new tokens: 64.
-- Temperature: 0.0 (greedy decoding) for reproducibility.
-- Batch size: 1–2, depending on memory.
+
+- Decoding configuration:
+  - Max new tokens: 64.
+  - Temperature: 0.0 (greedy decoding) for reproducibility.
+  - Batch size: 1–2, depending on memory.
 
 The script `run_decoder_only.py`:
 
@@ -161,7 +165,7 @@ The script `run_decoder_only.py`:
 - Calls the decoder-only LM to generate completions.
 - Strips the prompt and takes the first line of the continuation as the translation hypothesis.
 
-A second decoder-only model `[MODEL_NAME_2]` can be evaluated in the same way, using the same script with a different `--model_name`.
+NOTE: A second decoder-only model can be evaluated in the same way, using the same script with a different model_name.
 
 ### Metrics
 
@@ -183,123 +187,144 @@ The script `evaluate_mt.py`:
 
 ### Main quantitative results
 
-On the UN test subset (N = [N_test_subset] sentences), the systems achieve:
+On the 500-sentence subset of the UN v1.0 English–Spanish test set (`test_en_es_500.csv`), the supervised MT baseline (`Helsinki-NLP/opus-mt-en-es`) achieves:
 
-| System                                  | BLEU  | chrF  |
-|-----------------------------------------|-------|-------|
-| Supervised MT baseline (opus-mt-en-es)  | [B_baseline] | [C_baseline] |
-| Decoder-only LM 1 (`[MODEL_NAME_1]`)    | [B_dec1]     | [C_dec1]     |
-| Decoder-only LM 2 (`[MODEL_NAME_2]`)    | [B_dec2]     | [C_dec2]     |
+- BLEU: 61.19  
+- chrF: 78.22  
 
-For a small three-sentence sanity-check set, the supervised baseline achieved BLEU 71.84 and chrF 72.34, while the decoder-only model achieved BLEU 35.42 and chrF 49.30. On the larger UN subset, the gap remains substantial:
+These scores indicate strong overall performance on formal UN-style text, with relatively high character-level overlap between the system outputs and the reference translations.
 
-- Decoder-only LM 1 is [ΔB_dec1] BLEU points lower and [ΔC_dec1] chrF points lower than the supervised baseline.
-- Decoder-only LM 2 is [ΔB_dec2] BLEU points lower and [ΔC_dec2] chrF points lower than the supervised baseline.
+To quantify how a decoder-only LM compares to this baseline, I first ran a small experiment on a tiny test set with three English–Spanish sentence pairs. On that set, the supervised MT baseline and the decoder-only LM (bloom-560m) obtained:
 
-These results indicate that, at this scale and with simple prompting, decoder-only LMs do not match the translation quality of a dedicated EN–ES MT model trained (or pre-trained) on parallel data.
+- Supervised MT baseline: BLEU 71.84, chrF 72.34  
+- Decoder-only LM (bloom-560m): BLEU 35.42, chrF 49.30  
+
+The decoder-only LM is therefore 36.42 BLEU points and 23.04 chrF points below the supervised MT baseline on this initial sample. While this experiment is deliberately small, it already shows a large performance gap between the two paradigms under simple prompting, with the supervised MT model producing substantially more accurate and reference-like translations. The larger 500-sentence UN subset confirms that the supervised baseline is strong in this domain; the decoder-only LM remains noticeably weaker in both adequacy and formality, as reflected in the qualitative error analysis.
 
 ### Robustness analysis
 
-To assess robustness, I computed BLEU over multiple random subsets of the test data:
+To get a simple sense of robustness, I treated the 500-sentence UN test subset as a pool and recomputed BLEU over multiple random subsets of this pool as shown below:
 
-- Subset size: [N_subset] sentences (e.g., 100).
-- Number of subsets: [K] (e.g., 5).
+- Subset size: 100 sentences.
+- Number of subsets: 5.
 - For each subset:
-- Sample without replacement from the full evaluation set.
-- Recompute BLEU for each system.
+  - Sample 100 sentences without replacement from the 500-sentence evaluation set.
+  - Recompute BLEU for each system on that subset.
 
-The table below reports mean and standard deviation of BLEU:
+The table below reports the mean and standard deviation of BLEU across these subsets:
 
-| System                                 | BLEU (mean ± std)        |
-|----------------------------------------|---------------------------|
-| Supervised MT baseline                 | [B_mean_baseline] ± [B_std_baseline] |
-| Decoder-only LM 1 (`[MODEL_NAME_1]`)   | [B_mean_dec1] ± [B_std_dec1]         |
-| Decoder-only LM 2 (`[MODEL_NAME_2]`)   | [B_mean_dec2] ± [B_std_dec2]         |
+| System                                      | BLEU (mean ± std) |
+|---------------------------------------------|-------------------|
+| Supervised MT baseline                      | 60.49 ± 2.42      |
+| Decoder-only LM 1 (`bigscience/bloom-560m`) | 9.32  ± 1.47      |
 
-Across subsets, the supervised MT baseline is consistently better than the decoder-only models. Variance is relatively small compared to the mean differences, suggesting that the performance gap is robust to the particular subset of UN sentences used for evaluation.
-
+Across subsets, the supervised MT baseline is consistently far better than the decoder-only model: the baseline’s BLEU scores are around 60–65 on every sample, while the decoder-only LM stays in the single digits. The standard deviations are small compared to the large gap between the systems, suggesting that the performance difference is robust to the particular subset of UN sentences used for evaluation.
 ---
 
 ## Error analysis
 
 ### Quantitative error patterns
 
-To better understand how the systems differ, I compared their outputs on a smaller challenge subset sampled from the UN test data and manually inspected errors. I categorized errors into:
+To better understand how the systems differ, I manually inspected a challenge subset of held-out sentences sampled from the 500-sentence UN test subset. For each sentence, I compared the reference translation to the outputs of the supervised MT baseline and the decoder-only LM (bigscience/bloom-560m), and categorized the most salient errors into four types:
 
-- Lexical choice (inappropriate word choice, missing content words).
-- Morphological (verb and adjective agreement, number/gender mismatches, misrendered temporal relations).
-- Accuracy (mistranslated names, dates, or numeric expressions).
-- Syntactical (awkward or ungrammatical word order).
+- Lexical choice: inappropriate word choice, missing or redundant content words.
+- Morphological: verb and adjective agreement, number/gender mismatches, and misrendered temporal relations (tense/aspect).
+- Accuracy: mistranslated or hallucinated content, especially names, dates, and numeric expressions.
+- Syntactical: awkward or ungrammatical word order, including missing or misplaced function words.
 
-A schematic distribution of error types for the main two systems is:
+Qualitatively, the error profiles of the two systems differ in systematic ways:
 
-| Error type             | Baseline MT (%) | Decoder-only LM 1 (%) |
-|------------------------|-----------------|-----------------------|
-| Lexical choice         | [*]     | [*]            |
-| Morphology/agreement   | [*]    | [*]          |
-| Accuracy               | [*]       | [*]             |
-| Syntactical            | [*]     | [*]          |
-
-Overall tendencies:
-
-- The supervised baseline makes fewer morphology and agreement errors, reflecting its training on parallel data where such patterns are explicit.
-- The decoder-only LM produces fluent outputs but is more prone to:
-- Agreement errors.
-- Difficult pronoun resolutions.
-- Occasional hallucinations or alterations of named entities and numbers.
+- The supervised baseline makes relatively few Morphological and Accuracy errors. Its mistakes are more often minor Lexical or Syntactical deviations, where the translation is still adequate but slightly less natural or less literal than the reference.
+- The decoder-only LM often produces fluent, natural-sounding Spanish, but it is much more prone to:
+  - Lexical choice errors (e.g., partial English–Spanish code-switching or semantically off paraphrases in a formal UN context),
+  - Morphological errors (agreement and pronoun gender/number mismatches),
+  - Accuracy errors (topic drift or hallucinations of content not present in the source),
+  - Syntactical deviations that would be acceptable in informal language but are not appropriate for institutional Spanish.
 
 ### Qualitative examples
 
-Below are representative examples from the challenge subset. For each example, I compare the reference, the supervised baseline, and the decoder-only LM 1 outputs.
+The following examples from the held-out UN subset illustrate the main error types and the contrast between the systems.
 
-Example 1: Subject–verb agreement
+Example 1: Lexical and Syntactical (code-switching in a formal register)
 
 - Source (EN):  
-`["The number of cases has increased significantly over the past year."]`
-- Reference (ES):  
-`["El número de casos ha aumentado considerablemente durante el último año".]`
-- Supervised MT baseline:  
-`[]`
-- Decoder-only LM 1:  
-`[]`
+  We are proud to represent different countries, cultures, points of view and perspectives.
 
-Commentary:  
-The supervised baseline maintains correct agreement between the subject and verb. The decoder-only LM sometimes misinterprets the complex noun phrase and chooses a verb form that agrees with the closest noun rather than the true subject, illustrating a typical agreement attraction error.
+- Reference (ES):  
+  Nos enorgullece representar diferentes países, culturas, puntos de vista y perspectivas.
+
+- Supervised MT baseline:  
+  Estamos orgullosos de representar a diferentes países, culturas, puntos de vista y perspectivas.
+
+- Decoder-only LM (bloom-560m):  
+  Somos proud de representar diferentes países, culturas, puntos de vista y perspectivas.
+
+Here both systems capture the overall meaning. The supervised baseline output is fully grammatical and stylistically appropriate for UN Spanish. By contrast, the decoder-only LM mixes English and Spanish in the predicate (“Somos proud”), which is clearly unacceptable in this domain. This is primarily a Lexical choice error (code-switching instead of choosing a Spanish equivalent like “orgullosos”) and secondarily a Syntactical deviation, because the hybrid construction does not match expected monolingual usage in formal writing.
+
+Example 2: Accuracy (topic drift and hallucination)
+
+- Source (EN):  
+  Despite significant female educational achievements, the majority of Palestinian women (nearly 1.1 million) are outside the labour force.
+
+- Reference (ES):  
+  A pesar de los importantes logros educativos de las mujeres, la mayoría de las mujeres palestinas (casi 1,1 millones) están fuera de la fuerza de trabajo.
+
+- Supervised MT baseline:  
+  A pesar de los importantes logros educativos de las mujeres, la mayoría de las mujeres palestinas en edad de empleo (casi 1,1 millones) están fuera de la fuerza de trabajo.
+
+- Decoder-only LM (bloom-560m):  
+  La mujer no es un factor determinante en la generación de riqueza en España.
+
+The supervised baseline is very close to the reference: it preserves the topic (Palestinian women), the contrast between educational gains and labour-force participation, and the approximate number (“casi 1,1 millones”). There are small lexical differences (e.g., “en edad de empleo”), but overall the translation is accurate.
+
+The decoder-only LM output, however, completely changes the proposition: it talks about “la mujer” in general and “la generación de riqueza en España,” introducing Spain and a new claim about wealth generation that are nowhere in the source. This is a clear Accuracy error: the sentence is fluent Spanish but no longer corresponds to the English input. It is also a good example of topic drift and hallucination in a decoder-only LM used purely via prompting.
+
+Example 3: Accuracy and Lexical choice (hallucinated country and institution)
+
+- Source (EN):  
+  6. As reported previously, all declared chemicals have been removed from the Syrian Arab Republic and all declared stocks of the Category 1 chemicals have been destroyed.
+
+- Reference (ES):  
+  Como se informó anteriormente, todos los productos químicos declarados han sido retirados de la República Árabe Siria y todas las existencias declaradas de los productos químicos de la categoría 1 han sido destruidas.
+
+- Supervised MT baseline:  
+  Como se informó anteriormente, todos los productos químicos declarados han sido retirados de la República Árabe Siria y todas las existencias declaradas de los productos químicos de la categoría 1 han sido destruidas.
+
+- Decoder-only LM (bloom-560m):  
+  6. El Gobierno de España ha retirado de la República de Siria todos los productos químicos declarados en su territorio y ha destruido las existencias de productos químicos declarados en su territorio.
+
+The supervised baseline essentially matches the reference: it preserves the subject (implicitly the reporting body), the mention of the Syrian Arab Republic, and the fact that all declared Category 1 stocks have been destroyed. The decoder-only LM instead introduces “El Gobierno de España” and talks about products “en su territorio,” which is an invented context. Although the output remains grammatically well-formed and roughly on topic (chemicals removed and destroyed), it misidentifies the actor and location. This is again an Accuracy error, with a strong Lexical component: the model hallucinates a different government and a different territorial framing than the source specifies.
+
+Example 4: Lexical and Accuracy
+
+- Source (EN):  
+  There are international standards for the treatment of children, and Palestinian children are no exception.
+
+- Reference (ES):  
+  Existen normas internacionales para el tratamiento de los niños, y los niños palestinos no son una excepción.
+
+- Supervised MT baseline:  
+  Existen normas internacionales para el tratamiento de los niños, y los niños palestinos no son una excepción.
+
+- Decoder-only LM (bloom-560m):  
+  El niño no puede ser tratado como un objeto de explotación sexual, sino como un ser humano.
+
+Here the supervised baseline again tracks the reference closely. The decoder-only LM produces a generic statement about not treating a child as an object of sexual exploitation. While the sentence is grammatical and meaningful in isolation, it diverges from the specific point about Palestinian children and international standards. The subject shifts from “Palestinian children” to a generic “el niño,” and the predicate introduces new content (“explotación sexual”) not present in the source. This is primarily an Accuracy error, but it also shows a Lexical tendency to default to a memorized or more generic template rather than a faithful translation of the input.
+
+### Summary
+
+Overall, the supervised MT baseline tends to be conservative: it largely preserves the entities, numerical information, and core propositional content of the source, with most residual errors falling into mild Lexical or Syntactical categories. The decoder-only LM, by contrast, exhibits a higher rate of Morphological and Accuracy errors, including agreement mistakes, code-switching, and significant topic drift or hallucination. These patterns align with the quantitative BLEU/chrF results and suggest that, for formal UN-style English–Spanish translation, the supervised MT model is considerably more reliable than a small decoder-only LM used via prompting.
 ---
 
 ## Proposal for future improvements
 
 ### Limitations
 
-The current project has several limitations:
-
-- Data and domain:
-- Evaluation is limited to UN v1.0 data, which is formal and narrow in domain.
-- Only an English→Spanish direction is considered; Spanish→English is not evaluated.
-- Models:
-- Only one supervised baseline and a small number of decoder-only LMs are evaluated.
-- No fine-tuning on UN data is performed for the decoder-only models.
-- Evaluation:
-- Metrics are limited to BLEU and chrF, with limited or no COMET analysis.
-- Human evaluation is restricted to a small manually inspected subset.
+The current project has several limitations. First, the evaluation focuses on a single domain (UN v1.0 English–Spanish dev/test data) and only one translation direction (EN→ES), so the conclusions may not generalize to other domains or language pairs. Second, on the model side, I evaluate one supervised MT baseline and a single small decoder-only LM; larger or more specialized models might behave differently. Third, the decoder-only LM is used purely via prompting, without any parallel fine-tuning or domain adaptation, which likely underestimates what decoder-style architectures could achieve in a more realistic deployment scenario. Finally, the evaluation relies primarily on automatic metrics (BLEU and chrF) and a relatively small manually inspected challenge subset, so there is limited human evaluation and only a coarse error taxonomy.
 
 ### Avenues for improvement
 
-Future work could:
-
-- Broaden the data:
-- Include out-of-domain test sets (e.g., news, conversational data).
-- Evaluate Spanish→English translation as well.
-- Expand the model set:
-- Evaluate larger decoder-only models and additional supervised MT systems.
-- Experiment with light fine-tuning or adapter layers for decoder-only LMs on parallel data.
-- Enhance evaluation:
-- Incorporate COMET and other learned metrics.
-- Conduct a more systematic human evaluation focusing on adequacy and fluency.
-- Design more targeted challenge sets for specific constructions or discourse phenomena.
-
-These steps would provide a more comprehensive picture of where decoder-only LMs can match supervised MT and where they still lag behind.
-
+There are several concrete directions for future work. On the data side, the evaluation could be extended to additional domains (e.g., newswire or conversational data) and to the reverse direction (ES→EN) to test whether the observed trends hold more broadly. On the modeling side, it would be valuable to compare multiple supervised baselines and a range of decoder-only LMs of different sizes, and to explore light fine-tuning or adapter-based training of decoder-only models on EN–ES parallel data. The prompting strategy for decoder-only LMs could also be refined by adding few-shot or instruction-style prompts and then be evaluated systematically. Finally, the error analysis could be deepened by annotating a larger held-out subset, incorporating human adequacy/fluency ratings, and using learned metrics such as COMET to complement BLEU and chrF. Together, these extensions would provide a more comprehensive and robust picture of where decoder-only LMs can approach supervised MT quality and where they still fall short.
 ---
 
 ## Reproducibility
@@ -318,7 +343,7 @@ Repository structure:
 - `run_supervised_mt.py`: runs the supervised MT baseline.
 - `run_decoder_only.py`: runs decoder-only LMs with a translation prompt.
 - `evaluate_mt.py`: computes BLEU and chrF with sacrebleu.
-
+- `robustness_analysis.py`: measures robustness for statiscal analysis.
 ### Step-by-step instructions
 
 Assuming a Python environment with `transformers`, `torch`, `pandas`, and `sacrebleu` installed:
@@ -326,8 +351,8 @@ Assuming a Python environment with `transformers`, `torch`, `pandas`, and `sacre
 1. Clone the repository
 
  ```bash
- git clone [REPO-URL]
- cd [REPO-DIR]
+ git clone https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-pamela-angulo.git
+cd ling-582-fall-2025-course-project-code-pamela-angulo
  ```
 2. Install dependencies
  ```bash
@@ -341,7 +366,7 @@ python build_un_csvs.py
  ```bash
 python sample_un_subset.py \
     --input_file data/test_en_es.csv \
-    --output_file data/test_en_es_subset.csv \
+    --output_file data/test_en_es_500.csv \
     --num_samples [N_test_subset] \
     --seed 42
  ```
@@ -349,17 +374,17 @@ python sample_un_subset.py \
  ```bash
 python run_supervised_mt.py \
     --model_name Helsinki-NLP/opus-mt-en-es \
-    --test_file data/test_en_es_subset.csv \
+    --test_file data/test_en_es_500.csv\
     --source_column src \
-    --output_file outputs/supervised_mt_predictions.jsonl
+    --output_file outputs/un500_supervised_mt_predictions.jsonl
  ```
 6. Run the decoder-only LM
  ```bash
 python run_decoder_only.py \
-    --model_name [MODEL_NAME_1] \
-    --test_file data/test_en_es_subset.csv \
+    --model_name bigscience/bloom-560m \
+    --test_file data/test_en_es_500.csv \
     --source_column src \
-    --output_file outputs/decoder_only_model1_predictions.jsonl \
+    --output_file outputs/un500_decoder_only_model1_predictions.jsonl \
     --batch_size 1 \
     --max_new_tokens 64 \
     --temperature 0.0
@@ -368,23 +393,12 @@ Repeat with a different --model_name and output file for Decoder-only LM 2 if de
 7. Evaluate BLEU and chrF
  ```bash
 python evaluate_mt.py \
-    --test_file data/test_en_es_subset.csv \
+    --test_file data/test_en_es_500.csv \
     --target_column tgt \
-    --predictions_file outputs/supervised_mt_predictions.jsonl
+    --predictions_file outputs/un500_supervised_mt_predictions.jsonl
 
 python evaluate_mt.py \
-    --test_file data/test_en_es_subset.csv \
+    --test_file data/test_en_es_500.csv \
     --target_column tgt \
-    --predictions_file outputs/decoder_only_model1_predictions.jsonl
+    --predictions_file outputs/un500_decoder_only_bloom560m_predictions.jsonl
  ```
-Summary of individual contributions
-<table> <thead> <tr> <th>Team member</th> <th>Role/contributions</th> </tr> </thead> <tbody> <tr> <th>Pamela Angulo Martinez</th> <td> Designed the project comparing a supervised EN–ES MT baseline to decoder-only transformer LMs using UN v1.0 data. Implemented scripts to convert the UN dev/test sets into CSV format and to sample manageable evaluation subsets. Set up and ran the supervised MT baseline and decoder-only models, including prompt design, decoding configuration, and metric computation (BLEU, chrF). Performed the robustness experiments and conducted both quantitative and qualitative error analyses, focusing on morphology, tense/aspect, pronouns, and named entities. Generated tables and figures for the results, wrote the blog-style summary (project description, methods, results, limitations, and future work), and documented all steps needed to reproduce the experiments. </td> </tr> </tbody> </table> ```
-
-## Results
-
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
-
-
-## Future improvements
-
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_
