@@ -43,28 +43,36 @@ tags:
 ## Task summary
 
 For this competition, we are given a training file and a testing file, each a .csv file that has 1600 lines
-containing chunks of text. The training file contains 0s and 1s for each chunk of text to identify whether they 
-were written by the same author. We are tasked with training our model on this file and using it to predict 
-authorship of a different set of texts. We must return the file with a prediction of 0 or 1 for each chunk of 
-text, representing different authorship or same authorship. 
+containing chunks of text. The training file contains 0s and 1s for each chunk of text represnting authorship
+by the target author or a different author. We are tasked with training our model on this file and using it 
+to predict authorship of the texts in the testing file. We must return the file with a prediction of 0 or 1 
+for each chunk of text, representing different authorship or same authorship. 
 
 In order to complete this task, we must first process the .csv files for analysis. From there, we pick our own
-method to analyze the texts to help determine authorship. One challenge of this task are maximizing effeciency
-when trainnig and implementing our model of choice to reduce processing time and resource use. 
+method to analyze the texts to help determine authorship. I chose a Tf/IDF model. One challenge of this task 
+was maximizing effeciency when trainnig and implementing our model of choice to reduce processing time and 
+resource use. Another challenge of this task was the blind submisson setup, which made error identification more
+difficult.
 
 
 ## Exploratory data analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+The training data set had 1600 lines, each with an ID, chunk of text, and a label of 1 or 0 to identify authorship.
+The testing data had 899 lines, wach with an ID and chunk of text, but no label. The task involved generating a
+label. The submissino csv was formatted the same as the testing data, but with a label for each line predicting
+authorship.
 
 ## Approach
 
 For this project, I chose to do a TF/IDF model to analyze the data. I first calcualted the TF/IDF values for each
-word in the text chunks with a 1 value in the training data, putting them in a dictionary. I then compared that 
-to the TF values of each word in a given text of the test data. I analyzed the differences of each word across the
-text and added them up for each value. I decided a cutoff point at which the sum of the differences was too high.
-Texts above that point were marked with a 0, while texts below were marked with a 1. I refined this cutoff point
-with a series of submissions.
+word in the text chunks with a 1 value in the training data, putting them in a dictionary. I repeated this with the
+text chunks with a 0 value.  From there, I compared the TF values of the text by the target author to the TF values 
+of each word in a given text of the test data. I did not create IDF values for the test texts because there was no
+body of texts/docs to compare them against. I analyzed the differences of each word across each text and added them 
+up for each value. I decided a cutoff point at which the sum of the differences was too high. Texts above that point 
+were marked with a 0, while texts below were marked with a 1. I refined this cutoff point with a series of 
+submissions, using the score received to help determine the most effective vitoff point.
+
 ## Results
 
 My best submission to the leaderboard yielded a score of 0.54513, 0.043 above the weighted random baseline. At the 
@@ -72,14 +80,17 @@ time I am writing this, my score puts me in 11th place out of 24 competitors.
 
 ## Error analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+This model was tested against a series of 1600 text chunks for the competition. Each submission yielded a score
+which represented the percent of text chunks with correctly identified authorship. Because we were not able to
+see which authorship characterizations were correct, we needed to get creative with identifying errors in our
+approach. For my code, this mostly involved adjusting the threshhold at which a text is given a 0 instead of a 1.
 
 ## Reproducibility
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
-_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
-
+The code for this project is found in one python file in the repository linked above.
 
 ## Future Improvements
 
-_Describe how you might best improve your approach_
+If given the chance to improve this further, I would explore different approaches for authorship profiling,
+like a Naive Bayes classifier. I could also supplement my approach with more simple identifiers like average
+word length and highly used words. 
