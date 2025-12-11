@@ -22,7 +22,7 @@ tags:
 <tbody>
   <tr>
     <th><b>Leaderboard score</b></th>
-    <td>Not Yet</td>
+    <td>0.40983</td>
   </tr>
   <tr>
     <th><b>Leaderboard team name</b></th>
@@ -42,85 +42,65 @@ tags:
 
 ## Task summary
 
-- Goal: Binary authorship verification (same author = 1, different = 0).
-- Dataset: Thousands of text pairs, balanced positive/negative.
-- Challenges: Short texts, topic shifts, inconsistent style.
-- Related tasks: Plagiarism detection, author profiling, style analysis.
-- SotA approach: Combine stylometric features + transformer embeddings for surface + semantic patterns.
+The Challenge: The goal of this competition was 
+Authorship Verification: determining whether two distinct text snippets were written by the same author. This is a binary classification task (Label 1 for same author, 0 for different).
+
+Why is this hard? Unlike identifying a specific author from a closed list (Authorship Attribution), verification requires the model to learn a "similarity metric" that generalizes to unseen authors. Key challenges included:
+
+- Topic Bias: Two snippets might share the same topic but be written by different authors (or vice versa), confusing semantic models like BERT.
+- Text Length: Many samples in the dataset contained short snippets, making it difficult to extract reliable statistical features (like average sentence length).
 
 ## Exploratory data analysis
 
-Dataset size: 899 rows (sample for demo)
-Positive pairs: 450 | Negative pairs: 449
+Before modeling, I analyzed the provided train.csv and test.csv to understand the input structure.
 
-Observations:
-
-Snippets vary in length & vocabulary richness.
-Some topic overlap between authors.
-Average snippet: 85 words, 12–25% unique tokens.
+- Snippet splitting: The raw text was provided as a single string joined by a [SNIPPET] delimiter. My EDA script successfully split these into s1 (Snippet 1) and s2 (Snippet 2).
+- Feature Distributions: I examined the distribution of basic stylometric features. For example, avg_word_len tends to remain stable for a given author, whereas punct_count varied significantly based on snippet length.
+- Token Length: Using the roberta-base tokenizer, I observed that concatenating both snippets often approached the 512-token limit, necessitating a truncation strategy (max_length=512) to fit the Transformer window.
 
 ## Approach
 
-We implemented a hybrid model combining stylometric features with transformer embeddings:
+Method: Hybrid Stylometry-Transformer To address the limitations of pure semantic models, I developed a Hybrid Architecture that fuses deep learning with linguistic feature engineering.
 
-1. Stylometric Features:
-
-- Average word length
-- Sentence length distribution
-- Punctuation frequency
-- POS tag distribution
-
-2. Transformer Embeddings:
-
-- Used RoBERTa-base to obtain semantic representations of each snippet.
-- Combined embeddings of the two snippets via concatenation and element-wise differences.
-
-3. Classifier:
-
-- A simple MLP (Multi-Layer Perceptron) takes the combined feature vector and outputs a binary prediction.
-- Trained with binary cross-entropy loss and Adam optimizer.
+1. Semantic Component (RoBERTa): I utilized roberta-base to generate contextual embeddings. The model processes the concatenated snippet and extracts the [CLS] token embedding, which captures high-level semantic and syntactic relationships.
+2. Stylometric Component (Feature Engineering): Parallel to the Transformer, I extracted explicit style markers:
+   - Average Word Length
+   - Average Sentence Length
+   - Punctuation Count
+3. Fusion Layer: The 768-dimensional RoBERTa embedding is concatenated with the 6-dimensional stylometric vector (3 features per snippet). This combined vector is passed through a custom classifier head.
 
 
 ## Results
 
-Evaluation metrics:
+The model was trained for 3 epochs using an AdamW optimizer LR=2e-5.
+- Best Validation Accuracy: 77.64%
+- Best Validation F1 (Macro): 43.71%
 
-Accuracy: 88% on validation set
-F1-score: 0.87
-AUC-ROC: 0.91
-
-Cross-validation:
-
-Performed stratified 5-fold cross-validation to ensure robustness.
-Minimal variance across folds, confirming model stability.
-
-Leaderboard submission:
-
-Submission name: HybridStyleTransformer_v1
-Leaderboard score: 0.879 F1-score, exceeding baseline of 0.75
+Performance Breakdown:While the accuracy appears high (~77%), the Macro F1 score is significantly lower (~44%).
+This discrepancy indicates that the model is effectively learning to predict the majority class (likely "Different Authors") but struggles to correctly identify the minority class (likely "Same Authors"). 
+The training loss stabilized around 0.52, suggesting the model reached a plateau with the current hyperparameters.
 
 ## Error analysis
 
-Findings from misclassified examples:
-
-Short snippets: Some misclassifications occurred when snippets were fewer than 3 sentences.
-Topic similarity: Snippets from different authors with very similar topics were sometimes predicted as same author.
-Mixed style: Authors who sometimes use informal vs. formal language were harder to classify.
+A deeper look at the validation performance reveals a Class Imbalance Sensitivity.
+- The "Majority Vote" Trap: The high accuracy paired with an F1 score near 0.44 (which is close to random guessing for a balanced macro-average) suggests the model defaulted to predicting the most frequent label.
+- Stylometric Noise: For very short snippets (e.g., < 50 words), the calculated avg_sent_len and punct_count became noisy and unreliable, potentially confusing the classifier rather than helping it.
+- Truncation Loss: By truncating the input to 512 tokens, the end of the second snippet was often cut off. If the stylistic "signature" of the second author appeared at the end of their text, the model lost that crucial signal.
 
 ## Reproducibility
 
-The model and dataset generation are fully reproducible:
+To reproduce these results, please refer to the README.md in the linked repository.
 
 1. Clone the repository: https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-Binduvelpula04
-2. Install dependencies:
-3. pip install pandas scikit-learn transformers torch
-4. Run dataset_generation.py to create raw snippets and train/test pairs.
-5. Run train_model.py to train the hybrid model.
-6. Evaluate using evaluate_model.py to reproduce leaderboard scores.
+2. Install dependencies: pip install pandas scikit-learn transformers torch nltk datasets
+3. Run train_hybrid.py (or your main script name) to split the data, extract stylometric features, and train the model.
+4. The script will automatically generate submission.csv using the best model checkpoint.
+5. (Optional) Check the ./hybrid_outputs directory for saved model weights (best_hybrid_model.pt).
 
 ## Future Improvements
 
-1. Additional authors and datasets: Incorporating more authors to reduce overfitting.
-2. Data augmentation: Paraphrasing and back-translation to increase snippet diversity.
-3. Ensemble models: Combining multiple transformer backbones with stylometric classifiers.
-4. Topic modeling: Controlling for topic similarity to reduce false positives in same-topic, different-author cases.
+To improve upon this baseline and address the low F1 score, I propose the following:
+
+1. Siamese Network Architecture: Instead of simple concatenation, processing snippets through two separate RoBERTa encoders (Twin Networks) and calculating a distance metric (e.g., Cosine Similarity) would better model the "verification" task.
+2. Addressing Imbalance: Implementing Class Weights in the CrossEntropyLoss or using Focal Loss would force the model to penalize errors on the minority class more heavily, improving the F1 score.
+3. Expanded Stylometry: The current features are too basic. Adding Function Word frequencies (usage of "the", "and", "of") and Part-of-Speech N-grams would create a more robust "authorial fingerprint."
