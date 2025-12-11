@@ -1,7 +1,7 @@
 ---
 title: "Building a RAG System pipelines using open source LLMs"
 slug: "/bharathcherukuru/course-project"
-date: 2025-11-16
+date: 2025-12-10
 author: Bharath Cherukuru
 description: "Our submission for the course project is building a RAG pipeline by using multiple embedding systems where the RAG enhances language model responses by retrieving relevant information from the dataset provided along with the query given."
 tags:
@@ -22,8 +22,8 @@ tags:
     <td></td>
   </tr>
   <tr>
-    <th>BYA</th>
-    <td></td>
+    <th>Team Name</th>
+    <td>BYA</td>
   </tr>
 </tbody>
 </table>
@@ -31,25 +31,33 @@ tags:
 
 ## Project description
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility).  Use subsections to organize components of the description._
-We are creating a RAG pipeline as the course project, where we will use publicly available data. Firstly we will be working with multiple embedding systems, where all the data used is embedded by a embedding system and will set up a retriever to get the most matched information with the query . 
+In this project, we build a Retrieval-Augmented Generation (RAG) system for question answering on the HotpotQA dataset. Here we use an embedding model and FAISS to retrieve the most relevent chunks from a corpus built from HotpotQA. Then we send the question along with the retrieved chunks to an LLM to generate an answer.
 
-Later we will connect with one of the open source LLMs available and build a RAG pipeline. Along with the query, the retreived chunks are feeded to the LLMs. So to know the performance of the pipeline, we will manually evaluate by making a test set of sample questions, their expected answers and the answers we get from LLMs and compare them. Here we will be repeating with different embedding models and compare the results manually. 
+Here we compared three embedding models such as E5, BGE and GTE for retrieval quality, and we have also compared RAG vs non-RAG answers from the same LLM. We know that LLMs can sound very confident but still hallucinate the facts, especially on specific or multi-hop questions. For that we felt RAG is a common way to reduce this like instead of letting the model guess from memory, we give the LLMs real text from a knowledge source and ask it to answer based on that.
 
-As an extended analysis, we are also planning to work on hallucinations,  by checking if the LLMs generates facts not found in the retrieved sources, or did the retriever fail or the LLM is making up things. And also compare RAG vs Non RAG, like how the results are when we are using RAG and when we are not using RAG.
+Our main goal is generally to understand few things with a concrete dataset such as
+- How much does RAG help compared to using the LLM alone?
+- How important is the choice of embedding model for the retrieval?
+- Whose fault it is when things go wrong, is it retriever fault or the LLM's?We chose this problem because LLMs often hallucinate facts, and we wanted to see how much a simple RAG setup can actually reduce those mistakes and how much the retriever vs the LLM is responsible when things go wrong.
 
+As a part of project, we have build a RAG pipeline and plugged in three different embedding models such as E5, BGE and GTE under the same conditions such as same chunks, same FAISS setup, so that the comparision is fair. Then for a set of questions, we have collected gold answers, RAG answers and non-RAG answers in a single csv. We then labeled each example with whether each answer is correct, whether retrieval found a supporting document and what type of error it is like hallucinations etc. The main contribution is this side-by-side analysis of retrieval quality and hallucinations, not just a single accuracy number.
 
-## TimeLine:
+Our project is based on the general RAG idea used in earlier work like REALM and RAG (Lewis et al.), where a retriever is combined with a language model to answer questions more accurately. For retrieval, we use modern dense sentence embedding models like E5, BGE, GTE instead of only keyword-based methods like BM25.
+We felt HotpotQA is not an easy dataset. We observed that many questions need multi-hop reasoning, meaning that the system has to pull the information from more than one article. For example, to answer the question “Were Scott Derrickson and Ed Wood of the same nationality?”, we need to look at the information about both of them and compare them. And also we ran into practical issues with chunking like sometimes the answer sentence is split at the boundary of a chunk and with hallucinations when the context is incomplete, for example, the non-RAG model guessing the wrong book series or a wrong arena capacity, something like this. We have done good amount of trial and error while coding and also it gave us chance to learn more about the ways to solve the issues.
+
+State-of-the-art systems on HotpotQA usually uses more complicated setups like they may have learned retrievers, cross-encoder re-rankers, and big models that actually read many passages together. Here Our system is much simpler as we take one embedding model along with FAISS and one LLM. We feel the benefit of this simpler setup is that it makes it easier for us to clearly see how embedding choice, retrieval quality, and RAG vs non-RAG behavior affect the correctness and hallucinations.
+
+## Timeline 
 
 Week 1 ( Nov 3 - Nov 9) : Forming a team and discussing about the interests of different team members to work on as a project.
 
 week 2 ( Nov 10- Nov 16): Finalizing the project and choosing different embedding systems and open source LLMs.
 
-Week 3 ( Nov 17–Nov 23): Preprocess and chunk documents, then set up vector embeddings with an initial model (such as E5). Working on different embedding models like BGE, GTE. 
+Week 3 ( Nov 17–Nov 23): Implemented the data pipeline such as loaded HotpotQA,  then converted it into document form, and chunked documents into passages.  We also debugged several environment issues and got clean processed files.
 
-Week 4 (Nov 24–Nov 30): Setting up a vector database, manually evaluating the quality metrics. Integrating the cost effective LLM and build RAG pipelines for question answering.
+Week 4 (Nov 24–Nov 30): Computed embeddings for all chunks with E5, BGE, and GTE, built FAISS indices, and ran retrieval evaluation. We measured Recall@5 for each model and generated evaluation samples (eval_samples_*.jsonl) for a subset of questions.
 
-Week 5 (Dec 1–Dec 7) : Analyze results, track hallucination/errors, and finalize the repo for the submission and check up on rubrics to make the final version.
+Week 5 (Dec 1–Dec 7) : Implemented the RAG pipeline with the OpenAI LLM and ran RAG vs non-RAG experiments on sampled questions. We collected gold answers, RAG answers, and non-RAG answers into a CSV and also added labels for correctness and error type such as hallucination, safe “I don’t know”, etc. Finally, we also ran the error analysis script, interpreted the results, and wrote up the report according to the rubric.
 
 ## Contributors:
 
@@ -67,34 +75,228 @@ Abhiram Varma Nandimandalam
   </thead>
 <tbody>
   <tr>
-    <th><b>???</b></th>
-    <td>???</td>
+    <th><b>Abhiram Nandimandalam</b></th>
+    <td> Implemented the embedding scripts for all the three models: E5, BGE, GTE and also made sure that the embeddings and metadata were saved in a consistent format and wrote the code to build evaluation samples and the error analysis script that labels each example.  Helped analyze the error patterns (hallucinations vs safe failures) and contributed to documenting the experimental setup and reproducibility instructions in the repository
+</td>
   </tr>
   <tr>
-    <th><b>???</b></th>
-    <td>???</td>
+    <th><b>Bharath Cherukuru</b></th>
+    <td> Helped to set up the project repository and Python environment, including the fixing dependency issues like numpy/pandas/sklearn. Implemented and debugged the data processing pipeline like loading HotpotQA, building documents, and chunking. Worked on building the FAISS indices and also running the retrieval evaluation for E5, BGE, and GTE. Contributed to writing the results section and checking that the reported numbers matched the code output. 
+</td>
   </tr>
   <tr>
-    <th><b>???</b></th>
-    <td>???</td>
+    <th><b>Yashvi Kommidi</b></th>
+    <td>Coordinated the overall project plan and timeline, and managed the final write-up in the course blog format. Implemented the RAG pipeline with the OpenAI LLM, including the prompt design for RAG vs non-RAG comparisons. Also ran the RAG vs non-RAG experiments, organized the CSV with gold answers, RAG answers, and also non-RAG answers, and performed inspection of hallucination examples. Led the writing of the project description, motivation, and error analysis sections.</td>
   </tr>
 </tbody>
 </table>
 
+All three team members have discussed the design decisions together like choice of dataset, embedding models, and evaluation setup, reviewed each other’s code, and jointly interpreted the final results. Everyone contributed equally and helped each other if one knows more and learnt from each other throughout the project.
 
 ## Results
+First we have evaluated how well each embedding model works lie how it well it can retrieve the supporting evidence for HotpotQA questions. For this we have used Recall@5 on 100 validation questions. We have counted it as a hit if at least one of the top 5 retrieved chunks comes from a supporting article for that question. We have used the same chunks and FAISS setup for all the models, we got 
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
+| Embedding model | Recall@5 |
+| --------------- | -------- |
+| E5 (intfloat/e5-base)           | 1.00 |
+| BGE (BAAI/bge-base-en-v1.5)     | 1.00 |
+| GTE (thenlper/gte-base)         | 0.98 |
 
+Here all the three models looks very strong on this task, with E5 and BGE retrieving the correct article in the top-5 for every single question, and GTE missing only 2 out of 100. If we are treating this as a binomial proportion, GTE’s Recall@5 ≈ 0.98 has a rough 95% confidence interval of about [0.95, 1.0], so here the small difference between the 0.98 and 1.0 is probably not very meaningful. Overall, we observed that retrieval performance looks robust across embedding choices for this dataset. This results also tells us that the most answer failures later are not due to completely missing the right article, which is ithe most important for interpreting the RAG vs non-RAG results.
+
+The other part of the project we worked on is RAG vs non-RAG answer accuracy. We have compared the quality with and without RAG on a held out set of 10 HotpotQA validation questions.. For each question we have stored gold answer from HotpotQA, RAG answer which is question along with retrieved chunks given to LLM and non-RAG answer, which is giving just the question only to the same LLM.
+
+We then tagged each example with titles like rag_correct, no_rag_correct which is does the answer match the gold answer or not.
+ rag_error_type, no_rag_error_type with one of these ( R0 means correct, R3 means hallucination, and R4 means safe failure. 
+
+The overall results that we got out of these are :
+- The questions we have taken = 10
+- Retrieval hit: 10 / 10 (at least one supporting title retrieved every time)
+- RAG correct: 8 / 10
+- Non-RAG correct: 4 / 10
+
+here we have seen on this small set are RAG doubles the accuracy compared to using the LLM alone. If we treat this as a binomial accuracy estimate: we got RAG accuracy = 0.8 that is rough 95% CI ≈ [0.55, 1.0] and Non-RAG accuracy = 0.4 which is rough 95% CI ≈ [0.10, 0.70]. we observed that even though the sample size is small, the gap between 0.8 vs 0.4 is large enough to show that the RAG is very likely better than non-RAG on this style of question.
+
+Coming to the hallucination vs safe failure records, while looking at the error tags we saw a clear difference in the type of mistakes such as:
+### RAG ANSWERS:
+- 8 / 10 were R0 (correct)
+- 2 / 10 were R4 (safe failure: model said the context did not contain the answer)
+- 0 / 10 were R3 (hallucinations)
+
+### NON-RAG ANSWERS:
+- 4 / 10 were R0 (correct)
+- 6 / 10 were R3 (hallucinations)
+- 0 / 10 were safe failures
+
+here we have observed that with the RAG, we saw most failures became I don’t know from this context, instead of made up facts while without RAG the model usually produced confident but wrong answers. With all the retrieval results, the main conlcusion is Retrieval is strong that is supporting titles found 10/10 times, here RAG not only improves the accuracy 8/10 vs 4/10,  but also changes the failure mode from hallucinations to safer I don’t know answers.
 ## Error analysis
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
+For error analysis we have used a small held out data which is set of 10 HotpotQA validation questions. For each question we have stored gold answers from the HotpotQA, a RAG answer which is question plus retrieved chunks and the LLM and also we stored a non RAG answer which is question only into the same LLM. 
+We then ran a script over the csv to add and summarize:
+- retrieval_hit – whether at least one retrieved title matches a HotpotQA supporting title  
+- rag_correct, no_rag_correct – whether each answer matches the gold answer 
+- rag_error_type, no_rag_error_type – coarse error tags (`R0` = correct, `R3` = hallucination, `R4` = safe failure like “I don’t know”)  
+
+The results we have got are :
+- Total questions: 10  
+- Retrieval hit:10 / 10  
+- RAG correct: 8 / 10  
+- Non-RAG correct: 4 / 10  
+
+So on this small set, we can see RAG roughly doubled the accuracy compared to when using the LLM without retrieval. The error types and patterns that we observed for each of the type are :
+For RAG answers we have observed that 8/10 were tagged as R0 which means correct,  2/10 were R4 which means safe failure where the model said that the context did not contain the answer  and there were no R3 hallucinations in the RAG answers. 
+
+Coming to Non-RAG answers, we have observed 4/10 were R0 (correct) and  6/10 were R3 (hallucinations), where the model confidently have produced wrong facts. This shows us a clear pattern that is when the model does not have any access to retrieved context, it is much more likely to hallucinate things instead of admitting uncertainty. With RAG, we observed most of the failures become “I don’t know from this context” instead of invented answers.
+
+for example lets consider a question from the data:  
+> What government position was held by the woman who portrayed Corliss Archer in the film *Kiss and Tell*?
+
+- Gold answer: Chief of Protocol  
+- RAG answer: says the context does not provide the government position and was tagged as a safe failure (R4)  
+- Non-RAG answer: says she was a U.S. Ambassador, was tagged as a hallucination (R3).  
+
+Both answers are incorrect here, but the RAG refuses to guess, while the non-RAG model did invent a plausible-sounding role.
+
+and one more example question is :
+> The arena where the Lewiston Maineiacs played their home games can seat how many people?
+
+- Gold answer: 3,677 seated  
+- RAG answer: “4,000 (3,677 seated)” , was  counted as correct (R0), since it contains the exact number from the context  
+- Non-RAG answer: “approximately 2,800 people”, this was tagged as hallucination (R3). 
+
+Here the RAG model copies the number from the retrieved text, but where as the non-RAG model just guesses a capacity.
+
+For the small held out data error analysis, we learned that Retrieval quality is strong as a supporting title was retrieved for all the 10 questions, RAG answers were more accurate overall such as 8/10 vs 4/10, Non-RAG errors were usually hallucinations, while RAG errors were mainly safe failures. 
+
+This whole analysis matches our main goal in the project that is not only measuring accuracy, but also understanding  the main idea of how the system fails with and without RAG.
 
 ## Reproducibility
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility)_
-_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+### Reproducing this code with Docker 
+This project implements a Retrieval-Augmented Generation (RAG) pipeline for the HotpotQA dataset as part of the **LING 582** course.  
+The code in this directory (`rag-hotpotqa`) handles:
 
+- Ingesting and embedding documents
+- Running a retrieval step
+- Calling an LLM (via the OpenAI API) to answer questions based on retrieved context
+
+The repository is set up to run either locally with Python or inside a Docker container.  
+The recommended way to reproduce results on another machine is to use Docker with your **own** OpenAI API key.
+
+---
+
+### Directory Structure
+
+From this folder (`rag-hotpotqa`), you should see:
+
+```bash
+ls
+# Dockerfile  requirements.txt  src/  data/
+
+```
+
+- src/ – Python source code for the RAG pipeline and related scripts
+
+- data/ – Processed data and embeddings
+
+- requirements.txt – Python dependencies
+
+- Dockerfile – Container definition for running the project in Docker
+
+### Running with Docker 
+
+These steps let you run the RAG pipeline entirely inside Docker, using your own OpenAI API key.
+
+Prerequisites
+
+- Docker Desktop
+ (installed and running)
+
+- An OpenAI API key
+
+1. Clone the repository
+
+```bash
+git clone https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-bya.git
+cd ling-582-fall-2025-course-project-code-bya/rag-hotpotqa/rag-hotpotqa
+
+```
+
+You should now be in the folder that contains Dockerfile, requirements.txt, src/, and data/.
+
+2. Create a .env file with your API key
+
+In the rag-hotpotqa folder, create a file named .env:
+```bash
+nano .env
+```
+Put this line in the file (replace the value with your key):
+
+```bash
+OPENAI_API_KEY=sk-your-real-key-here
+
+```
+
+Save and close the file.
+
+--Do not commit .env to Git or share it.
+Each user should create their own .env locally.
+
+
+3. Build the Docker image
+
+   From the same rag-hotpotqa directory:
+
+   ```bash
+   docker build -t rag-hotpotqa .
+
+   ```
+
+This will:
+
+- Use the Dockerfile in the current directory
+
+- Install the dependencies from requirements.txt
+
+- Copy the src/ (and data/) into the image
+
+4. Run the RAG pipeline inside Docker
+
+Use your .env file to pass the API key into the container:  
+
+```bash
+docker run --rm -it \
+  --env-file .env \
+  rag-hotpotqa python src/rag_pipeline.py
+
+```
+
+This will:
+
+- Start a container from the rag-hotpotqa image
+
+- Set OPENAI_API_KEY inside the container
+
+- Run python src/rag_pipeline.py
+
+- Remove the container when it finishes (--rm)
+
+We have also written the same in our repo https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-bya/tree/main.
 ## Future improvements
 
-_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_
+Our project covers a full RAG pipeline end to end including steps such as data processing, chunking, multiple embedding models, FAISS retrieval, LLM answering and a tagger RAG vs non-RAG analysis. 
+Few of the limitations that we see in our model are:
+- Our RAG vs non-RAG comparison was done on a  small, manually inspected set of questions. This was enough to see clear patterns , but we feel it is not yet a large-scale evaluation.
+- The system currently runs from the command line, there is no proper interactive UI where someone can type a question and see retrieval and answers live.
+- We only used one LLM and one main prompt style for both RAG and non-RAG, so we do not fully know how much the behaviour changes with the different models or different prompts.
+- We focused on a simple and clean retrieval setup that is one dense embedding model + FAISS at a time. But we did not add hybrid retrieval like BM25 + dense or re-ranking, even though these are common in larger systems.
+
+At the same time, there are several natural extensions we thought of working on but we did not have time to explore in this course project. Some of the them are :
+
+- Extending the RAG vs non-RAG analysis to many more questions like for example 100–200 from HotpotQA and then break the results down by question types such as comparison, bridge, factual. We believe that this would turn our initial observations into stronger empirical claims.
+- Add any sparse retrieval on top of our dense models, or plan to use a cross-encoder re-ranker on the top-k chunks.  So that this could improve the few remaining retrieval misses and gives even a cleaner context to the LLM.
+- We used only one LLM, but we want to compare different open-source LLMs and experiment with prompts that ask the model to show its reasoning, also cite specific chunks, or explicitly say when the context is insufficient. This would help us to separate model weakness from retrieval weakness more clearly.
+- We believe wrapping the existing pipeline in a lightweight UI where users can enter a question, see the retrieved chunks, and compare RAG vs non-RAG answers side by side would make the behaviour of the system easier to explore and present. This is something we want to work on.
+- If we have chance we want to build a small checker that flags the answer sentences not supported by any retrieved chunk, or uses a second model as a judge, so that we can label hallucinations. This could scale up our error analysis beyond fully inspection.
+
+Now, we see our current work as a solid starting point with having a working multi-embedding RAG system plus a tagged error analysis. The ideas above are natural next steps that we want to work on as we go into our next course works.

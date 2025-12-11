@@ -2,7 +2,7 @@
 title: "Multi-perspective Alignment for Increasing Naturalness in Neural Machine Translation"
 slug: "/pamelaangulo164/paper-summary"
 author: "pamelaangulo164"
-date: 2025-11-16
+date: 2025-12-09
 description: "Paper summary proposal"
 tags:
   - paper summary
@@ -59,9 +59,9 @@ In *Proceedings of the 63rd Annual Meeting of the Association for Computational 
 
 ## Description
 
-In my own words, this paper is about making neural machine translation outputs sound more like natural target-language text, without losing accuracy. The authors start from an English-to-Dutch literary MT system and fine-tune it using a reward-learning framework inspired by reinforcement learning.
+This paper is about making neural machine translation outputs sound more like natural target-language text, without losing accuracy. The authors start from an English-to-Dutch literary MT system and fine-tune it using a reward-learning framework inspired by reinforcement learning.
 
-They build several translationese classifiers that distinguish original Dutch, human translations, and machine translations, and they also use COMET as a content-preservation metric. During fine-tuning, the model is rewarded when a translation is both natural according to the classifiers and faithful according to COMET. The main result is that their aligned systems produce translations that are more lexically rich and human-like while maintaining, and sometimes slightly improving, standard MT quality metrics compared to strong baselines like tagging, automatic post-editing, and reranking.
+They build several _translationese_ classifiers that distinguish original Dutch, human translations, and machine translations, and they also use COMET as a content-preservation metric. During fine-tuning, the model is rewarded when a translation is both natural according to the classifiers and faithful according to COMET. The main result is that their aligned systems produce translations that are more lexically rich and human-like while maintaining, and sometimes slightly improving, standard MT quality metrics compared to strong baselines like tagging, automatic post-editing, and reranking.
 
 ## Motivation
 
@@ -84,29 +84,245 @@ I am also interested in how to formally model the trade-off between faithfulness
 <tbody>
   <tr>
     <th><b>LLM model</b></th>
-    <td>???</td>
+    <td>Qwen/Qwen2.5-VL-32B-Instruct</td>
   </tr>
   <tr>
     <th><b>LLM model version</b></th>
-    <td>???</td>
+    <td>Version 1.0</td>
   </tr>
   <tr>
     <th><b>Model/service URL</b></th>
-    <td>???</td>
+    <td>https://huggingface.co/Qwen/Qwen2.5-VL-32B-Instruct</td>
   </tr>
   <tr>
     <th><b>Why this model?</b></th>
-    <td>???</td>
+    <td>My paper included graphics such as figures and tables, and I wanted an open-weight model that could analyze visual elements as well. In addition to this, I read that this model is more efficient at math and multilingual tasks, so I figured it would be helpful considering my paper included some formulas and example sentences in Dutch.</td>
   </tr>
 </tbody>
 </table>
 
-
-#### Description (LLM)
-
-In the LLM's words, what is this paper about?
-
-##### Prompt
-
+#### In the LLM's words, what is this paper about?
 ```markdown
-prompt here
+###Prompt:### _"In your own words, what is this paper about?"_
+```
+###Qwen3-Max:### This paper, titled “Multi-perspective Alignment for Increasing Naturalness in Neural Machine Translation”, addresses a key limitation of current Neural Machine Translation (NMT) systems: their tendency to produce unnatural, lexically impoverished output—a phenomenon often referred to as “translationese.”
+
+#### What are the authors proposing?
+```markdown
+###Prompt:### _"What are the authors proposing?"_
+```
+###Qwen3-Max:### The authors propose a flexible, human-aligned NMT training framework that explicitly balances style (naturalness) and content (accuracy) using multiple reward perspectives.
+
+#### What is the motivation for the work?
+```markdown
+###Prompt:### _"What is the motivation for the work?"_
+```
+###Qwen3-Max:### Neural Machine Translation (NMT) systems tend to produce outputs that are lexically impoverished, simplified, and stylistically unnatural compared to both human translations and texts originally written in the target language. This phenomenon—referred to as machine translationese—has several negative consequences, especially in downstream applications such as:
+
+- Biased evaluation: Translationese in test sets can artificially inflate MT metric scores (e.g., BLEU, COMET), leading to misleading conclusions about system performance (Zhang and Toral, 2019; Graham et al., 2020).
+- Degraded reading experience: In literary translation, preserving stylistic richness and natural flow is crucial, and unnatural MT output undermines this goal (Delabastita, 2011; Toral and Way, 2015).
+- Compromised cross-lingual transfer: Translationese artifacts can reduce the effectiveness of multilingual models trained on translated data (Yu et al., 2022; Artetxe et al., 2020).
+
+The Key Challenge:
+Prior attempts to increase lexical diversity or naturalness in MT often sacrifice content fidelity—i.e., translation accuracy drops when models are encouraged to sound more natural (e.g., Ploeger et al., 2024). This creates a trade-off between style and meaning that has not been adequately resolved.
+
+#### What are the results and how do they compare with competing approaches?
+```markdown
+###Prompt:### _"What are the results and how do they compare with competing approaches?"_
+```
+###Qwen3-Max:### The best-performing model—BM + COMET & MT-HT (i.e., fine-tuned with a reward combining COMET for content preservation and a classifier that prefers human translations over machine translations)—achieves:
+
+- Higher lexical diversity:
+MTLD: 93.3 vs. 90.4 (Base MT)
+TTR: 0.150 (same as base), but with improved vocabulary usage
+B1 (frequency of top-1k words): 0.674 (slightly lower = less reliance on frequent words)
+- Maintained or improved translation accuracy:
+KIWI (reference-free COMET): 80.6 vs. 80.4 (Base MT) → higher = better
+MetricX (state-of-the-art metric): 2.63 vs. 2.66 (Base MT) → lower = better
+COMET: 82.2 (vs. 82.3 for base—nearly unchanged)
+
+Additional Findings
+
+- Classifier choice matters:
+MT-HT (preferring human translations) → best overall
+OR-based rewards (preferring original Dutch text) underperform, likely due to mismatch with HT training data.
+- Per-book analysis: The proposed model consistently improves MTLD over all 31 test books, sometimes matching or exceeding human translation in lexical richness (e.g., Books 5, 9, 14, 16).
+- Ablation study: Using only the naturalness reward harms accuracy; combining with COMET is essential.
+- Human inspection: Shows that baseline models (e.g., Tagging) sometimes produce diverse but inaccurate translations (e.g., “community hikes” → “community bicycles”), whereas the proposed model stays faithful.
+
+#### Are the comparisons fair?
+```markdown
+###Prompt:### _"Do you think the comparisons are fair?"_
+```
+###Qwen3-Max:### Yes, the comparisons in the paper appear largely fair and well-justified, but with a few important caveats worth noting:
+- Strengths Supporting Fairness
+
+1. Consistent Evaluation Framework:
+All systems (baselines and proposed models) are evaluated on the same test set (31 English-to-Dutch literary books).
+The same automatic metrics are used across all models: BLEU, COMET, KIWI, MetricX (for accuracy), and multiple lexical diversity metrics (TTR, MTLD, B1, etc.) for naturalness.
+2. Reproduction of Baselines:
+The authors implement or adapt three recent methods (Tailored RR, APE, and Tagging) using the same data and architecture (BART-based MT model) as their proposed approach.
+This controls for confounding factors like model size or data differences, making comparisons more meaningful.
+3. Multiple Naturalness Perspectives:
+The paper doesn’t just favor one definition of “naturalness.” It explores three classifier-based reward perspectives (HT vs MT, OR vs MT, OR vs HT) and analyzes why some work better than others—showing methodological rigor.
+4. Use of Strong, State-of-the-Art Metrics:
+They rely on MetricX, the top-performing metric in WMT24, which was not used in training, reducing the risk of overfitting to a specific metric.
+5. Ablation Studies:
+The paper includes ablations (e.g., reward-only vs. reward + supervised loss) that clarify the contribution of each component, strengthening causal claims.
+
+- Potential Limitations / Unfairness Concerns
+1. Tagging Baseline Uses Extra Monolingual Data:
+The Tagging approach is trained on concatenated parallel + monolingual data, while the base MT and proposed models use only the parallel corpus (4.87M sentence pairs).
+This gives Tagging more training data, which could inflate its naturalness gains—but the authors acknowledge this and explicitly test two Tagging variants (1M and 4.8M) to study the trade-off. So while not perfectly matched, the design is transparent and informative.
+2. Tailored RR Relies on Sampling + Reranking:
+Tailored RR uses Top-k sampling to generate diverse candidates, then reranks them. This is a different inference strategy (not just model training), making it harder to isolate whether gains/losses come from architecture or decoding.
+However, the authors clearly state this and treat it as a valid alternative approach—which it is, since flexibility in decoding is part of real-world MT systems.
+3. No Human Evaluation:
+All conclusions rely on automatic metrics. While MetricX and COMET correlate well with human judgments, lexical diversity ≠ perceived naturalness or fluency.
+A model could score high on MTLD but still sound unnatural (or vice versa). That said, the authors acknowledge this limitation in the conclusion.
+4. Domain Specificity:
+All experiments are on literary translation, where style matters more than, say, technical translation. The baselines (e.g., APE, Tagging) may have been originally designed for general-domain MT, so their underperformance might partly reflect domain mismatch, not methodological weakness.
+
+#### What are the takeaways according to the authors?
+```markdown
+###Prompt:### _"What are the takeaways according to the authors? (I'm going to ask about YOUR takeaways after this so don't give the response for that)."_
+```
+###Qwen3-Max:### According to the authors, the key takeaways from their work are:
+
+1. Naturalness can be improved without sacrificing translation accuracy: Their multi-perspective alignment framework successfully enhances the lexical richness and human-likeness of NMT outputs while preserving or even slightly improving content fidelity (as measured by metrics like KIWI and MetricX).
+2. A reward-based, RLHF-inspired approach is effective: By combining a content preservation reward (COMET) with a naturalness reward (from binary classifiers distinguishing OR, HT, and MT), they align the MT system with human expectations in a controllable and flexible way.
+3. Not all naturalness perspectives are equally effective: The classifier that prefers human translations over machine translations (MT-HT) yields the best trade-off. In contrast, classifiers favoring original target-language text (OR) underperform—likely due to a mismatch with the HT-dominated training data.
+4. Existing methods often trade accuracy for diversity: Baselines like Tailored RR or Tagging can increase lexical diversity but typically degrade translation quality. Their method avoids this pitfall.
+5. The framework is adaptable: The use of a harmonic mean reward and a tunable loss weight (β) allows tailoring the balance between naturalness and faithfulness depending on the use case (e.g., literary vs. technical translation).
+6. Translationese remains a real and measurable issue, especially in domains like literary translation, and addressing it requires explicit modeling of both style (naturalness) and content.
+
+#### What are the takeaways according to you?
+```markdown
+###Prompt:### _"Now, what are the takeaways according to you?"_
+```
+###Qwen3-Max:### 1. The Core Idea Is Elegant and Well-Motivated
+The paper reframes the problem of “translationese” through the lens of multi-objective alignment, borrowing from RLHF and style-transfer literature. This is a smart conceptual move: instead of treating naturalness as a post-hoc fix or a rigid training constraint (like Tagging), it treats it as a learnable reward signal that can be balanced with fidelity. This flexibility is a real strength.
+
+2. The MT-HT Reward Strategy Works—But the “Why” Matters
+The finding that MT vs. HT classifiers yield better results than MT vs. OR is telling. It suggests that not all notions of “naturalness” are equally compatible with standard MT training data (which is mostly HT). This is an important methodological insight: if your training data is human-translated, pushing outputs toward original text may misalign the model’s notion of “correct” with its training signal. This nuance is often overlooked in style-transfer or debiasing work.
+
+3. They Avoid a Common Pitfall—Improving Style at the Cost of Meaning
+Many prior approaches (e.g., Tailored RR) show that lexical diversity ≠ better translation—you can sound more “natural” while being wrong. The fact that their best model improves MTLD and maintains or slightly improves MetricX/KIWI (metrics not used in training) is strong evidence of genuine progress. It’s not just gaming a metric.
+
+4. The Evaluation Is Thoughtful—but Still Limited
+The authors use multiple diversity metrics, state-of-the-art quality metrics (MetricX), and even per-book analysis, which is commendable. However:
+
+No human evaluation beyond one illustrative example leaves open whether lexical diversity truly maps to perceived fluency or literary quality.
+Focus on one domain (literary) means we don’t know if this helps (or hurts) in technical or conversational MT, where translationese might manifest differently.
+5. The Method Is Practical and Reproducible
+Unlike some RLHF approaches that require massive compute or human feedback loops, this method:
+
+Uses off-the-shelf classifiers,
+Fine-tunes with a modest hybrid loss (no reference model),
+Works with standard BART/Transformer architectures.
+That makes it accessible to most MT researchers—not just well-resourced labs.
+
+6. A Subtle But Important Point: Translationese Is Multifaceted
+By testing three classifier perspectives (OR vs. HT, HT vs. MT, OR vs. MT), the paper implicitly acknowledges that “naturalness” isn’t monolithic. Reducing machine translationese (MT → HT) is different from reducing human translationese (HT → OR). The paper wisely chooses the former—and shows the latter may be counterproductive in HT-trained systems.
+
+7. Room for Improvement
+The thresholding in the reward (e.g., σₜ = 0.5) feels arbitrary and could discard useful gradient signal.
+The harmonic mean reward assumes equal importance of content and style, but in practice, you might want adaptive weighting.
+Classifier quality matters: if the MT-HT classifier is noisy or biased, the reward is flawed. They don’t analyze classifier confidence or error modes.
+
+#### Would you use this? If so, how/where would you use this?
+```markdown
+###Prompt:### _"Would you use this? If so, how/where would you use this?"_
+```
+###Qwen3-Max:### Yes—I would consider using this approach, particularly in applications where stylistic quality and naturalness are as important as—or even more important than—strict semantic fidelity. Below is a breakdown of where and how I’d apply it, along with practical considerations. 
+- Where I’d Use This Method:
+1. Literary or Creative Translation
+Example: Translating novels, poetry, subtitles, or marketing copy.
+Why: These domains prioritize reading fluency, tone, and expressive richness. The paper’s focus on English→Dutch literary texts is directly relevant.
+Benefit: The method increases lexical diversity (e.g., MTLD ↑) while maintaining accuracy—ideal for preserving authorial voice.
+2. Human-in-the-Loop MT or Post-Editing Workflows
+Example: Providing draft translations to professional translators.
+Why: A more “natural” MT output reduces post-editing effort on style/fluency, letting editors focus on nuance and accuracy.
+Benefit: Unlike over-diversified outputs (e.g., Tailored RR), this model avoids hallucination or mistranslation.
+3. Generating Evaluation or Synthetic Data
+Example: Creating parallel or monolingual corpora for downstream NLP tasks (e.g., cross-lingual transfer, style analysis).
+Why: Translationese in synthetic data can skew model behavior. Natural-sounding MT reduces this bias.
+Benefit: Outputs resemble human translations (HT), not machine artifacts—making datasets more representative.
+4. Customizable MT for Different Use Cases
+Example: A single MT system that can toggle between “faithful” (e.g., for legal docs) and “natural” (e.g., for novels) modes.
+How: Adjust the reward weighting (β) or classifier perspective (HT vs. OR) based on user needs.
+Benefit: The framework is flexible and controllable, unlike rigid tagging approaches.
+
+- How I’d Deploy It
+1. Train or Adapt Classifiers:
+Fine-tune a target-language BERT (e.g., BERTje for Dutch) on HT vs. MT data from your domain.
+Use human-translated references you already have (common in literary or enterprise MT).
+2. Fine-Tune Base MT Model with Reward:
+Start from a strong supervised MT model (e.g., BART or NLLB).
+Use policy gradient RL with a harmonic mean reward combining COMET (or MetricX) + classifier score.
+Keep the supervised loss (β > 0) to avoid catastrophic forgetting.
+3. Monitor Trade-offs:
+Track both quality (MetricX, COMET) and naturalness (MTLD, classifier accuracy).
+Pick the checkpoint that best balances your priorities (e.g., via Figure 2-style validation curves).
+Add Light Post-Processing:
+As the authors do, clean up RL artifacts (e.g., repeated punctuation) with simple regex rules.
+
+- When Not to Use It
+High-stakes, accuracy-critical domains (e.g., medical, legal): Even small fidelity drops are unacceptable.
+Low-resource language pairs: Training reliable HT/MT classifiers may be infeasible without sufficient parallel + monolingual data.
+Real-time or latency-sensitive systems: RL fine-tuning adds complexity; inference remains fast, but training is heavier than standard fine-tuning.
+
+#### What problems remain and what are the next steps?
+```markdown
+###Prompt:### _"What problems remain and what would be the next steps?"_
+```
+###Qwen3-Max:### Problems That Remain:
+1. Domain and Language Pair Limitation
+The method was evaluated only on English→Dutch literary translation.
+It’s unclear whether the approach generalizes to:
+Other language pairs (especially low-resource or distant language pairs),
+Other domains (e.g., technical, medical, conversational),
+Bidirectional or multilingual settings.
+2. Naturalness ≠ Perceived Fluency or Style
+The paper measures naturalness primarily through lexical diversity metrics (MTLD, TTR, B1, etc.).
+But true stylistic quality involves discourse coherence, rhythm, voice, register, and pragmatics—none of which are captured by current metrics.
+No large-scale human evaluation was conducted to assess whether users actually prefer or trust the outputs more.
+3. Classifier Quality and Bias
+The reward relies on binary classifiers (e.g., HT vs. MT) that may:
+Learn superficial cues (e.g., punctuation, word frequency),
+Be biased toward certain genres or authors in the training data,
+Fail on out-of-domain inputs.
+The paper shows classifiers work well in-distribution, but robustness is untested.
+4. Trade-off Control Is Still Crude
+The balance between naturalness and fidelity is controlled by a fixed harmonic mean and a hyperparameter β.
+There’s no dynamic or context-aware mechanism (e.g., preserve fidelity for named entities, but allow stylistic freedom in descriptive passages).
+5. No Integration with Modern LLM-Based MT
+The model uses BART, not state-of-the-art large language model (LLM) or decoder-only architectures (e.g., NLLB, mT5, or Llama-based MT).
+It’s unclear how this reward framework would work in in-context learning or instruction-tuned settings.
+
+Next Steps (Recommended by Evidence in the Paper)
+1. Extend to Human-Centric Evaluation
+Conduct human preference studies: Do readers rate MT-HT-aligned outputs as more natural and accurate?
+Use reader-response metrics (e.g., cognitive load, engagement) especially for literary texts.
+2. Generalize Across Domains and Languages
+Test the framework on:
+Non-literary domains (news, subtitles, user manuals),
+Asymmetric pairs (e.g., English→Swahili),
+Multilingual models with shared classifiers.
+3. Improve Reward Modeling
+Replace binary classifiers with graded or multi-class style models (e.g., “formal,” “literary,” “colloquial”).
+Explore unsupervised or self-supervised naturalness signals (e.g., perplexity on monolingual corpora, stylistic embeddings).
+4. Develop Adaptive Alignment
+Let the model dynamically weight content vs. style based on:
+Input genre (detected automatically),
+User preferences (e.g., “prioritize fluency” vs. “prioritize accuracy”),
+Sentence-level uncertainty (e.g., high entropy → favor fidelity).
+5. Integrate with LLM-Based MT Pipelines
+Apply the same reward framework to Llama-3 or Gemma-based MT via direct preference optimization (DPO) or Proximal Policy Optimization (PPO).
+Explore distillation: use the aligned NMT model to create high-quality training data for LLMs.
+6. Address Human Translationese Too
+The paper focuses on machine translationese, but human translations also differ from original texts (HT vs. OR).
+Future work could build two-stage systems: first reduce machine artifacts, then “de-translate” toward original-style fluency—without losing meaning.
+
+#### What issues and limitations did you encounter while using the LLM to assist with your paper summary?
+I believe some of the issues I observed with this model is that it can be repetitive with the information it provides, but I believe that's common for these models. It was surprisingly accurate and successfully able to analyze data in tables and figures.  It also stayed truthful to quantative data. The limitation with this model is that it is quite large and resource intensive, so it made my computer slower while I used it.

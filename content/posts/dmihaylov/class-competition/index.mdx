@@ -1,7 +1,7 @@
 ---
 title: "Kaggle Class Competition Approach"
 slug: "/dmihaylov/class-competition"
-date: 2025-11-16
+date: 2025-12-10
 author: dmihaylov
 description: "This is the summary of my approach to the Kaggle class competition and all other applicable information."
 tags:
@@ -44,30 +44,53 @@ tags:
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
 
+<p>The task/goal of this competition was to predict whether two text spans were written by the same author. Either example contained two passages separated by a [SNIPPET] token. The task was a binary classification problem where 1 denoted the same author and 0 denoted a different author. Initially, a challenge I noticed was that the same author could write very differently depending on the context or genre, and sometimes different authors can have similar "voices". Modern approaches often use transformers or similar, but I focused more on building a simpler/reproducible method that still captures the stylistic patterns of the provided dataset.</p>
+
 ## Exploratory data analysis
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+
+<p>I looked through a number of samples to understand the range of writing styles. Some examples were long paragraphs while others were only a few lines which suggested that length alone wouldn't be a wholey reliable feature. I also checked the class distribution and found more 0 labels than 1 labels, which meant that the dataset was somewhat imbalanced.
+From a style perspective, the text varied quite a bit in that some passages were narrative while others were mostly dialogue-like, and then some sounded like they came from varying time periods. This variety made me think that character-level features might work better than word ones, in that characters can capture punctuation habits and potentially structural patterns that stay consistent across topics.</p>
 
 ## Approach
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
 
-<p>Planned Approach: My class competition approach is to solve the verification task by checking whether two text excerpts were written by the same author. Each sample contains two passages separated by [SNIPPET], and I split them and then join them back together with a [SEP] token so they can be treated as one combined input. I use a character-level TF-IDF vectorizer (with 3-5 character n-grams) because it can capture writing-style patterns like punctuation, spelling habits, and phrasing without needing deep linguistic features. Those same TF-IDF vectors are fed into a logistic regression model with balanced class weights to handle label imbalance. I first test the model using a validation split, then retrain on all the training data before generating predictions for the test set. The whole pipeline stays reproducible and doesn’t rely on closed models or API's, which gives me a solid baseline that I can build on later with better features or transformer models. However, the option to go for a more complex approach is still an open one for me.</p>
+<p>My class competition approach is to solve the verification task by checking whether two text excerpts were written by the same author. Each sample contains two passages separated by [SNIPPET], and I split them and then join them back together with a [SEP] token so they can be treated as one combined input. I use a character-level TF-IDF vectorizer (with 3-5 character n-grams) because it can capture writing-style patterns like punctuation, spelling habits, and phrasing without needing deep linguistic features. Those same TF-IDF vectors are fed into a logistic regression model with balanced class weights to handle label imbalance. I first test the model using a validation split, then retrain on all the training data before generating predictions for the test set. The whole pipeline stays reproducible and doesn't rely on API's of closed models (or the closed models themselves), which gives me a solid baseline that I can build on later with better features or transformer models. However, the option to go for a more complex approach is still an open one for me.</p>
 
 ## Results
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
 
+<p>Regarding my result (analysis), I first used a train/validation split to make sure the model was at least learning something meaningful before I submitted anything. For the validation set, the model performed somewhat well for a simple TF-IDF and logistic regression setup. I tracked metrics such as accuracy and AUC (both were better than my very first baseline approach which relied only on cosine similarity between span vectors).
+Once I confirmed that the pair TF-IDF model behaved consistently across a few different validation splits, I retrained it on the full training set to maximize the amount of information it could learn. I then ran predictions using my predict_pair_tfidf.py script, which created the submission file I've been uploading. For a classical model that doesn't use deep learning, I think the performance made sense, but I struggled to go past the provided benchmark most likely due to the reliance on the classical approach. More research into more efficient/productive methods could've yielded better results.</p>
+
 ## Error analysis
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+
+<p>When I looked at the examples the model got wrong, a few patterns stood out. The first one was the issue of short snippets in that if both spans were only a couple of lines long, the TF-IDF vector ended up being quite sparse, so the model didn't have much to work with. These usually resulted in incorrect predictions in both directions.
+Another consistent issue came from genre differences within the same author (e.g. the first span might be a descriptive, narrative passage, while the second might contain mostly dialogue). Even though they were written by the same person, certain markers like punctuation frequency, sentence length, and character sequences were very different. Since my model relies heavily on character-level features, it tended to incorrectly mark these as "different author".
+I also saw the opposite error in that sometimes different authors happened to write in very similar formal or older literary styles, especially in texts taken from the same general time period. These cases tricked the model into thinking both spans were from the same author because the punctuation and sentence structures looked similar.</p>
 
 ## Reproducibility
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
 _If you'ved covered this in your code repository's README, you can simply link to that document with a note._
 
+<p>To run this approach, implement the following commands in bash/terminal:
+```
+pip install -r requirements.txt
+python train_pair_tfidf.py
+python predict_pair_tfidf.py
+```
+</p>
 
 ## Future Improvements
 
 _Describe how you might best improve your approach_
+
+<p>The first choice I would make to improve would be to extend the feature set. Adding word-level TF-IDF on top of the character-level version might help the model notice more meaningful differences between author word choices while still capturing all other signals. Additionally, incorporating more traditional features like punctuation ratios, average sentence length, POS distributions, and other such frequencies could help correct the cases where character-level features alone were not enough.
+More fine-tuned models, even smaller ones I found such as DistilBERT or RoBERTa-base, could probably learn the stylistic relationships that my TF-IDF model struggled with.
+I'd also consider improving the evaluation process. As of now, I relied mainly on a single validation split and a few spot-checks. Introducing a stratified k-fold cross-validation would've given a much clearer picture of how stable the model is across different subsets of the training data. This could also help identify whether the model is overfitting to certain kinds of writing or span lengths.</p>
