@@ -1,7 +1,7 @@
 ---
-title: "TruthfulRAG — Draft Summary"
+title: "TruthfulRAG: Resolving Factual-level Conflicts in Retrieval-Augmented Generation with Knowledge Graphs."
 slug: "/abhiramn/paper-summary"
-date: 2025-11-15
+date: 2025-12-10
 author: Abhiram Varma Nandimandalam
 description: "My incredible paper summary of TruthfulRAG"
 tags:
@@ -95,25 +95,32 @@ I am interested in this paper because it tackles a core weakness in RAG: models 
       <th>
         <b>LLM model</b>
       </th>
-      <td>???</td>
+      <td>SmolLM3-3B Instruct</td>
     </tr>
     <tr>
       <th>
         <b>LLM model version</b>
       </th>
-      <td>???</td>
+      <td>SmolLM3-3B-Instruct (2024 release)</td>
     </tr>
     <tr>
       <th>
         <b>Model/service URL</b>
       </th>
-      <td>???</td>
+      <td>https://huggingface.co/HuggingFaceTB/SmolLM3-3B</td>
     </tr>
     <tr>
       <th>
         <b>Why this model?</b>
       </th>
-      <td>???</td>
+      <td>
+        {" "}
+        I selected SmolLM3-3B because it is an open-source, open-weight LLM designed
+        to run locally or in browser UIs like HuggingChat and Jan. It is small enough
+        to experiment with multiple prompts quickly, yet strong enough to summarize
+        research papers and explain technical concepts. Using an open model also
+        aligns with the course requirement to document limitations and behavior transparently.
+      </td>
     </tr>
   </tbody>
 </table>
@@ -122,94 +129,216 @@ I am interested in this paper because it tackles a core weakness in RAG: models 
 
 _In the LLM's words, what is this paper about?_
 
+LLM Answer
+
+TruthfulRAG is a framework that fixes factual conflicts that occur when a retrieval-augmented generation system mixes an LLM’s old internal knowledge with new retrieved information. Instead of treating conflicts only at the token or semantic level, TruthfulRAG converts retrieved passages into a knowledge graph, extracts triples, identifies reasoning paths relevant to the question, and uses entropy-based filtering to detect which paths contradict the model’s internal beliefs. The LLM is then guided to rely on corrective paths that support accurate external facts. Experiments show that this approach improves factual accuracy and robustness across multiple datasets and LLM backbones.
+
 ##### Prompt
 
 ```markdown
-prompt here
+Summarize the research paper “TruthfulRAG: Resolving Factual-level Conflicts in Retrieval-Augmented Generation with Knowledge Graphs” in simple, accurate terms. Focus on the problem, key ideas, and contributions.
 ```
 
 #### What are the authors proposing?
 
 ##### Prompt
 
+LLM Answer
+
+The authors propose TruthfulRAG, a new RAG framework that resolves factual-level knowledge conflicts between an LLM’s parametric memory and external retrieved documents. Their solution has three main modules:
+
+Graph Construction – extract structured triples (head, relation, tail) from retrieved content and build a knowledge graph.
+
+Graph Retrieval – run query-aware traversal over this graph to find reasoning paths that are most relevant to the user’s question.
+
+Entropy-Based Conflict Resolution – measure how each path changes the LLM’s prediction uncertainty and keep only “corrective” paths that help resolve conflicts.
+
+Together, these components allow the system to generate answers that are more faithful to up-to-date external knowledge.
+
 ```markdown
-prompt here
+Explain what the authors are proposing in the TruthfulRAG paper. Keep it concise but precise.
 ```
 
 #### What is the motivation for the work?
 
 ##### Prompt
 
+LLM Answer
+
+RAG systems continuously pull in new external documents, while an LLM’s internal knowledge is frozen at training time. This mismatch creates knowledge conflicts: the model may “trust” outdated internal facts even when the retrieved context is correct. Existing methods handle conflicts at token or semantic levels and often miss deeper factual structure, especially in multi-hop or temporal reasoning tasks.
+
+The authors are motivated to build a framework that:
+
+represents knowledge in a structured, factual form (triples in a knowledge graph),
+
+retrieves query-relevant reasoning paths rather than raw text, and
+
+explicitly detects when external evidence should override the model’s internal beliefs using uncertainty (entropy).
+
+The goal is to improve the reliability and trustworthiness of RAG in knowledge-intensive scenarios.
+
 ```markdown
-prompt here
+Explain the motivation behind TruthfulRAG based on the paper.
 ```
 
 #### What is the approach or innovation?
 
 ##### Prompt
 
+LLM Answer
+
+The main innovation is combining knowledge-graph–based reasoning with entropy-based conflict detection inside a RAG pipeline. Instead of feeding raw passages to the LLM, TruthfulRAG:
+
+Converts retrieved text into structured triples and builds a KG.
+
+Uses query-aware traversal to select reasoning paths that cover key entities and relations relevant to the question.
+
+Computes the change in prediction entropy when each path is added and treats large positive changes as signals of conflict between internal and external knowledge.
+
+This triple- and path-based view allows the framework to reason at the factual level, not just over surface text, and to systematically choose external facts that correct the model’s misconceptions.
+
 ```markdown
-prompt here
+Describe the main innovation of the TruthfulRAG approach.
 ```
 
 #### What are the results and how do they compare with competing approaches?
 
 ##### Prompt
 
+LLM Answer
+
+The authors introduced a method to resolve factual-level conflicts in RAG systems using Knowledge Graphs (KGs). They compared their approach with methods like FaithfulRAG, KRE, COIECD, and standard RAG. Experiments were conducted on four datasets (FaithEval, MuSiQue, RealtimeQA, SQuAD) using multiple LLMs (GPT-4o-mini, Qwen2.5-7B-Instruct, Mistral-7B-Instruct). TruthfulRAG consistently achieved higher accuracy than baseline systems. The ablation study demonstrated that each module—KG construction, graph retrieval, and entropy-based conflict resolution contributes meaningfully to the method’s performance. Removing any component significantly reduced accuracy and context precision. TruthfulRAG also demonstrated robustness across both conflicting and non-conflicting contexts. The authors further highlighted that improvements are statistically significant, indicating the reliability of the method. Overall, TruthfulRAG outperforms competing approaches and remains computationally efficient, with a moderate overhead that does not hinder practical deployment. The framework’s ability to systematically integrate external knowledge and resolve factual inconsistencies underscores its value in enhancing the trustworthiness and accuracy of RAG-generated content.
+
 ```markdown
-prompt here
+Summarize the results of TruthfulRAG and how it compares with competing methods.
+Your task is to rewrite the results section CLEARLY, ACCURATELY, and WITHOUT inventing numbers
+IMPORTANT INSTRUCTION:
+
+- DO NOT make up accuracy values, CPR values, time costs, or any numerical results.
 ```
 
 #### Is the comparison fair?
 
 ##### Prompt
 
+LLM Answer
+
+Overall, the comparisons appear fair and methodologically consistent:
+
+All methods are evaluated on the same datasets with the same backbone LLMs and retrieval settings.
+
+Baselines include strong, recent approaches that cover different strategies: prompt-based (KRE), decoding-based (COIECD), and a prior structured conflict-aware method (FaithfulRAG).
+
+The authors report accuracy across datasets and also introduce Context Precision Ratio (CPR) to evaluate how focused the processed context is on answer-relevant information.
+
+They run ablation studies and significance testing (for GPT-4o-mini) to show that improvements over FaithfulRAG are statistically significant on several datasets.
+
+One limitation is that the paper spends less time comparing computational cost to baselines, even though they provide time and context-length statistics. But in terms of datasets, metrics, and model settings, the comparisons are careful and credible.
+
 ```markdown
-prompt here
+Evaluate whether the comparisons in the TruthfulRAG paper seem fair.
 ```
 
 #### What are the takeaways according to the authors?
 
 ##### Prompt
 
+LLM Answer
+
+According to the authors, the main takeaways are:
+
+Structured triples help: Building contexts from knowledge-graph triples increases the LLM’s confidence in external information and supports more trustworthy reasoning.
+
+Query-aware reasoning paths matter: Selecting paths that match key entities and relations in the query leads to more relevant and compact contexts than using raw text.
+
+Entropy is a useful conflict signal: Changes in prediction entropy can reliably indicate when external evidence conflicts with internal knowledge, allowing the system to focus on corrective information.
+
+TruthfulRAG improves factual accuracy and robustness: Across multiple datasets and LLMs, it outperforms standard RAG and previous conflict-handling methods, both in conflicting and non-conflicting settings.
+
+The framework is general and extensible: It can be plugged into existing RAG architectures and extended to stronger models (e.g., Gemini-2.5-Flash, Qwen2.5-72B) while still providing gains.
+
 ```markdown
-prompt here
+List the major takeaways according to the TruthfulRAG authors.
 ```
 
 #### What are the takeaways according to you?
 
 ##### Prompt
 
+LLM Answer
+
+My main takeaway from the TruthfulRAG paper is that many RAG failures come not from retrieval itself, but from the model’s inability to reconcile its internal (parametric) knowledge with newly retrieved evidence. The authors show that simply appending documents to the prompt is not enough: we need a structured, factual view of the retrieved content.
+
+I learned how converting passages into a knowledge graph of triples (entities and relations) makes conflicts much more visible and controllable. The idea of using query-aware graph traversal to extract reasoning paths, and then using entropy to measure how each path changes the model’s confidence, was especially interesting to me. I had not seen entropy used this explicitly as a conflict signal before.
+
+The ablation study also taught me to think about systems as combinations of modules: knowledge-graph construction, path retrieval, and conflict resolution each contribute something different. When any one of them is removed, performance drops, which reinforces the importance of designing end-to-end pipelines rather than single tricks.
+
+More broadly, this paper pushed me toward preferring **structured, graph-based reasoning** on top of LLMs instead of treating them as black boxes that just “read” long contexts. It also made me think about practical issues like computational overhead and statistical significance when evaluating new RAG methods, not just raw accuracy.
+
 ```markdown
-prompt here
+Reflect on what YOU learned from this paper.
 ```
 
 #### Would you use this? If so, how/where would you use this?
 
 ##### Prompt
 
-```markdown
-prompt here
-```
+LLM Answer
 
-##### Prompt
+Yes, I would use ideas from TruthfulRAG in any application where factual reliability really matters and external knowledge changes over time.
+
+For example, in a **student wellbeing or university support system**, the model needs to combine static policy documents with frequently updated procedures. TruthfulRAG’s approach could help the system trust the latest policies instead of outdated internal knowledge.
+
+Similarly, in **healthcare or legal assistant tools**, there are many scenarios where new guidelines or regulations contradict what the model “remembers” from training. A TruthfulRAG-style pipeline could detect these conflicts and push the model toward up-to-date, externally grounded information.
+
+Even in more “everyday” RAG systems (like documentation assistants or research helpers), I would still borrow the core ideas: represent retrieved content as structured triples, retrieve query-relevant reasoning paths, and use an uncertainty-based signal (like entropy) to decide when external facts should override the model’s prior beliefs.
+
+So, rather than deploying TruthfulRAG only as-is, I see it as a **design pattern** I can adapt: combine LLMs with knowledge graphs and explicit conflict detection whenever factual correctness is critical.
 
 ```markdown
-prompt here
+Explain how you might use TruthfulRAG in real applications.
 ```
 
 #### What problems remain and what are the next steps?
 
 ##### Prompt
 
+LLM AnswerThe paper also suggests several open problems and directions for future work:
+
+- **Triple extraction quality.** TruthfulRAG depends on LLM-based extraction of triples from text. Noisy or incomplete triples can lead to incorrect or missing knowledge paths. Future work could use stronger IE models or joint training to improve triple quality.
+
+- **Adaptive conflict detection.** The framework relies on an entropy threshold to decide when a path is “conflicting.” The authors tune this manually; learning adaptive thresholds or more sophisticated uncertainty measures could make the method easier to deploy across models and domains.
+
+- **Scalability of graph reasoning.** As knowledge graphs grow larger, traversing and scoring paths becomes more expensive. More scalable indexing, pruning, or approximate graph search algorithms would help in truly large-scale deployments.
+
+- **Beyond factual conflicts.** TruthfulRAG focuses on factual inconsistencies between internal and external knowledge. Extending similar ideas to semantic, logical, or temporal conflicts (e.g., evolving events) is an interesting direction.
+
+- **Richer applications and evaluation.** The authors evaluate on four text-based QA datasets with several LLM backbones. Future work could test the framework in multimodal settings, other languages, or in real user-facing systems where conflicts have safety or ethical implications.
+
+Overall, I see TruthfulRAG not as a final solution, but as a strong first step toward systematic, graph-based conflict resolution in RAG. Improving extraction, scalability, and generality beyond factual conflicts would make this line of work even more impactful.
+
 ```markdown
-prompt here
+Identify open problems and future work based on the paper.
 ```
 
 ### Experience using the LLM
 
 _Describe your process for using the LLM. How did the LLM perform?_
 
+To work on this paper summary, I used the open weight SmolLM3 3B model on HuggingFace Chat. My process was mostly iterative. I asked the model specific questions about different parts of the TruthfulRAG paper, checked its responses, and adjusted my prompts whenever the answers were unclear. I noticed that the more focused my questions were, the better the model performed.
+
+Even though it is a small model, it did a good job simplifying dense sections of the paper and breaking down complicated ideas into something easier to understand. It helped me restate the motivation, describe the components of the framework, and summarize results in a clearer and more structured way. In that sense, the LLM felt more like a support tool that helped me process the paper rather than something that could produce perfect answers on its own.
+
+Overall, the experience was helpful. SmolLM made reading the paper less overwhelming and acted like a second pair of eyes when I needed to rephrase or clarify something.
+
 #### Errors and limitations of the LLM
 
 _Where did it fall short or make mistakes?_
+
+Even though the model helped, it was definitely not perfect. Since SmolLM is a smaller model, it sometimes misunderstood details from the paper or added information that was not actually there. At times it sounded very confident while giving an answer that did not match the text, so I had to double check everything it produced.
+
+It also struggled with numbers and experiment results. When I asked for metrics or comparisons, it sometimes gave the wrong values unless I provided them myself. A few times it mixed up baseline methods or gave very general explanations that did not reflect what the authors actually wrote.
+
+I also noticed that if my prompt was not extremely clear, the model tended to give vague summaries instead of precise ones. That meant I had to be very intentional with how I phrased each question.
+
+Because of these limitations, I used the model mainly for rewriting and simplifying ideas, not for extracting factual details. It was helpful, but only when I combined its output with careful checking against the original paper.
