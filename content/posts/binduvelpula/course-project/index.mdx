@@ -24,7 +24,7 @@ tags:
   </tr>
   <tr>
     <th>Team name</th>
-    <td>binduvelpula</td>
+    <td>Author Team</td>
   </tr>
 </tbody>
 </table>
@@ -34,48 +34,46 @@ tags:
 
 # Project Title:
 
-Hybrid Stylometry + Transformer Model for Authorship Verification
+# Hybrid Stylometry + Transformer Model for Authorship Verification
 
-# Goals of Final Project:
+Overview
+This project tackles the task of Authorship Verification: a binary classification problem where the goal is to determine if two distinct text snippets were written by the same individual. 
+Unlike Authorship Attribution (choosing an author from a known list), verification requires the model to learn a generalized "similarity metric" that holds true even for unseen authors.
 
-- Build an authorship verification system using a combination of stylometric features and transformer embeddings.
-- Extract stylometric features such as lexical richness, punctuation patterns, character frequency, and syntactic complexity.
-- Generate dense text embeddings using a pre-trained transformer model (Sentence-BERT).
-- Combine stylometric + transformer vectors into a single fused representation.
-- Train and compare multiple classifiers (Logistic Regression, Random Forest, MLP).
-- Evaluate models using accuracy, macro F1, micro F1, and confusion matrix.
-- Analyze which features help most in verifying if two text snippets are written by the same author.
+# Motivation & Novelty:
 
-# Rough Timeline
+Standard Transformer models (like BERT) are excellent at semantic understanding but can be easily misled by Topic Bias—classifying texts as "similar" because they share a topic, or "different" because the topic shifts. To address this, I developed a Hybrid Architecture that fuses:
+
+     1. Deep Learning: roberta-base embeddings to capture high-level semantic context.
+     2. Linguistics: Explicit stylometric feature engineering (average word length, sentence length, punctuation density) to capture the structure of the writing.
+
+This approach aims to ground the model in stylistic "fingerprints" that persist regardless of the subject matter.
+
+# Challenges
+
+- Variable Lengths: The dataset includes both very short and long snippets. Statistical features become noisy on short texts, while long texts risk truncation in the Transformer.
+- Class Imbalance: The discrepancy between "Same Author" and "Different Author" pairs made optimization difficult.
+
+Analyze which features help most in verifying if two text snippets are written by the same author.
 - Week 1 (Oct 27 – Oct 31)
-  Explore project ideas
-  Review literature on stylometry and authorship verification
-  Select project topic
+  Explore project ideas. Review literature on stylometry and authorship verification. Select project topic.
 - Week 2 (Nov 3 – Nov 7)
-  Define goals and pipeline
-  Choose transformer model (MiniLM / SBERT)
-  Explore feature extraction libraries (spaCy, NLTK, textstat)
+  Defined project goals and the processing pipeline.
+  Selected the base Transformer model (roberta-base) and feature extraction libraries (nltk, string).
 - Week 3 (Nov 10 – Nov 14)
-  Implement stylometric feature extraction
-  Generate transformer embeddings
-  Build baseline model (stylometry only)
-  Test initial results
-- Week 4 (Nov 17 – Nov 21)
-  Fuse stylometric + transformer representations
-  Train classifier models
-  Perform hyperparameter tuning
-  Evaluate performance
+  Implemented stylometric feature extraction scripts (e.g., Average Word Length, Type-Token Ratio).
+  Generated initial embedding baselines.
+- Week 4 ((Nov 17 – Nov 21))
+  fused stylometric vectors with Transformer representations using the custom HybridModel architecture.
+  Trained the classifier using Focal Loss and Class Weights to handle imbalance.
 - Week 5 (Nov 24 – Nov 28)
-  Complete all experiments
-  Run metrics + EDA
-  Document results and graphs
-  Write summary & interpretation
+  Conducted full experiments, including data augmentation (swapping snippet order).
+  Ran final metrics and Exploratory Data Analysis (EDA).
+  Documented results and generated performance graphs.
 - Week 6 (Dec 1 – Dec 5)
-  Finalize report
-  Clean code and prepare reproducibility checklist
-  Push final project to GitHub
-  Submit final blog post
-
+  Finalized the project report and blog post.
+  Cleaned code and verified the reproducibility checklist.
+  Pushed the final codebase to GitHub.
 
 ## Summary of individual contributions
 <table>
@@ -87,34 +85,59 @@ Hybrid Stylometry + Transformer Model for Authorship Verification
   </thead>
 <tbody>
   <tr>
-    <th><b>Bindu Velpula</b></th>
-    <td>Designed project pipeline, implemented stylometric feature extraction, transformer embeddings, fusion model, evaluation, analysis, and documentation</td>
+    <th><b>Ushabindu Velpula</b></th>
+    <td>Designed project pipeline, implemented stylometric feature extraction, transformer embeddings, fusion model, evaluation, analysis, and documentation.</td>
   </tr>
   <tr>
-    <th><b>Implemented stylometric feature extraction</b></th>
-    <td>Implemented transformer-based embeddings (Sentence-BERT)</td>
-  </tr>
-  <tr>
-    <th><b>Built fusion model combining stylometry + embeddings</b></th>
-    <td>Performed evaluation, analysis, and documentation</td>
-  </tr>
+
 </tbody>
 </table>
 
+## Methodology
+
+Data Preprocessing & Augmentation:
+- Split the main TEXT field into two snippets s1, s2 using the delimiter [SNIPPET].
+- Data Augmentation: Duplicated the training data by swapping s1 and s2 ($\text{s1} \leftrightarrow \text{s2}$) to enforce $\text{snippet-order}$ invariance during training.
+
+
+Stylometric Feature Extraction:
+- Seven basic stylometric features were computed for each snippet (e.g., word count, TTR, punctuation count). 
+Order-invariant difference features were then calculated, such as:$$\text{diff\_feature} = |\text{feature}(\text{s1}) - \text{feature}(\text{s2})|$$
+- The final set of 8 stylometric features included:$$\{\text{diff\_avg\_word\_len, diff\_avg\_sent\_len, diff\_punctuation\_count, diff\_type\_token\_ratio, diff\_char\_len, min\_char\_len, max\_char\_len}, \text{diff\_score}\}$$The $\text{diff\_score}$ is the absolute difference in sentiment score from an off-the-shelf DistilBERT model.
+Hybrid Model Architecture:
+- Transformer:$\text{RoBERTa-base}$ (Encoder) to generate the $\text{CLS}$ token embedding.
+- Fusion Layer: Concatenates the $\text{CLS}$ embedding (768 dimensions) with a 64-dimensional $\text{ReLU}$-projected tensor of the 8 stylometric features.
+- Classifier Head: A two-layer $\text{MLP}$ ($768+64 \to 256 \to 2$) for final classification.
+- Loss Function: A custom FocalLoss module was used with calculated Class Weights ($\text{class\_0} = 0.6430, \text{class\_1} = 2.2486$).
 
 ## Results
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
+I evaluated the hybrid model on a 10% held-out validation set after training for 3 epochs using an AdamW optimizer LR=2e-5.
+Validation Accuracy: 77.64%Validation F1 Score (Macro): 43.71%
+- Interpretation: The model achieves a strong accuracy (~77%), significantly outperforming a random baseline (50%). However, the low Macro F1 score (~44%) indicates a strong performance divergence between the two classes. The model is highly accurate at identifying the majority class (likely "Different Authors") but struggles to recall instances of the minority class ("Same Authors").
 
 ## Error analysis
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#error-analysis)_
 
+A deeper dive into the validation predictions reveals three primary failure modes:
+
+1. Class Imbalance Sensitivity: The gap between Accuracy and F1 confirms the model is "playing it safe." It minimizes loss by defaulting to the majority label, resulting in a high False Negative rate for actual same-author pairs.
+2. Stylometric Noise: On snippets shorter than 50 words, the engineered features (e.g., avg_sent_len) exhibited extreme variance. In these cases, the explicit features likely introduced noise rather than signal.
+3. Truncation Loss: The roberta-base tokenizer limits input to 512 tokens. Since the model concatenates both snippets ([CLS] Snippet A [SEP] Snippet B), long inputs resulted in the second snippet being truncated. 
+If the stylistic "signature" of the second text was at the end, the model lost that critical comparison data.
+
 ## Reproducibility
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#reproducibility)_
-_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+- Code Repository URL: https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-Binduvelpula04
+- The final model and tokenizer are saved in the ./hybrid_outputs directory.
 
 ## Future improvements
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#proposal-for-future-improvements)_
+
+1. Siamese Network (Twin Networks): Instead of concatenating snippets into one sequence, process them through parallel RoBERTa encoders to generate independent embeddings. Calculating a distance metric (e.g., Cosine Similarity) between these embeddings would explicitly model "verification" and solve the truncation issue.
+2. Advanced Feature Engineering: Expand the stylometric vector to include Function Word Frequencies (e.g., usage of "the", "which", "although") and Part-of-Speech N-grams. These are more robust indicators of authorship than simple length metrics.
+3. Loss Function Tuning: Implement Focal Loss or strict Class Weighting in the Cross-Entropy loss function to penalize the model more heavily for missing the minority class, thereby improving the F1 score.
