@@ -125,6 +125,7 @@ The model combines deep semantic representations with the explicit stylometric f
 ## Results
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
+
 I evaluated the hybrid model on a 10% held-out validation set after training for 3 epochs using an AdamW optimizer LR=2e-5.
 Validation Accuracy: 77.64%Validation F1 Score (Macro): 43.71%
 - Interpretation: The model achieves a strong accuracy (~77%), significantly outperforming a random baseline (50%). However, the low Macro F1 score (~44%) indicates a strong performance divergence between the two classes. The model is highly accurate at identifying the majority class (likely "Different Authors") but struggles to recall instances of the minority class ("Same Authors").
