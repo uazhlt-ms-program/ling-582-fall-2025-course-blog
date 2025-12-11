@@ -44,27 +44,28 @@ tags:
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
 
-<p>The task/goal of this competition was to predict whether two text spans were written by the same author. Either example contained two passages separated by a [SNIPPET] token. The task was a binary classification problem where 1 denoted the same author and 0 denoted a different author. Initially, a challenge I noticed was that the same author could write very differently depending on the context or genre, and sometimes different authors can have similar "voices". Modern approaches often use transformers or similar, but I focused more on building a simpler/reproducible method that still captures the stylistic patterns of the provided dataset.</p>
+<p>The task/goal of this competition was to predict whether or not text examples were produced by one author. Either example contained two passages separated by a [SNIPPET] token. The task was a binary classification problem where 1 denoted the same author and 0 denoted a different author, with the training set having 1601 examples and the test set having 899 examples. There is an imbalanced label distribution with 356 "same author" cases and 1245 "different author" cases. Initially, a challenge I noticed was that the same author could write very differently depending on the context or genre, and sometimes different authors can have similar "voices". Modern approaches often use transformers or similar, but I focused more on building a simpler/reproducible method that still captures the stylistic patterns of the provided dataset.</p>
 
 ## Exploratory data analysis
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
 
-<p>I looked through a number of samples to understand the range of writing styles. Some examples were long paragraphs while others were only a few lines which suggested that length alone wouldn't be a wholey reliable feature. I also checked the class distribution and found more 0 labels than 1 labels, which meant that the dataset was somewhat imbalanced.
+<p>I looked through a number of samples to understand the range of writing styles where some examples were long paragraphs while others were only a few lines (i.e. "The old man sat by the fire..." [SNIPPET] "It was several years later when the family returned...") which suggested that length alone wouldn't be a wholey reliable feature. I also checked the class distribution and found more 0 labels than 1 labels (1245 labeled 0 and 356 labeled 1, 1601 total), which meant that the dataset was somewhat imbalanced.
 From a style perspective, the text varied quite a bit in that some passages were narrative while others were mostly dialogue-like, and then some sounded like they came from varying time periods. This variety made me think that character-level features might work better than word ones, in that characters can capture punctuation habits and potentially structural patterns that stay consistent across topics.</p>
 
 ## Approach
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
 
-<p>My class competition approach is to solve the verification task by checking whether two text excerpts were written by the same author. Each sample contains two passages separated by [SNIPPET], and I split them and then join them back together with a [SEP] token so they can be treated as one combined input. I use a character-level TF-IDF vectorizer (with 3-5 character n-grams) because it can capture writing-style patterns like punctuation, spelling habits, and phrasing without needing deep linguistic features. Those same TF-IDF vectors are fed into a logistic regression model with balanced class weights to handle label imbalance. I first test the model using a validation split, then retrain on all the training data before generating predictions for the test set. The whole pipeline stays reproducible and doesn't rely on API's of closed models (or the closed models themselves), which gives me a solid baseline that I can build on later with better features or transformer models. However, the option to go for a more complex approach is still an open one for me.</p>
+<p>My class competition approach is to solve the verification task by checking whether two text excerpts were written by the same author. Each sample contains two passages separated by [SNIPPET], and I split them and then join them back together with a [SEP] token so they can be treated as one combined input. I use a character-level TF-IDF vectorizer (with 3-5 character n-grams) because it can capture writing-style patterns like punctuation, spelling habits, and phrasing without needing deep linguistic features. Those same TF-IDF vectors are fed into a logistic regression model with balanced class weights to handle label imbalance. I first test the model using a validation split, then retrain on all the training data before generating predictions for the test set. The whole pipeline stays reproducible and doesn't rely on API's of closed models (or the closed models themselves), which gives me a solid baseline that I can build on later with better features or transformer models. 
+However, the option to go for a more complex approach is still an open one for me. In terms of novelty, treating the pair as a single document instead of comparing two separate TF-IDF vectors introduced that bit of ingenuity by simplifying the model and allowing for implicit learning as opposed to comparative/similarity.</p>
 
 ## Results
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
 
-<p>Regarding my result (analysis), I first used a train/validation split to make sure the model was at least learning something meaningful before I submitted anything. For the validation set, the model performed somewhat well for a simple TF-IDF and logistic regression setup. I tracked metrics such as accuracy and AUC (both were better than my very first baseline approach which relied only on cosine similarity between span vectors).
-Once I confirmed that the pair TF-IDF model behaved consistently across a few different validation splits, I retrained it on the full training set to maximize the amount of information it could learn. I then ran predictions using my predict_pair_tfidf.py script, which created the submission file I've been uploading. For a classical model that doesn't use deep learning, I think the performance made sense, but I struggled to go past the provided benchmark most likely due to the reliance on the classical approach. More research into more efficient/productive methods could've yielded better results.</p>
+<p>Regarding my result (analysis), I first used a train/validation split to make sure the model was at least learning something meaningful before I submitted anything. For the validation set, the model performed somewhat well for a simple TF-IDF and logistic regression setup (with a 0.63 AUC and 0.70 accuracy). I tracked metrics such as accuracy and AUC (both were better than my very first baseline approach which relied only on cosine similarity between span vectors).
+Once I confirmed that the pair TF-IDF model behaved consistently across a few different validation splits, I retrained it on the full training set to maximize the amount of information it could learn. I then ran predictions using my predict_pair_tfidf.py script, which created the submission file I've been uploading. For a classical model that doesn't use deep learning, I think the performance made sense, but I struggled to go past the provided benchmark (0.50261, as opposed to my score of 0.48866) most likely due to the reliance on the classical approach. More research into more efficient/productive methods could've yielded better results.</p>
 
 ## Error analysis
 
@@ -79,13 +80,12 @@ I also saw the opposite error in that sometimes different authors happened to wr
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
 _If you'ved covered this in your code repository's README, you can simply link to that document with a note._
 
-<p>To run this approach, implement the following commands in bash/terminal:
+<p>To run this approach, implement the following commands in bash/terminal:</p>
 ```
 pip install -r requirements.txt
 python train_pair_tfidf.py
 python predict_pair_tfidf.py
 ```
-</p>
 
 ## Future Improvements
 
