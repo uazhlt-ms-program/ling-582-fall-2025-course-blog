@@ -62,12 +62,12 @@ Before modeling, I analyzed the provided train.csv and test.csv to understand th
 
 Method: Hybrid Stylometry-Transformer To address the limitations of pure semantic models, I developed a Hybrid Architecture that fuses deep learning with linguistic feature engineering.
 
-1. Semantic Component (RoBERTa): I utilized roberta-base to generate contextual embeddings. The model processes the concatenated snippets (<s> Snippet 1 </s> Snippet 2 </s>) and extracts the [CLS] token embedding, which captures high-level semantic and syntactic relationships.
+1. Semantic Component (RoBERTa): I utilized roberta-base to generate contextual embeddings. The model processes the concatenated snippet and extracts the [CLS] token embedding, which captures high-level semantic and syntactic relationships.
 2. Stylometric Component (Feature Engineering): Parallel to the Transformer, I extracted explicit style markers:
    - Average Word Length
    - Average Sentence Length
    - Punctuation Count
-3. Fusion Layer: The 768-dimensional RoBERTa embedding is concatenated with the 6-dimensional stylometric vector (3 features per snippet). This combined vector is passed through a custom classifier head (Linear -> ReLU -> Dropout -> Linear).
+3. Fusion Layer: The 768-dimensional RoBERTa embedding is concatenated with the 6-dimensional stylometric vector (3 features per snippet). This combined vector is passed through a custom classifier head.
 
 
 ## Results
