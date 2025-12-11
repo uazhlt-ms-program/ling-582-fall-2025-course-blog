@@ -123,8 +123,8 @@ However, these snippets do seem to span genres and styles:
 I was also interested in how long these text snippets generally were, both in terms of characters and words. The figures below illustrate that the distribution of length is pretty severely skewed in the dataset. There are far more short snippets than long snippets, and the snippets in the TEXT2 position are generally longer than TEXT1 for some reason. I also address this in the next section.
 
 <div style="display:flex; align-items:center;">
-  <img src="nwords.png" style="width:50%; margin-left:auto; margin-right:auto;"></img>
-  <img src="nchars.png" style="width:50%; margin-left:auto; margin-right:auto;"></img>
+  <img src="./nwords.png" style="width:50%; margin-left:auto; margin-right:auto;"></img>
+  <img src="./nchars.png" style="width:50%; margin-left:auto; margin-right:auto;"></img>
 </div>
 
 ## Approach
@@ -187,7 +187,7 @@ The results of my 10-fold cross validation show that F1 holds pretty steady in t
 To confirm that this is where our main problem lies, here is a confusion matrix:
 
 <div style="display:flex; align-items:center;">
-  <img src="confusion_matrix_fold_10.png" style="width:50%; margin-left:auto; margin-right:auto;"></img>
+  <img src="./confusion_matrix_fold_10.png" style="width:50%; margin-left:auto; margin-right:auto;"></img>
 </div>
 
 The top left and bottom right boxes hold the highest occurences, which is good! But there are certainly more occurences in the bottom-left (false negatives) than the top-right (false positives).
