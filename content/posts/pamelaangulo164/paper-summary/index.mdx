@@ -172,7 +172,7 @@ The paper includes ablations (e.g., reward-only vs. reward + supervised loss) th
 
 - Potential Limitations / Unfairness Concerns
 1. Tagging Baseline Uses Extra Monolingual Data:
-The Tagging approach is trained on concatenated parallel + monolingual data (up to 4.8M additional <orig> examples), while the base MT and proposed models use only the parallel corpus (4.87M sentence pairs).
+The Tagging approach is trained on concatenated parallel + monolingual data, while the base MT and proposed models use only the parallel corpus (4.87M sentence pairs).
 This gives Tagging more training data, which could inflate its naturalness gains—but the authors acknowledge this and explicitly test two Tagging variants (1M and 4.8M) to study the trade-off. So while not perfectly matched, the design is transparent and informative.
 2. Tailored RR Relies on Sampling + Reranking:
 Tailored RR uses Top-k sampling to generate diverse candidates, then reranks them. This is a different inference strategy (not just model training), making it harder to isolate whether gains/losses come from architecture or decoding.
