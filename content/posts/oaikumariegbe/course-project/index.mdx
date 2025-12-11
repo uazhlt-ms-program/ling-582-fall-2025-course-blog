@@ -41,6 +41,7 @@ before producing a final answer,
 often improving performance on complex tasks 
 such as arithmetic, commonsense reasoning, 
 and logical inference. 
+
 In this project, 
 we examine three CoT styles: 
 No-CoT, where the model is prompted to answer directly with no reasoning steps; 
@@ -67,6 +68,7 @@ explicit intermediate steps before producing an answer
 However, CoT introduces two major types of costs that 
 are especially problematic in multilingual and 
 low-resource settings. 
+
 First, manual-CoT (few-shot, human-written reasoning demonstrations) 
 require tedious, task-specific annotations that do not 
 easily generalize across new domains or languages [Wei et al., 2022; Zhang et al., 2022]. 
@@ -74,13 +76,15 @@ Second, verbose CoT rationales dramatically increase inference cost:
 outputs can be an order of magnitude longer than direct answers, 
 inflating token usage, latency, 
 and, in multilingual cases, amplifying error propagation through translation and script mixing [Xu et al., 2025; Han et al., 2025].
+
 To reduce these costs, prior work has explored several directions.
+
  (a) Automatic demonstration generation, 
  including Auto-CoT [Zhang et al., 2022],
  Consistency-based Self-Adaptive Prompting (COSP) [Wan et al., 2023], 
  and Universal Self-Adaptive Prompting (USP) [Wan et al., 2023], 
  eliminates the need for human-authored CoT exemplars 
- by having models generate or refine their own demonstrations.
+ by having models generate or refine their own demonstrations.<br/>
  (b) Concise reasoning methods, 
  such as Chain-of-Draft (CoD) [Xu et al., 2025],
  Zero-shot CoT [Tojima et al, 2022] 
@@ -88,13 +92,14 @@ To reduce these costs, prior work has explored several directions.
  [Han et al., 2025], 
  explicitly aim to compress, constrain, 
  or otherwise shape model rationales to reduce inference cost 
- while preserving accuracy.
+ while preserving accuracy.<br/>
  (c) Adaptive computation and uncertainty-aware decoding, 
  including RouteLLM [Ong et al., 2024],
   Mixture-of-Experts gating strategies [Li et al., 2023], 
   and Contrastive Decoding variants [Li et al., 2023], 
   seek to minimize compute by selectively allocating reasoning effort 
   or stabilizing token choices through contrastive expert - base model reweighting.
+
 Despite this progress, 
 very little of this literature examines CoT in multilingual 
 or low-resource languages, 
@@ -103,6 +108,7 @@ Moreover, existing efficient CoT methods assume high-resource training condition
 and well-calibrated reasoning behavior, 
 which do not hold for low-resource languages like Nepali.
 
+<!--
 ### Timeline
 <table>
   <thead>
@@ -130,7 +136,7 @@ which do not hold for low-resource languages like Nepali.
     </tr>
   </tbody>
 </table>
-
+-->
 ## Summary of individual contributions
 <table>
   <thead>
@@ -157,6 +163,7 @@ LlaMa-3-8B-Instruct and Qwen2.5-7B-Instruct on GSM8K in English and Nepali,
 under three prompting configurations: no-CoT, minimal-CoT, and standard-CoT. 
 We further conduct a comprehensive minimal-CoT reasoning length study, 
 varying the maximum reasoning budget (cap) from 192 to 1024 tokens across both models in Nepali. 
+
 Our results show clear differences across languages and models in accuracy, 
 efficiency, and error patterns, helping us understand how much reasoning minimal-CoT needs to work effectively in a low-resource language.
 
@@ -191,12 +198,13 @@ Minimal-CoT consistently outperforms No-CoT
 and often matches or exceeds Standard-CoT, 
 despite requiring fewer tokens and shorter inference times.
 Some key observations are:
-*English:*
--Qwen improves from 4.9% to 23.7% (+18.8) when moving from No-CoT to Minimal-CoT.
--LLaMA improves from ~6% to ~22% (+16).
--Standard-CoT does not outperform Minimal-CoT, despite using 650–900 tokens on average.
 
-*Nepali:*
+**English:**
+- Qwen improves from 4.9% to 23.7% (+18.8) when moving from No-CoT to Minimal-CoT.
+- LLaMA improves from ~6% to ~22% (+16).
+- Standard-CoT does not outperform Minimal-CoT, despite using 650–900 tokens on average.
+
+**Nepali:**
 - Qwen improves from ~3–4% to 10–14% (+7–10).
 - LLaMA improves from ~3–5% to 15–18% (+12–13).
 - Standard-CoT again provides no major advantage over Minimal-CoT.
@@ -207,7 +215,7 @@ and is more susceptible to hallucination or drift in reasoning (misleading ratio
 Minimal-CoT appears to anchor the model to a concise reasoning path 
 that is easier to maintain in low-resource languages.
 
-### Across all four conditions (English/Nepali × Qwen/LLaMA):
+###### Across all four conditions (English/Nepali × Qwen/LLaMA):
 - Minimal-CoT achieves 70–90% of Standard-CoT’s accuracy at 40–60% of the token cost.
 - In Nepali, Minimal-CoT often outperforms Standard-CoT, making it better both in accuracy and efficiency.
 
@@ -215,7 +223,7 @@ These findings directly support the project’s central research question:
 a small amount of reasoning is enough; and in multilingual settings, 
 more reasoning is often harmful.
 
-<b>Cross-model insights</b>
+###### Cross-model insights
 - LLaMA is more stable and structured, especially in Nepali.
 Minimal-CoT shows consistently strong results (15–18%).
 
@@ -225,7 +233,7 @@ Standard-CoT often causes markdown-like hallucinations or long paraphrases.
 Minimal-CoT mitigates many of these issues, 
 explaining why both models perform best under this prompting style.
 
-<b>Cross-lingual insights</b>
+###### Cross-lingual insights
 - Accuracy decreases from English to Nepali for both models, 
 as expected due to reduced training exposure, morphological complexity, 
 and numeric expression differences.
@@ -235,7 +243,7 @@ providing a more stable reasoning structure across languages.
 is not tied to English-specific training biases 
 and instead generalizes effectively across languages.
 
-<b>Summary</b>
+##### Summary
 Overall, the results in Table 1 demonstrate that:
 - Minimal-CoT is the most effective and efficient reasoning strategy 
 across all tested models and languages.
@@ -267,6 +275,7 @@ Table 2 and 3 summarize the accuracy trends at each cap.
 | 896 | 32.60 | 1101.52 | 4.0226 |
 
 Table 2: Minimal-CoT Results for Nepali GSM8K on Qwen2.5-7B-Instruct 
+
 | Cap | Accuracy (%) | Avg. tokens (Input+Output) | Time (s) |
 |-----|--------------|------------------------|----------|
 | 192 | 11.83 | 340.88 | 0.6578 |
@@ -304,13 +313,13 @@ extracted from the JSON files for Qwen-7B-Instruct and LlaMa-3-8B-Instruct on
 English and Nepali GSM8K. 
 Errors were manually inspected and 
 also categorized as shown below:
-<b>1. Truncation and Incomplete Reasoning </b>
+
+** 1. Truncation and Incomplete Reasoning: **
 Across both models, 
 the smallest minimal-CoT caps (192–320) 
 consistently lead to truncated chains and reasoning 
 that stops mid-sentence 
-or fails to complete with the final answer.
-
+or fails to complete with the final answer.<br/>
 This pattern is especially common in LlaMa-3-8B-Instruct, 
 whose JSON outputs show early termination such as:
 <pre>
@@ -327,16 +336,16 @@ produced the correct final output:
 These errors diminish significantly 
 once caps exceed 384–448 tokens.
 
-<b>2. Semantic Drift with Nepali Numeric Expressions</b>
+** 2. Semantic Drift with Nepali Numeric Expressions:**
 A failure seen across both models 
 involves misinterpretation of Nepali number words, 
-often leading to incorrect intermediate steps.
-
+often leading to incorrect intermediate steps.<br />
 Common patterns observed in the JSON examples include:
 - treating आधा (“half”) as a literal 0.5 in contexts where a unit transformation was required
 - confusing डेढ (“one and a half”) with 1.5, 2, or even 0.5
 - errors in mixed Devanagari - Arabic numerals (e.g., “१ 150०%”)
 - incorrect expansion of Nepali positional number words
+
 <pre>
 Example (LLaMA, 192 cap):
 "...दोस्रो चरण: आधा सेतो फाइबर चाहिन्छ, त्यसैले सेतो फाइबरको संख्या ½ हुन्छ।\n\nअन्तिम संख्यात्मक उत्तर: २.५","
@@ -345,7 +354,7 @@ These mistakes reflect true semantic grounding gaps,
 not lack of reasoning length. 
 The reasoning states " आधा” as 0.5 but the final answer is 2.5".
 
-<b>3. Arithmetic Drift or Misleading Rationale(Common in Across All Caps)</b>
+** 3. Arithmetic Drift or Reasoning Drift / Misleading Rationale(Common in Across All Caps):**
 The models tend to produce correct multi-step reasoning structures 
 but arrive at wrong intermediate arithmetic values. 
 The JSON files show this pattern even at high caps (512–768 tokens):
@@ -371,7 +380,8 @@ We can see such in the example on such a drift below.
 Instead of calculating the cost of replacing the same 20-meter rope, 
 it tries to maximize how much new rope Sarah can buy, then subtracts that cost. 
 This reasoning drift leads to the wrong final answer. 
-<b>4. Paraphrase loops</b>
+
+** 4. Paraphrase loops: **
 The models often gets stuck repeating or rephrasing the question instead of solving it. 
 At medium caps (320 to 640), 
 the model produces long reflective restatements like “You are a math solver…” 
@@ -399,24 +409,28 @@ illustrating a paraphrase loop with no actual reasoning.
 ## Limitations and Proposals for Future Improvements
 Although Minimal-CoT proves both effective and efficient for Nepali GSM8K, 
 several focused improvements can strengthen multilingual reasoning performance.
-<b>1. Better handling of Nepali numerical expressions.</b>
+
+** 1. Better handling of Nepali numerical expressions.**<br/>
 Errors often stem from misinterpreting Nepali number words (e.g., आधा, डेढ) a
 nd mixed-script percentages. 
 Future work could add lightweight numeric-normalization modules, 
 targeted fine-tuning, 
 or curated examples that teach models how these number words correspond to 
 mathematical operations.
-2. Adaptive reasoning budgets.
+
+** 2. Adaptive reasoning budgets. ** <br/>
 Our results show that ~500–700 tokens are sufficient for peak Minimal-CoT performance. 
 Instead of using a fixed cap, 
 future systems could dynamically adjust reasoning length based on predicted uncertainty 
 or question difficulty and allocating more reasoning only when needed.
-3. Higher-quality Nepali (low resource) datasets.
+
+** 3. Higher-quality Nepali (low resource) datasets.** <br/>
 While back-translation helps filter major issues, 
 the machine-translated Nepali GSM8K still contains phrasing irregularities. 
 Future work could incorporate a small set of human-authored Nepali reasoning problems 
 or refined translations produced in collaboration with native speakers.
-4. Broader evaluation across models and tasks.
+
+**4. Broader evaluation across models and tasks.** <br/>
 Minimal-CoT should be tested on additional reasoning tasks (ARC, StrategyQA, MAWPS) 
 and across more open-source models to determine whether the observed gains generalize beyond GSM8K-style arithmetic. 
 We planned to test it across more models and datasets like Commonsense QA, 
@@ -425,6 +439,7 @@ We have shared the translated version of Commonsense QA on our Github repo.
 
 ## Reproducibility
 The README file in [our code repo](https://github.com/uazhlt-ms-program/ling-582-fall-2025-course-project-code-shreya-vovwe) contains detailed instructions for reproducing our results.
+
 
 <b> References </b>
 

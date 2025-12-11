@@ -1,5 +1,5 @@
 ---
-title: "An Insightful Summary of **Large Language Models are Zero-Shot Reasoners**"
+title: "An Insightful Summary of `Large Language Models are Zero-Shot Reasoners`"
 slug: "/oaikumariegbe/paper-summary"
 date: 2025-12-08
 author: Oghenevovwe Ikumariegbe
@@ -70,7 +70,7 @@ underexplored capability of LLMs&emdash;zero-shot reasoning.
 It also demonstrates a practical way to access the 
 parametric knowledge LLMs acquire during training 
 using simple prompts.
-< !-- NOTE: don't use an LLM to generate this! 🙃 -->
+<!-- NOTE: don't use an LLM to generate this! 🙃 -->
 
 ## LLM
 
@@ -100,8 +100,10 @@ using simple prompts.
   <tr>
     <th><b>Why this model?</b></th>
     <td>I chose this model for a two main reasons: 
+
       1. I have worked with the model in the past, 
       although not in a chat environment.
+
       2. It was one of the few models with image support 
       available on HuggingFace Chat while being small (3B)
     </td>
@@ -353,7 +355,7 @@ As the research assistant with a now thorough understanding of the work presente
 
 ### Experience using the LLM
 
-_Describe your process for using the LLM.  How did the LLM perform?_
+<!-- _Describe your process for using the LLM.  How did the LLM perform?_ -->
 I used a system prompt at the start of 
 my interaction to cue it towards research paper 
 understanding and summary.
@@ -362,10 +364,9 @@ with the research paper. On answering 'no' after
 using the tool 'paper_search', I had the paper converted 
 to TXT format (supported by HuggingFace Chat) 
 which I then uploaded to the chat interface. 
-Following that, I asked my series of prompts, 
-which I designed to paper-agnostic and generalizable 
-to empirical NLP papers,
-obtain the LLM's understanding of the paper.
+I was then able to ask my series of prompts, knowing it now had contextual knowledge of the paper.
+The prompts were to paper-agnostic and generalizable 
+to empirical NLP papers.
 
 Overall, I think it had some understanding of the 
 work, albeit several repetitions across the answers 
@@ -374,7 +375,7 @@ led by my prompt wording (similar to the work on sycophancy bias
 in LLMs).
 #### Errors and limitations of the LLM 
 
-_Where did it fall short or make mistakes?_
+<!-- _Where did it fall short or make mistakes?_ -->
 The definition of in-context learning is incorrect 
 since the model is not being trained (no updates to 
 its parameters) but infers based on the examples.

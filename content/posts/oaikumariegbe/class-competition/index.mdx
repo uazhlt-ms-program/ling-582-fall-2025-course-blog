@@ -62,11 +62,12 @@ stylistic signals in text, and have practical uses in
 digital forensics, cybersecurity, plagiarism detection,
 among other. However, they can be challenging to accomplish for 
 a number of reasons: 
+
 i. An author's style can be subtle 
-and vary across topics and genres 
+and vary across topics and genres <br/>
 (even by the same author)
 ii. Stylistic signals extend beyond semantic similarity,
-therefore adding to its complexity.
+therefore adding to its complexity. <br/>
 iii. Limited and noisy data, 
 which is needed to generalizing to unknown authors' styles.
 
@@ -84,12 +85,14 @@ character n‑grams, POS tags, and other style markers,
 combined with distance measures or supervised classifiers.
 With the rise of deep learning and neural architectures&emdash;first CNNs and RNNs, 
 and later transformers&emdash;have become more prominent in the task. 
+
 Pretrained language models such as BERT, RoBERTa, and ELECTRA 
 have been fine-tuned for author verification [Nguyen et al., van Leeuwen et al.]. 
 In parallel, contrastive and pairwise training objectives have been 
 have been specialized for this task, more explicitly model authorship similarity, 
 encouraging embeddings of texts by the same author to 
 cluster together while pushing apart those from different authors.
+
 Benchmark datasets and standardized evaluations have also played a crucial role. 
 In particular, the [PAN](https://pan.webis.de/)have established widely used 
 benchmarks for author verification, 
@@ -141,6 +144,7 @@ and statistical patterns (min, mean and max) of the
 original train set. 
 These constraints helped ensure that the augmented examples 
 more closely resemble the original train set.
+
 However, one key difference is that 
 my dataset contains more spans that do not start at a sentence 
 boundary compared to the ones in the original train set. I 
@@ -156,6 +160,7 @@ fine-grained stylistic patterns from features that may distinguish one
 author's writing style from another. This is largely inspired 
 by the fact that authorship verification relies on signals 
  beyond semantic signals.
+
 The dense component is based on a BERT-style transformer. 
 I also experimented with Longformer (4096 max length). 
 I trained some layers of the transformer architecture as well,
@@ -163,6 +168,7 @@ so the embeddings are learned for my task.
 Two text spans—separated in the data by a special token 
 ([SNIPPET])—are encoded as two independent sequences whose pooled representations 
 are passed to a classifier. 
+
 The classifier model incorporates a set of 
 hand-engineered features designed to 
 reflect stylistic tendencies at the lexical, syntactic, 
@@ -204,12 +210,14 @@ In addition, to reduce the risk of overfitting,
 I used early stopping on the best F1. Indeed, this turned out 
 useful as the BERT model overfit to the training data 
 in the later epochs: 1.0 F1 on train and a 0.84 F1 on the validation.
+
 ## Results
 On the test set, my best result was 0.68 macro average F1. 
 The results reported here are based on the validation set, as I have 
 access to the gold labels for it.
 I obtained the following results on the validation set.
-*BERT (Mean pooling)*:
+
+**BERT (Mean pooling)**:
 <pre>
 Classification Report 
               precision    recall  f1-score   support
@@ -221,7 +229,8 @@ Classification Report
    macro avg       0.85      0.85      0.85      3081
 weighted avg       0.85      0.85      0.85      3081
 </pre>
-*BERT (CLS pooling)*:
+
+**BERT (CLS pooling)**:
 <pre>
 Classification Report 
               precision    recall  f1-score   support
@@ -233,7 +242,8 @@ Classification Report
    macro avg       0.86      0.86      0.86      3081
 weighted avg       0.86      0.86      0.86      3081
 </pre>
-*DEBERTA (Mean pooling)* - last running epoch
+
+**DeBERTa (Mean pooling)** - last running epoch
 <pre>
 Classification Report 
               precision    recall  f1-score   support
@@ -245,7 +255,8 @@ Classification Report
    macro avg       0.83      0.81      0.81      3081
 weighted avg       0.83      0.81      0.81      3081
 </pre>
-*RoBERTa (Mean pooling)* - last running epoch:
+
+**RoBERTa (Mean pooling)** - last running epoch:
 <pre>
 Classification Report 
               precision    recall  f1-score   support
@@ -257,7 +268,8 @@ Classification Report
    macro avg       0.84      0.84      0.84      3081
 weighted avg       0.84      0.84      0.84      3081
 </pre>
-*Longformer (Mean pooling)* - last running epoch:
+
+**Longformer (Mean pooling)** - last running epoch:
 <pre>
 Classification Report 
               precision    recall  f1-score   support
@@ -269,47 +281,62 @@ Classification Report
    macro avg       0.83      0.82      0.82      3081
 weighted avg       0.83      0.82      0.82      3081
 </pre>
+
 The results are promising, 
 showing the model is learning to distinguish stylistic cues 
 between text by the same author and those by different authors.
 
 However, the model is prone to overfitting on the training data.
 With the exception of the longformer, all models reach 0.99 - 1.0 F1 on 
-the training data.
+the training data.<br/>
 I used early stopping with a patience of 4 to return the last model 
 with the best validation F1.
 ## Error analysis
 I did a manual analysis of the data (based on the validation set) and found the following patterns:
+
 * Two short snippets, especially of similar emotional tone,  are likely to be characterized as being the same author:
-For example
+For example,
+
 ```
 Snippet 1: to keep this a secret between us two. Not a word of it to your
 Snippet 2: threatened to engulf the fragile vessel; but she clung to the hope that the stranger's
 ```
+
 * When an author writes in a different genre or topic space, the model struggles to correlate it as being by the same person
 For example,
+
 ```
 Snippet 1: anything were a part of many, being itself one of them, it will surely be a part of itself, which is impossible, and it will be a part of each one of the other parts, if of all; for if not a part of some one, it will be a part of all the others but this one, and thus will not be a part of each one; and if not a part of each, one it will not be a part of any one of the many; and not being a part of any one, it cannot be a part or anything else of all those things of none of which it is
 Snippet 2: the air. Borne hither and thither, 'they speedily fall into beliefs' the opposite of those in which they were brought up. They hardly retain the distinction of right and wrong; they seem to think one thing as good as another. They suppose themselves to be searching after truth when they are playing the game of 'follow my leader.' They fall in love 'at first sight' with paradoxes respecting morality, some fancy about art, some novelty or eccentricity in religion, and like lovers
 ```
+
 * Some snippets were to short to be informative, especially when compared with a much longer snippet
+
 ```
 Snippet 1: narrow neck, about midway the lake on the east side. The celebrated precipice is on the east or land side of this, and is so high and perpendicular that you can jump from the top,
 Snippet 2: [OMITTED FOR SPACE, BUT IT'S AT LEAST 4-5 TIMES THE LENGTH OF SNIPPET 1]
 ```
+
 * Some snippets were in a similar writing style, leading the model to predict same author even when it was by different authors.
+
 ```
 Snippet 1: narrow neck, about midway the lake on the east side. The celebrated precipice is on the east or land side of this, and is so high and perpendicular that you can jump from the top,
 Snippet 2: to see the heroine and express their wonder, thanks, and admiration. All agreed that partial drowning seemed to suit the girl, for a new Ruth had risen like Venus from the sea. A softer beauty was in her fresh face now, a gentler sort of pride possessed her, and a still more modest shrinking from praise and publicity
 ```
+
 ## Reproducibility
 See the README in the [code repository](https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-Abby-OGV).
 ## Future Improvements
 There are a number of limitations and future improvements for this approach. They include:
+
 1. Lack of ablation studies: Given more time, I would like to see the effect of the different components on the overall architecture (embeddings, handcrafted features and dimensionality reduction)
+
 2. Objective function: Prior work have shown that contrastive or pairwise loss can work better for this task. That would be a future extension of the hybrid architecture.
+
 3. Cross encoders: Some attentional information is likely lost by generating the embeddings for the snippets independently.
+
 4. Overfitting: The BERT-style transformers overfit after some epochs despite early stopping. Methods like regularization, increasing the dropout probability and cross-validation might help with this.
+
 5. Data augmentation: The augmented dataset is from a small number of authors, limiting the model's generalizability.
 
 <b> References </b>
