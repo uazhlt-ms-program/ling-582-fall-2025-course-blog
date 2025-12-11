@@ -1,0 +1,78 @@
+---
+title: "Character Classification: A Simple but Effective Linear Model Pipeline"
+slug: "/abhiramn/class-competition"
+date: 2025-11-15
+author: Abhiram Varma Nandimandalam
+description: "Draft version of my class competition summary"
+tags:
+  - class competition
+---
+
+<table>
+  <caption>Class Competition Info</caption>
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>
+        <b>Leaderboard score</b>
+      </th>
+      <td>0.56304</td>
+    </tr>
+    <tr>
+      <th>
+        <b>Leaderboard team name</b>
+      </th>
+      <td>Abhiram Varma Nandimandalam</td>
+    </tr>
+    <tr>
+      <th>
+        <b>Kaggle username</b>
+      </th>
+      <td>isjustabhi1</td>
+    </tr>
+    <tr>
+      <th>
+        <b>Code Repository URL</b>
+      </th>
+      <td>
+        https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-isjustabhi
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+## Task summary
+
+My baseline approach treats the problem as a style-similarity classification task. I split each input text on the [SNIPPET] delimiter to isolate the two spans and represent each span using character-level n-gram TF-IDF features, since character patterns capture author-specific habits better than word-level signals. I then compute the absolute difference between the two vector representations and train a LinearSVC classifier with class-balanced weights on this feature space. For the final version of the project, I plan to tune the SVM’s regularization parameter with cross-validation, add stylometric features such as punctuation frequency and length ratios, and test lightweight embedding models to better capture deeper stylistic similarities between spans. This gives me a clear path for improving both stability and macro F1 performance over the baseline.
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#task-summary)_
+
+## Exploratory data analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#exploratory-data-analysis)_
+
+## Approach
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#approach)_
+
+## Results
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#results)_
+
+## Error analysis
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#error-analysis)_
+
+## Reproducibility
+
+_See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
+_If you'ved covered this in your code repository's README, you can simply link to that document with a note._
+
+## Future Improvements
+
+_Describe how you might best improve your approach_

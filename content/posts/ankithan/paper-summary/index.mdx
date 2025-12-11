@@ -1,13 +1,12 @@
 ---
 title: "Comparing Large Language Models and Human Annotators in latent content analysis of sentiment, political learning, emotional intensity and sarcasm"
 slug: "/ankithan/paper-summary"
-date: 2025-11-09
+date: 2025-12-09
 author: Ankitha Namala
 description: "My incredible paper summary on Comparing Large Language Models and Human Annotators in latent content analysis"
 tags:
   - paper summary
 ---
-
 
 ## Citation
 
@@ -26,7 +25,6 @@ JO  - Scientific Reports
 SP  - 11477
 VL  - 15
 IS  - 1
-AB  - In the era of rapid digital communication, vast amounts of textual data are generated daily, demanding efficient methods for latent content analysis to extract meaningful insights. Large Language Models (LLMs) offer potential for automating this process, yet comprehensive assessments comparing their performance to human annotators across multiple dimensions are lacking. This study evaluates the inter-rater reliability, consistency, and quality of seven state-of-the-art LLMs. These include variants of OpenAI’s GPT-4, Gemini, Llama-3.1-70B, and Mixtral 8 × 7B. Their performance is compared to human annotators in analyzing sentiment, political leaning, emotional intensity, and sarcasm detection. The study involved 33 human annotators and eight LLM variants assessing 100 curated textual items. This resulted in 3,300 human and 19,200 LLM annotations. LLM performance was also evaluated across three-time points to measure temporal consistency. The results reveal that both humans and most LLMs exhibit high inter-rater reliability in sentiment analysis and political leaning assessments, with LLMs demonstrating higher reliability than humans. In emotional intensity, LLMs displayed higher reliability compared to humans, though humans rated emotional intensity significantly higher. Both groups struggled with sarcasm detection, evidenced by low reliability. Most LLMs showed excellent temporal consistency across all dimensions, indicating stable performance over time. This research concludes that LLMs, especially GPT-4, can effectively replicate human analysis in sentiment and political leaning, although human expertise remains essential for emotional intensity interpretation. The findings demonstrate the potential of LLMs for consistent and high-quality performance in certain areas of latent content analysis.
 SN  - 2045-2322
 UR  - https://doi.org/10.1038/s41598-025-96508-3
 DO  - 10.1038/s41598-025-96508-3
@@ -72,7 +70,7 @@ ID  - Bojić2025
 
 ## Description
 
-This paper compares performance of LLMs to human annotators in analysing social-media content along different dimensions like sentiment, political leaning, emotional intensity and sarcasm. The authors collected online posts, had both humans and various LLMs label them and measure the level of agreement. The level of agreement between them is measured using statistical methods like the inter rater reliability calculated using the Krippendorff's alpha value and correlation values. The suthors tru to assess the potential of LLMs evaluation over human analysis across these dimensions. This is helpful to evaluate if LLMs are a viable substitute or supplements to humans in content analysis tasks.
+This paper compares performance of LLMs to human annotators in analysing social-media content along different dimensions like sentiment, political leaning, emotional intensity and sarcasm. The authors collected online posts, had both humans and various LLMs label them and measure the level of agreement. The level of agreement between them is measured using statistical methods like the inter rater reliability calculated using the Krippendorff's alpha value and correlation values. The authors try to assess the potential of LLMs evaluation over human analysis across these dimensions. This is helpful to evaluate if LLMs are a viable substitute or supplements to humans in content analysis tasks.
 
 ## Motivation
 
@@ -93,19 +91,19 @@ I selected this paper becuase it closely aligns with the ongoing research I am p
 <tbody>
   <tr>
     <th><b>LLM model</b></th>
-    <td>???</td>
+    <td>LlaMa</td>
   </tr>
   <tr>
     <th><b>LLM model version</b></th>
-    <td>???</td>
+    <td>LlaMa-13B</td>
   </tr>
   <tr>
     <th><b>Model/service URL</b></th>
-    <td>???</td>
+    <td>https://huggingface.co/meta-llama/Llama-2-13b</td>
   </tr>
   <tr>
     <th><b>Why this model?</b></th>
-    <td>???</td>
+    <td>It is optimized defualt model by Jetstream. It is extensively used for research use in English and tuned models are intended for assistant-like chats. It performs well in extracting key points and producing clear summaries. Since I was using online version, it was more relaible and available to use without any additional cofiguration.</td>
   </tr>
 </tbody>
 </table>
@@ -113,96 +111,255 @@ I selected this paper becuase it closely aligns with the ongoing research I am p
 
 #### Description (LLM)
 
+##### System Prompt
+
+```markdown
+You are a Natural Language Processing(NLP) specialist. You actively participate in research in this field. As a researcher, read the following paper and answer the questions I will have for you. You can summarize the paper, include supporting snippets from paper, compare results and provide key takeaways. Be clear and concise with the answers.
+```
+
 _In the LLM's words, what is this paper about?_
 
 ##### Prompt
 
 ```markdown
-prompt here
+What is this paper about?
 ```
+
+This paper is about a comprehensive study that evaluates the performance of Large Language Models (LLMs) in performing latent content analysis tasks, specifically:
+
+- Sentiment analysis
+- Political leaning detection
+- Emotional intensity assessment
+- Sarcasm detection
+
+The study compares the performance of LLMs to that of human annotators across these dimensions, evaluating their inter-rater reliability, consistency, and quality.
+
+The paper presents a thorough analysis of the strengths and limitations of LLMs in various natural language processing tasks, highlighting their potential as reliable substitutes or supplements for human annotators in certain contexts.
+
+The study's findings have implications for various applications, including social media monitoring, market research, customer service, and mental health analysis, and suggest that LLMs can be effective tools for analyzing large volumes of textual data.
 
 #### What are the authors proposing?
 
 ##### Prompt
 
 ```markdown
-prompt here
+What are the authors proposing?
 ```
+
+The authors are proposing the use of Large Language Models (LLMs) for latent content analysis tasks, specifically for sentiment analysis, political leaning detection, emotional intensity assessment, and sarcasm detection. They aim to evaluate the performance of LLMs in comparison to human annotators across these dimensions.
+
+The authors note that while LLMs have shown impressive capabilities, there is a need for comprehensive evaluations comparing their performance to human annotators. They propose to address this gap by conducting a study that benchmarks the performance of LLMs and humans across multiple dimensions.
+
+The study evaluates the inter-rater reliability, consistency, and quality of seven state-of-the-art LLMs, including variants of OpenAI's GPT-4, Gemini, Llama-3.1-70B, and Mixtral 8 × 7B. The results show that LLMs can achieve levels of consistency comparable to or exceeding those of human annotators in certain dimensions, particularly in sentiment analysis and emotional intensity.
 
 #### What is the motivation for the work?
 
 ##### Prompt
 
 ```markdown
-prompt here
+What is the motivation for the work?
 ```
+
+The motivation for the work is to address the need for efficient methods for latent content analysis of vast amounts of textual data generated daily. The authors highlight that traditional human annotation is resource-intensive, and Large Language Models (LLMs) offer a potential solution for automating this process.
+
+The societal implications of effectively analyzing textual content are profound, as it can reveal public opinion, inform policy decisions, and guide business strategies. The authors cite specific applications, such as:
+
+- Sentiment analysis: revealing public opinion on policies or products
+- Understanding political leanings: assessing electoral landscapes and fostering democratic engagement
+- Detecting emotional intensity and sarcasm: vital for mental health monitoring, customer service, and national security
+
+By evaluating the performance of LLMs in these tasks, the authors aim to explore their potential for consistent and high-quality performance, and to identify areas where human expertise remains essential.
 
 #### What is the approach or innovation?
 
 ##### Prompt
 
 ```markdown
-prompt here
+What is the approach or innovation?
 ```
+
+The approach or innovation is the comprehensive evaluation of Large Language Models (LLMs) in performing latent content analysis tasks, specifically:
+
+- Multi-dimensional analysis: The study evaluates LLMs across four dimensions: sentiment, political leaning, emotional intensity, and sarcasm detection.
+- Comparison to human annotators: The study benchmarks the performance of LLMs against human annotators, assessing inter-rater reliability, consistency, and quality.
+- Use of multiple LLMs: The study evaluates seven state-of-the-art LLMs, including variants of OpenAI's GPT-4, Gemini, Llama-3.1-70B, and Mixtral 8 × 7B.
+- Temporal consistency evaluation: The study assesses the consistency of LLMs over time, evaluating their performance across three time points.
+
+The innovation lies in the thoroughness and breadth of the evaluation, which provides insights into the strengths and limitations of LLMs in various natural language processing tasks.
 
 #### What are the results and how do they compare with competing approaches?
 
 ##### Prompt
 
 ```markdown
-prompt here
+What are the results and how do they compare with competing approaches?
 ```
+
+The results show that Large Language Models (LLMs) can achieve levels of consistency comparable to or exceeding those of human annotators in certain dimensions.
+
+Inter-rater reliability:
+
+- Human annotators showed high reliability in sentiment analysis (alpha = 0.95) and moderate reliability in political leaning (alpha = 0.55), emotional intensity (alpha = 0.65), and sarcasm detection (alpha = 0.25).
+- LLMs demonstrated high reliability in sentiment analysis (alpha = 0.95), political leaning (alpha = 0.80), and emotional intensity (alpha = 0.85), but low reliability in sarcasm detection (alpha = 0.25).
+
+Temporal consistency:
+
+- Most LLMs exhibited excellent temporal consistency across most dimensions, with Intra-Class Correlation Coefficients (ICCs) above 0.990 for sentiment analysis.
+- ICCs ranged from 0.965 to 0.997 for political leaning, 0.966 to 0.996 for emotional intensity, and moderate consistency for sarcasm detection.
+
+Comparison to human annotators:
+
+- LLMs performed on par with humans in evaluating sentiment, with no significant differences in mean ratings (t-test, p = 0.277).
+- LLMs showed comparable performance to humans in assessing political leaning, with no significant differences (t-test, p = 0.178).
+- Humans rated emotional intensity higher than LLMs, with significant differences (t-test, p < 0.001).
+- Both humans and LLMs struggled with sarcasm detection, providing statistically similar but variable ratings.
+
+Comparison to competing approaches:
+
+- The study's results are comparable to or better than those reported in previous studies on sentiment analysis, sarcasm detection, and emotional intensity assessment [2, 3, 4].
+- The study's comprehensive evaluation of multiple LLMs and dimensions provides a more nuanced understanding of their strengths and limitations compared to human annotators.
+
+Overall, the results suggest that LLMs can be effective in certain natural language processing tasks, but may not yet match human performance in more complex tasks like sarcasm detection and emotional intensity assessment.
 
 #### Is the comparison fair?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Is the comparison fair?
 ```
+
+The comparison between Large Language Models (LLMs) and human annotators can be considered fair in some aspects, but also has some limitations.
+
+Fairness:
+
+- The study used a large and diverse set of human annotators, which helps to ensure that the human baseline is representative.
+- The LLMs were evaluated using the same tasks, prompts, and annotation scales as the human annotators.
+- The study used statistical methods, such as Krippendorff's alpha and Intra-Class Correlation Coefficients (ICCs), to quantify the reliability and consistency of both humans and LLMs.
+
+Limitations:
+
+- The human annotators were experts in their fields, but may not have been representative of the general population.
+- The LLMs were not fine-tuned or customized for the specific tasks, which may have affected their performance.
+- The study focused on a specific set of tasks and may not be generalizable to other natural language processing tasks.
+
+Potential biases:
+
+- The study used a specific set of LLMs, which may not be representative of all LLMs.
+- The human annotators may have introduced biases, such as cultural or personal biases, that could have affected their annotations.
+
+Overall, while the comparison is fair in some aspects, it is essential to consider the limitations and potential biases when interpreting the results. The study provides valuable insights into the strengths and limitations of LLMs in natural language processing tasks, but further research is needed to fully understand their capabilities and limitations.
 
 #### What are the takeaways according to the authors?
 
 ##### Prompt
 
 ```markdown
-prompt here
+What are the takeaways according to the authors?
 ```
+
+The authors highlight the following takeaways:
+
+- LLMs can perform latent content analysis tasks with inter-rater reliability and quality comparable to human annotators in certain dimensions: Specifically, LLMs showed high reliability in sentiment analysis, political leaning, and emotional intensity assessment.
+- LLMs are mostly consistent over time when analyzing textual content: The study found that LLMs provided stable and repeatable outputs upon re-evaluation of the same content.
+- LLMs provide analysis that is comparable to human annotators in terms of quality for certain dimensions of latent content analysis: LLMs matched human performance in sentiment analysis and political leaning assessments, but not in emotional intensity and sarcasm detection.
+
+The authors also emphasize the importance of:
+
+- Selecting the right LLM for the specific task: Different LLMs performed better in different dimensions, and selecting the right model is crucial for optimal performance.
+- Combining LLM efficiency with human oversight: The authors suggest that a hybrid approach, combining LLM efficiency with human judgment, may be the most effective way to analyze large volumes of textual data.
+
+Overall, the study provides insights into the strengths and limitations of LLMs in natural language processing tasks and highlights the potential for LLMs to serve as reliable substitutes or supplements for human annotators in certain contexts.
 
 #### What are the takeaways according to you?
 
 ##### Prompt
 
 ```markdown
-prompt here
+What are the takeaways according to you?
 ```
+
+As a researcher in NLP, I would summarize the takeaways as follows:
+
+- LLMs have made significant progress in natural language understanding: The study demonstrates that LLMs can perform complex tasks like sentiment analysis, political leaning detection, emotional intensity assessment, and sarcasm detection with high accuracy.
+- Task-specific performance varies: LLMs excel in tasks that involve clear and direct language cues, such as sentiment analysis and political leaning detection. However, they struggle with tasks that require more nuanced understanding, such as sarcasm detection and emotional intensity assessment.
+- Consistency and reliability are crucial: The study highlights the importance of evaluating LLMs' consistency and reliability, particularly in tasks that require subjective interpretation.
+- Human-LLM collaboration is key: The findings suggest that a hybrid approach, combining LLM efficiency with human oversight, may be the most effective way to analyze large volumes of textual data.
+- LLM limitations and biases must be considered: The study emphasizes the need to consider LLMs' limitations and biases when deploying them in real-world applications.
+
+Overall, the study provides valuable insights into the strengths and limitations of LLMs in natural language processing tasks and highlights the importance of continued research in this area.
 
 #### Would you use this?  If so, how/where would you use this?
 
 ##### Prompt
 
 ```markdown
-prompt here
+Would you use this?
 ```
+
+As a researcher in NLP, I would consider using Large Language Models (LLMs) in various applications, including:
+
+- Social media monitoring: LLMs can be used to analyze large volumes of social media data to track public opinion, sentiment, and trends.
+- Customer service chatbots: LLMs can be integrated into chatbots to improve their ability to understand and respond to customer inquiries.
+- Market research: LLMs can be used to analyze customer feedback, reviews, and ratings to provide insights into market trends and customer preferences.
+- Content analysis: LLMs can be used to analyze large volumes of text data, such as news articles, blog posts, and social media updates, to identify trends, patterns, and insights.
+- Mental health analysis: LLMs can be used to analyze text data from mental health-related sources, such as social media, forums, and support groups, to identify early warning signs of mental health issues.
 
 ##### Prompt
 
 ```markdown
-prompt here
+If so, how/where would you use this?
 ```
+
+When using LLMs, I would consider the following:
+
+- Task-specific evaluation: Evaluate the performance of LLMs on specific tasks and datasets to ensure they meet the required standards.
+- Data quality and bias: Ensure that the training data is of high quality, diverse, and representative of the target population to minimize bias and ensure generalizability.
+- Human oversight and validation: Use human evaluators to validate the results of LLMs and ensure that they are accurate and reliable.
+- Transparency and explainability: Use techniques such as feature attribution and model interpretability to understand how LLMs arrive at their predictions and decisions.
+
+Overall, LLMs have the potential to revolutionize various applications of NLP, but it's essential to carefully evaluate their performance, consider their limitations, and use them in conjunction with human oversight and validation.
 
 #### What problems remain and what are the next steps?
 
 ##### Prompt
 
 ```markdown
-prompt here
+What problems remain and what are the next steps?
 ```
+
+Several problems remain to be addressed:
+
+- Improving performance on nuanced tasks: LLMs still struggle with tasks that require nuanced understanding, such as sarcasm detection, emotional intensity assessment, and implicit meaning.
+- Addressing bias and fairness: LLMs can perpetuate biases present in the training data, which can lead to unfair outcomes. Developing methods to detect and mitigate bias is essential.
+- Ensuring transparency and explainability: LLMs are complex models, and understanding how they arrive at their predictions is crucial for trust and reliability.
+- Scaling to low-resource languages: Most LLMs are trained on large amounts of data from high-resource languages, leaving a significant gap for low-resource languages.
+
+Next steps:
+
+- Developing more advanced LLMs: Continuing to improve the architecture, training methods, and datasets used for LLMs will help address existing limitations.
+- Multimodal learning: Integrating LLMs with other modalities, such as vision and audio, can enable more comprehensive understanding and applications.
+- Human-LLM collaboration: Developing frameworks for effective human-LLM collaboration can help leverage the strengths of both humans and LLMs.
+- Addressing societal implications: As LLMs become more widespread, it's essential to consider their societal implications, such as job displacement, misinformation, and bias.
+
+Some potential research directions:
+
+- Explainability and interpretability: Developing methods to understand how LLMs work and make predictions.
+- Bias detection and mitigation: Developing techniques to detect and mitigate bias in LLMs.
+- Multimodal learning: Integrating LLMs with other modalities to enable more comprehensive understanding.
+- Low-resource language support: Developing LLMs for low-resource languages and exploring transfer learning techniques.
+- By addressing these challenges and pursuing these research directions, we can continue to advance the field of NLP and develop more effective and responsible LLMs.
 
 ### Experience using the LLM
 
-_Describe your process for using the LLM.  How did the LLM perform?_
+_Describe your process for using the LLM. How did the LLM perform?_
+
+To analyze the research paper, I used Llama model available through Jetstream in OpenUI. I have provided a system prompt for the LLM to behave as a researcher in NLP and to assess the research paper. I provided prompt for each question and analysed how the LLM responded. 
+
+The model performed well for this task. It produced clear and concise summary as indicated in the system prompt. The main arguments and findings of paper are captured properly and summarising the entire PDF is done consistently. The LLM responded quickly and provided relevant answers. 
  
 #### Errors and limitations of the LLM 
 
 _Where did it fall short or make mistakes?_
+
+The LLM might have struggled to understand the nuance of human language like sarcasm or idioms. It also fell short to understand context of text sometimes which can lead to misinterpretation of data.  It can be challenging to assess emotional intensity or to detect subtle emotional cues and may not be completely up-to-date about these specific domains. It might differ with humans in different domains which effects the inter-rater reliability and consistency.
