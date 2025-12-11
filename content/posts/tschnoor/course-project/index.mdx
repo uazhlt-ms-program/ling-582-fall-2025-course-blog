@@ -38,10 +38,14 @@ This project aims to make a neural network electrocorticography (ECoG) formant d
 
 The specific aim of the project is to create a neural network ECoG decoder that decodes ECoG -> normalized formant frequencies. For example, the model might take a window of 32 samples of 15 x 15 electrode readings as input and its task would be to predict the frequencies of the first two formants at the end of the window. I aim to use a modified version of the [ResNet](https://openaccess.thecvf.com/content_cvpr_2016/html/He_Deep_Residual_Learning_CVPR_2016_paper.html) architecture for the decoder, heavily inspired by the study described below. The intention behind this system is to use it in conjunction with an acoustic waveguide model of the vocal tract to simulate speech. The end result would be a more interpretable pipeline from cortical signals to speech that could be used to model the entire speech production process.
 
-<div style="display:flex; align-items:center; flex-direction: column">
+<!-- <div style="display:flex; align-items:center; flex-direction: column">
   <img src="./formants.png" style="width:50%; margin-left: auto; margin-right: auto;"></img>
   <p>The formants are the dark bands in this image, called a spectrogram.</p>
-</div>
+</div> -->
+
+![formant image](./formants.png)
+
+The formants are the dark bands in this image, called a spectrogram.
 
 ### Related work and the state of the art
 The gold standard of speech restoration is real-time decoding and reconstruction so that a speech neuroprosthesis can be used to communicate in a naturalistic way. The data used in this project come from a study by [Chen et al. (2024)](https://doi.org/10.1038/s42256-024-00824-8) that represents one of the most recent innovations in the field. The data are constituted by ECoG signals, audio recordings, and some derived features of the audio (e.g., formant tracks) that were all collected while the participants spoke words aloud. The study aimed to create a real-time speech neuroprosthesis that could restore speech communication for people with severe motor impairments. Their methodology involved training two neural networks with different purposes. The first was an ECoG -> Speech features decoder. The next network was a speech auto encoder that reconstructed an acoustic signal from the decoded speech features. The present project focuses on the first of these two networks, though I certainly grew to appreciate the necessity of the second (see section "Challenges of the task"). 
@@ -208,16 +212,19 @@ _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/co
 
 Below are the results of my best training run. The training loss, logged every 10 batches can be seen on the left, while the validation loss by epoch on a 20% holdout set is shown on the right. These show that the loss never drops below ~0.9. That is high considering that it is plots show RMSE. 
 
-<div style="display:flex; align-items:center; flex-direction: row">
+<!-- <div style="display:flex; align-items:center; flex-direction: row">
   <img src="./2025-12-06-shorterwin_resnet_mlp-epochloss-1.png" style="width:50%; margin-left: auto; margin-right: auto;"></img>
   <img src="./2025-12-06-shorterwin_resnet_mlp-valloss-1.png" style="width:50%; margin-left: auto; margin-right: auto;"></img>
-</div>
+</div> -->
+![epoch loss figure](./2025-12-06-shorterwin_resnet_mlp-epochloss-1.png)
+![validation loss figure](./2025-12-06-shorterwin_resnet_mlp-valloss-1.png)
 
 Unfortunately, upon closer evaluation, it is obvious that the model has simply learned to predict the mean:
-<div style="display:flex; align-items:center; flex-direction: column">
+<!-- <div style="display:flex; align-items:center; flex-direction: column">
   <img src="./scatterplot.png" style="width:50%; margin-left: auto; margin-right: auto;"></img>
-</div>
+</div> -->
 
+![scatter plot](./scatterplot.png)
 
 ## Error analysis
 
@@ -238,9 +245,11 @@ julia> mape = mean(abs.((y_true .- y_pred) ./ y_true)) * 100
 
 Because we have two timeseries to compare, it makes sense to look at the residuals between them. This plot just shows that the residuals are largely unchanging. The spikes occur when we get outliers from bad formant tracks.
 
-<div style="display:flex; align-items:center; flex-direction: column">
+<!-- <div style="display:flex; align-items:center; flex-direction: column">
   <img src="./residuals.png" style="width:50%; margin-left: auto; margin-right: auto;"></img>
-</div>
+</div> -->
+
+![residuals](./residuals.png)
 
 ## Reproducibility
 
