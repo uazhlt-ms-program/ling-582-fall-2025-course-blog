@@ -175,15 +175,14 @@ This trend of high accuracy, high precision, and low recall continues when evalu
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/class-competition/final/#reproducibility)_
 _If you'ved covered this in your code repository's README, you can simply link to that document with a note._
 
-[README.md](https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-bess-days/blob/main/README.md) - I showed reproducibility and I set up seeds for the files
+[README.md](https://github.com/uazhlt-ms-program/ling-582-fall-2025-class-competition-code-bess-days/blob/main/README.md) - I showed reproducibility and I set up seeds for the files, along with how to run the model.
 
 ## Future Improvements
 
 _Describe how you might best improve your approach_
 I'd like to look at the specifics of the errors, like if the text pairs it predicts wrong or right have specific features like including dialogue, flowery language (ie distinct), or are just descriptive. 
 
-The second thing I'd do is balance the data by augmenting it. I think when I tried to add more data from the Kaggle dataset I mentioned, I added too much, so it didn't actually represent what the test data would look like. It was 65% when I submitted the prediction (although at the time I added the data, I wasn't checking the Precision, Recall, or F1 score to tell - all I knew is it had an accuracy of around 75% (below both base and my model) and a 65% on Kaggle). I would go back and redo adding the data and try again, because I hadn't pursued it after it got my lowest results.
-If that still didn't work (or even along with that), I'd do a method like SMOTE (Synthetic Minority Over-sampling Technique) to better represent the minority by creating synthetic data in similar word vector spaces as data annotated as the positive class. 
+The second thing I'd do is balance the data by augmenting it. I think when I tried to add more data from the Kaggle dataset I mentioned, I added too much, so it didn't actually represent what the test data would look like. It was 65% when I submitted the prediction (although at the time I added the data, I wasn't checking the Precision, Recall, or F1 score to tell - all I knew is it had an accuracy of around 75% (below both base and my model) and a 65% on Kaggle). I would go back and redo adding the data and try again, because I hadn't pursued it after it got my lowest results. If that still didn't work (or even along with that), I'd do a method like class weighting in machine learning where I'd add more weight to the minority class (label 1)). 
 
 
 
