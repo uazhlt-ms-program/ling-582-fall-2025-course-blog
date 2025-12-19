@@ -94,23 +94,38 @@ Analyze which features help most in verifying if two text snippets are written b
 ## Methodology
 
 Data Preprocessing & Augmentation:
-- Split the main TEXT field into two snippets s1, s2 using the delimiter [SNIPPET].
-- Data Augmentation: Duplicated the training data by swapping s1 and s2 ($\text{s1} \leftrightarrow \text{s2}$) to enforce $\text{snippet-order}$ invariance during training.
 
+- Snippet Splitting: The raw TEXT field was split into two distinct snippets, s1 and s2, using the delimiter [SNIPPET].
+- Tokenization: The text pairs were tokenized using the roberta-base tokenizer with a maximum sequence length of 512 tokens.
 
-Stylometric Feature Extraction:
-- Seven basic stylometric features were computed for each snippet (e.g., word count, TTR, punctuation count). 
-Order-invariant difference features were then calculated, such as:$$\text{diff\_feature} = |\text{feature}(\text{s1}) - \text{feature}(\text{s2})|$$
-- The final set of 8 stylometric features included:$$\{\text{diff\_avg\_word\_len, diff\_avg\_sent\_len, diff\_punctuation\_count, diff\_type\_token\_ratio, diff\_char\_len, min\_char\_len, max\_char\_len}, \text{diff\_score}\}$$The $\text{diff\_score}$ is the absolute difference in sentiment score from an off-the-shelf DistilBERT model.
+Stylometric Feature Extraction:  To capture writing style structure, I defined a custom feature extraction function that computes three statistical metrics for each snippet. 
+This function is robust to empty inputs and handles basic tokenization errors.
+
+For each snippet, the following features are calculated:
+
+1. Average Word Length: The sum of all word lengths divided by the total number of words.
+2. Average Sentence Length: The sum of all sentence lengths divided by the total number of sentences.
+3. Punctuation Count: The total count of characters that are punctuation marks.
+
+These features are calculated for both snippets and concatenated, resulting in a 6-dimensional stylometric vector (3 features for snippet 1 + 3 features for snippet 2).
+
 Hybrid Model Architecture:
-- Transformer:$\text{RoBERTa-base}$ (Encoder) to generate the $\text{CLS}$ token embedding.
-- Fusion Layer: Concatenates the $\text{CLS}$ embedding (768 dimensions) with a 64-dimensional $\text{ReLU}$-projected tensor of the 8 stylometric features.
-- Classifier Head: A two-layer $\text{MLP}$ ($768+64 \to 256 \to 2$) for final classification.
-- Loss Function: A custom FocalLoss module was used with calculated Class Weights ($\text{class\_0} = 0.6430, \text{class\_1} = 2.2486$).
+
+The model combines deep semantic representations with the explicit stylometric features:
+
+1. Transformer Branch: roberta-base processes the input IDs to extract the 768-dimensional [CLS] token embedding.
+2. Fusion Layer: The 768-dimensional semantic vector is concatenated with the 6-dimensional stylometric vector, creating a combined input vector of size 774.
+3. Classifier Head: A feed-forward network processes the combined vector:
+   - Layer 1: Linear transformation (774 inputs -> 256 outputs)
+   - Activation: ReLU
+   - Regularization: Dropout (probability 0.3)
+   - Layer 2: Linear transformation (256 inputs -> 2 outputs)
+4. Loss Function: Standard CrossEntropyLoss was used with an AdamW optimizer (learning rate = 2e-5).
 
 ## Results
 
 _See [the rubric](https://parsertongue.org/courses/snlp-2/assignments/rubrics/course-project/final/#results)_
+
 I evaluated the hybrid model on a 10% held-out validation set after training for 3 epochs using an AdamW optimizer LR=2e-5.
 Validation Accuracy: 77.64%Validation F1 Score (Macro): 43.71%
 - Interpretation: The model achieves a strong accuracy (~77%), significantly outperforming a random baseline (50%). However, the low Macro F1 score (~44%) indicates a strong performance divergence between the two classes. The model is highly accurate at identifying the majority class (likely "Different Authors") but struggles to recall instances of the minority class ("Same Authors").
